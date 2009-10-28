@@ -1,0 +1,78 @@
+<%  def next_date(dt) 
+         return dt + (@step_hours * 60 * 60)
+    end %>
+
+<% tmp = true %>
+
+<table cellspacing="0" cellpadding="0">
+    <tr class="listheader">
+        <th class="list" width=150>&nbsp;</th>
+
+        <% date = @startdate %>
+        <% current_day = @startdate.day %>
+        <% count = 0; %>
+
+        <% while((date < @enddate) || (count > 1)) %>
+            <% if(date.day != current_day) %>
+
+                <th class="list" colspan=<%= count %>>
+                    <small><%= date.strftime("%a %b %d") %></small>
+                </th>
+                <% count = 0; %>
+                <% current_day = date.day; %>
+            <% end %>
+
+            <% count = count + 1; %>
+            <% date = next_date(date) %>
+        <% end %>
+    </tr>
+
+
+    <tr class="listentry2">
+        <th class="list">&nbsp;</th>
+        <% date = @startdate %>
+        <% while(date < @enddate) %>
+            <th class="list" width=16>
+                <small><%= date.strftime("%H") %></small>
+            </th>
+            <% date = next_date(date) %>
+        <% end %>
+    </tr>
+
+    <% EquipmentCategory::tree_as_collection.each do |equip| %>
+        <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+            <td class="list_nopad" align="right" height=20> <%= equip.description %> </td>
+
+            <% date = @startdate %>
+            <% while(date < @enddate) %>
+                <td class="list_nopad"> 
+                    <% eventdates = Eventdate.find(
+                         :all, 
+                         :conditions => ["events.status IN (?) AND " + 
+                                         "eventdates.startdate <= (?) AND " + 
+                                         "eventdates.enddate >= (?) AND " + 
+                                         "equipment_eventdates.equipment_id = (?)", 
+                                         Event::Event_Status_Group_Not_Cancelled, 
+                                         next_date(date),
+                                         date,
+                                         equip.id],
+                         :include => [:event, :equipment]);
+                    %>
+                    <% if(eventdates.size != 0) %>
+                        <div name="status" id="status" style="background-color: #<%= eventdates.size > 1 ? "FF0033" : "00CC33" %>; height: 16px; width: 16px">
+                            <a href="<%= url_for :controller => "event", :action => "view", :id => eventdates[0].event.id %>">
+                                <%= eventdates.size %>
+                                <span><% eventdates.each do |evtdt| %>
+                                        <%= evtdt.event.title %> - <%= evtdt.description %><br/>
+                                      <% end %></span>
+                            </a>
+                        </div>
+                    <% end %>
+
+                    <% date = next_date(date) %>
+                </td>
+            <% end %>
+        </tr>
+        <% tmp = !tmp; %>
+    <% end %>
+<table>

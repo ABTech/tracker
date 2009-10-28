@@ -1,0 +1,131 @@
+<style type="text/css">
+div.event-main {
+    padding: 4px 8px;
+    background: #f7f7f7;
+}
+div.event-title, div.event-title input {
+    font-size: 21pt;
+    font-weight: bold;
+    padding: 2px 5px 8px 5px;
+    color: #444;
+}
+div.event-organization {
+    font-size: 11pt;
+    font-weight: bold;
+    padding: 7px 7px 6px 7px;
+    color: #505050;
+    background: #f9f8ed;
+    border-top: 1px solid #e0e0e0;
+}
+div.event-organizer {
+    font-size: 9pt;
+    padding: 0 7px 9px 7px;
+    color: #555;
+    margin-bottom: 3px;
+    background: #f9f8ed;
+    border-bottom: 1px solid #e0e0e0;
+}
+div.event-organizer .name {
+    font-weight: bold;
+}
+div.event-organizer .email {
+}
+div.event-organizer .phone {
+    color: #777;
+}
+div.event-status {
+  color: #777;
+  font-size: 8pt;
+  margin: 10px 0 7px 7px;
+}
+#main-status-input, #main-status-input * {
+  font-size: 8pt;
+  vertical-align: middle;
+}
+</style>
+
+<script type="text/javascript">
+function editMain() {
+  document.getElementById('main-title').style.display = 'none';
+  document.getElementById('main-title-input').style.display = '';
+  document.getElementById('main-organization').style.display = 'none';
+  document.getElementById('main-organization-input').style.display = '';
+  document.getElementById('main-contact').style.display = 'none';
+  document.getElementById('main-contact-input').style.display = '';
+  document.getElementById('main-status').style.display = 'none';
+  document.getElementById('main-status-input').style.display = '';
+}
+</script>
+
+<div class="rounded" style="float: left">
+<div class="event-main">
+    <div class="event-title">
+        <span id="main-title">
+	  <%= @event.title %>
+	  <a href="#" class="action" onclick="editMain()">edit</a>
+	</span>
+	<span id="main-title-input" style="display: none">
+	  <%= text_field("event", "title", "size" => 25, :onChange => "modified()") %>
+	  <%= link_to("delete event", {:action => "delete_conf", :id => @event.id}, :class => "action") %>
+	</span>
+    </div>
+    <div class="event-organization">
+        <span id="main-organization"><%= @event.organization.name %></span>
+	<table id="main-organization-input" style="display: none" border="0">
+	    <tr><td colspan="2"><b>Organization</b></td></tr>
+	    <!-- existing organization -->
+	    <tr>
+		<td align="right">
+		    <input type="radio" name="organization_select" value="<%= EventController::New_Event_Existing_Organization %>" checked="checked" /></td>
+		<td><select name="organization_id" onChange="document.forms['<%= @event_form_name %>'].elements['organization_select'][0].checked = true; modified();">
+		    <%= options_from_collection_for_select(Organization.find(:all, :order => "name ASC"), "id", "name", (@event.organization ? @event.organization.id : 0)) %>
+		</select></td>
+	    </tr>
+	    <!-- new organization -->
+	    <tr>
+		<td align="right">
+		    <input type="radio" name="organization_select" value="<%= EventController::New_Event_New_Organization %>" /></td>
+		<td><label for="new-organization">New:</label> <%= text_field("organization", "name", "id" => "new-organization", "size" => 30, :onChange => "document.forms['#{@event_form_name}'].elements['organization_select'][1].checked = true; modified();") %></td>
+	    </tr>
+	</table>
+    </div>
+    <div class="event-organizer">
+	<span id="main-contact">
+	  <% if(@event.contact_name != "") %>
+	  <span class="name">
+	      <%= @event.contact_name %>
+	  </span>
+	  &nbsp;&nbsp;|&nbsp;&nbsp;
+	  <% end %>
+	  <span class="email">
+	      <%= @event.contactemail %>
+	      
+	  </span>
+	  <% if(@event.contact_phone != "") %>
+	  &nbsp;&nbsp;|&nbsp;&nbsp;
+	  <span class="phone">
+	      <%= @event.contact_phone %>
+	  </span>
+	  <% end %>
+	</span>
+	<table id="main-contact-input" style="display: none">
+	  <tr><td><b>Contact Name:</b></td><td><%= text_field("event", "contact_name", "size" => 35, :onChange => "modified()") %></td></tr>
+	  <tr><td><b>Contact Email:</b></td><td><%= text_field("event", "contactemail", "size" => 35, :onChange => "modified()") %></td></tr>
+	  <tr><td><b>Contact Phone:</b></td><td><%= text_field("event", "contact_phone", "size" => 11, :onChange => "modified()") %></td></tr>
+	</table>
+    </div>
+    <div class="event-status">
+	<span id="main-status"><b><%= @event.status %></b>,&nbsp;&nbsp;&nbsp;<%= @event.rental ? "Rental" : "Full Event" %>,&nbsp;&nbsp;&nbsp;<%= @event.publish ? "Published" : "Not Published" %><br/></span>
+	<span id="main-status-input" style="display: none">
+	  Status: <%= select("event", "status", Event::Event_Status_Group_All, {}, :onChange => "modified()") %>&nbsp;&nbsp;&nbsp;
+	  Rental: <%= check_box("event", "rental", :onChange => "modified()") %>&nbsp;&nbsp;&nbsp;
+	  Published: <%= check_box("event", "publish", :onChange => "modified()") %>
+	</span>
+    </div>
+    <!-- 
+    blackout <%= check_box("event", "blackout", :disabled => @is_view_mode, :onChange => "modified()") %><br/>
+    rental <%= check_box("event", "rental", :disabled => @is_view_mode, :onChange => "modified()") %><br/>
+    publish <%= check_box("event", "publish", :disabled => @is_view_mode, :onChange => "modified()") %><br/>
+    <%= link_to("delete event", {:action => "delete_conf", :id => @event.id}) %> -->
+</div>
+</div>

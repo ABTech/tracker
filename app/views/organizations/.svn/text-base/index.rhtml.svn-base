@@ -1,0 +1,27 @@
+<h2>Organizations</h2>
+<p>These are the organizations we have dealt with (and have been entered into the tracker). <%= link_to "Click here to add another org.", new_organization_path %></p>
+There are <%= @orgs.length %> organizations.
+<table border=1>
+<% @orgs.each do |org| %>
+  <% case cycle('1', '2', '3', :name => :orgs) -%>
+    <%- when '1' -%>
+<tr>
+  <td><%= render :partial => 'organization', :object => org -%></td>
+  <%- when '2' -%>
+  <td><%= render :partial => 'organization', :object => org -%></td>
+  <%- when '3' -%>
+  <td><%= render :partial => 'organization', :object => org -%></td>
+</tr>
+  <%- end %>
+<% end %>
+<%# ensure that the table finishes gracefully (TODO: should be refactored into helpers) %>
+<% case @orgs.length%3-1 -%>
+<%- when 1 -%>
+<td>&nbsp;</td>
+  </tr>
+<%- when 2 -%>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+  </tr>
+<% end %>
+</table>

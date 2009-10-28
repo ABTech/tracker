@@ -1,0 +1,47 @@
+//Add to table for add_row button
+		    <% if !@is_view_mode %> 
+		    <tr style="background: inherit; " >
+		      <td colspan=3>
+ 			<a id="link" href="#">Click here to append another techie.</a>
+		      </td>
+		  </tr>
+		  <% end %>
+
+--------
+//Add to table as delete_row buttons
+	<% else %>
+	  <td>
+	      [x]
+	  </td>		 
+		
+--------
+//Work *probably overkill* for adding and removing dynamically
+
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="http://dev.jquery.com/view/tags/ui/latest/ui/effects.core.js"></script>
+  <script src="http://dev.jquery.com/view/tags/ui/latest/ui/effects.highlight.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#link").click(function() { 
+	(($("#roles_table tr:last")).after("<%= escape_javascript render :partial => "event_role_form", :locals => { :role => EventRole.new }  %>"))
+       //.prev().parent().parent().effect("highlight", {}, 3000).get());
+	//alert($("#snideremark strong").val());
+	$("#nroles").val(Number($("#nroles").val())+1);
+	//.append("<tr><td><td>ho</td><td>hey</td></td><tr>").effect("highlight", {}, 3000);
+	//alert($("#roles_table tr:last").val());
+	//$("#roles_table tr:last").effect("highlight", { color: "#000000"}, 1500);
+      });
+      $("[type=reset]").click(function(e) {
+	var confirm = (window.confirm('Are you sure you want to reset all data to is previous state? This CANNOT be undone.'));
+	  if(confirm) {
+	    //get rid of new elements
+	    //nroles--
+	    //alert($(".new_row").length);
+	  } else {
+	    e.preventDefault();
+	  }
+	});
+    });
+
+	  </script>
+

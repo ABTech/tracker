@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<%# <meta name="apple-mobile-web-app-capable" content="yes" /> %>
+	<%# <meta name="apple-mobile-web-app-status-bar-style" content="black" /> %>
+	<link rel="apple-touch-icon" href="/images/webclip.png" />
+	<style type="text/css">
+	body { 
+		font-family: "Verdana";
+		margin: 0 6px;
+		padding: 0;
+
+	}
+	h1 {
+	  text-align: center;
+	  /* jrmeyers wanted margins on the side
+	  mreiss wanted h1 with one line and no font-size, so you get this: */
+	  margin-left: -3px;
+	  margin-right: -3px;
+	  clear: both;
+	}
+	tr {
+
+	}
+	td {
+		border-bottom: 1px solid #cccccc;
+		border-top: 1px solid #cccccc;
+		height: 4em;
+	}
+	td:nth-child(2) {
+		width: 20px;
+		text-align: center;
+		border-right: 1px solid #cccccc;
+	}
+	td:nth-child(3) {
+		width: auto;
+		font-weight: bold;
+		line-height: 150%;
+	}
+	table {
+/*		border-top: 2px solid #cccccc;*/
+		border-bottom: 2px solid #cccccc;
+		border-spacing:0px;
+		margin:0px;
+		padding:0px;
+		width:100%;
+	}
+	.date {
+		font-weight: bold;
+		background: #f0f0f0;
+		vertical-align: bottom;
+		height: 2em;
+		border-top: 0;
+	}
+	.date span {
+		font-weight: normal;
+		float: right;
+		font-size: 75%;
+	}
+	.day {
+
+	}
+	.type {
+		font-size: 50%;
+		
+	}
+	.location {
+		font-style: italic;
+		color: gray;
+		font-size: 75%;
+	}
+        .times {
+          font-size: 12px;
+          font-style: bold;
+          font-variant: small-caps;
+          text-align: center;
+          color: gray;
+        }
+
+
+
+	.event_confirmed { background: #E2F2E2; width: 2px; }
+	.event_confirmed > td:first-child { background: #00FF00; }
+	.event_completed { background: #E1EAEF; width: 2px; }
+	.event_completed > td:first-child { background: #00A4FF; font-size: 5px; }
+	.event_cancelled { background: #F9F9F9; color: #AAAAAA; width: 2px; }
+	.event_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
+	.event_cancelled a { color: #9999FF; width: 2px; }
+	.event_incomplete { background: #F7F7D3; }
+	.event_incomplete > td:first-child { background: #FFFF00; font-size: 5px; width: 2px; }
+	.initial_request { background: #F2C7C7; }
+	.initial_request > td:first-child { background: #FF0000; font-size: 5px; width: 2px; }
+	.event_blackout { background: #666666; color: #DDDDDD; }
+	.event_blackout > td:first-child { background: #000000; font-size: 5px; width: 2px; }
+	.event_blackout .location { color: #020202 }
+
+	#date_chooser {
+	  text-align: center;
+	  margin: 1em auto;
+	 }
+
+	</style>
+	<title>
+		ABTech Tool
+	</title>
+</head>
+<body>
+<%= "<div style=\"font-size: 14pt; width: auto; text-align:center; margin: auto; background-color: black; color: red;\">#{ENV["RAILS_ENV"].upcase} ENVIRONMENT</div>" if ENV["RAILS_ENV"] != 'production'-%>
+  
+	<div>
+		<img src="/images/header.png" style="width: 95%;" />
+	</div>
+<%= yield %>
+</body>
+</html>

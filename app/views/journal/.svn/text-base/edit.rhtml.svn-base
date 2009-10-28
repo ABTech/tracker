@@ -1,0 +1,44 @@
+<% @is_view_mode = (ApplicationController::Mode_View == @mode); %>
+
+<style>td { vertical-align: top }</style>
+
+<h1>Edit a JE</h1>
+<% if(! @is_view_mode) %>
+<form name="jeform" action="<%= url_for :action => "save" %>" method="post">
+<%= hidden_field("journal", "id") %>
+<%= hidden_field("journal", "type", :value => "JeOther") %>
+<% end %>
+
+<table>
+    <tr class="listentry1"><td width="90" align="right"><strong>Date:</strong></td>
+        <td><%= @is_view_mode ? @journal.date.strftime("%A, %B %d %Y, %I:%M %p") : better_select_date(@journal.date, "journal", "date"); %></td></tr>
+	<tr class="listentry2"><td width="90" align="right"><strong>Date Paid:</strong></td>
+        <td><%= if @journal.date_paid
+					@is_view_mode ? @journal.date_paid.strftime("%A, %B %d %Y, %I:%M %p") : better_select_date(@journal.date_paid, "journal", "date")
+				else
+					"None"
+				end %></td></tr>
+    <tr class="listentry1"><td width="90" align="right"><strong>Memo:</strong></td>
+        <td><%= @is_view_mode ? @journal.memo : text_field("journal", "memo", :size => 40) %></td></tr>
+    <tr class="listentry2"><td width="90" align="right"><strong>Account:</strong></td>
+        <td>
+        <% if(@is_view_mode) %>
+          <%= Account.find(@journal.account).name %>
+        <% else %>
+          <select name="journal[account_id]">
+			<% accs = {} %>
+			<% Account.find(:all).each do |acc| accs[acc.name] = acc.id end %>
+            <%= options_for_select(accs, @journal.account_id) %>
+          </select>
+        <% end %></td></tr>
+    <tr class="listentry1"><td width="90" align="right"><strong>Amount:</strong></td>
+        <td>$<%= @is_view_mode ? @journal.amount : text_field("journal", "amount") %></td></td></tr>
+	<tr class="listentry2"><td width="90" align="right"><strong>Notes:</strong></td>
+		<td><%= @is_view_mode ? (if (@journal.notes) then @journal.notes.gsub(/\n/, "<br/>") else "" end) : text_area("journal", "notes") %></td></tr>
+</table>
+<% if(@is_view_mode) %>
+<%= link_to "edit", { :action => "edit", :id => @journal.id } %>
+<% else %>
+<input type="submit"/ value="Edit Journal">
+</form>
+<% end %>

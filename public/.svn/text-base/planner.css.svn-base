@@ -1,0 +1,181 @@
+.planner_table {
+    width: 300px;
+}
+
+.cview_header {
+	color: #FFFFFF;
+	background-color: #994D00;
+    text-align: center;
+    font-weight: bold;
+}
+.cview_header_node {
+    min-width: 60px;
+}
+
+.cview_row_header,
+.cview_node,
+.cview_inner_node,
+.cview_separator {
+	border-width: thin;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: dashed;
+	border-left-style: solid;
+	border-color: #CCCCCC;
+}
+
+.cview_row_header {
+    text-align: right;
+    vertical-align: top;
+    font-size: small;
+    width: 60px;
+	border-left-style: none;
+	background-color: #FFFFFF;
+}
+
+.cview_data
+{
+    background-color: #FFFFE6;
+}
+
+.cview_node,
+.cview_inner_node {
+    text-align: center;
+    vertical-align: top;
+	min-width: 30px;
+}
+
+.cview_inner_node {
+	border-left-style: none;
+}
+
+.cview_separator {
+    width: 1 px;
+}
+
+.cview_event:hover {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #000000;
+}
+
+.style1_nw,
+.style1_n,
+.style1_ne,
+.style1_sw,
+.style1_s,
+.style1_se,
+.style2_nw,
+.style2_n,
+.style2_ne,
+.style2_sw,
+.style3_s,
+.style2_se,
+.style3_nw,
+.style3_n,
+.style3_ne,
+.style3_sw,
+.style3_s,
+.style3_se
+{
+	height: 9px;
+}
+
+.style1_nw,
+.style1_w,
+.style1_ne,
+.style1_sw,
+.style1_e,
+.style1_se,
+.style2_nw,
+.style2_w,
+.style2_ne,
+.style2_sw,
+.style3_e,
+.style2_se,
+.style3_nw,
+.style3_w,
+.style3_ne,
+.style3_sw,
+.style3_e,
+.style3_se
+{
+	width: 9px;
+}
+
+.style1_nw {
+	background-image: url(images/rounded/circle-1-nw.png);
+}
+.style1_n {
+	background-image: url(images/rounded/circle-1-n.png);
+}
+.style1_ne {
+	background-image: url(images/rounded/circle-1-ne.png);
+}
+.style1_se {
+	background-image: url(images/rounded/circle-1-se.png);
+}
+.style1_s {
+	background-image: url(images/rounded/circle-1-s.png);
+}
+.style1_sw {
+	background-image: url(images/rounded/circle-1-sw.png);
+}
+.style1_c {
+	background: #99FF99;
+    padding: 3px;
+}
+
+.style2_nw {
+	background-image: url(images/rounded/circle-2-nw.png);
+}
+.style2_n {
+	background-image: url(images/rounded/circle-2-n.png);
+}
+.style2_ne {
+	background-image: url(images/rounded/circle-2-ne.png);
+}
+.style2_se {
+	background-image: url(images/rounded/circle-2-se.png);
+}
+.style2_s {
+	background-image: url(images/rounded/circle-2-s.png);
+}
+.style2_sw {
+	background-image: url(images/rounded/circle-2-sw.png);
+}
+.style2_c {
+	background-color: #33FFFF;
+    padding: 3px;
+}
+
+
+.style3_nw {
+	background-image: url(images/rounded/circle-3-nw.png);
+}
+.style3_n {
+	background-image: url(images/rounded/circle-3-n.png);
+}
+.style3_ne {
+	background-image: url(images/rounded/circle-3-ne.png);
+}
+.style3_se {
+	background-image: url(images/rounded/circle-3-se.png);
+}
+.style3_s {
+	background-image: url(images/rounded/circle-3-s.png);
+}
+.style3_sw {
+	background-image: url(images/rounded/circle-3-sw.png);
+}
+.style3_c {
+	background-color: #FF66FF;
+    padding: 3px;
+}
+
+.style1_c,
+.style2_c,
+.style3_c {
+	font-size: small;
+	font-weight: 600;
+}

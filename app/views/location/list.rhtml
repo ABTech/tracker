@@ -1,0 +1,21 @@
+<table>
+  <tr>
+  <% for column in Location.content_columns %>
+    <th class="listheader"><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+    <% tmp = false; %>
+    <% for location in @locations %>
+      <tr class="<%= tmp ? "hoverlistentry1" : "hoverlistentry2" %>" onClick="document.location = '<%= url_for( :action => "edit", :id => location.id ) %>'">
+      <% for column in Location.content_columns %>
+        <td class="list"><%=h location.send(column.name) %></td>
+      <% end %>
+      </tr>
+      <% tmp = !tmp %>
+    <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New location', :action => 'new' %>

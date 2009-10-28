@@ -1,0 +1,10 @@
+<% current_member().filters().each do |filt| %>
+    <div class="minilist_container">
+    <% events, count = filtered_events({:filter => filt}) %>
+    <strong><%= h filt.name %>: 
+            (displaying <%= events.size() %> of <%= link_to("#{count} records", {:action => "list", :filter => filt.id}) %>, 
+            <% if (filt.displaylimit != 0) %>limit <%= filt.displaylimit %><% else %>no limit<% end%>)
+    </strong>
+    <%= render_partial("minilist", :eventdates => events) %>
+    </div>
+<% end %>

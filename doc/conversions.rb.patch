@@ -1,0 +1,37 @@
+--- /var/lib/gems/1.8/gems/icalendar-1.0.2/lib/icalendar/conversions.rb	2008-01-03 15:49:26.000000000 -0500
++++ conversions.rb	2007-12-12 22:18:33.000000000 -0500
+@@ -20,7 +20,7 @@
+ 
+ class String
+   def to_ical
+-    self
++    "#{self}"
+   end
+ end
+ 
+@@ -110,7 +110,20 @@
+ class Time
+   def to_ical(utc = false)
+     s = ""
++    
++    # 4 digit year
++    s << self.year.to_s
++    
++    # Double digit month
++    s << "0" unless self.month > 9 
++    s << self.month.to_s
++    
++    # Double digit day
++    s << "0" unless self.day > 9 
++    s << self.day.to_s
+ 
++    s << "T"
++        
+     # Double digit hour
+     s << "0" unless self.hour > 9 
+     s << self.hour.to_s
+@@ -131,3 +144,4 @@
+     s
+   end
+ end
++

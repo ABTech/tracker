@@ -1,0 +1,34 @@
+9
+
+dir
+274
+svn+ssh://pickle.andrew.cmu.edu/svn/abtech/trunk/vendor/plugins
+svn+ssh://pickle.andrew.cmu.edu/svn/abtech
+
+
+
+2009-08-26T19:07:21.524458Z
+267
+mreiss
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+03765842-7118-0410-bc89-acf00678854e
+
+acts_as_authenticated
+dir
+
+annotate_models
+dir
+

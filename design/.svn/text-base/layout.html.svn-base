@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="layout.css" type="text/css" />
+<link href="planner.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+
+<!--
+.menu_level_1 {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: right;
+	padding-right: 25px;
+	margin: 3px;
+	margin-top: 10px;
+	background-color: #000066;
+}
+.menu_level_1:hover {
+	background-color: #99004D;
+}
+
+.menu_level_2 {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: right;
+	padding-right: 5px;
+	margin: 3px;
+	margin-left: 15px;
+	background-color: #000099;
+}
+.menu_level_2:hover {
+	background-color: #99004D;
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+
+        <td width="64" align="right" valign="bottom">
+            <img src="images/abtech-logo.jpg" width="100" height="51" />
+        </td>
+        <td width="5" valign="middle">&nbsp;</td>
+                <td valign="bottom">
+				
+            <table>
+                <tr><td valign="bottom"><div align="left" class="header_title" style="font-size: 22px">Activities Board Technical Committee -- Task Tracker<br />
+                            <div style="background-color: #000000; width: 540px; height: 5px;"></div> </div></td>
+                </tr>
+                <tr><td>
+                    
+                        Sam Abtek (abtech@andrew.cmu.edu). <small> <a href="/useraccount/logout">(logout)</a></small> <small><a href="/useraccount/logout">(edit personal info)</a></small> <strong><font color="#FF0000">You have 12 actionable events.</font></strong>
+                    
+                </td></tr>
+            </table>
+			</td>
+  </tr>
+  <tr><td colspan="2" height="5px"></td></tr>
+  
+  <tr>
+    <td width="200" valign="top">
+	  <div class="menu_level_1">General View</div>
+		<div>
+			<div class="menu_level_2">Calendar</div>
+			<div class="menu_level_2">Personal Information</div>
+		</div>
+		
+	    <div class="menu_level_1">Administration</div>
+		<div>
+			<div class="menu_level_2">Email</div>
+			<div class="menu_level_2">Equipment</div>
+			<div class="menu_level_2">Events</div>
+			<div class="menu_level_2">Finance</div>
+			<div class="menu_level_2">Members</div>
+		</div>
+		
+    	<div class="menu_level_1">Options</div>
+		<div>
+			<div class="menu_level_2">Locations</div>
+			<div class="menu_level_2">Organizations</div>
+			<div class="menu_level_2">Permissions</div>
+			<div class="menu_level_2">Roles</div>
+		</div>
+	</td>
+    <td colspan="2">
+	
+	
+	<table width="600" height="100%" border="0" cellpadding="0" cellspacing="0"><tr class="cview_header"><td></td><td class="cview_separator">&nbsp;</td><td colspan="2" class="cview_header_node">Thursday<br>November 02</td><td class="cview_separator">&nbsp;</td><td colspan="2" class="cview_header_node">Friday<br>November 03</td><td class="cview_separator">&nbsp;</td><td colspan="3" class="cview_header_node">Saturday<br>November 04</td></tr><tr><td class="cview_row_header">12:00 AM</td><td class="cview_separator cview_node"></td><td rowspan="12" class="cview_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style1_nw"></td><td class="style1_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style1_ne"></td></tr><tr>
+	  <td class="style1_c" colspan="3">&nbsp;</td>
+	</tr><tr><td class="style1_sw"></td><td class="style1_s"></td><td class="style1_se"></td></tr></table></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td rowspan="12" class="cview_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style1_nw"></td><td class="style1_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style1_ne"></td></tr><tr><td class="style1_c" colspan="3">&nbsp;</td></tr><tr><td class="style1_sw"></td><td class="style1_s"></td><td class="style1_se"></td></tr></table></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td rowspan="12" class="cview_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style1_nw"></td><td class="style1_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style1_ne"></td></tr><tr><td class="style1_c" colspan="3">&nbsp;</td></tr><tr><td class="style1_sw"></td><td class="style1_s"></td><td class="style1_se"></td></tr></table></td><td class="cview_inner_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">02:00 AM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">04:00 AM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">06:00 AM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">08:00 AM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">10:00 AM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td rowspan="2" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style2_nw"></td><td class="style2_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style2_ne"></td></tr><tr><td class="style2_c" colspan="3">&nbsp;</td></tr><tr><td class="style2_sw"></td><td class="style2_s"></td><td class="style2_se"></td></tr></table></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">12:00 PM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td rowspan="2" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style3_nw"></td><td class="style3_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style3_ne"></td></tr><tr><td class="style3_c" colspan="3">&nbsp;</td></tr><tr><td class="style3_sw"></td><td class="style3_s"></td><td class="style3_se"></td></tr></table></td></tr><tr><td class="cview_row_header">02:00 PM</td><td class="cview_separator cview_node"></td><td rowspan="3" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style2_nw"></td><td class="style2_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style2_ne"></td></tr><tr><td class="style2_c" colspan="3">&nbsp;</td></tr><tr><td class="style2_sw"></td><td class="style2_s"></td><td class="style2_se"></td></tr></table></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">04:00 PM</td><td class="cview_separator cview_node"></td><td class="cview_separator cview_node"></td><td rowspan="2" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style2_nw"></td><td class="style2_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style2_ne"></td></tr><tr><td class="style2_c" colspan="3">&nbsp;</td></tr><tr><td class="style2_sw"></td><td class="style2_s"></td><td class="style2_se"></td></tr></table></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_inner_node"></td></tr><tr><td class="cview_row_header">06:00 PM</td><td class="cview_separator cview_node"></td><td class="cview_separator cview_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td rowspan="1" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style3_nw"></td><td class="style3_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style3_ne"></td></tr><tr><td class="style3_c" colspan="3">&nbsp;</td></tr><tr><td class="style3_sw"></td><td class="style3_s"></td><td class="style3_se"></td></tr></table></td></tr><tr><td class="cview_row_header">08:00 PM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td rowspan="1" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style2_nw"></td><td class="style2_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style2_ne"></td></tr><tr><td class="style2_c" colspan="3">&nbsp;</td></tr><tr><td class="style2_sw"></td><td class="style2_s"></td><td class="style2_se"></td></tr></table></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td rowspan="1" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style3_nw"></td><td class="style3_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style3_ne"></td></tr><tr><td class="style3_c" colspan="3">&nbsp;</td></tr><tr><td class="style3_sw"></td><td class="style3_s"></td><td class="style3_se"></td></tr></table></td></tr><tr><td class="cview_row_header">10:00 PM</td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td class="cview_separator cview_node"></td><td class="cview_inner_node"></td><td rowspan="1" class="cview_inner_node"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"><tr><td class="style3_nw"></td><td class="style3_n"><img src="/images/trans.png" height="1" width="1"></img></td><td class="style3_ne"></td></tr><tr><td class="style3_c" colspan="3">&nbsp;</td></tr><tr><td class="style3_sw"></td><td class="style3_s"></td><td class="style3_se"></td></tr></table></td></tr></table>
+
+	
+	
+	</td>
+  </tr>
+</table>
+</body>
+</html>

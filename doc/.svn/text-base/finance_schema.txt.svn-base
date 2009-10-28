@@ -1,0 +1,100 @@
+accounts:
+    id
+    name
+    type (CREDIT or DEBIT)
+    parent_id (0 = none)
+    order (default to ID#)
+
+Bank                    D
+CMU Accounting          D   Bank
+Petty Cash              D   Bank
+Accounts Receivable     D
+Accounts Payable        C
+Equity                  C
+Income                  C
+Rental                  C   Income
+Recognized              C   Rental
+Unrecognized            C   Rental
+Events                  C   Income
+Recognized              C   Events
+Unrecognized            C   Events
+Expenses                D
+Food                    D   Expenses
+Maintnance              D   Expenses
+Capital                 D   Expenses
+Rentals                 D   Expenses
+Reimbursable            D   Expenses
+Payroll                 D   Expenses
+
+journals:
+    id
+    date
+    memo
+    type (INVOICE, BILL, PAYROLL, OTHER)
+    link_id
+
+journal_entrys:
+    id
+    journal_id
+    account_id
+    credit
+    debit
+
+invoices:
+    id
+    organization_id
+    name
+    date
+    state (NONE, QUOTED, INVOICED, PAID, VOID)
+    days
+    journal_invoice_id
+    journal_paid_id
+
+invoice_items:
+    id
+    memo
+    type (SOUND, LIGHT, RENTAL)
+    price_recognized
+    price_unrecognized
+
+invoice_lines:
+    id
+    invoice_id
+    memo
+    type (SOUND, LIGHT, RENTAL, REIMBURSEMENT)
+    price
+    number
+    link_id
+
+bills:
+    id
+    organization_id
+    name
+    date
+    ammount
+    state (QUOTED, RECIEVED, PAID, VOID)
+    type (Food, Maintnance, Capital, Rentals, Reimbursable)
+    journal_recieved_id
+    journal_paid_id
+    invoice_id
+
+Members:
+    id
+    namefirst
+    namelast
+    kerbid
+    nickname
+    phone
+    aim
+    payrate
+
+payrolls:
+    id
+    date
+
+payroll_lines:
+    id
+    payroll_id
+    member_id
+    hours
+    payrate

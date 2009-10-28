@@ -1,0 +1,87 @@
+<%# parameter: selected, of type Date. The month to show is pulled from this, as is the highlighted date (if highlighting is enabled). %>
+<%# parameter: dates, of type Eventdate Array. The event dates to display on the calendar. Must :include the event association on the query. %>
+<%# parameter: show_arrows, of type boolean.  If true, paging arrows are shown to allow selection of previous and later months. %>
+
+<table class="calendar">
+	<tr><td class="header_month">
+		<table><tr>
+			<td style="text-align: left;">
+				<% if show_arrows %>
+					<%= link_to("&lt;&lt;", {:selected => "month", :month => (selected << 1).mon, :year => (selected << 1).year}) %>
+				<% end %>
+			</td>
+			<td style="text-align: center;"><strong><%= selected.strftime("%B %Y") %></strong></td>
+			<td style="text-align: right;">
+				<% if show_arrows %>
+					<%= link_to("&gt;&gt;", {:selected => "month", :month => (selected >> 1).mon, :year => (selected >> 1).year}) %>
+				<% end %>
+			</td>
+		</tr></table>
+	</td></tr>
+	<tr><td class="header_days">
+		<table><tr>
+			<td width="14%"><strong>M</strong></td>
+			<td width="14%"><strong>T</strong></td>
+			<td width="14%"><strong>W</strong></td>
+			<td width="14%"><strong>T</strong></td>
+			<td width="14%"><strong>F</strong></td>
+			<td width="14%"><strong>S</strong></td>
+			<td width="14%"><strong>S</strong></td>
+		</tr></table>
+	</td></tr>
+	<tr><td class="body">
+		<% firstOfMonth = selected - (selected.day - 1); #determine the start day of the month %>
+		<% startDisplay = firstOfMonth - (firstOfMonth.cwday() - 1); %>
+		<% endOfMonth = ((firstOfMonth >> 1) - 1); %>
+		<% endDisplay = endOfMonth - (endOfMonth.cwday() - 1) + 6 %>
+
+		<table>
+			<% day = startDisplay %>
+			<% until day > endOfMonth %>
+				<tr>
+					<% 7.times do %>
+						<% # get the events for today
+							todaydates = [];
+							while((dates != nil) && (dates.size() > 0) && (dates[0].startdate.mday() == day.mday()))
+								todaydates << dates.shift();
+							end
+
+							# determine class of cell
+							day_class = nil
+							if (day < firstOfMonth || day > endOfMonth)
+								day_class = "not_on_calendar"
+							elsif (!todaydates.reject {|date| !date.event.blackout} .empty?)
+								day_class = "blackout_event"
+							elsif (todaydates.size == 1)
+								day_class = "one_event"
+							elsif (todaydates.size == 2)
+								day_class = "two_events"
+							elsif (todaydates.size == 3)
+								day_class = "three_events"
+							elsif (todaydates.size == 4)
+								day_class = "four_events"
+							elsif (todaydates.size > 4)
+								day_class = "more_events"
+							end
+						%>
+						<td width="14%" <%= "class='" + day_class + "'" if day_class %> <% if !todaydates.empty? %>onmouseover="this.getElementsByTagName('span')[0].className='show'" onmouseout="this.getElementsByTagName('span')[0].className='hide'"<% end %>>
+							<%= day.mday %>
+
+							<% if(!@public and !todaydates.empty?) %>
+								<span class="hide">
+									<b><%= day.strftime("%B %d, %Y")%></b><br/>
+									<% todaydates.each do |evtdate| %>
+										<%= evtdate.event.title %>
+										<span>&rarr; <%= evtdate.startdate.strftime("%I:%M %p") %> - <%= evtdate.enddate.strftime("%I:%M %p") %></span><br />
+									<% end %>
+								</span>
+							<% end %>
+
+							<% day += 1 %>
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
+		</table>
+	</td></tr>
+</table>

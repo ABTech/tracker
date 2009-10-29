@@ -132,7 +132,7 @@ table.eventsmain > tbody > tr > td {
 
 /* generic event list attributes */
 table.eventslist {
-	width: 100%;
+	width: 99%;
 	margin: 0 20px 0 0;
 }
 table.eventslist > tbody > tr > th {

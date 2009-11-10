@@ -28,6 +28,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :organizations
   map.resources :bugs
 
+  map.resources :attachments, :only => ["index", "destroy"]
+
   map.connect '',   :controller => "event", :action => "list" 
 
   # Install the default route as the lowest priority.

@@ -25,6 +25,8 @@ class Event < ActiveRecord::Base
   belongs_to              :organization;
   belongs_to              :year;
   belongs_to              :arb, :foreign_key => "arb_member_id", :class_name => "Member";
+
+  has_many                :attachments
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/;
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;

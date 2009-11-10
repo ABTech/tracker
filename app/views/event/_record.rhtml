@@ -4,12 +4,12 @@
     if(@params["page"])
         @event_page = @params["page"];
     end
-    if(!["main", "dates", "roles", "email", "finance", "new"].rindex(@event_page))
+    if(!["main", "dates", "roles", "email", "finance", "new", "attachments"].rindex(@event_page))
         @event_page = "main";
     end
 %>
 
-<%= start_form_tag({:controller => "event", :action => "create", :redirect => request.request_uri()}, :name => "eventform") %>
+<%= start_form_tag({:controller => "event", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) %>
 <% @event_form_name = "eventform"; %>
 
 <script type="text/javascript">
@@ -38,6 +38,7 @@ function switch_page(pgname)
         <li><%= link_to_function("Dates", "switch_page('dates');") %></li>
         <li><%= link_to_function("Roles", "switch_page('roles');") %></li>
         <li><%= link_to_function("Email", "switch_page('email');") %></li>
+        <li><%= link_to_function("Attachments", "switch_page('attachments');") %></li>
         <li><%= link_to_function("Finance", "switch_page('finance');") %></li>
         <li><%= link_to_function("New View", "switch_page('new');") %></li>
     </ul>

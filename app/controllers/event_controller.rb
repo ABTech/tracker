@@ -101,6 +101,11 @@ class EventController < ApplicationController
         flash[:notice] = nots;
         flash[:error] = errs;
 
+        # Add attachment if necessary
+        if params[:attachments]
+          Attachment.create(:attachment => params[:attachments]["1"], :event_id => save_event.id)
+        end
+
 	# -------------------
 	# sort event.event_roles for viewing plesure 
 	save_event.event_roles.sort!

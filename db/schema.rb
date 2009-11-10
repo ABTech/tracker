@@ -2,12 +2,23 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 77) do
+ActiveRecord::Schema.define(:version => 79) do
 
   create_table "accounts", :force => true do |t|
     t.column "name",      :string,  :null => false
     t.column "is_credit", :boolean, :null => false
     t.column "position",  :integer, :null => false
+  end
+
+  create_table "attachments", :force => true do |t|
+    t.column "name",                    :string
+    t.column "attachment_file_name",    :string
+    t.column "attachment_content_type", :string
+    t.column "attachment_file_size",    :integer
+    t.column "attachment_updated_at",   :datetime
+    t.column "event_id",                :integer
+    t.column "updated_at",              :datetime
+    t.column "created_at",              :datetime
   end
 
   create_table "bugs", :force => true do |t|
@@ -197,7 +208,7 @@ ActiveRecord::Schema.define(:version => 77) do
     t.column "salt",                      :string,   :limit => 40, :null => false
     t.column "created_at",                :datetime
     t.column "updated_at",                :datetime
-    t.column "remember_token",            :string,                 :null => false
+    t.column "remember_token",            :string
     t.column "remember_token_expires_at", :datetime
     t.column "settingstring",             :string
     t.column "title",                     :string
@@ -218,7 +229,8 @@ ActiveRecord::Schema.define(:version => 77) do
   add_index "members_roles", ["member_id"], :name => "roles_users_FKIndex2"
 
   create_table "organizations", :force => true do |t|
-    t.column "name", :string, :default => "", :null => false
+    t.column "name",      :string,  :default => "", :null => false
+    t.column "parent_id", :integer
   end
 
   add_index "organizations", ["name"], :name => "organizations_name_index"

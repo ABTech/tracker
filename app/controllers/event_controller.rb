@@ -295,9 +295,6 @@ class EventController < ApplicationController
 
       
       @eventdates = Eventdate.find(:all,:order => "startdate ASC", :conditions => "('#{@startdate.strftime("%Y-%m-%d")}' < startdate) AND ('#{@enddate.strftime("%Y-%m-%d")}' > enddate)")
-      if @eventdates.empty? 
-      	render :layout => "iphone"
-      else
 
     @eventdates.sort! do |a,b| 
       a.startdate <=> b.startdate
@@ -306,6 +303,11 @@ class EventController < ApplicationController
     @eventdates.reject! do |eventdate|
       eventdate.event.publish == false 
     end
+
+    if @eventdates.empty? 
+      render :layout => "iphone"
+    else
+
     i = 0
     while (@eventdates[i] and @eventdates[i+1]) 
       if @eventdates[i].startdate.wday != @eventdates[i+1].startdate.wday       

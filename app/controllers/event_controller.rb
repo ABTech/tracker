@@ -300,8 +300,10 @@ class EventController < ApplicationController
       a.startdate <=> b.startdate
     end
 
-    @eventdates.reject! do |eventdate|
-      eventdate.event.publish == false 
+    unless params[:showall]
+      @eventdates.reject! do |eventdate|
+	eventdate.event.publish == false 
+      end
     end
 
     if @eventdates.empty? 

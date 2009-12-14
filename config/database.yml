@@ -14,6 +14,7 @@ development:
   adapter: mysql
   database: abtechtt_test
   username: abtech
+  password: GJE8w6q7hA9s
   host: localhost
 
 # Warning: The database defined as 'test' will be erased and
@@ -23,10 +24,12 @@ test:
   adapter: mysql
   database: abtechtt_temp
   username: abtech
+  password: GJE8w6q7hA9s
   host: localhost
 
 production:
   adapter: mysql
   database: abtechtt_prod
   username: abtech
+  password: GJE8w6q7hA9s
   host: localhost

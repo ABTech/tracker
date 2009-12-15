@@ -29,6 +29,10 @@ namespace :deploy do
     run "touch #{deploy_to}/shared/database.yml"
   end
   after "deploy:finalize_update" do
-    run "rm -f #{deploy_to}/current/config/database.yml && ln -s #{deploy_to}/shared/database.yml #{deploy_to}/current/config/database.yml"
+    run <<-CMD 
+      mkdir -p #{latest_release}/config && 
+      rm -f #{latest_release}/config/database.yml && 
+      ln -s #{shared_path}/config/database.yml
+    CMD
   end
 end

@@ -1,5 +1,5 @@
 set :application, "ABTT"
-set :repository,  "abtt.abtech.org/var/abtt"
+set :repository,  "ssh://abtt.abtech.org/var/abtt"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -27,6 +27,6 @@ namespace :deploy do
     run "touch #{deploy_to}/shared/database.yml"
   end
   after "deploy:finalize_update" do
-    run "rm -f #{deploy_to}/current/config/database.yml; ln -s #{deploy_to}/shared/database.yml #{deploy_to}/current/config/database.yml"
+    run "[ -f #{deploy_to}/current/config/database.yml ] || exit; rm -f #{deploy_to}/current/config/database.yml; ln -s #{deploy_to}/shared/database.yml #{deploy_to}/current/config/database.yml"
   end
 end

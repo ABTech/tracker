@@ -26,13 +26,15 @@ namespace :deploy do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
   after "deploy:setup" do
-    run "touch #{deploy_to}/shared/database.yml"
+    run <<-CMD
+    mkdir -p #{shared_path}/config && touch #{shared_path}/config/database.yml
+    CMD
   end
   after "deploy:finalize_update" do
     run <<-CMD 
       mkdir -p #{latest_release}/config && 
       rm -f #{latest_release}/config/database.yml && 
-      ln -s #{shared_path}/config/database.yml
+      ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml
     CMD
   end
 end

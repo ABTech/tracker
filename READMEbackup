@@ -1,5 +1,2 @@
 mreiss on 6/1/09
 Pickle now has a cron job to dump the tracker's full sql db twice a day. This is clearly not a scalable solution. But hopefully it might keep us safe for a little while.
-
-mreiss on 12/15/09
-You can now use capistrano to deploy!

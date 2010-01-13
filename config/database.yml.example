@@ -1,0 +1,33 @@
+# MySQL (default setup).  Versions 4.1 and 5.0 are recommended.
+#
+# Install the MySQL driver:
+#   gem install mysql
+# On MacOS X:
+#   gem install mysql -- --include=/usr/local/lib
+# On Windows:
+#   There is no gem for Windows.  Install mysql.so from RubyForApache.
+#   http://rubyforge.org/projects/rubyforapache
+
+development:
+  adapter: mysql
+  database: development
+  username: sameabtek
+  password: yourpassword
+  host: localhost
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql
+  database: development
+  username: sameabtek
+  password: yourpassword
+  host: localhost
+
+production:
+  adapter: mysql
+  database: abtechtt_temp
+  username: abtechtt
+  password: CSnDaUXSCGvtFtut
+  host: localhost

@@ -23,12 +23,12 @@ namespace :deploy do
   task :start  do end
   task :stop do end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "touch #{release_path}/tmp/restart.txt"
   end
   after "deploy:setup" do
-    run "touch #{deploy_to}/shared/database.yml"
+    run "touch #{deploy_to}/#{shared_dir}/database.yml"
   end
-  after "deploy:finalize_update" do
-    run "rm -f #{deploy_to}/current/config/database.yml && ln -s #{deploy_to}/shared/database.yml #{deploy_to}/current/config/database.yml"
+  after "deploy:update_code" do
+    run "rm -f #{release_path}/config/database.yml && ln -s #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml"
   end
 end

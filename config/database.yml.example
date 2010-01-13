@@ -27,7 +27,7 @@ test:
 
 production:
   adapter: mysql
-  database: abtechtt_temp
-  username: abtechtt
-  password: CSnDaUXSCGvtFtut
+  database: development
+  username: sameabtek
+  password: yourpassword
   host: localhost

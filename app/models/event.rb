@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: events
 #
@@ -15,6 +15,7 @@
 #  year_id         :integer(11)     not null
 #  contact_name    :string(255)     default(""), not null
 #  contact_phone   :string(255)     default(""), not null
+#  price_quote     :integer(11)
 #
 
 class Event < ActiveRecord::Base

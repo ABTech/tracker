@@ -1,11 +1,11 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: roles
 #
 #  id   :integer(10)     not null, primary key
-#  name :string(40)      default(""), not null
-#  info :string(80)      default(""), not null
+#  name :string(40)      not null
+#  info :string(80)      not null
 #
 
 # See <a href="http://wiki.rubyonrails.com/rails/show/AccessControlListExample">http://wiki.rubyonrails.com/rails/show/AccessControlListExample</a>

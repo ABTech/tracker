@@ -1,12 +1,12 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: bugs
 #
 #  id           :integer(11)     not null, primary key
 #  member_id    :integer(11)
 #  submitted_on :datetime
-#  description  :text            default(""), not null
+#  description  :text            not null
 #  confirmed    :boolean(1)      not null
 #  resolved     :boolean(1)      not null
 #  resolved_on  :datetime

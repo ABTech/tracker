@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: accounts
 #
 #  id        :integer(11)     not null, primary key
-#  name      :string(255)     default(""), not null
+#  name      :string(255)     not null
 #  is_credit :boolean(1)      not null
 #  position  :integer(11)     not null
 #

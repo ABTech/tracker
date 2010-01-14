@@ -1,23 +1,23 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: members
 #
 #  id                        :integer(11)     not null, primary key
-#  namefirst                 :string(255)     default(""), not null
-#  namelast                  :string(255)     default(""), not null
-#  kerbid                    :string(255)     default(""), not null
-#  namenick                  :string(255)     default(""), not null
-#  title                     :string(255)
-#  phone                     :string(255)     default(""), not null
-#  aim                       :string(255)     default(""), not null
-#  crypted_password          :string(40)      default(""), not null
-#  salt                      :string(40)      default(""), not null
+#  namefirst                 :string(255)     not null
+#  namelast                  :string(255)     not null
+#  kerbid                    :string(255)     not null
+#  namenick                  :string(255)     not null
+#  phone                     :string(255)     not null
+#  aim                       :string(255)     not null
+#  crypted_password          :string(40)      not null
+#  salt                      :string(40)      not null
 #  created_at                :datetime
 #  updated_at                :datetime
-#  remember_token            :string(255)     default(""), not null
+#  remember_token            :string(255)
 #  remember_token_expires_at :datetime
 #  settingstring             :string(255)
+#  title                     :string(255)
 #  callsign                  :string(255)
 #  shirt_size                :string(20)
 #

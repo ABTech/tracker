@@ -1,12 +1,12 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: invoice_lines
 #
 #  id         :integer(11)     not null, primary key
 #  invoice_id :integer(11)     not null
-#  memo       :string(255)     default(""), not null
-#  category   :string(255)     default(""), not null
+#  memo       :string(255)     not null
+#  category   :string(255)     not null
 #  price      :integer(11)     not null
 #  quantity   :integer(11)     not null
 #

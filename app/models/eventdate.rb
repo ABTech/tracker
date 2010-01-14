@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: eventdates
 #
@@ -9,7 +9,7 @@
 #  enddate     :datetime        not null
 #  calldate    :datetime        not null
 #  strikedate  :datetime        not null
-#  description :string(255)     default(""), not null
+#  description :string(255)     not null
 #
 
 class Eventdate < ActiveRecord::Base

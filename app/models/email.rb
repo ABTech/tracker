@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: emails
 #
@@ -7,10 +7,10 @@
 #  event_id   :integer(11)     not null
 #  sender     :string(255)     default(""), not null
 #  timestamp  :datetime        not null
-#  contents   :text            default(""), not null
+#  contents   :text            not null
 #  status     :string(255)     default("New"), not null
-#  subject    :string(255)     default(""), not null
-#  message_id :string(255)     default(""), not null
+#  subject    :string(255)     not null
+#  message_id :string(255)     not null
 #
 
 class Email < ActiveRecord::Base

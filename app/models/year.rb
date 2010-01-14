@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 80
 #
 # Table name: years
 #
 #  id          :integer(11)     not null, primary key
-#  description :string(255)     default(""), not null
+#  description :string(255)     not null
 #  active      :integer(11)     default(0), not null
 #
 

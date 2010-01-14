@@ -98,7 +98,7 @@
             <td width="125" align="right" class="list">
                 <strong>Quote</strong>
             </td>
-            <td align="left" class="list"><%= @is_view_mode ? @event.price_quote : text_field("event", "price_quote", "size" => 11, :onChange => "modified()") %></td>
+            <td align="left" class="list"><%= @is_view_mode ? number_to_currency(@event.price_quote) : text_field("event", "price_quote", "size" => 11, :onChange => "modified()") %></td>
         </tr>
 	
         <tr class="listentry1">

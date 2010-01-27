@@ -3,6 +3,7 @@ class BugsController < ApplicationController
   before_filter :login_required 
 
   def index
+    @title = "BugTracker"
     @show_closed = true if params[:showclosed] == '1'
     if @show_closed
       @bugs = Bug.find(:all)
@@ -15,6 +16,7 @@ class BugsController < ApplicationController
   end
 
   def new
+    @title = "BugTracker"
     @bug = Bug.new
     @bug.member = current_member
 
@@ -35,6 +37,7 @@ class BugsController < ApplicationController
   end
 
   def edit
+    @title = "BugTracker"
     @bug = Bug.find(params[:id])
   end
 

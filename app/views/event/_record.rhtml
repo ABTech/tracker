@@ -4,7 +4,7 @@
     if(@params["page"])
         @event_page = @params["page"];
     end
-    if(!["main", "dates", "roles", "email", "finance", "new", "attachments"].rindex(@event_page))
+    if(!["main", "dates", "roles", "email", "finance", "new", "attachments", "related"].rindex(@event_page))
         @event_page = "main";
     end
 %>
@@ -40,6 +40,7 @@ function switch_page(pgname)
         <li><%= link_to_function("Email", "switch_page('email');") %></li>
         <li><%= link_to_function("Attachments", "switch_page('attachments');") %></li>
         <li><%= link_to_function("Finance", "switch_page('finance');") %></li>
+        <li><%= link_to_function("Related", "switch_page('related');") %></li>
         <li><%= link_to_function("New View", "switch_page('new');") %></li>
     </ul>
     <% if(@event_page != "new") %>

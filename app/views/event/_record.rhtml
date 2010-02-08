@@ -38,7 +38,7 @@ function switch_page(pgname)
         <li><%= link_to_function("Dates", "switch_page('dates');") %></li>
         <li><%= link_to_function("Roles", "switch_page('roles');") %></li>
         <li><%= link_to_function("Email", "switch_page('email');") %></li>
-        <li><%= link_to_function("Attachments", "switch_page('attachments');") %></li>
+	<li><%= link_to_function("Attachments (#{@event.attachments.count})", "switch_page('attachments');") %></li>
         <li><%= link_to_function("Finance", "switch_page('finance');") %></li>
         <li><%= link_to_function("Related", "switch_page('related');") %></li>
         <li><%= link_to_function("New View", "switch_page('new');") %></li>

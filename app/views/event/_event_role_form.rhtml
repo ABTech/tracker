@@ -17,7 +17,7 @@
                             <% else %>
                                 <select name="<%= "role#{i.to_s()}[member_id]" %>" onChange="modified()">
                                     <option value="">unassigned</option>
-                                    <%= options_from_collection_for_select(Member.find(:all, :order => "namelast ASC, namefirst ASC"), "id", "fullname", role.member_id) %>
+                                    <%= options_from_collection_for_select(Member.find(:all, :order => "namefirst ASC, namelast ASC"), "id", "fullname", role.member_id) %>
                                 </select>
                             <% end %>
                         </td>

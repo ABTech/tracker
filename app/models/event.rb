@@ -37,6 +37,7 @@ class Event < ActiveRecord::Base
   Event_Status_Details_Requested  = "Details Requested";
   Event_Status_Quote_Sent         = "Quote Sent";
   Event_Status_Event_Confirmed    = "Event Confirmed";
+  Event_Status_Billing_Pending	  = "Billing Pending";
   Event_Status_Event_Completed    = "Event Completed";
   Event_Status_Event_Declined     = "Event Declined";
   Event_Status_Event_Cancelled    = "Event Cancelled";
@@ -49,6 +50,7 @@ class Event < ActiveRecord::Base
                             Event_Status_Initial_Request,
                             Event_Status_Details_Requested,
                             Event_Status_Quote_Sent,
+			    Event_Status_Billing_Pending,
                             Event_Status_Event_Confirmed,
                             Event_Status_Event_Completed,
                             Event_Status_Event_Declined,
@@ -59,6 +61,7 @@ class Event < ActiveRecord::Base
                             Event_Status_Details_Requested,
                             Event_Status_Quote_Sent,
                             Event_Status_Event_Confirmed,
+			    Event_Status_Billing_Pending,
                             Event_Status_Event_Completed]
 
   Event_Status_Group_Cancelled = [Event_Status_Event_Cancelled];

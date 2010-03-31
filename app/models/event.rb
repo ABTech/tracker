@@ -50,8 +50,8 @@ class Event < ActiveRecord::Base
                             Event_Status_Initial_Request,
                             Event_Status_Details_Requested,
                             Event_Status_Quote_Sent,
-			    Event_Status_Billing_Pending,
                             Event_Status_Event_Confirmed,
+			    Event_Status_Billing_Pending,
                             Event_Status_Event_Completed,
                             Event_Status_Event_Declined,
                             Event_Status_Event_Cancelled]

@@ -85,6 +85,8 @@
 					event_class = "initial_request"
 				elsif event.status == "Quote Sent"
 					event_class = "event_confirmed"
+				elsif event.status == "Billing Pending"
+					event_class = "billing_pending"
 				else
 					event_class = "event_incomplete"
 				end

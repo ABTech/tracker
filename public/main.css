@@ -157,8 +157,8 @@ table.eventslist td:first-child {
 /* row colors */
 table.eventslist tr.event_confirmed { background: #E2F2E2; }
 table.eventslist tr.event_confirmed > td:first-child { background: #00FF00; font-size: 5px; }
-table.eventslist tr.billing_pending { background: #E2F2E2; }
-table.eventslist tr.billing_pending > td:first-child { background: #00A4FF; font-size: 5px; }
+table.eventslist tr.billing_pending { background: #E1EAEF; }
+table.eventslist tr.billing_pending > td:first-child { background: #FF0000; font-size: 5px; }
 table.eventslist tr.event_completed { background: #E1EAEF; }
 table.eventslist tr.event_completed > td:first-child { background: #00A4FF; font-size: 5px; }
 table.eventslist tr.event_cancelled { background: #F9F9F9; color: #AAAAAA; }

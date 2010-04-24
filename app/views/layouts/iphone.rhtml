@@ -113,8 +113,11 @@
 <%= "<div style=\"font-size: 14pt; width: auto; text-align:center; margin: auto; background-color: black; color: red;\">#{ENV["RAILS_ENV"].upcase} ENVIRONMENT</div>" if ENV["RAILS_ENV"] != 'production'-%>
   
 	<div>
-		<img src="/images/header.png" style="width: 95%;" />
+	    <a href="/event/list"><img src="/images/header.png" style="width: 95%;" /></a>
 	</div>
 <%= yield %>
+<div style="text-align: center; margin: 1em; "> 
+  <a href="/event/list">Full Site</a>
+</div>
 </body>
 </html>

@@ -19,7 +19,7 @@
         <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
             <td class="list"><%= if journal.invoice then journal.invoice.event.id else "" end %></td>
             <td class="list"><%= journal.date.strftime('%A, %B %d %Y') %></td>
-            <td class="list"><% if journal.invoice %><%= link_to(journal.memo, {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %><% end %></td>
+	  <td class="list"><% if journal.invoice %><%= link_to(journal.memo, {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %><% else %><span title=<%= journal.memo%>><%= journal.memo[0..10] %></span><% end %></td>
             <td class="list">$<%= journal.amount %></td>
             <td class="list"><%= text_field_tag("date[#{journal.id}]") %></td>
         </tr>

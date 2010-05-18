@@ -40,7 +40,7 @@ module ApplicationHelper
 
    def app_version
      begin
-       IO.read("REVISION")
+       IO.read("REVISION")[0,7]
      rescue
        "?"
      end

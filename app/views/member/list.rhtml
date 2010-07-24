@@ -25,7 +25,7 @@
     <td><%=h member.title %></td>
     <td><%=h member.namenick %></td>
     <td><%=h(pretty_phone(member.phone)) %></td>
-    <td><%= "<a href=\"aim:goim?screenname=h(member.aim)\">#{h(member.aim)}</a>" unless member.aim.nil? %></td>
+    <td><%= "<a href=\"aim:goim?screenname=#{h(member.aim)}\">#{h(member.aim)}</a>" unless member.aim.nil? %></td>
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}" %></td>
     <td><%=h member.shirt_size %></td>
   <%- if @edit_others -%>

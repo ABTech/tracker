@@ -1,7 +1,0 @@
-<div>
-    <% @event.invoices.each do |inv| %>
-        <%= link_to("view invoice", {:action => "view", :controller => "invoice", :id => inv.id}) %>
-    <% end %>
-
-    <%= link_to("add invoice", {:action => "new", :controller => "invoice", :event_id => @event.id}) %>
-</div>

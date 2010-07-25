@@ -1,2 +1,0 @@
-<%= render_partial ("event/event_main"); %>
-<%= render_partial ("event/event_dates"); %>

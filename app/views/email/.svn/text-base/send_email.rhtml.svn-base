@@ -1,2 +1,0 @@
-Reply sent.<br/>
-<%= button_to_function("Close", "window.close()") %>

@@ -1,7 +1,0 @@
-<h2>Edit Organization</h2>
-<% form_tag organization_path(@org), :method => :put do -%>
-  Name:
-  <input type="text"  name="organization[name]" value="<%= h @org.name %>" name=/>
-  <%= submit_tag "Submit" %>
-<%- end %>
-<%= link_to 'Delete Organization', "/organizations/#{@org.id}", :confirm => "Are you sure? This cannot be undone and it may screw up the database.", :method => 'delete' %>

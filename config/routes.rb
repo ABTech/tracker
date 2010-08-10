@@ -17,8 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
-  map.connect "calendar/generate.ics", :controller => "event", :action => "generate", :format => "ics";
-  map.connect "calendar/generate.schedule", :controller => "event", :action => "generate", :format => "schedule";
+  map.connect "calendar/generate.:format", :controller => "event", :action => "generate"
   map.connect "calendar", :controller => "event", :action => "calendar";
 
   map.connect "mobile", :controller => "event", :action => "mobile";

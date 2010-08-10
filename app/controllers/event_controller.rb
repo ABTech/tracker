@@ -441,6 +441,9 @@ class EventController < ApplicationController
           #soon period is from 1 week ago through 3 weeks from now. this is good for syncing a calendar
           @startdate = 1.week.ago 
           @enddate = 3.months.from_now
+	elsif params['matchdate']
+	  @startdate = Date.parse(params['matchdate'])
+	  @enddate = @startdate + 3.months
         else
             # assume the period is the current one if parsing the params has failed
             year = DateTime.now().year().to_s();

@@ -15,6 +15,13 @@ class InvoiceController < ApplicationController
         render_action("record");
     end
 
+    def prettyView
+	@invoice = Invoice.find(@params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
+	@title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.event.id}"
+
+	render :layout=>false
+    end
+
     def new
         @title = "Create New Invoice";
         @mode = Mode_New;

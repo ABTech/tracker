@@ -1,0 +1,100 @@
+<style type='text/css'>
+body{
+	background-color:#FFFFFF;
+	font-size:12px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#000000;
+	margin:0px 0px 20px 0px;
+	padding:0px 0px 0px 0px;
+}
+table.prettyBorder{
+	border-collapse:collapse;
+}
+
+table.prettyBorder td {
+	border: 1px solid black;
+	text-align:center;
+	border-collapse:collapse;
+	padding-right:5px;
+	padding-left:5px;
+}
+table.prettyBorder th{
+	border: 1px solid black;
+	border-collapse:collapse;
+	font-size:13px; 
+	margin:5px 0px 5px 0px;
+	padding:4px;
+
+}
+</style>
+<table align=center >
+<tr><td rowspan=2>
+	<img src="/images/tech-with-fbnsal.png" width=200px />
+	<br>
+	<b>Activities Board Technical Committee</b><br>
+	5000 Forbes Avenue<br>
+	UC Suite 103, Box 73<br>
+	Pittsburgh, PA 15213<br>
+	Phone: 412-268-2104<br>
+	Fax: 412-268-5938<br>
+</td>
+<td>
+	<table style="float:right;" class=prettyBorder >
+	<tr><td colspan=2>
+		<p align=center ><b><%= @invoice.status %></b></p>
+	</td></tr>
+	<tr><td>Date:</td><td><%= @invoice.created_at.strftime("%B %d, %Y") %></td></tr>
+	<tr><td>Invoice Number:</td><td><%= @invoice.event.id %></td></tr>
+	<tr><td>Prepared By:</td><td><%=  current_member().fullname %></td></tr>
+	</table>
+</td>
+<tr><td>
+	<table style="float:right;" class=prettyBorder >
+	<tr><td>Event:</td><td><%= @invoice.event.title  %></td></tr>
+	<% location = @invoice.event.eventdates[0].locations[0] %>
+	<tr><td>Venue:</td><td><%= location.building + "-" + location.room  %></td></tr>
+	<tr><td>Event Date:</td><td><%= @invoice.event.eventdates[0].startdate.strftime("%B %d, %Y") %></td></tr>
+	<tr><td>Event Contact:</td><td><%= @invoice.event.contact_name %></td></tr>
+	<tr><td>Organization:</td><td><%= @invoice.event.organization.name %></td></tr>
+	<tr><td>Bill to Account:</td><td><b>
+		<%= if @invoice.payment_type == "Oracle" then 
+			@invoice.oracle_string
+		else
+			@invoice.event.organization.name
+		end %></b></td></tr>
+	</table>
+</td></tr>
+<tr><td colspan=2>
+<table class=prettyBorder align=center width=100% >
+<tr><th>Qty</th><th>Category</th><th>Description</th><th>Unit Price</th><th>Extended Price</th></tr>
+<% sum = 0 %>
+<% for line in @invoice.invoice_lines do %>
+	<tr>
+		<td><%=line.quantity %></td>
+		<td><%=line.category %></td>
+		<td><%=line.memo %></td>
+		<td><%=line.price %></td>
+		<td><%=line.quantity * line.price %></td>
+		<% sum += (line.quantity * line.price) %>
+	</tr>
+<% end %>
+<tr>
+	<td colspan=3></td>
+	<td><b>TOTAL:</b></td>
+	<td><b>$<%= sum %></b></td>
+</tr>
+
+</table>
+</table>
+<% if @invoice.status == "Invoice" then %>
+	<p align=left>
+	If there are no issues with this invoice the above amount will automatically be transfered from your Oracle account by Debbie
+	Kavinsky (dkavinsk@andrew.cmu.edu) within two weeks.<br>
+	AB Tech believes that fostering dialog between our clients and ourselves both bef ore and af ter an event is the best way to
+	ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any
+	comments or complaints you may have  about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412)
+	268-2104.<br>
+	Thank you,<br>
+	Activities Board Technical Committee
+	</p>
+<% end %>

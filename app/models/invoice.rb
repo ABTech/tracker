@@ -18,7 +18,7 @@ class Invoice < ActiveRecord::Base
     belongs_to :event;
 	
 	Payment_Types = ["StuAct", "Check", "Oracle"];
-    Invoice_Status_Group_All = ["New", "Quoted", "Invoiced", "Received" ];
+    Invoice_Status_Group_All = ["New", "Quote", "Invoice", "Received" ];
 
     def total
         sum = 0;

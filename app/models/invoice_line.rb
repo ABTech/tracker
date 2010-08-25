@@ -17,7 +17,8 @@ class InvoiceLine < ActiveRecord::Base
     Invoice_Categories = [  "Sound",
                             "Lighting",
                             "Reimbursement",
-                            "Itemized"];
+                            "Itemized",
+			    "Event"];
 
     def total
 		if (price and quantity)

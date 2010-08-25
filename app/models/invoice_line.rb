@@ -18,6 +18,7 @@ class InvoiceLine < ActiveRecord::Base
                             "Lighting",
                             "Reimbursement",
                             "Itemized",
+			    "Labor",
 			    "Event"];
 
     def total

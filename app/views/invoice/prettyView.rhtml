@@ -73,15 +73,15 @@ table.prettyBorder th{
 		<td><%=line.quantity %></td>
 		<td><%=line.category %></td>
 		<td><%=line.memo %></td>
-		<td><%=line.price %></td>
-		<td><%=line.quantity * line.price %></td>
+		<td><%=number_to_currency(line.price) %></td>
+		<td><%=number_to_currency(line.quantity * line.price) %></td>
 		<% sum += (line.quantity * line.price) %>
 	</tr>
 <% end %>
 <tr>
 	<td colspan=3></td>
 	<td><b>TOTAL:</b></td>
-	<td><b>$<%= sum %></b></td>
+	<td><b><%= number_to_currency(sum) %></b></td>
 </tr>
 
 </table>

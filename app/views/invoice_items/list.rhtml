@@ -1,0 +1,36 @@
+<h1>Listing invoice_items</h1>
+<style type="text/css">
+	td{
+		padding:2px;
+		padding-right:6px;
+	}
+	th{
+		padding:2px;
+		padding-right:4px;
+	}
+</style>
+<table>
+  <tr>
+  <% for column in InvoiceItems.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for invoice_items in @invoice_items %>
+  <tr>
+  <% for column in InvoiceItems.content_columns %>
+    <td><%=h invoice_items.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => invoice_items %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => invoice_items %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => invoice_items }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @invoice_items_pages.current.previous } if @invoice_items_pages.current.previous %>
+<%= link_to 'Next page', { :page => @invoice_items_pages.current.next } if @invoice_items_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New invoice_items', :action => 'new' %>

@@ -37,6 +37,7 @@ td.paid { font-weight: bold; }
 			<%= link_to("List Unpaid JEs", :action => "unpaid") %><br/>
 			<%= link_to("Audit Completed Events", :action => "events") %><br/>
 			<%= link_to("List Invoices", :controller => "invoice", :action => "list") %><br/>
+			<%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %><br />
 		</div>
 	</td><td>
 		<%= render_partial("list", :is_credit => true) %>

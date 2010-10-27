@@ -13,7 +13,7 @@ class Account < ActiveRecord::Base
     has_many :journals, :class_name => "Journal", :foreign_key => "account", :order => "journals.date DESC";
     
   #When you change this magic date, finances are reset. JEs before this date don't count. Perhaps this should be made sensible some day.
-	Magic_Date = '2009-07-01'
+	Magic_Date = '2010-08-01'
   		
 	# Credit
 	Credit_Accounts = Account.find(:all, :conditions => "is_credit = true")

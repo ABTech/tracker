@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  user_id: 1
+  event_id: 1
+  hours: 1.5
+  billed: 2010-11-24 01:55:20
+two:
+  id: 2
+  user_id: 1
+  event_id: 1
+  hours: 1.5
+  billed: 2010-11-24 01:55:20

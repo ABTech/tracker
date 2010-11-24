@@ -2,3 +2,6 @@ log/*.log
 tmp/**/*
 mkmf.log
 config/database.yml
+*.swp
+*.swo
+*~

@@ -21,32 +21,17 @@ class Invoice < ActiveRecord::Base
     Invoice_Status_Group_All = ["New", "Quote", "Invoice", "Received" ];
 
     def total
-        sum = 0;
-        invoice_lines.each do |line|
-            sum = sum + line.total;
-        end
-        return sum;
+        return invoice_lines.inject(0) {|sum,line| sum + line.total};
     end
 
     def total_sound
-        sum = 0;
-        invoice_lines.each do |line|
-            if (line.category == "Sound")
-                sum = sum + line.total;
-            end
-        end
-        return sum;
+        return (invoice_lines.select {|line| line.category == "Sound"}).
+			inject(0) {|sum,line| sum + line.total};
     end
 
 
     def total_lighting
-        sum = 0;
-        invoice_lines.each do |line|
-            if (line.category == "Lighting")
-                sum = sum + line.total;
-            end
-        end
-        return sum;
+        return (invoice_lines.select {|line| line.category == "Lighting"}).inject(0) {|sum,line| sum + line.total};
     end
 
     def itemized_list

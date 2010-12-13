@@ -1,0 +1,11 @@
+<table>
+<tr><td colspan="2" class="listheader">Submit Hours</td></tr>
+<tr class="listentry2">
+	<td align="right" class="list"><strong>Event:</strong></td>
+	<td class="list"><%= select :timecard_entry, :event_id, @events %></td>
+</tr>
+<tr class="listentry1">
+	<td align="right" class="list"><strong>Hours:</strong></td>
+	<td class="list"><%= text_field :timecard_entry, :hours %></td>
+</tr>
+</table>

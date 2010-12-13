@@ -2,12 +2,13 @@
 
 <table class="generic" border="1">
 <tr>
-<th>Event</th><th>Member</th><th>Hours</th></tr>
+<th>Event</th><th>Member</th><th>Hours</th><th></th></tr>
 <% @timecard_entries.each do |t| %>
 <tr>
 <td><%= t.event.title %></td>
 <td><%= t.member.fullname %></td>
 <td><%= t.hours %></td>
+<td><%= link_to 'Edit', edit_timecard_path(t) %></td>
 </tr>
 <% end %>
 </table>

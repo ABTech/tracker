@@ -1,4 +1,4 @@
-class TimecardController < ApplicationController
+class TimecardsController < ApplicationController
 	before_filter :login_required
 	layout 'application2'
 
@@ -26,6 +26,25 @@ class TimecardController < ApplicationController
 		end
 	end
 
-	def show
+	def edit
+		@timecard_entry = TimecardEntry.find(params[:id])
+		@events = TimecardEntry.valid_events.collect { |e| [e.title, e.id]}
+	end
+
+	def update
+		@timecard_entry = TimecardEntry.find(params[:id])
+		if @timecard_entry.update_attributes(params[:timecard_entry])
+			flash[:notice] = 'Timecard entry successfully updated.'
+			redirect_to :action => :index
+		else
+			@events = TimecardEntry.valid_events.collect { |e| [e.title, e.id]}
+			render :action => :edit
+		end
+	end
+
+	def destroy
+		@timecard_entry = TimecardEntry.find(params[:id])
+		@timecard_entry.destroy
+		redirect_to :action => :index
 	end
 end

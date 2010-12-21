@@ -1,4 +1,4 @@
-class TimecardsController < ApplicationController
+class TimecardEntriesController < ApplicationController
 	before_filter :login_required
 	layout 'application2'
 

@@ -26,7 +26,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :organizations
   map.resources :bugs
-  map.resources :timecards
+  map.resources :timecard_entries
 
   map.resources :attachments, :only => ["index", "destroy"]
 

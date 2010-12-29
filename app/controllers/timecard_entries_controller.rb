@@ -8,8 +8,8 @@ class TimecardEntriesController < ApplicationController
 
 	def new
 		@timecard_entry = TimecardEntry.new
-		@timecard_entry.event_id = params[:event_id]
-		@events = TimecardEntry.valid_events.collect { |e| [e.title, e.id]}
+		@timecard_entry.eventdate_id = params[:eventdate_id]
+		@eventdates = TimecardEntry.valid_eventdates
 	end
 
 	def create
@@ -21,14 +21,14 @@ class TimecardEntriesController < ApplicationController
 			redirect_to :action => :index
 		else
 			flash[:notice] = "Error saving entry"
-			@events = TimecardEntry.valid_events.collect { |e| [e.title, e.id]}
+			@eventdates = TimecardEntry.valid_eventdates
 			render :action => :new
 		end
 	end
 
 	def edit
 		@timecard_entry = TimecardEntry.find(params[:id])
-		@events = TimecardEntry.valid_events.collect { |e| [e.title, e.id]}
+		@eventdates = TimecardEntry.valid_eventdates
 	end
 
 	def update
@@ -37,7 +37,7 @@ class TimecardEntriesController < ApplicationController
 			flash[:notice] = 'Timecard entry successfully updated.'
 			redirect_to :action => :index
 		else
-			@events = TimecardEntry.valid_events.collect { |e| [e.title, e.id]}
+			@eventdates = TimecardEntry.valid_eventdates
 			render :action => :edit
 		end
 	end

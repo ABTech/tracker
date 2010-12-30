@@ -1,14 +1,3 @@
 <h1>Listing timecard entries</h1>
 
-<table class="generic" border="1">
-<tr>
-<th>Event</th><th>Member</th><th>Hours</th><th></th></tr>
-<% @timecard_entries.each do |t| %>
-<tr>
-<td><%= t.eventdate.event.title %> - <%= t.eventdate.description %></td>
-<td><%= t.member.fullname %></td>
-<td><%= t.hours %></td>
-<td><%= link_to 'Edit', edit_timecard_entry_path(t) %></td>
-</tr>
-<% end %>
-</table>
+<%= render :partial => 'timecard_entries', :object => @timecard_entries %>

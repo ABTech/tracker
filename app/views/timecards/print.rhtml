@@ -1,0 +1,14 @@
+<%# render :partial => 'timecard', :object => @timecard -%>
+<%
+# the gem requirement should be taken care of in a better way...
+require 'prawn'
+string = (render :partial => 'timecard', :object => @timecard)
+pdf = Prawn::Document.new(:page_size => 'LETTER')
+pdf.font 'Courier-new.ttf', :size => 10
+height = 720
+string.split("\n").each do |line|
+	pdf.draw_text line, :at => [30,height]
+	height -= 10.9
+end
+-%>
+<%= pdf.render %>

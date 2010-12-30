@@ -1,17 +1,15 @@
 <h1>Timecards listing</h1>
 <table class="generic" border="1">
 <tr>
-<th>Member</th>
 <th>Billed date</th>
 <th>Hours billed</th>
 <th>&nbsp;</th>
 </tr>
 <% @timecards.each do |timecard| %>
 <tr>
-<td><%= timecard.member.fullname %></td>
 <td><%= timecard.date.strftime "%b %d, %Y" %></td>
 <td><%= timecard.hours %></td>
-<td>Show Edit Destroy</td>
+<td><%= link_to 'Show', timecard_url(timecard.id) %> <%= link_to 'Edit', edit_timecard_url(timecard.id) %></td>
 </tr>
 <% end %>
 </table>

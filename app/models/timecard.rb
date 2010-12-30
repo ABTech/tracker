@@ -2,6 +2,12 @@
 class Timecard
 	attr_accessor :timecard_entries
 	attr_reader :date, :timecard_lines, :member
+
+	def self.all
+		pairs = TimecardEntry.find_by_sql('select distinct member_id, billed from timecard_entries where billed is not null')
+		pairs.map {|p| Timecard.new(p.member, p.billed) }
+	end
+
 	def initialize(member, date=nil)
 		@timecard_entries = TimecardEntry.find(:all, :conditions => {:member_id => member.id, :billed => date})
 		@member = member
@@ -9,6 +15,16 @@ class Timecard
 		# @timecard_lines is a two-dimensional array of integers representing
 		# the start and end hours for that day (indicated by the first index)
 		self.date= date
+	end
+
+	def hours
+		@timecard_lines.inject(0) {|sum, pair|
+			if pair.nil?
+				sum
+			else
+				sum + pair[1] - pair[0]
+			end
+		}
 	end
 
 	def date=(d)

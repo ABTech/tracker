@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  member_id: 1
+  billing_date: 2010-12-30 19:52:44
+  due_date: 2010-12-30 19:52:44
+  submitted: false
+two:
+  id: 2
+  member_id: 1
+  billing_date: 2010-12-30 19:52:44
+  due_date: 2010-12-30 19:52:44
+  submitted: false

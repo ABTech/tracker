@@ -28,6 +28,8 @@ class Member < ActiveRecord::Base
   has_many :eventroles;
   has_and_belongs_to_many :roles
   has_many :filters, :class_name => "MemberFilter", :order => "name ASC"
+	has_many :timecards
+	has_many :timecard_entries
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password

@@ -3,7 +3,7 @@ class TimecardEntriesController < ApplicationController
 	layout 'application2'
 
 	def index
-		@timecard_entries = TimecardEntry.find(:all)
+		@timecard_entries = TimecardEntry.find(:all, :conditions => { :member_id => current_member.id })
 	end
 
 	def new

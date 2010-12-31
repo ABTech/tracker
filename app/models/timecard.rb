@@ -4,8 +4,8 @@ class Timecard < ActiveRecord::Base
 	# due_date:datetime
 	# submitted:boolean
 	has_many :timecard_entries
+	belongs_to :member
 	validates_presence_of :member_id, :billing_date, :due_date
-	attr_reader :date, :timecard_lines, :member
 
 	def hours
 		lines.inject(0) {|sum, pair|

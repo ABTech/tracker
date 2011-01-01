@@ -4,6 +4,7 @@ class TimecardsController < ApplicationController
 
 	def index
 		@timecards = Timecard.find(:all, :order => 'billing_date DESC')
+		@member = current_member
 	end
 
 	def show

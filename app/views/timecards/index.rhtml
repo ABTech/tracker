@@ -13,7 +13,7 @@
 <td><%= timecard.due_date.strftime "%b %d, %Y" %></td>
 <td><%= timecard.hours %></td>
 <td><%= timecard.submitted ? 'yes' : 'no' %></td>
-<td><%= link_to 'Show', timecard_url(timecard) %> <%= link_to 'Submit', submit_timecard_url(timecard), :method => 'put' %></td>
+<td><%= link_to 'Show', timecard_url(timecard) %> <%= link_to 'Edit', edit_timecard_url(timecard) %> <%= link_to 'Destroy', timecard_url(timecard), :method => 'delete', :confirm => 'Are you sure?' %></td>
 </tr>
 <% end %>
 </table>

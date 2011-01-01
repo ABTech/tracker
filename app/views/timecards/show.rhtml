@@ -1,4 +1,5 @@
 <h1>Showing timecard</h1>
 <p>This timecard is for the billing period ending on <%= @timecard.billing_date.strftime("%b %d, %Y") %> and <% if @timecard.submitted %>was<% else %>is<% end %> due on <%= @timecard.due_date.strftime("%b %d, %Y") %>.</p>
-<%= render :partial => 'timecard_entries/timecard_entries', :object => @timecard.timecard_entries %>
+<%= render :partial => 'timecard_entries/timecard_entries', :object => @timecard.entries %>
 <%= link_to 'Print timecard', timecard_path(:id => @timecard, :format => 'pdf') %>
+<%= link_to 'View timecard', timecard_path(:id => @timecard, :format => 'txt') %>

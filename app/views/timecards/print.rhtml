@@ -2,7 +2,7 @@
 <%
 # the gem requirement should be taken care of in a better way...
 require 'prawn'
-string = (render :partial => 'timecard', :object => @timecard)
+string = (render :partial => 'timecard', :locals => { :timecard => @timecard, :member => @member})
 pdf = Prawn::Document.new(:page_size => 'LETTER')
 pdf.font 'Courier-new.ttf', :size => 10
 height = 720

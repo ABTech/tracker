@@ -1,7 +1,8 @@
-<h1>Create new Timecard</h1>
+<h1>Update Timecard</h1>
 <p><%= error_messages_for 'timecard' %></p>
-<% form_for @timecard, :url => {:action => :create} do |f| %>
+<% form_tag timecard_path(@timecard), :method => 'put' do |f| %>
 <p>Billing Date: <%= text_field :timecard, :billing_date %></p>
 <p>Due Date: <%= text_field :timecard, :due_date %></p>
-<%= submit_tag 'Create' %>
+<p>Submitted? <%= check_box :timecard, :submitted %></p>
+<%= submit_tag 'Update' %>
 <% end %>

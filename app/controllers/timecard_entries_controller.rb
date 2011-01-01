@@ -10,6 +10,7 @@ class TimecardEntriesController < ApplicationController
 		@timecard_entry = TimecardEntry.new
 		@timecard_entry.eventdate_id = params[:eventdate_id]
 		@eventdates = TimecardEntry.valid_eventdates
+		@timecards = Timecard.valid_timecards
 	end
 
 	def create
@@ -22,6 +23,7 @@ class TimecardEntriesController < ApplicationController
 		else
 			flash[:notice] = "Error saving entry"
 			@eventdates = TimecardEntry.valid_eventdates
+			@timecards = Timecard.valid_timecards
 			render :action => :new
 		end
 	end
@@ -29,15 +31,17 @@ class TimecardEntriesController < ApplicationController
 	def edit
 		@timecard_entry = TimecardEntry.find(params[:id])
 		@eventdates = TimecardEntry.valid_eventdates
+		@timecards = Timecard.valid_timecards
 	end
 
 	def update
 		@timecard_entry = TimecardEntry.find(params[:id])
-		if @timecard_entry.update_attributes(params[:timecard_entry])
+		if (@timecard_entry.timecard.nil? or !@timecard_entry.timecard.submitted) and @timecard_entry.update_attributes(params[:timecard_entry])
 			flash[:notice] = 'Timecard entry successfully updated.'
 			redirect_to :action => :index
 		else
 			@eventdates = TimecardEntry.valid_eventdates
+			@timecards = Timecard.valid_timecards
 			render :action => :edit
 		end
 	end

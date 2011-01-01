@@ -20,6 +20,15 @@ class TimecardsController < ApplicationController
 		end
 	end
 
+	def view
+		@timecard = Timecard.find(params[:id])
+		if params[:format] == 'pdf'
+			headers['Content-Type'] = 'application/pdf'
+			headers['Content-Disposition'] = 'inline'
+			render :layout => false, :action => 'print_collection'
+		end
+	end
+
 	def new
 		@timecard = Timecard.new
 		@timecard.billing_date = Timecard.latest_dates.billing_date + 14*24*60*60

@@ -17,8 +17,16 @@ class Timecard < ActiveRecord::Base
 		end
 	end
 
+	def members
+		TimecardEntry.find_by_sql("select distinct member_id from timecard_entries where timecard_id = #{id.to_i}").map {|e| e.member}
+	end
+
 	def self.latest_dates
 		Timecard.find_by_sql('select billing_date,due_date from timecards order by billing_date DESC limit 1')[0]
+	end
+
+	def self.valid_timecards
+		Timecard.find(:all).select {|timecard| !timecard.submitted }
 	end
 
 	def lines(member=nil)

@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :organizations
   map.resources :bugs
   map.resources :timecard_entries, :except => ['show']
-	map.resources :timecards, :member => {:submit => :put }, :collection => {:all => :get}
+	map.resources :timecards, :member => {:view => :get }
 
   map.resources :attachments, :only => ["index", "destroy"]
 

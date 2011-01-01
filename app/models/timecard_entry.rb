@@ -11,7 +11,7 @@ class TimecardEntry < ActiveRecord::Base
 	before_validation :check_submitted
 	before_destroy :check_submitted
 
-	attr_protected :member_id
+	attr_protected :member_id, :timecard_id
 
 	private
 	def check_submitted

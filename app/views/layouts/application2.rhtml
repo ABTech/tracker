@@ -34,6 +34,7 @@
 		<% if iphone_user_agent? %>
 		  <%= conditional_link_to("iPhone View", "event", "iphone") %>
 		<% end %>
+		<%= conditional_link_to('Timecards', 'timecard_entries', 'index') %>
 		<% admin = current_member.authorized? ["organizations/index", "members/list", "equipment/tree", "role/list", "permission/list", "bugs/index"] %>
       <%  if admin %> 
         <%= link_to_function("Tracker Admin", nil, :id => "more_link") do |page|

@@ -14,7 +14,11 @@
 <td><%= timecard.hours(@member) %></td>
 <td><%= timecard.submitted ? 'yes' : 'no' %></td>
 <td><%= link_to 'Show', timecard_url(timecard) %> 
-<% if current_member.authorized? ['timecards/edit'] %><%= link_to 'Edit', edit_timecard_url(timecard) %> <%= link_to 'Destroy', timecard_url(timecard), :method => 'delete', :confirm => 'Are you sure?' %><% end %></td>
+<% if current_member.authorized? ['timecards/edit'] %>
+	<%= link_to 'View all details', view_timecard_url(timecard) %>
+	<%= link_to 'Edit', edit_timecard_url(timecard) %>
+	<%= link_to 'Destroy', timecard_url(timecard), :method => 'delete', :confirm => 'Are you sure?' %>
+<% end %></td>
 </tr>
 <% end %>
 </table>

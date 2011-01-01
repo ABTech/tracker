@@ -16,7 +16,7 @@ class TimecardsController < ApplicationController
 			render :layout => false, :partial => 'timecard', :locals => { :timecard => @timecard, :member => @member}
 		elsif params[:format] == 'pdf'
 			headers['Content-Type'] = 'application/pdf'
-			headers['Content-Disposition'] = 'inline'
+			headers['Content-Disposition'] = "inline; filename=\"timecard-#{@member.fullname.gsub(/\s/, '-')}.pdf\""
 			render :layout => false, :action => 'print'
 		end
 	end
@@ -25,7 +25,7 @@ class TimecardsController < ApplicationController
 		@timecard = Timecard.find(params[:id])
 		if params[:format] == 'pdf'
 			headers['Content-Type'] = 'application/pdf'
-			headers['Content-Disposition'] = 'inline'
+			headers['Content-Disposition'] = "inline; filename=\"timecard-#{@member.fullname.gsub(/\s/, '-')}.pdf\""
 			render :layout => false, :action => 'print_collection'
 		end
 	end

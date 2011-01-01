@@ -1,0 +1,8 @@
+<h1>Create new Timecard</h1>
+<p><%= error_messages_for 'timecard' %></p>
+<% form_for @timecard, :url => {:action => :create} do |f| %>
+<p>Member: <%= select :timecard, :member_id, @members.map {|member| [member.fullname, member.id]} %></p>
+<p>Billing Date: <%= text_field :timecard, :billing_date %></p>
+<p>Due Date: <%= text_field :timecard, :due_date %></p>
+<%= submit_tag 'Create' %>
+<% end %>

@@ -6,6 +6,7 @@ class Timecard < ActiveRecord::Base
 	has_many :timecard_entries
 	belongs_to :member
 	validates_presence_of :member_id, :billing_date, :due_date
+	validates_uniqueness_of :billing_date, :scope => 'member_id'
 
 	def hours
 		lines.inject(0) {|sum, pair|
@@ -20,6 +21,10 @@ class Timecard < ActiveRecord::Base
 	def lines
 		fill_timecard_lines if @lines.nil?
 		@lines
+	end
+
+	def self.latest_dates
+		Timecard.find_by_sql('select billing_date,due_date from timecards order by billing_date DESC limit 1')[0]
 	end
 
 	private

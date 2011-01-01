@@ -1,6 +1,7 @@
 <h1>Timecards listing</h1>
 <table class="generic" border="1">
 <tr>
+<th>Member</th>
 <th>Billing date</th>
 <th>Due date</th>
 <th>Hours billed</th>
@@ -9,6 +10,7 @@
 </tr>
 <% @timecards.each do |timecard| %>
 <tr>
+<td><%= timecard.member.fullname %></td>
 <td><%= timecard.billing_date.strftime "%b %d, %Y" %></td>
 <td><%= timecard.due_date.strftime "%b %d, %Y" %></td>
 <td><%= timecard.hours %></td>

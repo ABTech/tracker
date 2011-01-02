@@ -30,12 +30,20 @@ class TimecardEntriesController < ApplicationController
 
 	def edit
 		@timecard_entry = TimecardEntry.find(params[:id])
+		if @timecard_entry.member != current_member
+			flash[:notice] = 'You cannot edit someone else\'s timecard!'
+			redirect_to :action => :index and return
+		end
 		@eventdates = TimecardEntry.valid_eventdates
 		@timecards = Timecard.valid_timecards
 	end
 
 	def update
 		@timecard_entry = TimecardEntry.find(params[:id])
+		if @timecard_entry.member != current_member
+			flash[:notice] = 'You cannot edit someone else\'s timecard!'
+			redirect_to :action => :index and return
+		end
 		if (@timecard_entry.timecard.nil? or !@timecard_entry.timecard.submitted) and @timecard_entry.update_attributes(params[:timecard_entry])
 			flash[:notice] = 'Timecard entry successfully updated.'
 			redirect_to :action => :index

@@ -4,6 +4,4 @@
 <% @timecard.members.each do |member| %>
 <h2>Timecard for <%= member.fullname %></h2>
 <%= render :partial => 'timecard_entries/timecard_entries', :object => @timecard.entries(member) %>
-<%= link_to 'Print timecard', timecard_path(:id => @timecard, :format => 'pdf') %>
-<%= link_to 'View timecard', timecard_path(:id => @timecard, :format => 'txt') %>
 <% end %>

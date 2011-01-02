@@ -1,8 +1,9 @@
 class TimecardEntry < ActiveRecord::Base
 	belongs_to :timecard
 	def self.valid_eventdates
-		return Eventdate.find(:all, :order => 'startdate ASC')
+		return Eventdate.find(:all, :order => 'startdate DESC')
 	end
+
 	belongs_to :member
 	belongs_to :eventdate
 	validates_presence_of :member_id, :eventdate_id, :hours

@@ -1,4 +1,4 @@
-<table>
+<table class="generic">
 <tr class="listentry2">
 	<td align="right" class="list"><strong>Event:</strong></td>
 	<td class="list"><%= select :timecard_entry, :eventdate_id, @eventdates.collect{|e| [e.event.title + ' - ' + e.description, e.id]} %></td>
@@ -7,8 +7,15 @@
 	<td align="right" class="list"><strong>Hours:</strong></td>
 	<td class="list"><%= text_field :timecard_entry, :hours %></td>
 </tr>
+<% if @timecards.size > 0 %>
 <tr>
 	<td align="right" class="list"><strong>Timecard:</strong></td>
-	<td class="list"><%= select :timecard_entry, :timecard_id, @timecards.inject([['(none)', '']]){|ary,t| ary << [t.billing_date.strftime("%Y/%m/%d"), t.id]} %></td>
+	<td class="list"><% if @timecards.size > 1 -%>
+		<%= select :timecard_entry, :timecard_id, @timecards.inject([['(none)', '']]){|ary,t| ary << [t.billing_date.strftime("%Y/%m/%d"), t.id]} -%>
+		<%- else -%>
+		<%= @timecards[0].billing_date.strftime("%Y/%m/%d") -%>
+		<%= hidden_field :timecard_entry, :timecard_id, :value => @timecards[0].id -%>
+		<%- end %></td>
 </tr>
+<% end %>
 </table>

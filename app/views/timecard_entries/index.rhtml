@@ -1,8 +1,8 @@
 <h1>Listing timecard entries</h1>
 
 <p>Create a <%= link_to 'new timecard entry', new_timecard_entry_path %>.
-Timecard entries can be edited up until the timecard has been marked as
-submitted.</p>
+Once a timecard has been submitted, it can no longer be edited.</p>
+
 <p><%= link_to 'View', timecards_path %> timecards.</p>
 
-<%= render :partial => 'timecard_entries', :object => @timecard_entries %>
+<%= render :partial => 'timecard_entries', :object => @timecard_entries, :locals => {:links => { :timecard => true, :edit => true, :destroy => true }} %>

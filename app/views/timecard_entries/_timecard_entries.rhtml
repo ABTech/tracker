@@ -1,17 +1,20 @@
 <table class="generic" border="1">
 <tr>
-<th>Event</th><th>Start Date/Time</th><th>Hours</th><th></th></tr>
+<th>Event</th><th>Start Date/Time</th><th>Hours</th><% if links %><th></th><% end %></tr>
 <% timecard_entries.each do |t| %>
 <tr>
 <td><%= t.eventdate.event.title %> - <%= t.eventdate.description %></td>
 <td><%= t.eventdate.startdate.strftime("%H:%M:%S %a, %b %d, %Y") %></td>
 <td><%= t.hours %></td>
-<td><%= link_to 'Timecard', timecard_path(t.timecard) unless t.timecard.nil? %>
+<% if links %>
+<td>
+<%= if links[:timecard]; link_to 'Timecard', timecard_path(t.timecard) unless t.timecard.nil?; end %>
 <% if t.timecard.nil? or !t.timecard.submitted %>
-<%= link_to 'Edit', edit_timecard_entry_path(t) %>
-<%= link_to 'Destroy', timecard_entry_path(t), :method => 'delete', :confirm => 'Are you sure?' %>
+<%= if links[:edit]; link_to 'Edit', edit_timecard_entry_path(t); end %>
+<%= if links[:destroy]; link_to 'Destroy', timecard_entry_path(t), :method => 'delete', :confirm => 'Are you sure?'; end%>
 <% end %>
 </td>
+<% end %>
 </tr>
 <% end %>
 </table>

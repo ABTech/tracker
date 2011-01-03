@@ -1,4 +1,10 @@
-<h1>Timecards listing</h1>
+<h1>Timecards</h1>
+<% if current_member.authorized? ['timecards/edit'] %>
+	<p>To prevent members from editing entries for a timecard, edit the
+	timecard and check the 'submitted' checkbox. The 'View all details' link
+	allows you to see the entries that everyone has submitted, while the
+	'Show' link provides information about just your timecard entries.</p>
+<% end %>
 <table class="generic" border="1">
 <tr>
 <th>Billing date</th>

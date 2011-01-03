@@ -30,7 +30,7 @@ module AuthenticatedSystem
     #    current_member.login != "bob"
     #  end
     def authorized?
-        required_perm = "%s/%s" % [ @params['controller'], @params['action'] ]
+        required_perm = "%s/%s" % [ params['controller'], params['action'] ]
 
         if(!current_member)
             return false;

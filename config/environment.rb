@@ -9,7 +9,7 @@ if(Socket.gethostname == "kurma.sys.hackish.org" || Socket.gethostname == "pickl
 end
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.5'
+RAILS_GEM_VERSION = '2.0.5'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -44,6 +44,8 @@ Rails::Initializer.run do |config|
   # config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
+
+  config.action_controller.session = { :session_key => "_abtt_tracker", :secret => "tePHuchaTRachEpr4p5UzeMu#hA-rEdEx=&raT+a" }
 end
 
 # Add new inflection rules using the following format 

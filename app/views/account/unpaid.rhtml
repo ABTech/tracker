@@ -1,4 +1,4 @@
-<%= start_form_tag({:action => "confirm_paid"}) %>
+<% form_tag({:action => "confirm_paid"}) do %>
 <% total = 0 %>
 
 <%= link_to("Printable list", :action => "unpaid_print")%>
@@ -32,4 +32,4 @@
 
 </table>
 Total = $<%= total %>
-<%= end_form_tag() %>
+<% end %>

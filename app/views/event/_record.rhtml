@@ -9,7 +9,7 @@
     end
 %>
 
-<%= start_form_tag({:controller => "event", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) %>
+<% form_tag({:controller => "event", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) do %>
 <% @event_form_name = "eventform"; %>
 
 <script type="text/javascript">
@@ -64,4 +64,4 @@ function switch_page(pgname)
 </tr>
 </table>
 
-<%= end_form_tag() %>
+<% end %>

@@ -1,4 +1,4 @@
-<%= start_form_tag(:action => "update", :id => @role.id) %>
+<% form_tag(:action => "update", :id => @role.id) do %>
 
 <table width="100%" border="0">
     <tr><th class="listheader" colspan="2">Role Details:</th></tr>
@@ -28,4 +28,4 @@
     </tr>
 </table>
 
-<%= end_form_tag() %>
+<% end %>

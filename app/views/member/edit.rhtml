@@ -1,8 +1,8 @@
 <h1>Editing member</h1>
 
-<%= start_form_tag :action => 'update', :id => @member %>
+<% form_tag :action => 'update', :id => @member do %>
 <%= render :partial => 'form', :locals => { :submit => 'Edit'} %>
-<%= end_form_tag %>
+<% end %>
 
 <%= link_to 'Show', :action => 'show', :id => @member %> |
 <%= link_to 'Back', :action => 'list' %>

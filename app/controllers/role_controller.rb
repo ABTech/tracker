@@ -3,8 +3,7 @@ class RoleController < ApplicationController
 
     def list
         @title = "Listing Roles"
-
-        @role_pages, @roles = paginate :roles, :per_page => 10
+        @roles = Role.find(:all)
     end
 
     def view

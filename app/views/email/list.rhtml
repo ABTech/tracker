@@ -43,10 +43,10 @@
 <table align="center" width=300>
     <tr>
         <td width=150>
-            <%= link_to "Previous Page", { :page => @email_pages.current.previous } if @email_pages.current.previous %>&nbsp;
+            <%= link_to "Previous Page", { :page => @previous } if @previous %>&nbsp;
         </td>
         <td width=150>
-            <%= link_to "Next Page", { :page => @email_pages.current.next } if @email_pages.current.next %>&nbsp;
+            <%= link_to "Next Page", { :page => @next } if @next %>&nbsp;
         </td>
     </tr>
 </table>

@@ -363,8 +363,12 @@ class EmailController < ApplicationController
 
     def list
         @title = "Email List";
-
-        @email_pages, @emails = paginate :emails, :order => "timestamp DESC", :per_page => 20;
+        size = 20
+        page = params[:page].to_i
+        page = 1 if page < 1
+        @emails = Email.find(:all, :order => 'timestamp DESC', :limit => size, :offset => size*(page-1))
+        @previous = page - 1 if page > 1
+        @next = page + 1 if page*size < Email.find_by_sql('select count(*) as count_all from emails')[0].count_all.to_i
     end
 
     def view

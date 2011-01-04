@@ -22,7 +22,7 @@
                 </table>
                 <% if(!@is_view_mode) %>
                     <input type="button" value="Mark All Read" onClick="doAndReload('<%= url_for(:controller => "email", :action => "mark_status", :id => @event.emails.collect {|eml| eml.id}.join("."), :status => Email::Email_Status_Read) %>')"/>
-                    <input type="button" value="New Thread" onClick="popupAndReload('<%= url_for({:controller => "email", :action => "new_thread", :id => @event.id}, {:escape => false}) %>')"/>
+                    <input type="button" value="New Thread" onClick="popupAndReload('<%= url_for(:controller => "email", :action => "new_thread", :id => @event.id, :escape => false) %>')"/>
                 <% end %>
             </td>
         </tr>
@@ -39,8 +39,8 @@
                         <% else %>
                             <input type="button" value="Mark Unread" onClick="doAndReload('<%= url_for(:controller => "email", :action => "mark_status", :id => email.id, :status => Email::Email_Status_New) %>')"/>
                         <% end %>
-                        <input type="button" value="Reply" onClick="popupAndReload('<%= url_for({:controller => "email", :action => "reply_to", :id => email.id}, {:escape => false}) %>')"/>
-                        <input type="button" value="View Full" onClick="popup('<%= url_for({:controller => "email", :action => "view", :id => email.id}, {:escape => false}) %>')") %>
+                        <input type="button" value="Reply" onClick="popupAndReload('<%= url_for({:controller => "email", :action => "reply_to", :id => email.id, :escape => false}) %>')"/>
+                        <input type="button" value="View Full" onClick="popup('<%= url_for({:controller => "email", :action => "view", :id => email.id, :escape => false}) %>')") %>
                         <br>
                     <% end %>
                     <strong>

@@ -62,7 +62,7 @@ class EquipmentController < ApplicationController
     # creates a new group under a given group
     # (meant to be used through Jscript)
     def newgroup
-        id = @params['id'];
+        id = params['id'];
         if(!id || !EquipmentCategory.find(id))
             flash[:error] = "Please select a valid group id.";
             return;
@@ -78,7 +78,7 @@ class EquipmentController < ApplicationController
     # creates a new item under a given group
     # (meant to be used through Jscript)
     def newitem
-        id = @params['id'];
+        id = params['id'];
         if(!id || !EquipmentCategory.find(id))
             flash[:error] = "Please select a valid group id.";
             return;
@@ -94,7 +94,7 @@ class EquipmentController < ApplicationController
     # deletes a group, merges children to parent
     # (meant to be used through Jscript)
     def delgroup
-        id = @params['id'];
+        id = params['id'];
 
         if(id && (id.to_i() != EquipmentCategory::Root_Category))
             # move all remaining items in the group to the parent group
@@ -104,20 +104,20 @@ class EquipmentController < ApplicationController
                 item.parent = category.parent;
                 item.save();
             end
-            EquipmentCategory.delete(@params['id']);
+            EquipmentCategory.delete(params['id']);
         end
     end
 
     # deletes an item
     # (meant to be used through Jscript)
     def delitem
-        Equipment.delete(@params['id']);
+        Equipment.delete(params['id']);
     end
 
     def edititem
         @title = "Editing Item"
 
-        @item = Equipment.find(@params['id']);
+        @item = Equipment.find(params['id']);
         if(!@item)
             flash[:error] = "Please select a valid item.";
         end
@@ -127,7 +127,7 @@ class EquipmentController < ApplicationController
     def editgroup
         @title = "Editing Group"
 
-        @category = EquipmentCategory.find(@params['id']);
+        @category = EquipmentCategory.find(params['id']);
         if(!@category)
             flash[:error] = "Please select a valid category.";
         end
@@ -137,12 +137,12 @@ class EquipmentController < ApplicationController
     def saveitem
         @title = "Saved Item";
 
-        record = Equipment.find(@params['id']);
+        record = Equipment.find(params['id']);
         if(!record)
             flash[:error] = "Please select a valid item.";
             render(:action => "equipment/edititem", :layout => false);
         else
-            record.update_attributes(@params['item']);
+            record.update_attributes(params['item']);
             record.save();
             render(:action => "equipment/saveitem", :layout => false);
         end
@@ -151,12 +151,12 @@ class EquipmentController < ApplicationController
     def savegroup
         @title = "Saved Group";
 
-        record = EquipmentCategory.find(@params['id']);
+        record = EquipmentCategory.find(params['id']);
         if(!record)
             flash[:error] = "Please select a valid category.";
             render(:action => "equipment/editgroup", :layout => false);
         else
-            record.update_attributes(@params['category']);
+            record.update_attributes(params['category']);
             record.save();
             render(:action => "equipment/savegroup", :layout => false);
         end
@@ -167,14 +167,14 @@ class EquipmentController < ApplicationController
 
         # Determine date period
         begin
-            @startdate = Time.parse(@params['startdate']);
+            @startdate = Time.parse(params['startdate']);
         rescue
             flash[:error] = "Start date format not valid.";
             @startdate   = Time.local(Time.now().year(), Time.now().month(), Time.now().day(), 0, 0, 0);
         end
 
         begin
-            @enddate = Time.parse(@params['enddate']);
+            @enddate = Time.parse(params['enddate']);
         rescue
             flash[:error] = "End date format not valid.";
             @enddate     = @startdate + 7 * 24 * 60 * 60; # two weeks later

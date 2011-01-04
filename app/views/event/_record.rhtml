@@ -1,8 +1,8 @@
 <% 
     @is_view_mode = (ApplicationController::Mode_View == @mode);
     @event_page = nil;
-    if(@params["page"])
-        @event_page = @params["page"];
+    if(params["page"])
+        @event_page = params["page"];
     end
     if(!["main", "dates", "roles", "email", "finance", "new", "attachments", "related"].rindex(@event_page))
         @event_page = "main";

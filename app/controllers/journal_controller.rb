@@ -13,7 +13,7 @@ class JournalController < ApplicationController
     @title = "Viewing JE"
     @mode = Mode_View;
 
-    @journal = Journal.find(@params['id']);
+    @journal = Journal.find(params['id']);
     
     render_action("edit");
   end
@@ -31,7 +31,7 @@ class JournalController < ApplicationController
     @title = "Editing JE"
     @mode = Mode_Edit;
     
-    @journal = Journal.find(@params['id']);
+    @journal = Journal.find(params['id']);
 
     render_action("edit");
   end

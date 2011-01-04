@@ -27,13 +27,13 @@ class AccountController < ApplicationController
     def view
         @title = "View Account"
         
-        if(!@params["id"])
+        if(!params["id"])
             flash[:error] = "You must specify an ID.";
             render_action('list');
             return;
         end
         
-        @account = Account.find(@params["id"], :include => [:journals_credit, :journals_debit]);
+        @account = Account.find(params["id"], :include => [:journals_credit, :journals_debit]);
         @journals = (@account.journals_credit | @account.journals_debit).sort_by{|p| p.date};
         @balance = @account.balance;
     end
@@ -58,7 +58,7 @@ class AccountController < ApplicationController
 
     def confirm_paid
         flash[:error] = "";
-        date = @params["date"];
+        date = params["date"];
 
         date.keys.each do |key|
             if(date[key].empty?)

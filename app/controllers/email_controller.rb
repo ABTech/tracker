@@ -31,7 +31,7 @@ class EmailController < ApplicationController
         # first, connect to the IMAP server
         imap = Net::IMAP.new(EmailHelper::IMAP_Server, EmailHelper::IMAP_Port, true); # last is to use SSL
         begin
-            imap.login(@params['imapuser'], @params['imappassword']);
+            imap.login(params['imapuser'], params['imappassword']);
         rescue
             flash[:error] = "Error while logging in.";
             redirect_to(:action => "list");
@@ -133,21 +133,21 @@ class EmailController < ApplicationController
         @title = "Filing Messages";
         
         begin
-            @skip = @params['skip'].to_i();
+            @skip = params['skip'].to_i();
         rescue
             @skip = 0;
         end
 
-        if(@params['id'] && Email.find(@params['id']))
-            email = Email.find(@params['id']);
+        if(params['id'] && Email.find(params['id']))
+            email = Email.find(params['id']);
 
-            case(@params['commit'])
+            case(params['commit'])
             when File_Action_File_Event
-                case(@params['fileaction'])
+                case(params['fileaction'])
                 when File_Action_New_Event
-                    event = Event.new(@params['event']);
+                    event = Event.new(params['event']);
                     event.year_id = Year.active_year.id;
-                    EventHelper.update_event(event, @params);
+                    EventHelper.update_event(event, params);
                     if(!event.save())
                         flash[:error] = "";
                         event.errors.each_full() do |err|
@@ -165,7 +165,7 @@ class EmailController < ApplicationController
                         end
                     end
                 when File_Action_Existing_Event
-                    email.event_id = @params['email']['event_id'];
+                    email.event_id = params['email']['event_id'];
                     email.status = Email::Email_Status_New;
                     if(!email.save())
                         flash[:error] = "";
@@ -220,7 +220,7 @@ class EmailController < ApplicationController
     end
 
     def unfile
-        email = Email.find(@params['id']);
+        email = Email.find(params['id']);
         if(!email)
             flash[:error] = "No valid email specified.";
         else
@@ -233,7 +233,7 @@ class EmailController < ApplicationController
     end
 
     def mark_status
-        emails = Email.find(@params['id'].split("."));
+        emails = Email.find(params['id'].split("."));
         if(!emails)
             flash[:error] = "Invalid ID.";
             return;
@@ -242,7 +242,7 @@ class EmailController < ApplicationController
         flash[:error] = "";
 
         emails.each do |rec|
-            rec.status = @params['status'];
+            rec.status = params['status'];
             if(!rec.save())
                 rec.errors.each_full() do |err|
                     flash[:error] += err + "<br />";
@@ -256,7 +256,7 @@ class EmailController < ApplicationController
     def reply_to
         @title = "Send Reply"
 
-        @email = Email.find(@params['id']);
+        @email = Email.find(params['id']);
         if(!@email)
             flash[:error] = "Invalid ID.";
             return;
@@ -295,8 +295,8 @@ class EmailController < ApplicationController
         @title = "Email sent";
 
         srcmsg = nil;
-        if(@params['id'])
-            srcmsg = Email.find(@params['id']);
+        if(params['id'])
+            srcmsg = Email.find(params['id']);
             if(!srcmsg)
                 flash[:error] = "Invalid ID.";
                 return;
@@ -306,18 +306,18 @@ class EmailController < ApplicationController
         # build the outgoing message
         msg = RMail::Message.new();
         hdr = msg.header;
-        hdr.from = @params['outgoingfrom'];
-        hdr.to = @params['outgoingto'].split(",");
-        hdr.cc = @params['outgoingcc'].split(",");
-        #hdr.reply_to = @params['outgoingreplyto'];
-        hdr.subject = @params['outgoingsubject'];
+        hdr.from = params['outgoingfrom'];
+        hdr.to = params['outgoingto'].split(",");
+        hdr.cc = params['outgoingcc'].split(",");
+        #hdr.reply_to = params['outgoingreplyto'];
+        hdr.subject = params['outgoingsubject'];
         hdr.date = Time.now();
 
-        if (@params['outgoinginreplyto'])
-            hdr.add('In-Reply-To', @params['outgoinginreplyto']);
+        if (params['outgoinginreplyto'])
+            hdr.add('In-Reply-To', params['outgoinginreplyto']);
         end
 
-        msg.body = @params['outgoingcontents'];
+        msg.body = params['outgoingcontents'];
 
         toaddrs = hdr.to.addresses() | hdr.cc.addresses();
 
@@ -341,7 +341,7 @@ class EmailController < ApplicationController
     def new_thread
         @title = "New Email"
 
-        @event = Event.find(@params['id']);
+        @event = Event.find(params['id']);
         if(!@event)
             flash[:error] = "Invalid ID.";
             return;
@@ -374,6 +374,6 @@ class EmailController < ApplicationController
     def view
         @title = "Viewing Message"
 
-        @email = Email.find(@params["id"]);
+        @email = Email.find(params["id"]);
     end
 end

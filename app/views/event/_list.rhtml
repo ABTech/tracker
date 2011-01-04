@@ -12,10 +12,10 @@
 				forward_link = nil
 				backward_link = nil
 				if @event_pages and @event_pages.current.previous != nil
-					backward_link = link_to("&lt;&lt; Prev", @params.clone.merge({:page => @event_pages.current.previous.number}))
+					backward_link = link_to("&lt;&lt; Prev", params.clone.merge({:page => @event_pages.current.previous.number}))
 				end
 				if @event_pages and @event_pages.current.next != nil
-					forward_link = link_to("Next &gt;&gt;", @params.clone.merge({:page => @event_pages.current.next.number}))
+					forward_link = link_to("Next &gt;&gt;", params.clone.merge({:page => @event_pages.current.next.number}))
 				end
 			%>
 			<td><%= (backward_link != nil) ? backward_link : "" %></td>

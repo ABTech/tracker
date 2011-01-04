@@ -299,7 +299,7 @@ class EventController < ApplicationController
   def calendar_full
     # this exists only to check permissions on the action, so don't merge into calendar
     calendar();
-    render_action("calendar");
+    render :action => 'calendar'
   end
 
   def iphone
@@ -413,7 +413,7 @@ class EventController < ApplicationController
       rescue
         flash[:error] = "Start date format not valid.";
         list();
-        render_action("list");
+        render :action => 'list'
         return;
       end
 
@@ -422,7 +422,7 @@ class EventController < ApplicationController
       rescue
         flash[:error] = "End date format not valid.";
         list();
-        render_action("list");
+        render :action => 'list'
         return;
       end
 
@@ -443,7 +443,7 @@ class EventController < ApplicationController
       if(!range)
         flash[:error] = "Invalid period prefix #{period.slice(0..0)}.";
         list();
-        render_action("list");
+        render :action => 'list'
         return;
       end
 
@@ -485,7 +485,7 @@ class EventController < ApplicationController
       if(!@startdate)
         flash[:error] = "No period matching today's date.";
         list();
-        render_action("list");
+        render :action => 'list'
         return;
       end
     end

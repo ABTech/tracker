@@ -12,7 +12,7 @@ class InvoiceController < ApplicationController
 
         @invoice = Invoice.find(params['id'], :include => [:event, :journal_invoice, :invoice_lines]);
 
-        render_action("record");
+        render :action => 'record'
     end
 
     def prettyView
@@ -31,7 +31,7 @@ class InvoiceController < ApplicationController
             @invoice.event_id = params["event_id"];
         end
 
-        render_action("record");
+        render :action => 'record'
     end
 
     def edit
@@ -41,14 +41,14 @@ class InvoiceController < ApplicationController
         if(!@invoice)
             if(!params["id"])
                 flash[:error] = "You must specify an ID.";
-                render_action('list');
+                render :action => 'list'
                 return;
             end
             
             @invoice = Invoice.find(params["id"]);
             if(!@invoice)
                 flash[:error] = "Invoice #{params['id']} not found."
-                render_action('list');
+                render :action => 'list'
                 return;
             end
         end
@@ -58,7 +58,7 @@ class InvoiceController < ApplicationController
             @invoice.invoice_lines << ln;
         end
 
-        render_action("record");
+        render :action => 'record'
     end
 
     def create

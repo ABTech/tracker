@@ -29,7 +29,7 @@ class AccountController < ApplicationController
         
         if(!params["id"])
             flash[:error] = "You must specify an ID.";
-            render_action('list');
+            render :action => 'list';
             return;
         end
         

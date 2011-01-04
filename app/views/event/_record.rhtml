@@ -24,7 +24,7 @@ function switch_page(pgname)
 {
     if(!dirty || confirm('Your changes will not be saved. Continue?'))
     {
-        document.location = '<%= url_for({:id => @event.id}, {:escape => false}) %>?page='+pgname;
+        document.location = '<%= url_for(:id => @event.id, :escape => false) %>?page='+pgname;
     }
 }
 </script>

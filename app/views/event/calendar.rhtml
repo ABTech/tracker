@@ -4,7 +4,7 @@
 	<% num_rows.times do |i| %>
 		<tr>
 			<% num_cols.times do |j| %>
-				<td><%= @eventdates_month[i*num_cols+j] == nil ? "nil!" : "" %><%= render_partial 'monthview', 'selected' => @selected_month[i*num_cols+j], 'dates' => @eventdates_month[i*num_cols+j], 'show_arrows' => false %></td>
+				<td><%= @eventdates_month[i*num_cols+j] == nil ? "nil!" : "" %><%= render :partial => 'monthview', :locals => {'selected' => @selected_month[i*num_cols+j], 'dates' => @eventdates_month[i*num_cols+j], 'show_arrows' => false} %></td>
         		<% end %>
         	</tr>
         <% end %>
@@ -47,7 +47,6 @@
 
 <% if(!@public) %>
     <br/>
-    <% if 0 == 3 %><%= render_partial 'weekview', nil, 'eventdates' => @eventdates_week %><% end %>
 
     <br/>
     <strong>About generated schedules:</strong><br>

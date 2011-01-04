@@ -40,8 +40,8 @@ td.paid { font-weight: bold; }
 			<%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %><br />
 		</div>
 	</td><td>
-		<%= render_partial("list", :is_credit => true) %>
+		<%= render :partial => "list", :locals => {:is_credit => true} %>
 	</td><td>
-		<%= render_partial("list", :is_credit => false) %>
+		<%= render :partial => "list", :locals => {:is_credit => false} %>
 	</td></tr>
 </table>

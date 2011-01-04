@@ -39,7 +39,7 @@
 		</td></tr>
 	</table>
 </fieldset>
-<%= form_tag :controller => "journal", :action => "new" %>
+<% form_tag :controller => "journal", :action => "new" do %>
 	<input type="submit" value="Add <%= is_credit ? "Credit" : "Debit" %>" style="width: 100%"/>
 	<input type="hidden" name="is_credit" value="<%= is_credit ? "true" : "false" %>"/>
-<%= end_form_tag %>
+<% end %>

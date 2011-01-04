@@ -1,8 +1,6 @@
 class InvoiceController < ApplicationController
     before_filter :login_required;
 
-    scaffold :invoice
-
     New_Invoice_New_Line_Display_Count = 5;
     Old_Invoice_New_Line_Display_Count = 5;
 

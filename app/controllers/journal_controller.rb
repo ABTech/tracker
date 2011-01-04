@@ -2,8 +2,6 @@ class JournalController < ApplicationController
 
   before_filter :login_required;
 
-  scaffold :journal;
-  
   def list
     @title = "List of Journals"
     @journals = Journal.find(:all)

@@ -216,12 +216,29 @@ class EventController < ApplicationController
     end
 
     if limit != nil
-      return paginate(Eventdate,
+      count = Eventdate.count(:all,
+                             :include => [:event],
+                             :joins => joins,
+                             :conditions => [condquery] + condargs,
+                             :order => order)
+      page = params[:page].to_i
+      page = 1 if page < 1 or (page-1)*limit + 1 > count
+      pages = { :count => count,
+                :page => page,
+                :first => (page-1)*limit + 1,
+                :last => (page*limit > count) ? count : page*limit,
+                :page_count => (count/limit.to_f).ceil }
+      pages[:next] = page + 1 if page*limit < count
+      pages[:prev] = page - 1 if page > 1
+      eventdates = Eventdate.find(:all,
         :include => [:event],
         :joins => joins,
         :conditions => [condquery] + condargs,
         :order => order,
-        :per_page => limit);
+        :limit => limit,
+        :offset => (page-1)*limit)
+        
+      return pages, eventdates
     else
       eventdates = Eventdate.find(:all,
         :include => [:event],

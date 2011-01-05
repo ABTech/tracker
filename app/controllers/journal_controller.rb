@@ -66,7 +66,7 @@ class JournalController < ApplicationController
 	flash[:error] = errors
 	flash[:notice] = successfully_saved.to_s + " Journal(s) Saved";
 	
-    redirect_to(:controller => "account", :action => "list");
+    redirect_to(:controller => "accounts", :action => "list");
   end
 
 end

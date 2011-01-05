@@ -1,6 +1,7 @@
 <h1>List of Journal Entries</h1>
 <ul>
-<li><%= link_to("Create a new JE", :action => "new") %>
+<li><%= link_to("Create a new credit JE", :action => "new", :is_credit => 1) %>
+<li><%= link_to("Create a new debit JE", :action => "new", :is_credit => 0) %>
 </ul>
 
 <table>

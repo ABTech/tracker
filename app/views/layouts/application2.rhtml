@@ -34,7 +34,7 @@
 		<% if iphone_user_agent? %>
 		  <%= conditional_link_to("iPhone View", "event", "iphone") %>
 		<% end %>
-		<% admin = current_member.authorized? ["organizations/index", "members/list", "equipment/tree", "role/list", "permission/list", "bugs/index"] %>
+		<% admin = current_member.authorized? ["organizations/index", "members/list", "equipment/tree", "role/list", "permissions/index", "bugs/index"] %>
       <%  if admin %> 
         <%= link_to_function("Tracker Admin", nil, :id => "more_link") do |page|
         page.visual_effect(:toggle_blind, "submenu", :duration => 0.1) 
@@ -48,7 +48,7 @@
               <%= conditional_link_to "Locations", "location", "list" %>
               <%= conditional_link_to("Equipment", "equipment", "tree" ) %>
               <%= conditional_link_to("Roles", "role", "list" ) %>
-              <%= conditional_link_to("Permissions", "permission", "list" ) %>
+              <%= conditional_link_to("Permissions", "permissions", "index" ) %>
               <%= conditional_link_to("Attachments", "attachments", "index" ) %>
               <%= conditional_link_to("Bugs (#{Bug.count_open})", "bugs", "index" )  %>
           </div>

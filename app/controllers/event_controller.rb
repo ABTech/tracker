@@ -349,7 +349,6 @@ class EventController < ApplicationController
     def calendar
         ### also handles full_calendar and public calendar
         @title = "Calendar";
-        @selected = DateTime.now();
 
         if(!current_member || !current_member.authorized?("/#{controller_name()}/#{action_name()}"))
             @public = true;
@@ -359,7 +358,9 @@ class EventController < ApplicationController
 
         if(params["selected"])
           @selected = DateTime.parse(params["selected"]);
-        end
+				else
+					@selected = DateTime.new(Time.now.year,Time.now.month, Time.now.day)
+				end
 
         filterStr = "(events.publish OR events.blackout)";
         if(action_name() == "calendar_full")
@@ -371,7 +372,7 @@ class EventController < ApplicationController
         12.times do |i|
             month = @selected >> (i-3);
             @selected_month[i] = @selected >> (i-3);
-            monthStart = month - (month.day-1);
+						monthStart = month - (month.day-1)
             monthEnd   = monthStart >> 1;
             _, @eventdates_month[i] = filtered_events({:startdate => monthStart, :enddate => monthEnd, :custom_condition => filterStr});
             if @eventdates_month[i] == nil

@@ -360,7 +360,6 @@ class EventController < ApplicationController
   def calendar
     ### also handles full_calendar and public calendar
     @title = "Calendar";
-    @selected = DateTime.now();
 
     if(!current_member || !current_member.authorized?("/#{controller_name()}/#{action_name()}"))
       @public = true;
@@ -370,7 +369,9 @@ class EventController < ApplicationController
 
     if(params["selected"])
       @selected = DateTime.parse(params["selected"]);
-    end
+    else
+			@selected = DateTime.new(Time.now.year, Time.now.month)
+		end
 
     filterStr = "(events.publish OR events.blackout)";
     if(action_name() == "calendar_full")

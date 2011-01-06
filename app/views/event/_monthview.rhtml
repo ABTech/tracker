@@ -37,6 +37,9 @@
 
 		<table>
 			<% day = startDisplay %>
+			<% while dates != nil and dates.size > 0 and dates[0].startdate.mon != firstOfMonth.mon
+				dates.shift
+			end %>
 			<% until day > endOfMonth %>
 				<tr>
 					<% 7.times do %>

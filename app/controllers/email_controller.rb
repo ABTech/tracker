@@ -25,8 +25,6 @@ class EmailController < ApplicationController
     end
 
     def pull_email
-        flash[:notice] = "";
-        flash[:error]  = "";
 
         # first, connect to the IMAP server
         imap = Net::IMAP.new(EmailHelper::IMAP_Server, EmailHelper::IMAP_Port, true); # last is to use SSL
@@ -84,7 +82,6 @@ class EmailController < ApplicationController
             # if we've got a multipart message (a message with attachment)
             structure = fetchd.attr["BODYSTRUCTURE"];
             if(structure.multipart?)
-                flash[:notice] << "(multipart message)\n";
                 message.contents << imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n";
             else
                 message.contents << fetchd.attr["RFC822"] << "\n";
@@ -92,9 +89,7 @@ class EmailController < ApplicationController
 
             # save our local message
             if(!message.valid?)
-                flash[:error] << "Unable to save local message from #{envelope.from[0].name} with subject #{envelope.subject}.\n";
                 message.errors.each_full do |err|
-                    flash[:error] << "--< #{err}\n";
                 end
             else
                 automatch = EmailController.find_eventids(message.subject);
@@ -104,17 +99,14 @@ class EmailController < ApplicationController
                 if(!automatch.empty? && (automatch.length == 1))
                     message.status = Email::Email_Status_New;
                     message.event_id = automatch[0];
-                    flash[:notice] << "Autofiled ";
 
                     # if we sent the message, mark it as read
                     if(EmailHelper::SMTP_From == message.sender())
                         message.status = Email::Email_Status_Read;
-                        flash[:notice] << "sent message ";
                     end
                 end
 
                 message.save!();
-                flash[:notice] << "Retreived message from #{envelope.from[0].name} with subject #{envelope.subject}.<br/>";
 
                 saved_set << fetchd.seqno;
             end

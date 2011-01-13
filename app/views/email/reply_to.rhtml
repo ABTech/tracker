@@ -16,9 +16,9 @@
 </script>
 
 <% if(@email) %>
-    <%= start_form_tag({:action => "send_email", :controller => "email", :id => @email.id}, :name => "emailform") %>
+    <% form_tag({:action => "send_email", :controller => "email", :id => @email.id}, :name => "emailform") do %>
 <% else %>
-    <%= start_form_tag({:action => "send_email", :controller => "email"}, :name => "emailform") %>
+    <% form_tag({:action => "send_email", :controller => "email"}, :name => "emailform") do %>
 <% end %>
 <%= hidden_field_tag("outgoinginreplyto", @outgoing_inreplyto) %>
 
@@ -74,4 +74,4 @@
 		<td class="list"><%= submit_tag("send") %></td>
 	</tr>
 </table>
-<%= end_form_tag() %>
+<% end %>

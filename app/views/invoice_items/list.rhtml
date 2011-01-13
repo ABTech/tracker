@@ -28,9 +28,6 @@
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @invoice_items_pages.current.previous } if @invoice_items_pages.current.previous %>
-<%= link_to 'Next page', { :page => @invoice_items_pages.current.next } if @invoice_items_pages.current.next %> 
-
 <br />
 
 <%= link_to 'New invoice_items', :action => 'new' %>

@@ -9,7 +9,7 @@ function boxUpdate()
 }
 </script>
 
-<%= form_tag({:action => "delete", :id => @event.id}, {:name => "delete_conf"}) %>
+<% form_tag({:action => "delete", :id => @event.id}, {:name => "delete_conf"}) do %>
 You have requested deletion of the event <strong><%= @event.title %></strong>.<br/><br/>
 
 This is not an easy task. This should not be done very often. As such, please read the following:
@@ -23,4 +23,4 @@ This is not an easy task. This should not be done very often. As such, please re
 Before you can confirm deletion, check the four boxes above to confirm you really understand. In case you couldn't tell, I am not a huge fan of the deletion ability. After you do that, cross your fingers and press the magic button.<br/>
 
 <%= submit_tag("yeah, whatever. just shut up and do it", {:disabled => true, :name => "bigredbutton"}) %>
-<%= end_form_tag %>
+<% end %>

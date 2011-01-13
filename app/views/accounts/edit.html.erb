@@ -1,0 +1,27 @@
+<h1>Editing account</h1>
+
+<%= error_messages_for :account %>
+
+<% form_for(@account) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Is credit</b><br />
+    <%= f.check_box :is_credit %>
+  </p>
+
+  <p>
+    <b>Position</b><br />
+    <%= f.text_field :position %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @account %> |
+<%= link_to 'Back', accounts_path %>

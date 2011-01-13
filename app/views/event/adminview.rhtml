@@ -5,6 +5,6 @@
             (displaying <%= events.size() %> of <%= link_to("#{count} records", {:action => "list", :filter => filt.id}) %>, 
             <% if (filt.displaylimit != 0) %>limit <%= filt.displaylimit %><% else %>no limit<% end%>)
     </strong>
-    <%= render_partial("minilist", :eventdates => events) %>
+    <%= render :partial => "minilist", :locals => {:eventdates => events} %>
     </div>
 <% end %>

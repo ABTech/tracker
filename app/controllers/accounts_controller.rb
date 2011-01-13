@@ -1,7 +1,47 @@
-class AccountController < ApplicationController
+class AccountsController < ApplicationController
   before_filter :login_required;
 
-  scaffold :account;
+  def index
+    @accounts = Account.find(:all)
+  end
+
+  def show
+    @account = Account.find(params[:id])
+  end
+
+  def new
+    @account = Account.new
+  end
+
+  def edit
+    @account = Account.find(params[:id])
+  end
+
+  def create
+    @account = Account.new(params[:account])
+    if @account.save
+      flash[:notice] = 'Account was successfully created'
+      redirect_to(:action => 'show')
+    else
+      render :action => 'new'
+    end
+  end
+
+  def update
+    @account = Account.find(params[:id])
+    if @account.update_attributes(params[:account])
+      flash[:notice] = 'Account was successfully updated'
+      redirect_to(:action => 'show')
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    @account = Account.find(params[:id])
+    @account.destroy
+    redirect_to :action => 'index'
+  end
 
     def list
         @title = "Chart of Accounts"
@@ -27,13 +67,13 @@ class AccountController < ApplicationController
     def view
         @title = "View Account"
         
-        if(!@params["id"])
+        if(!params["id"])
             flash[:error] = "You must specify an ID.";
-            render_action('list');
+            render :action => 'list';
             return;
         end
         
-        @account = Account.find(@params["id"], :include => [:journals_credit, :journals_debit]);
+        @account = Account.find(params["id"], :include => [:journals_credit, :journals_debit]);
         @journals = (@account.journals_credit | @account.journals_debit).sort_by{|p| p.date};
         @balance = @account.balance;
     end
@@ -58,7 +98,7 @@ class AccountController < ApplicationController
 
     def confirm_paid
         flash[:error] = "";
-        date = @params["date"];
+        date = params["date"];
 
         date.keys.each do |key|
             if(date[key].empty?)

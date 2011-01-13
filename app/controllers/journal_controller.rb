@@ -2,8 +2,6 @@ class JournalController < ApplicationController
 
   before_filter :login_required;
 
-  scaffold :journal;
-  
   def list
     @title = "List of Journals"
     @journals = Journal.find(:all)
@@ -13,9 +11,9 @@ class JournalController < ApplicationController
     @title = "Viewing JE"
     @mode = Mode_View;
 
-    @journal = Journal.find(@params['id']);
+    @journal = Journal.find(params['id']);
     
-    render_action("edit");
+    render :action => "edit";
   end
 
   def new
@@ -31,9 +29,9 @@ class JournalController < ApplicationController
     @title = "Editing JE"
     @mode = Mode_Edit;
     
-    @journal = Journal.find(@params['id']);
+    @journal = Journal.find(params['id']);
 
-    render_action("edit");
+    render :action => 'edit'
   end
 
   def save
@@ -68,7 +66,7 @@ class JournalController < ApplicationController
 	flash[:error] = errors
 	flash[:notice] = successfully_saved.to_s + " Journal(s) Saved";
 	
-    redirect_to(:controller => "account", :action => "list");
+    redirect_to(:controller => "accounts", :action => "list");
   end
 
 end

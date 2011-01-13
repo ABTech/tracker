@@ -36,7 +36,7 @@
 			else
 				selected = Date.today
 			end
-			render_partial("monthview", {:selected => selected, :dates => @monthdates, :show_arrows => true})
+			render :partial => "monthview", :locals => {:selected => selected, :dates => @monthdates, :show_arrows => true}
 			%><br/>
 			<form>
 				<input type="hidden" name="selected" value="search"/>
@@ -53,7 +53,7 @@
 	</div>
 
 		</td><td style="width: 100%">
-			<%= render_partial("list", :eventdates => @eventdates) %>
+			<%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
 		</td>
 	</tr>
 </table>

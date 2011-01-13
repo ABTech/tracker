@@ -8,14 +8,14 @@
 
         <table width="100%" height="100%">
             <tr><td align="center" valign="middle">
-                <%= start_form_tag(:action => "login") %>
+                <% form_tag(:action => "login") do %>
                     <table>
                         <tr>
                             <td>&nbsp;</td>
                             <td>
                                 <strong>ABTT</strong>: please sign in
-                                <% if(@flash[:error]) %>
-                                    <div class="error"><%= @flash[:error] %></div>
+                                <% if(flash[:error]) %>
+                                    <div class="error"><%= flash[:error] %></div>
                                 <% end %>
                             </td>
                         </tr>
@@ -47,7 +47,7 @@
 			<tr><td colspan=2><small>you might get redirected to <%= session[:return_to] %>, but nobody knows for sure...</small></td></tr>
 			<% end %>
                     </table>
-                <%= end_form_tag() %>
+                <% end %>
             </td></tr>
         </table>
     </body>

@@ -19,7 +19,7 @@
 <tr>
   <th>Permissions</th>
   <td>
-    <span style="display: none;" id="permissions"><%= @member.permission_strings.join("<br />") %></span>
+    <span style="display: none;" id="permissions"><%= @member.permission_strings.sort.uniq.join("<br />") %></span>
     <a href="#" onclick="Effect.Fade($('permissions_label'), {duration: 0.2});Effect.Appear($('permissions'));" id="permissions_label">Click to display</a>
   </td>
 </tr>

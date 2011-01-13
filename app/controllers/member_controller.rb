@@ -93,6 +93,6 @@ class MemberController < ApplicationController
   #TODO: settings action doesn't do anything but it's public ... ?
   def settings
     oldsettings = current_member().settings;
-    current_member.settings = oldsettings.merge(@params.reject{|k, v| k.to_s().index("set") != 0});
+    current_member.settings = oldsettings.merge(params.reject{|k, v| k.to_s().index("set") != 0});
   end
 end

@@ -1,8 +1,6 @@
 class InvoiceController < ApplicationController
     before_filter :login_required;
 
-    scaffold :invoice
-
     New_Invoice_New_Line_Display_Count = 5;
     Old_Invoice_New_Line_Display_Count = 5;
 
@@ -10,13 +8,13 @@ class InvoiceController < ApplicationController
         @mode = Mode_View;
         @title = "Viewing Invoice";
 
-        @invoice = Invoice.find(@params['id'], :include => [:event, :journal_invoice, :invoice_lines]);
+        @invoice = Invoice.find(params['id'], :include => [:event, :journal_invoice, :invoice_lines]);
 
-        render_action("record");
+        render :action => 'record'
     end
 
     def prettyView
-	@invoice = Invoice.find(@params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
+	@invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
 	@title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.event.id}"
 
 	render :layout=>false
@@ -27,11 +25,11 @@ class InvoiceController < ApplicationController
         @mode = Mode_New;
 
         @invoice = InvoiceHelper.generate_new_invoice();
-        if(@params["event_id"])
-            @invoice.event_id = @params["event_id"];
+        if(params["event_id"])
+            @invoice.event_id = params["event_id"];
         end
 
-        render_action("record");
+        render :action => 'record'
     end
 
     def edit
@@ -39,16 +37,16 @@ class InvoiceController < ApplicationController
         @mode = Mode_Edit;
 
         if(!@invoice)
-            if(!@params["id"])
+            if(!params["id"])
                 flash[:error] = "You must specify an ID.";
-                render_action('list');
+                render :action => 'list'
                 return;
             end
             
-            @invoice = Invoice.find(@params["id"]);
+            @invoice = Invoice.find(params["id"]);
             if(!@invoice)
-                flash[:error] = "Invoice #{@params['id']} not found."
-                render_action('list');
+                flash[:error] = "Invoice #{params['id']} not found."
+                render :action => 'list'
                 return;
             end
         end
@@ -58,19 +56,19 @@ class InvoiceController < ApplicationController
             @invoice.invoice_lines << ln;
         end
 
-        render_action("record");
+        render :action => 'record'
     end
 
     def create
         # --------------------
         # create new invoice/find old invoice
-        if(@params["invoice"]["id"] && (@params["invoice"]["id"] != ""))
-            @invoice = Invoice.update(@params["invoice"]["id"], @params['invoice']);
+        if(params["invoice"]["id"] && (params["invoice"]["id"] != ""))
+            @invoice = Invoice.update(params["invoice"]["id"], params['invoice']);
         else
-            @invoice = Invoice.create(@params['invoice']);
+            @invoice = Invoice.create(params['invoice']);
         end
 
-        nots, errs = InvoiceHelper.update_invoice(@invoice, @params);
+        nots, errs = InvoiceHelper.update_invoice(@invoice, params);
         flash[:notice] = nots;
         flash[:error] = errs;
 
@@ -96,7 +94,7 @@ class InvoiceController < ApplicationController
     def email
         @title = "Create Invoice E-mail";
 
-        @invoice = Invoice.find(@params['id'], :include => [:event]);
+        @invoice = Invoice.find(params['id'], :include => [:event]);
 
         @outgoingemail = Email.new();
         @outgoingemail.timestamp = DateTime.now();

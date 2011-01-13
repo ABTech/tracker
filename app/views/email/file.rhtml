@@ -108,7 +108,7 @@ td input {
 </div>
 </td><td style="vertical-align: top">
 <div style="padding-top: 11px;">
-    <%= form_tag({:action => "file", :id => @email.id}, :name => "fileform") %>
+    <% form_tag({:action => "file", :id => @email.id}, :name => "fileform") do %>
     <%= hidden_field_tag("skip", @skip) %>
     
     <div class="buttons">
@@ -199,7 +199,7 @@ td input {
         <div style="margin-top: 3px; font-size: 9pt; color: #aaa; font-family: arial,san-serif;"><i>Hint: use in-browser find to search for events and dates.</i></div>
     </div>
     
-    <%= end_form_tag() %>
+    <% end %>
 </div>
 </td></tr>
 </table>

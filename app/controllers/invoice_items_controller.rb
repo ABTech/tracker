@@ -8,7 +8,7 @@ class InvoiceItemsController < ApplicationController
 				 :redirect_to => { :action => :list }
 
 	def list
-		@invoice_items_pages, @invoice_items = paginate :invoice_items, :per_page => 100
+    @invoice_items = InvoiceItems.find(:all)
 		render :action=>'list', :layout=>"application2"
 	end
 

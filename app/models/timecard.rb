@@ -3,9 +3,31 @@ class Timecard < ActiveRecord::Base
 	# due_date:datetime
 	# submitted:boolean
 	has_many :timecard_entries
-	validates_presence_of :billing_date, :due_date
+	validates_presence_of :billing_date, :due_date, :start_date, :end_date
 	validates_uniqueness_of :billing_date
 	before_destroy :clear_entries
+
+	after_save do |timecard|
+		TimecardEntry.find(:all, :conditions => ["timecard_id is null"]).each do |entry|
+			entry.timecard = timecard
+			entry.save
+		end
+	end
+
+
+	def self.valid_eventdates
+		timecards = self.valid_timecards
+		return Eventdate.find(:all) if timecards.size == 0
+		start_date, end_date = timecards.inject([nil,nil]) do |pair, timecard|
+			[
+				((pair[0].nil? or timecard.start_date < pair[0]) ? timecard.start_date : pair[0]), 
+				((pair[1].nil? or timecard.end_date > pair[1]) ? timecard.end_date : pair[1])
+			]
+		end
+
+		Eventdate.find(:all, :conditions => ["startdate >= ? and startdate <= ?", start_date, end_date], :order => 'startdate DESC')
+	end
+
 
 	def entries(member=nil)
 		timecard_entries.select {|entry| member.nil? or entry.member == member } unless timecard_entries.nil?
@@ -22,11 +44,11 @@ class Timecard < ActiveRecord::Base
 	end
 
 	def self.latest_dates
-		Timecard.find_by_sql('select billing_date,due_date from timecards order by billing_date DESC limit 1')[0]
+		Timecard.find(:first, :order => 'billing_date DESC')
 	end
 
 	def self.valid_timecards
-		Timecard.find(:all).select {|timecard| !timecard.submitted }
+		Timecard.find(:all, :order => 'due_date DESC').select {|timecard| !timecard.submitted }
 	end
 
 	def lines(member=nil)
@@ -80,6 +102,10 @@ class Timecard < ActiveRecord::Base
 			entry.timecard = nil
 			entry.save
 		end
+	end
+
+	def valid_eventdates
+		Eventdate.find(:all, :conditions => ["startdate >= ? and startdate <= ?", start_date, end_date])	
 	end
 
 end

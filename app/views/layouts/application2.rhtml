@@ -51,6 +51,7 @@
               <%= conditional_link_to("Roles", "role", "list" ) %>
               <%= conditional_link_to("Permissions", "permission", "list" ) %>
               <%= conditional_link_to("Attachments", "attachments", "index" ) %>
+							<%= conditional_link_to('Timecards', 'timecards', 'index') %>
               <%= conditional_link_to("Bugs (#{Bug.count_open})", "bugs", "index" )  %>
           </div>
         <% end %>

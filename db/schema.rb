@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 86) do
+ActiveRecord::Schema.define(:version => 87) do
 
   create_table "accounts", :force => true do |t|
     t.column "name",      :string,  :null => false
@@ -279,6 +279,8 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "billing_date", :datetime
     t.column "due_date",     :datetime
     t.column "submitted",    :boolean
+    t.column "start_date",   :datetime
+    t.column "end_date",     :datetime
   end
 
   create_table "years", :force => true do |t|

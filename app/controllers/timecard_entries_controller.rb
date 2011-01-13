@@ -4,12 +4,31 @@ class TimecardEntriesController < ApplicationController
 
 	def index
 		@timecard_entries = TimecardEntry.find(:all, :conditions => { :member_id => current_member.id })
+		@timecards = {}
+		@timecard_entries.each do |timecard_entry|
+			if @timecards[timecard_entry.timecard]
+				@timecards[timecard_entry.timecard] << timecard_entry
+			else
+				@timecards[timecard_entry.timecard] = [timecard_entry]
+			end
+		end
+		# @timecards is a hash from a timecard object to the timecard_entries
+		# for this user. One of the keys in the hash might be nil.
+		@timecard_list = @timecards.keys.sort do |a,b|
+			if a.nil?
+				-1
+			elsif b.nil?
+				1
+			else
+				b.due_date <=> a.due_date
+			end
+		end
 	end
 
 	def new
 		@timecard_entry = TimecardEntry.new
 		@timecard_entry.eventdate_id = params[:eventdate_id]
-		@eventdates = TimecardEntry.valid_eventdates
+		@eventdates = Timecard.valid_eventdates
 		@timecards = Timecard.valid_timecards
 	end
 
@@ -22,7 +41,7 @@ class TimecardEntriesController < ApplicationController
 			redirect_to :action => :index
 		else
 			flash[:notice] = "Error saving entry"
-			@eventdates = TimecardEntry.valid_eventdates
+			@eventdates = Timecard.valid_eventdates
 			@timecards = Timecard.valid_timecards
 			render :action => :new
 		end
@@ -34,7 +53,7 @@ class TimecardEntriesController < ApplicationController
 			flash[:notice] = 'You cannot edit someone else\'s timecard!'
 			redirect_to :action => :index and return
 		end
-		@eventdates = TimecardEntry.valid_eventdates
+		@eventdates = Timecard.valid_eventdates
 		@timecards = Timecard.valid_timecards
 	end
 
@@ -46,9 +65,9 @@ class TimecardEntriesController < ApplicationController
 		end
 		if (@timecard_entry.timecard.nil? or !@timecard_entry.timecard.submitted) and @timecard_entry.update_attributes(params[:timecard_entry])
 			flash[:notice] = 'Timecard entry successfully updated.'
-			redirect_to :action => :index
+			redirect_to :action => :index and return
 		else
-			@eventdates = TimecardEntry.valid_eventdates
+			@eventdates = Timecard.valid_eventdates
 			@timecards = Timecard.valid_timecards
 			render :action => :edit
 		end

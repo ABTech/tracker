@@ -1,8 +1,46 @@
+<% @title = 'Timecard entry list' %>
 <h1>Listing timecard entries</h1>
-
-<p>Create a <%= link_to 'new timecard entry', new_timecard_entry_path %>.
+<table class="eventsmain">
+<tr>
+<td style="padding: 0 20px 0 0;">
+<p style="width: 175px;">Create a <%= link_to 'new timecard entry', new_timecard_entry_path %>.
 Once a timecard has been submitted, it can no longer be edited.</p>
+<% unless @timecard_list.reject {|i| i.nil? or !i.submitted}.size == 0 %>
+<h3 style="width: 175px;">Past timecards</h3>
+<% end %>
+<ul>
+<% @timecard_list.reject {|i| i.nil? or !i.submitted}.each do |timecard| %>
+<li><a href="#" onclick="new Effect.toggle('<%=timecard.id -%>.div','blind')"><%= timecard.billing_date.strftime("%b %d") %></a></li>
+<% end %>
+</ul>
+</td>
+<td style="width: 100%">
 
-<p><%= link_to 'View', timecards_path %> timecards.</p>
-
-<%= render :partial => 'timecard_entries', :object => @timecard_entries, :locals => {:links => { :timecard => true, :edit => true, :destroy => true }} %>
+<% @timecard_list.each do |timecard| %>
+<% if timecard.nil? %>
+<h2>Pending timecard entries</h2>
+<table class="generic" border="1">
+<tr><th>Event</th><th>Start Date/Time</th><th>Hours</th><th></th></tr>
+<% @timecards[timecard].each do |timecard_entry| %>
+<tr>
+<%= render :partial => 'timecard_entry', :object => timecard_entry %>
+<td><%= link_to 'Edit', edit_timecard_entry_path(timecard_entry) %>
+<%= link_to 'Destroy', timecard_path(timecard_entry), :method => 'delete', :confirm => 'Are you sure?' %>
+</td></tr>
+<% end %>
+</table>
+<% else %>
+<div id="<%=timecard.id -%>.div">
+<h2><%= link_to 'Timecard', timecard_path(timecard) %> due <%= timecard.due_date.strftime("%m/%d") %></h2>
+<%= render :partial => 'timecards/timecard', :object => timecard, :locals => {:member => current_member } %>
+</div>
+<% if timecard.submitted %>
+<script type="text/javascript">
+	document.getElementById('<%=timecard.id -%>.div').style.display = 'none'
+</script>
+<% end %>
+<% end %>
+<% end %>
+</td>
+</tr>
+</table>

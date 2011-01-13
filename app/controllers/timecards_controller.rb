@@ -13,7 +13,7 @@ class TimecardsController < ApplicationController
 		if params[:format] == 'txt'
 			headers['Content-Type'] = 'text/plain'
 			headers['Content-Disposition'] = 'inline'
-			render :layout => false, :partial => 'timecard', :locals => { :timecard => @timecard, :member => @member}
+			render :layout => false, :partial => 'formatted_timecard', :locals => { :timecard => @timecard, :member => @member}
 		elsif params[:format] == 'pdf'
 			headers['Content-Type'] = 'application/pdf'
 			headers['Content-Disposition'] = "inline; filename=\"timecard-#{@member.fullname.gsub(/\s/, '-')}.pdf\""
@@ -30,10 +30,14 @@ class TimecardsController < ApplicationController
 		end
 	end
 
+	DAY = 24*60*60
+	WEEK = 7*DAY
 	def new
 		@timecard = Timecard.new
-		@timecard.billing_date = Timecard.latest_dates.billing_date + 14*24*60*60
-		@timecard.due_date = Timecard.latest_dates.due_date + 14*24*60*60
+		@timecard.billing_date = Timecard.latest_dates.billing_date + 2*WEEK
+		@timecard.due_date = Timecard.latest_dates.due_date + 2*WEEK
+		@timecard.start_date = Timecard.latest_dates.start_date + 2*WEEK
+		@timecard.end_date = Timecard.latest_dates.end_date + 2*WEEK
 	end
 
 	def create

@@ -11,7 +11,7 @@
 <tr>
 	<td align="right" class="list"><strong>Timecard:</strong></td>
 	<td class="list"><% if @timecards.size > 1 -%>
-		<%= select :timecard_entry, :timecard_id, @timecards.inject([['(none)', '']]){|ary,t| ary << [t.billing_date.strftime("%Y/%m/%d"), t.id]} -%>
+		<%= select :timecard_entry, :timecard_id, @timecards.map{|t| [t.billing_date.strftime("%Y/%m/%d"), t.id]} -%>
 		<%- else -%>
 		<%= @timecards[0].billing_date.strftime("%Y/%m/%d") -%>
 		<%= hidden_field :timecard_entry, :timecard_id, :value => @timecards[0].id -%>

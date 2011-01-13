@@ -1,4 +1,4 @@
-<% unless no_details %>
+<% if details %>
 <p>This timecard is for the period ending on 
 <%= timecard.billing_date.strftime("%b %d, %Y") %> and 
 <% if timecard.submitted %>was<% else %>is<% end %> due on
@@ -7,11 +7,11 @@ This timecard is only for events between <%= timecard.start_date.strftime("%b %d
 <% end %>
 <table class="generic" border="1">
 <tr>
-<th>Event</th><th>Start Date/Time</th><th>Hours</th><% unless no_details or timecard.submitted %><th></th><% end %></tr>
+<th>Event</th><th>Start Date/Time</th><th>Hours</th><% unless !details or timecard.submitted %><th></th><% end %></tr>
 <% timecard.entries(member).each do |t| %>
 <tr>
 <%= render :partial => 'timecard_entries/timecard_entry', :object => t %>
-<% unless no_details or timecard.submitted %>
+<% unless !details or timecard.submitted %>
 <td>
 <%= link_to 'Edit', edit_timecard_entry_path(t) %>
 <%= link_to 'Destroy', timecard_entry_path(t), :method => 'delete', :confirm => 'Are you sure?' %>
@@ -20,7 +20,7 @@ This timecard is only for events between <%= timecard.start_date.strftime("%b %d
 </tr>
 <% end %>
 </table>
-<% unless no_details %>
+<% if details %>
 <%= link_to 'Print timecard', timecard_path(:id => timecard, :format => 'pdf') %>
 <%= link_to 'View timecard', timecard_path(:id => timecard, :format => 'txt') %>
 <% end %>

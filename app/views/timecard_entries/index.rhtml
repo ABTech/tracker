@@ -32,7 +32,7 @@ Once a timecard has been submitted, it can no longer be edited.</p>
 <% else %>
 <div id="<%=timecard.id -%>.div">
 <h2><%= link_to 'Timecard', timecard_path(timecard) %> due <%= timecard.due_date.strftime("%m/%d") %></h2>
-<%= render :partial => 'timecards/timecard', :object => timecard, :locals => {:member => current_member } %>
+<%= render :partial => 'timecards/timecard', :object => timecard, :locals => {:member => current_member, :details => true } %>
 </div>
 <% if timecard.submitted %>
 <script type="text/javascript">

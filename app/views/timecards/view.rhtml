@@ -4,5 +4,5 @@
 <p>Download a pdf of <%= link_to 'all timecards', view_timecard_path(:id => @timecard, :format => 'pdf') %> from this period.</p>
 <% @timecard.members.each do |member| %>
 <h2>Timecard for <%= member.fullname %></h2>
-<%= render :partial => 'timecard', :object => @timecard, :locals => {:member => member, :no_details => true} %>
+<%= render :partial => 'timecard', :object => @timecard, :locals => {:member => member, :details => false} %>
 <% end %>

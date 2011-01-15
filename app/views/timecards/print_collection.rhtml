@@ -2,13 +2,13 @@
 # the gem requirement should be taken care of in a better way...
 require 'prawn'
 pdf = Prawn::Document.new(:page_size => 'LETTER')
-pdf.font 'Courier-new.ttf', :size => 10
+pdf.font 'CourierStd.ttf', :size => 10
 @timecard.members.each do |member|
 	height = 720
 	string = (render :partial => 'formatted_timecard', :locals => {:timecard => @timecard, :member => member})
 	string.split("\n").each do |line|
-		pdf.draw_text line, :at => [30,height]
-		height -= 10.9
+		pdf.draw_text line, :at => [36,height]
+		height -= 11
 	end
 	pdf.start_new_page unless member == @timecard.members[-1]
 end

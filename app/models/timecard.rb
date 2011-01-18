@@ -102,8 +102,8 @@ class Timecard < ActiveRecord::Base
 			# calculate how much time is currently billed on this day
 			existing_duration = lines[idx][1] - lines[idx][0]
 			return false if duration + existing_duration > 24
-			# check if the entry we're adding before (2nd case) or after (1st
-			# case) the entry already on this day
+			# check if the entry we're adding starts before (2nd case) or after
+			# (1st case) the entry already on this day
 			if start_hours >= lines[idx][0]
 				if lines[idx][1] + duration > 24
 					lines[idx] = [24 - (duration + existing_duration), 24]
@@ -114,7 +114,7 @@ class Timecard < ActiveRecord::Base
 				if start_hours + existing_duration + duration > 24
 					lines[idx] = [24 - (duration + existing_duration), 24]
 				else
-					lines[idx] = [start_hours, duration + existing_duration]
+					lines[idx] = [start_hours, start_hours + duration + existing_duration]
 				end
 			end
 		end

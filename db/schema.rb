@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 88) do
+ActiveRecord::Schema.define(:version => 89) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name",      :null => false
@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(:version => 88) do
     t.string  "category",   :null => false
     t.float   "price"
     t.integer "quantity",   :null => false
+    t.text    "notes"
   end
 
   add_index "invoice_lines", ["invoice_id"], :name => "invoice_lines_invoice_id_index"

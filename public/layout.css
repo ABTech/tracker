@@ -152,6 +152,7 @@
 	border-bottom-color: #000000;
 	border-left-color: #000000;
 	padding-bottom: 5px;
+	vertical-align:top;
 }
 .list_nopad {
 	border-top-width: thin;

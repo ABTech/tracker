@@ -18,7 +18,7 @@ class Invoice < ActiveRecord::Base
     belongs_to :event;
 	
 	Payment_Types = ["StuAct", "Check", "Oracle"];
-    Invoice_Status_Group_All = ["New", "Quote", "Invoice", "Received" ];
+    Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received" ];
 
     def total
         return invoice_lines.inject(0) {|sum,line| sum + line.total};

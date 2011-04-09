@@ -35,6 +35,7 @@ class TimecardEntriesController < ApplicationController
 	def create
 		@timecard_entry = TimecardEntry.new(params[:timecard_entry])
 		@timecard_entry.member = current_member
+		@timecard_entry.payrate = current_member.payrate
 		puts @timecard_entry
 		if @timecard_entry.save
 			flash[:notice] = "Timecard entry saved"

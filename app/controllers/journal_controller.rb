@@ -13,7 +13,7 @@ class JournalController < ApplicationController
 
     @journal = Journal.find(params['id']);
     
-    render :action => "edit";
+    render:layout=>"application2";
   end
 
   def new
@@ -31,7 +31,7 @@ class JournalController < ApplicationController
     
     @journal = Journal.find(params['id']);
 
-    render :action => 'edit'
+    render :layout=>"application2";
   end
 
   def save

@@ -14,6 +14,7 @@
 
 class Eventdate < ActiveRecord::Base
     belongs_to :event;
+    has_many :timecard_entries
     has_and_belongs_to_many :locations;
     has_and_belongs_to_many :equipment;
 

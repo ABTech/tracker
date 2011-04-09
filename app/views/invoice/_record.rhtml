@@ -17,7 +17,13 @@ end
 
 <!-- invoice header: random data, summary -->
 <table width="100%" border="0">
-	<tr><td class="listheader" align="left" colspan="2"><strong>Invoice Summary:</strong></td></tr>
+	<tr><td class="listheader" align="left" colspan="2"><strong>Invoice Summary:</strong>
+	<% if (@is_view_mode) then  %>
+		<%= @invoice.memo %>
+	<% else %>
+		<%= text_field("invoice", "memo") %> 
+	<% end %>
+	</td></tr>
 
 	<tr class="listentry2">
 		<td align="right" class="list"><strong>Event:</strong></td>
@@ -268,7 +274,7 @@ end
 
 			<!-- line total -->
 			<td align="left" class="list">
-				$<%=h line.total() %>.00
+				$<%=h line.total() %>
 			</td>
 		</tr>
 

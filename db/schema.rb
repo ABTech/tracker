@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 89) do
+ActiveRecord::Schema.define(:version => 92) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name",      :null => false
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.boolean  "recognized",    :null => false
     t.string   "payment_type",  :null => false
     t.string   "oracle_string", :null => false
+    t.text     "memo"
   end
 
   add_index "invoices", ["event_id"], :name => "invoices_event_id_index"
@@ -184,14 +185,15 @@ ActiveRecord::Schema.define(:version => 89) do
     t.datetime "created_at"
     t.datetime "date",                                                      :null => false
     t.string   "memo",                                                      :null => false
-    t.integer  "link_id"
+    t.integer  "invoice_id"
     t.decimal  "amount",     :precision => 9, :scale => 2, :default => 0.0, :null => false
     t.datetime "date_paid"
     t.text     "notes"
     t.integer  "account_id",                               :default => 1,   :null => false
+    t.integer  "event_id"
   end
 
-  add_index "journals", ["link_id"], :name => "journals_link_id_index"
+  add_index "journals", ["invoice_id"], :name => "journals_link_id_index"
 
   create_table "locations", :force => true do |t|
     t.string "building", :null => false
@@ -225,6 +227,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.string   "callsign"
     t.string   "shirt_size",                :limit => 20
     t.integer  "ssn"
+    t.float    "payrate"
   end
 
   add_index "members", ["namefirst"], :name => "members_namefirst_index"
@@ -282,6 +285,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.float   "hours"
     t.integer "eventdate_id"
     t.integer "timecard_id"
+    t.float   "payrate"
   end
 
   create_table "timecards", :force => true do |t|

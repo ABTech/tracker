@@ -1,7 +1,73 @@
 <div>
-    <% @event.invoices.each do |inv| %>
-        <%= link_to("view invoice", {:action => "view", :controller => "invoice", :id => inv.id}) %>
-    <% end %>
+	<% @event.invoices.each do |inv| %>
+			<%= link_to("View Invoice - " + inv.memo.to_s(),
+				{:action => "view", :controller => "invoice", :id => inv.id}) %>
+	<% end %>
 
-    <%= link_to("add invoice", {:action => "new", :controller => "invoice", :event_id => @event.id}) %>
+	<%= link_to("Add Invoice", {:action => "new", :controller => "invoice", :event_id => @event.id}) %>
 </div>
+
+<h3>Journal Entries for <%= @event.title %></h3>
+<table>
+<tr>
+<th class="listheader" >Memo</th>
+<th class="listheader" >Credit</th>
+<th class="listheader" >Debit</th>
+</tr>
+<%
+tmp = false 
+credit_total = 0.0
+debit_total = 0.0
+%>
+<% for journal in @event.journals do %>
+	<tr class=<%= tmp ? "listentry1" : "listentry2" %>>
+	<td class="list" ><%= journal.memo %></td>
+	<% if journal.account.is_credit? then %>
+		<td class="list" >$<%= journal.amount %></td><td class="list" ></td>
+		<% credit_total += journal.amount %>
+	<% else %>
+		<td class="list" ></td><td class="list">$<%= journal.amount %></td>
+		<% debit_total += journal.amount %>
+	<% end %>
+	</tr>
+	<% tmp = !tmp %>
+<% end %>
+<tr class=<%= tmp ? "listentry1" : "listentry2" %>>
+<td class="list"><strong>Totals:</strong></td>
+<td class="list" >$<%= credit_total %></td>
+<td class="list">$<%= debit_total %></td>
+<td class="list"><strong>$<%= credit_total - debit_total %></strong></td>
+</tr>
+</table>
+
+<h3 style="margin-bottom:5px;" >Payroll for <%= @event.title %></h3>
+<i>Highball payroll cost for Payroll:
+<div style="display:inline;" id="payrollCost"></div></i>
+<table>
+<% totalCost = 0.00 %>
+<% for eventdate in @event.eventdates do %>
+	<tr>
+	<th class="listheader"><%= eventdate.description %></th>
+	<th class="listheader">Hrs</th>
+	<th class="listheader">Cst</th>
+	</tr>
+	<% for time_entry in eventdate.timecard_entries do %>
+		<% cost = time_entry.payrate.to_f() * time_entry.hours 
+			totalCost += cost%>
+		<tr>
+		<td>
+			<%= time_entry.member.namefirst %> 
+			<%= time_entry.member.namelast %>
+		</td>
+		<td><%= time_entry.hours %></td>
+		<td>$<%= cost %></td>
+		</tr>
+	<% end %>
+	</tr>
+<% end %>
+<script>
+window.onload = function(){
+	var cost = document.getElementById("payrollCost")
+	cost.innerHTML = "$<%= totalCost %>"
+}
+</script>

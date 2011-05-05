@@ -40,6 +40,9 @@ debit_total = 0.0
 </tr>
 </table>
 
+
+<% if current_member().authorized?("eventPayroll") then %>
+
 <h3 style="margin-bottom:5px;" >Payroll for <%= @event.title %></h3>
 <i>Highball payroll cost for Payroll:
 <div style="display:inline;" id="payrollCost"></div></i>
@@ -71,3 +74,5 @@ window.onload = function(){
 	cost.innerHTML = "$<%= totalCost %>"
 }
 </script>
+
+<% end %>

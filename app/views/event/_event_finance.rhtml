@@ -41,7 +41,7 @@ debit_total = 0.0
 </table>
 
 
-<% if current_member().authorized?("eventPayroll") then %>
+<% if current_member().authorized?("payrollForEvent") then %>
 
 <h3 style="margin-bottom:5px;" >Payroll for <%= @event.title %></h3>
 <i>Highball payroll cost for Payroll:

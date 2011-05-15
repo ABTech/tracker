@@ -76,7 +76,7 @@ class MemberController < ApplicationController
         flash[:notice] = 'Member was successfully updated.'
         redirect_to(:action => 'show', :id => @member)
       else
-        flash[:notice] = 'Thank you for keeping your information up to date!.'
+        flash[:notice] = 'Thank you for keeping your information up to date!'
         redirect_to :controller => 'event', :action => 'list'
       end
     else

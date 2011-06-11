@@ -68,6 +68,7 @@ class MemberController < ApplicationController
   def update
     if(!current_member().authorized?("/member/edit"))
       @member = current_member();
+      params[:member].delete('role_ids')
     else
       @member = Member.find(params[:id])
     end

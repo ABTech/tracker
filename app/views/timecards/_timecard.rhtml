@@ -19,6 +19,13 @@ This timecard is only for events between <%= timecard.start_date.strftime("%b %d
 <% end %>
 </tr>
 <% end %>
+<tfoot>
+<tr>
+  <td><strong>Total</strong></td>
+  <td></td>
+  <td><%= timecard.entries(member).collect{|e| e.hours}.inject(0) {|sum, n| sum+n} %></td>
+</tr>
+</tfoot>
 </table>
 <% if details %>
 <%= link_to 'Print timecard', timecard_path(:id => timecard, :format => 'pdf') %>

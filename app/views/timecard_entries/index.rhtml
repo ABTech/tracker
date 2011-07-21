@@ -25,7 +25,7 @@ Once a timecard has been submitted, it can no longer be edited.</p>
 <tr>
 <%= render :partial => 'timecard_entry', :object => timecard_entry %>
 <td><%= link_to 'Edit', edit_timecard_entry_path(timecard_entry) %>
-<%= link_to 'Destroy', timecard_path(timecard_entry), :method => 'delete', :confirm => 'Are you sure?' %>
+<%= link_to 'Delete', timecard_entry_path(timecard_entry), :method => 'delete', :confirm => 'Are you sure?' %>
 </td></tr>
 <% end %>
 </table>

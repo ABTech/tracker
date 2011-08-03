@@ -292,10 +292,6 @@ class EventController < ApplicationController
     render(:layout => "application2")
   end
 
-  def adminview
-    @title = "Administrative View";
-  end
-
   def calendar_full
     # this exists only to check permissions on the action, so don't merge into calendar
     calendar();

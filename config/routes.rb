@@ -27,10 +27,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bugs
   map.resources :timecard_entries, :except => ['show']
 	map.resources :timecards, :member => {:view => :get }
+  map.resources :events
 
   map.resources :attachments, :only => ["index", "destroy"]
 
-  map.connect '',   :controller => "event", :action => "list" 
+  map.connect '',   :controller => "events", :action => "index" 
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'

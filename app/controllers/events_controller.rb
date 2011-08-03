@@ -1,4 +1,4 @@
-class EventController < ApplicationController
+class EventsController < ApplicationController
   require 'rmail.rb'
   before_filter :login_required, :except => [:generate, :calendar];
 
@@ -28,7 +28,7 @@ class EventController < ApplicationController
 
   helper :member
 
-  def view
+  def show
     @mode = Mode_View;
     @title = "Viewing Event";
 
@@ -249,7 +249,7 @@ class EventController < ApplicationController
     end
   end
 
-  def list
+  def index
     @title = "Event List";
 
     # default view mode

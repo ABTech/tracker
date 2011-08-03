@@ -26,7 +26,7 @@
 
 <% if logged_in?() %>
 	<div id="menu">
-		<%= conditional_link_to("Events", "event", "list") %>
+		<%= conditional_link_to("Events", "events", "index") %>
 		<%= conditional_link_to("Email", "email", "list") %>
 		<%= conditional_link_to("Calendar", "event", "calendar") %>
 		<%= conditional_link_to("Finance", "accounts", "list") %>

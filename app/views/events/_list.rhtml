@@ -102,7 +102,7 @@
 					<small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= eventdate.event.blackout ? ", blackout" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>" : "" %>)</small>
 				</td>
 				<td>
-					<%= link_to(("#{event.title} - #{eventdate.description}"), {:action => "view", :id => event.id}) %><br />
+					<%= link_to(("#{event.title} - #{eventdate.description}"),event_path(event)) %><br />
 					<small class="organization"><%= event.organization.name %></small>
 				</td>
 				<td style="white-space: normal;">

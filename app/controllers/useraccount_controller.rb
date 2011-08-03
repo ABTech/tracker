@@ -14,9 +14,9 @@ class UseraccountController < ApplicationController
             end
 
 	    if(params["iphone"])
-	      redirect_to(:controller => "event", :action => "iphone")
+	      redirect_to(:controller => "events", :action => "iphone")
 	    else
-	      redirect_back_or_default(:controller => '/event', :action => 'list')
+	      redirect_back_or_default(:controller => 'events', :action => 'index')
 	    end
 
         else
@@ -34,7 +34,7 @@ class UseraccountController < ApplicationController
         reset_session();
 
         flash[:notice] = "You have been logged out.";
-        redirect_back_or_default(:controller => '/event', :action => 'list')
+        redirect_back_or_default(:controller => 'events', :action => 'index')
     end
 
     def access_denied

@@ -145,12 +145,12 @@ function hideMainMenu()
 <div class="menu_container" id="main-menu" <% if(!showMenu) %>style="display: none;"<% end %>>
     <div class="menu_level_1">General View</div>
     <div>
-        <div class="menu_level_2"><%= conditional_link_to("Calendar", "event", "calendar") %></div>
+        <div class="menu_level_2"><%= conditional_link_to("Calendar", "events", "calendar") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Personal Information", "member", "edit_self") %></div>
     </div>
     <div class="menu_level_1">Administration</div>
     <div>
-        <div class="menu_level_2"><%= conditional_link_to("Events", "event", "list") %></div>
+        <div class="menu_level_2"><%= conditional_link_to("Events", "events", "index") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Email", "email", "list") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Finance", "accounts", "list") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Equipment", "equipment", "tree") %></div>

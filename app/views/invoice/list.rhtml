@@ -12,7 +12,7 @@
 		<tr class="<%= @tmp ? "hoverlistentry1" : "hoverlistentry2" %>">
 			<td class="list"><%= @invoice.created_at.strftime("%B %d %Y") %></td>
 			<td class="list">
-        <%= link_to(@invoice.event.title, {:action => "view", :controller => "event", :id => @invoice.event.id}) %>
+        <%= link_to(@invoice.event.title, event_path(@invoice.event)) %>
       </td>
 			<td class="list">$<%= @invoice.total %></td>
       <td>

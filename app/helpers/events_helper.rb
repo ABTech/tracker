@@ -1,7 +1,7 @@
-module EventHelper
+module EventsHelper
     def self.generate_new_event()
         event = Event.new();
-        EventController::New_Event_New_Date_Display_Count.times do
+        EventsController::New_Event_New_Date_Display_Count.times do
             dt = Eventdate.new();
             dt.calldate = Time.now();
             dt.startdate = Time.now();
@@ -10,7 +10,7 @@ module EventHelper
             event.eventdates << dt;
         end
 
-        EventController::New_Event_New_Role_Display_Count.times do
+        EventsController::New_Event_New_Role_Display_Count.times do
             rl = EventRole.new();
             event.event_roles << rl;
         end
@@ -111,12 +111,12 @@ module EventHelper
         case(params['organization_select'])
         # --------------------
         # pull existing organization
-        when EventController::New_Event_Existing_Organization
+        when EventsController::New_Event_Existing_Organization
           event.organization = Organization.find(params['organization_id']);
           
         # --------------------
         # create new organization
-        when EventController::New_Event_New_Organization
+        when EventsController::New_Event_New_Organization
           neworg = Organization.new(params['organization']);
           event.organization = neworg;
         end

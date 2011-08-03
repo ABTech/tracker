@@ -29,7 +29,7 @@ class BugsController < ApplicationController
     @bug.submitted_on = Time.now
     if @bug.save!
       flash[:notice] = "Thank you for your submission. That was bug number #{@bug.id}."
-      redirect_to :controller => "event", :action => "list"
+      redirect_to :controller => 'events', :action => 'index'
     else
       flash[:error] = "An error occured with your bug submission."
       render :action => "new"

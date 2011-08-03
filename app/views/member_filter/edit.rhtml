@@ -6,7 +6,7 @@ Name: <%= text_field("filter", "name") %><br>
 Display Limit (0 = none): <%= text_field("filter", "displaylimit") %><br>
 Selected Filters:<br/>
 <ul>
-<% EventController::Display_Filters.each do |filt| %>
+<% EventsController::Display_Filters.each do |filt| %>
     <li> <%= check_box_tag("filter[filters][]", filt, @filter.filters.index(filt)) %> <%= h filt %>
 <% end %>
 </ul>

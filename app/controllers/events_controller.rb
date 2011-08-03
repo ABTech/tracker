@@ -36,7 +36,7 @@ class EventsController < ApplicationController
 
     if(!@event)
       flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not, something is very wrong."
-      redirect_to(:action => "list");
+      redirect_to(:action => "index");
       return;
     end
 
@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   def new
   @title = "Create New Event";
   @mode = Mode_New;
-  @event = EventHelper.generate_new_event();
+  @event = EventsHelper.generate_new_event();
   end
 
   def edit
@@ -56,14 +56,14 @@ class EventsController < ApplicationController
     if(!@event)
       if(!params["id"])
         flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "list");
+        redirect_to(:action=> "index");
         return;
       end
 
       @event = Event.find_by_id(params["id"]);
       if(!@event)
         flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not the tracker is f--k'd."
-        redirect_to(:action => "list");
+        redirect_to(:action => "index");
         return;
       end
     end
@@ -97,7 +97,7 @@ class EventsController < ApplicationController
       save_event.year_id = Year.active_year.id;
     end
 
-    nots, errs = EventHelper.update_event(save_event, params)
+    nots, errs = EventsHelper.update_event(save_event, params)
     flash[:notice] = nots;
     flash[:error] = errs;
 
@@ -132,14 +132,14 @@ class EventsController < ApplicationController
     if(!@event)
       if(!params["id"])
         flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "list");
+        redirect_to(:action=> "index");
         return;
       end
 
       @event = Event.find(params["id"]);
       if(!@event)
         flash[:error] = "Event #{params['id']} not found."
-        redirect_to(:action => "list");
+        redirect_to(:action => "index");
         return;
       end
     end
@@ -147,7 +147,7 @@ class EventsController < ApplicationController
     flash[:notice] = "Deleted event " + @event.title + ".";
     @event.destroy();
 
-    redirect_to(:action => "list");
+    redirect_to(:action => "index");
   end
 
   def delete_conf
@@ -156,14 +156,14 @@ class EventsController < ApplicationController
     if(!@event)
       if(!params["id"])
         flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "list");
+        redirect_to(:action=> "index");
         return;
       end
 
       @event = Event.find(params["id"]);
       if(!@event)
         flash[:error] = "Event #{params['id']} not found."
-        redirect_to(:action => "list");
+        redirect_to(:action => "index");
         return;
       end
     end
@@ -409,8 +409,8 @@ class EventsController < ApplicationController
         @startdate = Date.parse(params['startdate']);
       rescue
         flash[:error] = "Start date format not valid.";
-        list();
-        render :action => 'list'
+        index();
+        render :action => 'index'
         return;
       end
 
@@ -418,8 +418,8 @@ class EventsController < ApplicationController
         @enddate = Date.parse(params['enddate']);
       rescue
         flash[:error] = "End date format not valid.";
-        list();
-        render :action => 'list'
+        index();
+        render :action => 'index'
         return;
       end
 
@@ -439,8 +439,8 @@ class EventsController < ApplicationController
       range = Generate_Periods[period.slice(0..0)];
       if(!range)
         flash[:error] = "Invalid period prefix #{period.slice(0..0)}.";
-        list();
-        render :action => 'list'
+        index();
+        render :action => 'index'
         return;
       end
 
@@ -481,8 +481,8 @@ class EventsController < ApplicationController
 
       if(!@startdate)
         flash[:error] = "No period matching today's date.";
-        list();
-        render :action => 'list'
+        index();
+        render :action => 'index'
         return;
       end
     end
@@ -518,7 +518,7 @@ class EventsController < ApplicationController
       render(:action => "generateics", :layout => false, :content_type => "text/calendar");
     else
       flash[:error] = "Please select a valid format.";
-      redirect_to(:action => "list");
+      redirect_to(:action => "index");
       return;
     end
   end

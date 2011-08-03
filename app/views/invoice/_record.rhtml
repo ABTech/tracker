@@ -29,7 +29,7 @@ end
 		<td align="right" class="list"><strong>Event:</strong></td>
 		<td class="list" width="100%" align="left">
 			<% if(@is_view_mode) %>
-				<%= link_to(@invoice.event.title, {:action => "view", :controller => "event", :id => @invoice.event.id}) %>
+				<%= link_to(@invoice.event.title, event_path(@invoice.event)) %>
 			<% else %>
 				<%= select("invoice", "event_id", Event.find(:all, :order => "updated_on ASC").collect{|e| [e.title, e.id]}) %>
 			<% end %>

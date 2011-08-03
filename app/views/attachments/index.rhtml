@@ -18,7 +18,7 @@
     <td><%= link_to a.attachment.original_filename, a.attachment.url %></td>
     <td><%= a.attachment.content_type %></td>
     <td><%= a.attachment.size %></td>
-    <td><%= link_to a.event, :controller => :event, :action => :view, :id => a.event_id %></td>
+    <td><%= link_to a.event, event_path(a.event) %></td>
     <td><%= link_to "Destroy", attachment_path(a), :method => "delete",  :confirm => "Are you sure? This is irreversible." %></td>
   </tr>
   <% end %>

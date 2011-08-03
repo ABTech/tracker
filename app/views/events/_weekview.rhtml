@@ -17,7 +17,7 @@
 				<a href="<%= url_for :selected => currentDay.strftime("%Y%m%d") %>"><%= currentDay.strftime("%A, %B %d") %>:</a><br />
 				<% todaydates.each do |evtdate| %>
 					&rarr; <%= evtdate.startdate.strftime("%I:%M %p") %> - <%= evtdate.enddate.strftime("%I:%M %p") %>:
-                        <%= link_to evtdate.event.title, { :action => "view", :id => evtdate.event.id } %> - <%= evtdate.description %>
+                        <%= link_to evtdate.event.title, event_path(evtdate.event) %> - <%= evtdate.description %>
 					<br />
 				<% end %>
 			</p>

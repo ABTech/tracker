@@ -139,7 +139,7 @@ class EmailController < ApplicationController
                 when File_Action_New_Event
                     event = Event.new(params['event']);
                     event.year_id = Year.active_year.id;
-                    EventHelper.update_event(event, params);
+                    EventsHelper.update_event(event, params);
                     if(!event.save())
                         flash[:error] = "";
                         event.errors.each_full() do |err|
@@ -198,7 +198,7 @@ class EmailController < ApplicationController
         # default action:
         @fileaction = File_Action_Existing_Event;
 
-        @event = EventHelper.generate_new_event();
+        @event = EventsHelper.generate_new_event();
         @event.title = @email.subject;
         @event.contactemail = @email.sender;
         if (@email.contents =~ /from:.*\((.*)\)/)

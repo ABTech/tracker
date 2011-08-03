@@ -78,7 +78,7 @@ class MemberController < ApplicationController
         redirect_to(:action => 'show', :id => @member)
       else
         flash[:notice] = 'Thank you for keeping your information up to date!'
-        redirect_to :controller => 'event', :action => 'list'
+        redirect_to :controller => 'events', :action => 'index'
       end
     else
       render(:action => 'edit')

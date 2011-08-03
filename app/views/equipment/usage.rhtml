@@ -60,7 +60,7 @@
                     %>
                     <% if(eventdates.size != 0) %>
                         <div name="status" id="status" style="background-color: #<%= eventdates.size > 1 ? "FF0033" : "00CC33" %>; height: 16px; width: 16px">
-                            <a href="<%= url_for :controller => "event", :action => "view", :id => eventdates[0].event.id %>">
+                            <a href="<%= event_url(eventdates[0].event.id) %>">
                                 <%= eventdates.size %>
                                 <span><% eventdates.each do |evtdt| %>
                                         <%= evtdt.event.title %> - <%= evtdt.description %><br/>

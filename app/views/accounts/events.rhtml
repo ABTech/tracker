@@ -15,7 +15,7 @@
             <td class="list"><%= event.id %></td>
             <td class="list"><%= (event.eventdates.size > 0) ? event.eventdates[0].startdate.strftime('%D') : 'unknown' %></td>
 	    <td class="list"><%= event.organization.name %></td>
-            <td class="list"><%= link_to(event.title, {:controller => "event", :action => "view", :id => event.id}) %></td>
+            <td class="list"><%= link_to(event.title, event_path(event)) %></td>
             <td class="list">
 <%= !inv ?
     link_to("create", {:action => "new", :controller => "invoice", :event_id => event.id}) :

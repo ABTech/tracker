@@ -9,7 +9,7 @@
     end
 %>
 
-<% form_tag({:controller => "event", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) do %>
+<% form_tag({:controller => "events", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) do %>
 <% @event_form_name = "eventform"; %>
 
 <script type="text/javascript">
@@ -59,7 +59,7 @@ function switch_page(pgname)
     <% else %>
         <td align="left"><input type="submit" value="<%= ApplicationController::Mode_Edit %>"/></td>
 	<td><input type="reset" value="Reset" onclick="confirm('Are you sure you want to reset all data to is previous state? This CANNOT be undone.')" />
-	<td><%= link_to "back to read-only view", { :action => "view", :page => @event_page, :id => @event.id } %></td>
+	<td><%= link_to "back to read-only view", { :action => "show", :page => @event_page, :id => @event.id } %></td>
     <% end %>
 </tr>
 </table>

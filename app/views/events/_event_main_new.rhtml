@@ -76,7 +76,7 @@ function editMain() {
 	    <!-- existing organization -->
 	    <tr>
 		<td align="right">
-		    <input type="radio" name="organization_select" value="<%= EventController::New_Event_Existing_Organization %>" checked="checked" /></td>
+		    <input type="radio" name="organization_select" value="<%= EventsController::New_Event_Existing_Organization %>" checked="checked" /></td>
 		<td><select name="organization_id" onChange="document.forms['<%= @event_form_name %>'].elements['organization_select'][0].checked = true; modified();">
 		    <%= options_from_collection_for_select(Organization.find(:all, :order => "name ASC"), "id", "name", (@event.organization ? @event.organization.id : 0)) %>
 		</select></td>
@@ -84,7 +84,7 @@ function editMain() {
 	    <!-- new organization -->
 	    <tr>
 		<td align="right">
-		    <input type="radio" name="organization_select" value="<%= EventController::New_Event_New_Organization %>" /></td>
+		    <input type="radio" name="organization_select" value="<%= EventsController::New_Event_New_Organization %>" /></td>
 		<td><label for="new-organization">New:</label> <%= text_field("organization", "name", "id" => "new-organization", "size" => 30, :onChange => "document.forms['#{@event_form_name}'].elements['organization_select'][1].checked = true; modified();") %></td>
 	    </tr>
 	</table>

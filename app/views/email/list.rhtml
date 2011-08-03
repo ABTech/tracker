@@ -33,7 +33,7 @@
 			<td class="list"><div align="left"><%= link_to(email.subject, {:action => "view", :id => email.id}) %></div></td>
 			<td class="list"><div align="right">
                 <% if(email.event) %>
-                    <%= link_to "event", { :action => "edit", :controller => "event",  :id => email.event_id } %>
+                    <%= link_to "event", edit_event_path(email.event) %>
                 <% end %>
 			</div></td>
 		</tr>

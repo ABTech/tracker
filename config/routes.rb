@@ -16,12 +16,12 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
   # map.connect '', :controller => "welcome"
 
-  map.connect "calendar/generate.:format", :controller => "event", :action => "generate"
-  map.connect "calendar", :controller => "event", :action => "calendar";
+  map.connect "calendar/generate.:format", :controller => "events", :action => "generate"
+  map.connect "calendar", :controller => "events", :action => "calendar";
 
-  map.connect "mobile", :controller => "event", :action => "mobile";
-  map.connect "iphone", :controller => "event", :action => "iphone";
-  map.connect "i", :controller => "event", :action => "iphone";
+  map.connect "mobile", :controller => "events", :action => "mobile";
+  map.connect "iphone", :controller => "events", :action => "iphone";
+  map.connect "i", :controller => "events", :action => "iphone";
 
   map.resources :organizations
   map.resources :bugs

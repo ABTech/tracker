@@ -39,7 +39,7 @@
 							if params["selected"] == "month" && params["year"] == now_year.to_s && params["month"] == i.to_s
 								month_links << "<b>" + months[i-1] + (page_info ? page_info : "") + "</b>"
 							else
-								month_links << link_to(months[i-1], {:action => "list", :selected => "month", :year => now_year, :month => i})
+								month_links << link_to(months[i-1], {:action => "index", :selected => "month", :year => now_year, :month => i})
 							end
 						end
 						now_year += 1
@@ -47,8 +47,8 @@
 					month_links.join(" | ")
 				%>
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				<%= if (params["selected"] == "future") then "<b>Future" + (page_info ? page_info : "") + "</b>" else link_to("Future", {:action => "list", :selected => "future"}) end %> |
-				<%= if (params["selected"] == "past") then "<b>Past" + (page_info ? page_info : "") + "</b>" else link_to("Past", {:action => "list", :selected => "past"}) end %>
+				<%= if (params["selected"] == "future") then "<b>Future" + (page_info ? page_info : "") + "</b>" else link_to("Future", {:action => "index", :selected => "future"}) end %> |
+				<%= if (params["selected"] == "past") then "<b>Past" + (page_info ? page_info : "") + "</b>" else link_to("Past", {:action => "index", :selected => "past"}) end %>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 			<td align="right"><%= (forward_link != nil) ? forward_link : "" %></td>

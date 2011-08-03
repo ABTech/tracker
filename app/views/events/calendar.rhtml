@@ -14,7 +14,7 @@
             <table border="0" cellpadding="3" cellspacing="0">
                 <tr>
                     <% if(!@public) %>
-                        <% EventController::Generate_Formats.each do |fmt| %>
+                        <% EventsController::Generate_Formats.each do |fmt| %>
                             <td>
                                 <a href="/calendar/generate.<%= fmt %>?matchdate=<%= @selected.strftime("%Y%m%d") %>">as <%= fmt %></a>
                             </td>
@@ -51,7 +51,7 @@
     <br/>
     <strong>About generated schedules:</strong><br>
 
-    You can obtain generated schedules using the URL /calendar/generate.[format]. Available format options are: <i><%= EventController::Generate_Formats.join(", ") %></i>. <br>
+    You can obtain generated schedules using the URL /calendar/generate.[format]. Available format options are: <i><%= EventsController::Generate_Formats.join(", ") %></i>. <br>
 
     Generation parameters are as such:
     <ul>

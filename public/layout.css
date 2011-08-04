@@ -1,9 +1,5 @@
 /* CSS Document */
 
-.minilist_container {
-	padding-bottom: 10px;
-}
-
 .menu_container {
 	width: 175px;
 	position: absolute;
@@ -122,22 +118,6 @@
 .listheader a {
     color: #FFFFFF;
 }
-.minilist {
-	font-size: small;
-	border-top-width: thin;
-	border-right-width: thin;
-	border-bottom-width: thin;
-	border-left-width: thin;
-	border-top-style: none;
-	border-right-style: none;
-	border-left-style: none;
-	border-bottom-style: dashed;
-	border-top-color: #CCCCCC;
-	border-right-color: #CCCCCC;
-	border-bottom-color: #CCCCCC;
-	border-left-color: #CCCCCC;
-	padding-bottom: 1px;
-}
 .list {
 	border-top-width: thin;
 	border-right-width: thin;
@@ -174,13 +154,6 @@
 .listentry2 {
 	background-color: #FFFFE6;
 }
-.minilistentry {
-	background-color: #FFFFE6;
-}
-.minilistentry:hover {
-	background-color: #6666FF;
-}
-
 .hoverlistentry1 {
 	background-color: #FFFFFF;
 }

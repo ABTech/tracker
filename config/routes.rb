@@ -27,7 +27,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bugs
   map.resources :timecard_entries, :except => ['show']
 	map.resources :timecards, :member => {:view => :get }
-  map.resources :events
+  map.resources :events,
+                :member => [:delete_conf, :mobile_email],
+                :collection => [:calendar, :iphone, :mobile]
 
   map.resources :attachments, :only => ["index", "destroy"]
 

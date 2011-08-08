@@ -1,4 +1,4 @@
-class MemberController < ApplicationController
+class MembersController < ApplicationController
   before_filter :login_required
   layout "application2"
 
@@ -19,7 +19,7 @@ class MemberController < ApplicationController
 
 
   public 
-  def list
+  def index
     @title = "Member List"
     @order = Member.new.has_attribute?(params[:order]) ? params[:order] : Member::Default_sort_key
     if params[:desc] == "1"
@@ -45,7 +45,7 @@ class MemberController < ApplicationController
     @member = Member.new(params[:member])
     if @member.save
       flash[:notice] = 'Member was successfully created.'
-      redirect_to :action => 'list'
+      redirect_to members_path
     else
       render :action => 'new'
     end
@@ -88,7 +88,7 @@ class MemberController < ApplicationController
   def destroy
     Member.find(params[:id]).destroy
     flash[:notice] = 'Member was successfully destroyed.'
-    redirect_to(:action => 'list')
+    redirect_to members_path
   end
 
   #TODO: settings action doesn't do anything but it's public ... ?

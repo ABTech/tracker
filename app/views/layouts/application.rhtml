@@ -94,7 +94,7 @@ function showMainMenu()
 	document.getElementById("menu-hide-link").style.display = "";
 	document.getElementById("main-menu").style.display = "";
 	document.getElementById("contents").className = "contents";
-    doAsync('<%= url_for({:controller => "member", :action => "settings", :set_menu_visibility => "true", :escape => false}) %>');
+    doAsync('<%= url_for({:controller => "members", :action => "settings", :set_menu_visibility => "true", :escape => false}) %>');
 }
 
 function hideMainMenu() 
@@ -103,7 +103,7 @@ function hideMainMenu()
 	document.getElementById("menu-hide-link").style.display = "none";
 	document.getElementById("main-menu").style.display = "none";
 	document.getElementById("contents").className = "contents_nomenu";
-    doAsync('<%= url_for({:controller => "member", :action => "settings", :set_menu_visibility => "false", :escape => false}) %>');
+    doAsync('<%= url_for({:controller => "members", :action => "settings", :set_menu_visibility => "false", :escape => false}) %>');
 }
 
 </script>
@@ -130,7 +130,7 @@ function hideMainMenu()
                 <tr>
                     <td>
 						<% if logged_in?() %>
-                            <%= current_member().fullname %> (<%= current_member().kerbid() %>) <small><%= link_to("(logout)", :action => "logout", :controller => "useraccount") %> <%= link_to("(edit personal info)", :action => "edit_self", :controller => "member") %></small>
+                            <%= current_member().fullname %> (<%= current_member().kerbid() %>) <small><%= link_to("(logout)", :action => "logout", :controller => "useraccount") %> <%= link_to("(edit personal info)", :action => "edit_self", :controller => "members") %></small>
                         <% else %>
                             (not logged in)
                         <% end %> 
@@ -146,7 +146,7 @@ function hideMainMenu()
     <div class="menu_level_1">General View</div>
     <div>
         <div class="menu_level_2"><%= conditional_link_to("Calendar", "events", "calendar") %></div>
-        <div class="menu_level_2"><%= conditional_link_to("Personal Information", "member", "edit_self") %></div>
+        <div class="menu_level_2"><%= conditional_link_to("Personal Information", "members", "edit_self") %></div>
     </div>
     <div class="menu_level_1">Administration</div>
     <div>
@@ -154,13 +154,13 @@ function hideMainMenu()
         <div class="menu_level_2"><%= conditional_link_to("Email", "email", "list") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Finance", "accounts", "list") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Equipment", "equipment", "tree") %></div>
-        <div class="menu_level_2"><%= conditional_link_to("Members", "member", "list") %></div>
+        <div class="menu_level_2"><%= conditional_link_to("Members", "members", "index") %></div>
     </div>
     <div class="menu_level_1">Options</div>
     <div>
-        <div class="menu_level_2"><%= conditional_link_to("Locations", "location", "list") %></div>
+        <div class="menu_level_2"><%= conditional_link_to("Locations", "locations", "index") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Organizations", "organizations", "index") %></div>
-        <div class="menu_level_2"><%= conditional_link_to("Roles", "role", "list") %></div>
+        <div class="menu_level_2"><%= conditional_link_to("Roles", "roles", "index") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Permissions", "permissions", "index") %></div>
         <div class="menu_level_2"><%= conditional_link_to("Form Responses", "email_forms", "list") %></div>
     </div>

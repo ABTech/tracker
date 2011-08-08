@@ -1,4 +1,4 @@
-module MemberHelper
+module MembersHelper
   def pretty_phone(number)
     number_to_phone number, :delimiter => "."
   end

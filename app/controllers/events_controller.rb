@@ -26,7 +26,7 @@ class EventsController < ApplicationController
                     "u" => ['June 1 ',    'August 9 '   ]
                      };
 
-  helper :member
+  helper :members
 
   def show
     @mode = Mode_View;

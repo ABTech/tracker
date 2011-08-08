@@ -7,7 +7,7 @@
   
     <% tmp = false; %>
     <% for location in @locations %>
-      <tr class="<%= tmp ? "hoverlistentry1" : "hoverlistentry2" %>" onClick="document.location = '<%= url_for( :action => "edit", :id => location.id ) %>'">
+      <tr class="<%= tmp ? "hoverlistentry1" : "hoverlistentry2" %>" onClick="document.location = '<%= edit_location_url(location) %>'">
       <% for column in Location.content_columns %>
         <td class="list"><%=h location.send(column.name) %></td>
       <% end %>

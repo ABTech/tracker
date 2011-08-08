@@ -14,7 +14,7 @@
 <% end %>
 <tr>
   <th>Role</th>
-  <td><%= @member.roles.collect { |r| link_to(h(r.name), { :controller => 'role', :action => 'view', :id => r.id} ) }.join("<br />") %></td>
+  <td><%= @member.roles.collect { |r| link_to(h(r.name), r) }.join("<br />") %></td>
 </tr>
 <tr>
   <th>Permissions</th>
@@ -25,5 +25,5 @@
 </tr>
 </table>
 
-<% if @edit_others or @current_member == @member %> <%= link_to 'Edit', :action => 'edit', :id => @member %> | <% end %>
-<%= link_to 'Back', :action => 'list' %>
+<% if @edit_others or @current_member == @member %> <%= link_to 'Edit', edit_member_path(@member) %> | <% end %>
+<%= link_to 'Back', members_path %>

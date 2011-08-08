@@ -1,5 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :permissions
+  map.resources :roles
+  map.resources :locations
+  map.resources :members, :collection => [:edit_self]
   map.resources :accounts, :collection => {:list => :get, :unpaid => :get, :unpaid_print => :get, :events => :get}
 
   # The priority is based upon order of creation: first created -> highest priority.

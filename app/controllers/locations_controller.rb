@@ -1,7 +1,7 @@
-class LocationController < ApplicationController
+class LocationsController < ApplicationController
     before_filter :login_required;
 
-    def list
+    def index
         @title = "Locations"
 
         @locations = Location.find(:all, :order => "building ASC, floor ASC");
@@ -23,7 +23,7 @@ class LocationController < ApplicationController
         @location = Location.new(params[:location])
         if @location.save()
             flash[:notice] = 'Location was successfully created.'
-            redirect_to(:action => 'list')
+            redirect_to locations_url
         else
             render(:action => 'new')
         end
@@ -39,7 +39,7 @@ class LocationController < ApplicationController
         @location = Location.find(params[:id])
         if @location.update_attributes(params[:location])
             flash[:notice] = 'Location was successfully updated.'
-            redirect_to(:action => 'show', :id => @location)
+            redirect_to @location
         else
             render(:action => 'edit')
         end
@@ -47,6 +47,6 @@ class LocationController < ApplicationController
 
     def destroy
         Location.find(params[:id]).destroy()
-        redirect_to(:action => 'list')
+        redirect_to locations_url
     end
 end

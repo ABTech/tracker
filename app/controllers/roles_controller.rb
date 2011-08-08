@@ -1,12 +1,12 @@
-class RoleController < ApplicationController
+class RolesController < ApplicationController
     before_filter :login_required;
 
-    def list
+    def index
         @title = "Listing Roles"
         @roles = Role.find(:all)
     end
 
-    def view
+    def show
         @title = "Role View"
 
         @role = Role.find(params[:id])
@@ -22,7 +22,7 @@ class RoleController < ApplicationController
         @role = Role.new(params[:role])
         if @role.save
             flash[:notice] = 'Role was successfully created.'
-            redirect_to :action => 'list'
+            redirect_to roles_url
         else
             render :action => 'new'
         end
@@ -38,7 +38,7 @@ class RoleController < ApplicationController
         @role = Role.find(params[:id])
         if @role.update_attributes(params[:role])
             flash[:notice] = 'Role was successfully updated.'
-            redirect_to(:action => 'list', :id => @role)
+            redirect_to(@role)
         else
             render(:action => 'edit')
         end
@@ -46,6 +46,6 @@ class RoleController < ApplicationController
 
     def destroy
         Role.find(params[:id]).destroy
-        redirect_to(:action => 'list')
+        redirect_to roles_url
     end
 end

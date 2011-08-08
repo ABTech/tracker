@@ -12,8 +12,8 @@
 		<tr class="<%= @tmp ? "listentry1" : "listentry2" %>">
 			<td class="list"><div align="right">
 				<span class="listcontrollink">
-					<%= link_to "view", { :action => "view", :id => role.id } %><br />
-					<%= link_to "edit", { :action => "edit", :id => role.id } %><br />
+					<%= link_to "show", role %><br />
+					<%= link_to "edit", edit_role_path(role) %><br />
 				</span>
 			</div></td>
 
@@ -30,4 +30,4 @@
 	<% end %>
 </table>
 
-<%= button_to("new role", :action => "new") %>
+<%= button_to("new role", new_role_url) %>

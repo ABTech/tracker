@@ -15,7 +15,7 @@
 <div class="login">
 	<% if logged_in?() %>
 		<b><%= current_member().fullname %></b> (<%= current_member().kerbid() %>)<br/>
-		<%= link_to("Profile", :action => "edit_self", :controller => "member") %>&nbsp;&nbsp;<%= link_to("Logout", :action => "logout", :controller => "useraccount") %>
+		<%= link_to("Profile", :action => "edit_self", :controller => "members") %>&nbsp;&nbsp;<%= link_to("Logout", :action => "logout", :controller => "useraccount") %>
 	<% else %>
 		<br/>(not logged in)
 	<% end %>

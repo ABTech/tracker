@@ -5,3 +5,4 @@ config/database.yml
 *.swp
 *.swo
 *~
+.AppleDouble

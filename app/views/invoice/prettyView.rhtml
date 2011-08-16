@@ -108,9 +108,17 @@ ol ol{
 </table>
 </table>
 <% if @invoice.status == "Invoice" then %>
+  <% if @invoice.payment_type == "Check" %>
+    <p align=left style="text-indent:20px">
+      Please make all checks payable to Carnegie Mellon University,
+      with AB Tech listed in the memo field. Checks should be sent to
+      5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213.
+    </p>
+  <% else %>
 	<p align=left style="text-indent:20px">
 	If there are no issues with this invoice the above amount will automatically
 	be transfered from your Oracle account by Abigail Fasulo (afasulo@andrew.cmu.edu) within two weeks.</p>
+  <% end %>
 	<p align=left style="text-indent:20px">
 	AB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to
 	ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any

@@ -5,7 +5,7 @@
     <%# SHIT: EW this does not belong here. %>
     <% if @event and @event.organization and @event.organization.events %>
     <% @event.organization.events.find(:all, :conditions => ["id != ?", @event.id], :order => "updated_on DESC").each do |e| %>
-      <li><%= link_to e %></li>
+      <li><%= link_to e, e %></li>
     <% end %>
     <% end %>
   </ul>

@@ -32,7 +32,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :timecards, :member => {:view => :get }
   map.resources :events,
                 :member => [:delete_conf, :mobile_email],
-                :collection => [:calendar, :iphone, :mobile]
+                :collection => [:calendar, :iphone, :mobile, :lost]
 
   map.resources :attachments, :only => ["index", "destroy"]
 

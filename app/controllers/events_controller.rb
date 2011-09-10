@@ -523,6 +523,11 @@ class EventsController < ApplicationController
     end
   end
 
+  def lost
+    @events = Event.find(:all, :order => 'updated_on desc').select { |e| e.eventdates.empty? }
+    render :layout => "application2"
+  end
+
   private
   # special authentication method which does the standard
   # "are you authorized" check, but also checks to see if the user

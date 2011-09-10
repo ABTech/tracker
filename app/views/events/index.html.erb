@@ -44,6 +44,9 @@
 			</form><br/>
 			Create a <%= link_to("new event", new_event_path) %>.<br/>
 			There are <%= link_to(Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]).to_s + " incomplete events", {:controller => 'events', :action => 'index', :selected => "incomplete"}) %>!
+                        <br />
+                        <br />
+                        <%= link_to "Lost Events", lost_events_path %>
 			<br />
 			<br />
 			Submit a <%= link_to "tracker bug", new_bug_path %>. <%# this link could be a modal popup %>

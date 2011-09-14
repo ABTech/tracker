@@ -35,7 +35,7 @@ module ApplicationHelper
     end
 
    def iphone_user_agent?
-     request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
+     request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iphone|ipod|android|blackberry)/i]
    end
 
    def app_version

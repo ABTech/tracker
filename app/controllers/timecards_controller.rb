@@ -35,9 +35,9 @@ class TimecardsController < ApplicationController
 	def new
 		@timecard = Timecard.new
 		@timecard.billing_date = Timecard.latest_dates.billing_date + 2*WEEK
-		@timecard.due_date = Timecard.latest_dates.due_date + 2*WEEK
-		@timecard.start_date = Timecard.latest_dates.start_date + 2*WEEK
-		@timecard.end_date = Timecard.latest_dates.end_date + 2*WEEK
+		@timecard.due_date = Timecard.latest_dates.billing_date + 2*WEEK - 2*DAY
+		@timecard.start_date = Timecard.latest_dates.due_date
+		@timecard.end_date = Timecard.latest_dates.due_date + 2*WEEK
 	end
 
 	def create

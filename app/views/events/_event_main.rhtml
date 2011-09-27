@@ -106,7 +106,8 @@
             <td width="125" align="right" class="list">
                 <strong>Comments</strong>
             </td>
-	    <td align="left" class="list"><%= @is_view_mode ? "<pre>#{@event.comments}</pre>" : text_area("event", "comments", :onChange => "modified()") %></td>
+
+            <td align="left" class="list"><%= @is_view_mode ? "<pre style=\"white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;\">#{@event.comments}</pre>" : text_area("event", "comments", :onChange => "modified()") %></td>
         </tr>
 	
         <tr class="listentry1">

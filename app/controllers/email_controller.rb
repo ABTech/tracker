@@ -17,7 +17,7 @@ class EmailController < ApplicationController
 
     # take an email subject and try to find event IDs within it
     def self.find_eventids(str)
-        return str.scan(Event_ID_Regex).collect {|match| match.first.to_i() - Event_ID_Offset }
+        return str.scan(Event_ID_Regex).collect {|match| match.first.to_i() - Event_ID_Offset } unless str.nil?
     end
     # take an event and generate the subject string
     def self.generate_eventid(event)

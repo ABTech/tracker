@@ -14,6 +14,7 @@ class Account < ActiveRecord::Base
     
   #When you change this magic date, finances are reset. JEs before this date don't count. Perhaps this should be made sensible some day.
 	Magic_Date = '2011-08-01'
+	Future_Magic_Date = '2012-08-01'
   		
 	# Credit
 	Credit_Accounts = Account.find(:all, :conditions => "is_credit = true")
@@ -30,13 +31,17 @@ class Account < ActiveRecord::Base
 	Payroll_Account = Account.find(8);
 	Misc_Debit_Account = Account.find(9);
     
-	def total
-        t = Journal.sum(:amount, :conditions => ["date > '" + Account::Magic_Date + "' AND account_id = (?)", id.to_s]);
+        def total(start_date=Account::Magic_Date, end_date=nil)
+        if end_date
+          t = Journal.sum(:amount, :conditions => ["date >= '" + start_date + "' AND date < '"+ end_date +"' AND account_id = (?)", id.to_s]);
+        else
+          t = Journal.sum(:amount, :conditions => ["date >= '" + start_date + "' AND account_id = (?)", id.to_s]);
+        end
 		return (t == nil ? 0 : t)
     end
 	
-	def total_s
-		return "$%01.2f" % total
+        def total_s(start_date=nil, end_date=nil)
+            return "$%01.2f" % total(start_date, end_date)
 	end
     
     #def unpaid_payable

@@ -23,6 +23,12 @@ td.unpaid { font-weight: normal; }
 td.paid { font-weight: bold; }
 </style>
 
+<form method="get" action="<%= list_accounts_path %>">
+  <h2>
+    Finances for <%= text_field_tag 'start', (@start) %> through <%= text_field_tag 'end', (@end) %>.
+    <%=submit_tag 'Go'%>
+  </h2>
+</form>
 <table class="accounts">
 	<tr><td>
 		<fieldset><legend>Total</legend>

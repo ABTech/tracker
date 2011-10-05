@@ -17,7 +17,7 @@
 			<% (is_credit ? @credit_accounts : @debit_accounts).each do |acc| %>
 				<table class="account">
 					<tr><td><%= acc.name %></td></tr>
-					<tr><td><%= acc.total_s %></td></tr>
+                                        <tr><td><%= acc.total_s(@start, @end) %></td></tr>
 				</table>
 			<% end %>
 		</td><td style="padding: 6px 0 0 6px">

@@ -45,25 +45,35 @@ class AccountsController < ApplicationController
 
     def list
         @title = "Chart of Accounts"
+        begin
+          @start = Date.parse(params[:start]).to_s
+        rescue
+          @start = Account::Magic_Date
+        end
+
+        begin
+          @end = Date.parse(params[:end]).to_s
+        rescue
+          @end = Account::Future_Magic_Date
+        end
 		
         @credit_accounts = Account.find(:all, :conditions => "is_credit = true")
 		@debit_accounts = Account.find(:all, :conditions => "is_credit = false")
 		
-		@accounts_receivable_total = Journal.sum(:amount, :conditions => ["date > '" + Account::Magic_Date + "' AND date_paid IS NULL AND account_id in (?)", Account::Credit_Accounts]);
+                @accounts_receivable_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"' AND date_paid IS NULL AND account_id in (?)", Account::Credit_Accounts]);
 		@accounts_receivable_total = (@accounts_receivable_total == nil) ? 0 : @accounts_receivable_total;
-		@accounts_received_total = Journal.sum(:amount, :conditions => ["date > '" + Account::Magic_Date + "' AND date_paid IS NOT NULL AND account_id in (?)", Account::Credit_Accounts]);
+                @accounts_received_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND date_paid IS NOT NULL AND account_id in (?)", Account::Credit_Accounts]);
 		@accounts_received_total = (@accounts_received_total == nil) ? 0 : @accounts_received_total;
-		@accounts_payable_total = Journal.sum(:amount, :conditions => ["date > '" + Account::Magic_Date + "' AND date_paid IS NULL AND account_id in (?)", Account::Debit_Accounts]);
+                @accounts_payable_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "'  AND date < '"+ @end +"' AND date_paid IS NULL AND account_id in (?)", Account::Debit_Accounts]);
 		@accounts_payable_total = (@accounts_payable_total == nil) ? 0 : @accounts_payable_total;
-		@accounts_paid_total = Journal.sum(:amount, :conditions => ["date > '" + Account::Magic_Date + "' AND date_paid IS NOT NULL AND account_id in (?)", Account::Debit_Accounts]);
+                @accounts_paid_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND date_paid IS NOT NULL AND account_id in (?)", Account::Debit_Accounts]);
 		@accounts_paid_total = (@accounts_paid_total == nil) ? 0 : @accounts_paid_total;
 		
-		@credit_JEs = Journal.find(:all, :conditions => ["date > '" + Account::Magic_Date + "' AND account_id in (?)", Account::Credit_Accounts], :order => "date DESC")
-		@debit_JEs = Journal.find(:all, :conditions => ["date > '" + Account::Magic_Date + "' AND account_id in (?)", Account::Debit_Accounts], :order => "date DESC")
+                @credit_JEs = Journal.find(:all, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?)", Account::Credit_Accounts], :order => "date DESC")
+                @debit_JEs = Journal.find(:all, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?)", Account::Debit_Accounts], :order => "date DESC")
 		
 		render(:layout => "application2")
     end
-
     def view
         @title = "View Account"
         

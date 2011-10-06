@@ -3,52 +3,60 @@
         <link href="/layout.css" rel="stylesheet" type="text/css" />
 	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0;" />
   <title>log in pls</title>
+  <style type="text/css">
+    #login_box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -271px;
+      margin-left: -200px;
+      background: url("/images/header.png") #f3f3f3 no-repeat center top; 
+      height: 400px;
+      width: 400px;
+      padding-top: 71px;
+      border-right: 10px solid #f3f3f3;
+      border-left: 10px solid #f3f3f3;
+      border-bottom: 10px solid #f3f3f3;
+      border-right: 10px solid #f3f3f3;
+      box-shadow: 5px 5px 10px #dddddd;
+      font-family: "Helvetica", sans-serif;
+    }
+
+    #login_box form {
+      background-color: white;
+    }
+
+    #login_box form input {
+      border-radius: 10px;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      text-align: center;
+    }
+    
+    #login_box form input:focus {
+      background-color: #333333;
+    }
+  </style>
 </head>
 <body>
 
-        <table width="100%" height="100%">
-            <tr><td align="center" valign="middle">
-                <% form_tag(:action => "login") do %>
-                    <table>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>
-                                <strong>ABTT</strong>: please sign in
+  <div id="login_box">
+    <p>
                                 <% if(flash[:error]) %>
                                     <div class="error"><%= flash[:error] %></div>
                                 <% end %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">user:</td>
-                            <td><%= text_field_tag("login", "", :size => 30) %></td>
-                        </tr>
-                        <tr>
-                            <td align="right">password:</td>
-                            <td><%= password_field_tag("password", "", :size => 30) %></td>
-                        </tr>
-                        <tr>
-                            <td align="right">cookies:</td>
-                            <td><%= radio_button_tag("remember_me", "1", true) %> Yes, please.<br/>
-                                <%= radio_button_tag("remember_me", "0", false) %> Are you calling me fat?!</td>
-                                </td>
-			</tr>
+                                    </p>
+    <form>
+      <%= text_field_tag("login", "who are you?", :size => 50) %> <br>
+      <%= password_field_tag("password", "password", :size => 50) %> <br>
+      <%= check_box_tag "remember_me" %><%= label_tag "remember_me" %>
+      <%= submit_tag "Sign In", :style => "float: right;" %>
+    </form>
+  </div>
+
+
 		  <% if iphone_user_agent? %>
 			<tr>
 			  <td align="right">iPhone:</td><td><%= check_box_tag :iphone, "awesome", true %></td>
 			</tr>
 		  <% end %>
-	
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td><%= submit_tag("go") %></td>
-                        </tr>
-		<% if session[:return_to] %>	
-			<tr><td colspan=2><small>you might get redirected to <%= session[:return_to] %>, but nobody knows for sure...</small></td></tr>
-			<% end %>
-                    </table>
-                <% end %>
-            </td></tr>
-        </table>
-    </body>
-</html>

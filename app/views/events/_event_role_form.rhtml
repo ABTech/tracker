@@ -17,10 +17,12 @@
                             <% else %>
                                 <select name="<%= "role#{i.to_s()}[member_id]" %>" onChange="modified()">
                                     <option value="">unassigned</option>
-                                    <optgroup label="Active Tech">
-                                    <%# Note: this works beacuse there can only be one "active" role at a time! %>
-                                    <%= options_from_collection_for_select(Role.find_by_active(true).members.find(:all, :order => "namefirst ASC, namelast ASC"), "id", "fullname", role.member_id) %>
-                                    </optgroup>
+                                    <% if Role.count(:all, :conditions => {:active => true}) > 0 %>
+                                      <optgroup label="Active Tech">
+                                      <%# Note: this works beacuse there can only be one "active" role at a time! %>
+                                      <%= options_from_collection_for_select(Role.find_by_active(true).members.find(:all, :order => "namefirst ASC, namelast ASC"), "id", "fullname", role.member_id) %>
+                                      </optgroup>
+                                    <% end %>
                                     <optgroup label="Everybody">
                                     <%= options_from_collection_for_select(Member.find(:all, :order => "namefirst ASC, namelast ASC"), "id", "fullname", role.member_id) %>
                                   </optgroup>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 92) do
+ActiveRecord::Schema.define(:version => 93) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name",      :null => false
@@ -276,8 +276,9 @@ ActiveRecord::Schema.define(:version => 92) do
   add_index "permissions_roles", ["role_id"], :name => "permissions_roles_FKIndex2"
 
   create_table "roles", :force => true do |t|
-    t.string "name", :limit => 40, :null => false
-    t.string "info", :limit => 80, :null => false
+    t.string  "name",   :limit => 40,                    :null => false
+    t.string  "info",   :limit => 80,                    :null => false
+    t.boolean "active",               :default => false, :null => false
   end
 
   create_table "timecard_entries", :force => true do |t|

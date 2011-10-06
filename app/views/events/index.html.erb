@@ -52,7 +52,8 @@
 			Submit a <%= link_to "tracker bug", new_bug_path %>. <%# this link could be a modal popup %>
       <!-- Tracker revision -->
 	<div id="version">
-	  Version <%= app_version %>
+          <!-- Are you reading this?! You should be contributing to the tracker! Contact abtech@andrew.cmu.edu for more info. -->
+          Version <%= link_to app_version, "http://github.com/mickeyreiss/abtt", :title => "Fork me on Github!", :style => "color: black; text-decoration: none;" %>
 	</div>
 
 		</td><td style="width: 100%">

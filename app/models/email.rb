@@ -44,4 +44,10 @@ class Email < ActiveRecord::Base
             # return "";
         # end
     end
+
+    def subject
+      if read_attribute(:subject).nil?
+        return ""
+      end
+    end
 end

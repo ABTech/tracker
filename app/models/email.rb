@@ -48,6 +48,8 @@ class Email < ActiveRecord::Base
     def subject
       if read_attribute(:subject).nil?
         return ""
+      else
+        read_attribute(:subject)
       end
     end
 end

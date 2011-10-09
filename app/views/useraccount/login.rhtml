@@ -1,62 +1,127 @@
 <html>
 <head>
-        <link href="/layout.css" rel="stylesheet" type="text/css" />
-	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0;" />
-  <title>log in pls</title>
+  <link href="/layout.css" rel="stylesheet" type="text/css" />
+  <meta name="viewport" content="width=800px; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>
+
+  <title>ABTT: AB Tech Tracker</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(function() {
+      window.scrollTo(242,160);
+      $("input").blur(function() {
+        window.scrollTo(242,160);
+      });
+      $("#login_box input[type!=submit]").hover(function() {
+        $(this).css({"box-shadow": "0 0 15px black"}); 
+        },
+        function() {
+        $(this).css({"box-shadow": "0 0 0 black"}); 
+      });
+    });
+  </script>
   <style type="text/css">
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+    }
+
     #login_box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: -271px;
-      margin-left: -200px;
-      background: url("/images/header.png") #f3f3f3 no-repeat center top; 
-      height: 400px;
-      width: 400px;
-      padding-top: 71px;
-      border-right: 10px solid #f3f3f3;
-      border-left: 10px solid #f3f3f3;
-      border-bottom: 10px solid #f3f3f3;
-      border-right: 10px solid #f3f3f3;
-      box-shadow: 5px 5px 10px #dddddd;
-      font-family: "Helvetica", sans-serif;
+      margin: auto;
+      background: black url("/images/login_lam.jpg") top center no-repeat;
+      width: 783px;
+      height: 385px;
+      padding-top: 415px;
+
+    }
+    #footer {
+      margin-top: 220px !important;
     }
 
-    #login_box form {
-      background-color: white;
-    }
 
-    #login_box form input {
-      border-radius: 10px;
-      -moz-border-radius: 10px;
-      -webkit-border-radius: 10px;
+    #login_box div {
       text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+
+    #login_box input[type=text]:focus, #login_box input[type=email]:focus, #login_box input[type=password]:focus {
+      background: #ccc;
+      box-shadow: 0 0 15px #333;
     }
     
-    #login_box form input:focus {
-      background-color: #333333;
+    /*
+    #login_box input[type=text]:hover, #login_box input[type=email]:hover, #login_box input[type=password]:hover {
+      box-shadow: 0 0 15px #333;
+    }
+    */
+
+    #username, #password {
+      width: 215px;
+      border-radius: 14px;
+      background-color: white;
+      border: 1px solid #666;
+      height: 28px;
+      text-align: center;
+    }
+
+    #login_button {
+      /*76 x 22
+      top: 499px
+      left: 356px
+      */
+      background: transparent url("/images/login_button.png") top left no-repeat;
+      width: 76px;
+      border: 0px none black;
+      height: 22px;
+      cursor: pointer;
+      text-indent: 100px; /* Move that text away. */
+      overflow: hidden;
+
+    }
+
+    #footer, #footer a {
+      color: #ccc;
+      font-family: "Helvetica", sans-serif;
+      text-decoration: none; 
+    }
+    #footer a {
+     border: 0px none;
+    }
+    #footer a:hover {
+      color: #82201f;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
   <div id="login_box">
-    <p>
-                                <% if(flash[:error]) %>
-                                    <div class="error"><%= flash[:error] %></div>
-                                <% end %>
-                                    </p>
-    <form>
-      <%= text_field_tag("login", "who are you?", :size => 50) %> <br>
-      <%= password_field_tag("password", "password", :size => 50) %> <br>
-      <%= check_box_tag "remember_me" %><%= label_tag "remember_me" %>
-      <%= submit_tag "Sign In", :style => "float: right;" %>
-    </form>
+    <% form_tag({:action => "login"}, :autocomplete => "off", :novalidate => true) do %>
+      <div>
+        <%= text_field_tag("login", "", :id => "username", :type => "text", :required => true, :placeholder => "Username") %></td>
+      </div>
+      <div>
+        <%= password_field_tag("password", "", :placeholder => "Password") %></td>
+      </div>
+      <%= hidden_field_tag("remember_me", "1") %></td>
+      <div>
+        <%= submit_tag "Log In", :id => 'login_button' %>
+      </div>
+    <% end %>
+
+    <% if iphone_user_agent? %>
+        iPhone: <%= check_box_tag :iphone, "awesome", true %>
+    <% end %>
+
+    <div id="footer">
+      <%= link_to "CMU", "http://www.cmu.edu" %> &middot;
+      <%= link_to "OrgTracker", "https://stugov.andrew.cmu.edu/orgtracker/" %> &middot;
+      <%= link_to "Activities Board", "http://activitiesboard.org/" %> &middot;
+      <%= link_to "AB Tech", "http://www.abtech.org/" %>
+    </div>
   </div>
-
-
-		  <% if iphone_user_agent? %>
-			<tr>
-			  <td align="right">iPhone:</td><td><%= check_box_tag :iphone, "awesome", true %></td>
-			</tr>
-		  <% end %>
+  </body>
+</html>

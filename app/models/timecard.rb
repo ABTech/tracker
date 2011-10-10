@@ -25,7 +25,7 @@ class Timecard < ActiveRecord::Base
 			]
 		end
 
-		Eventdate.find(:all, :conditions => ["startdate >= ? and startdate <= ?", start_date, end_date], :order => 'startdate DESC')
+		Eventdate.find(:all, :joins => :event, :conditions => ["startdate >= ? and startdate <= ? and status in (?)", start_date, end_date, Event::Event_Status_Group_Not_Cancelled], :order => 'startdate DESC')
 	end
 
 

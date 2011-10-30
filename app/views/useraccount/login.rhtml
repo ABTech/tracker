@@ -39,8 +39,22 @@
       width: 783px;
       height: 385px;
       padding-top: 415px;
-
     }
+
+    @-webkit-keyframes box {
+      0% { -webkit-transform: rotate(.5deg); }
+      100% { -webkit-transform: rotate(-.5deg); }
+    }
+
+    #login_box {
+      -webkit-animation-name: box;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-direction: alternate;
+      -webkit-animation-timing-function: ease-in-out;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-transform-origin: 50% 0;
+    }
+
     #footer {
       margin-top: 220px !important;
     }
@@ -156,13 +170,6 @@
     <% if iphone_user_agent? %>
         iPhone: <%= check_box_tag :iphone, "awesome", true %>
     <% end %>
-
-    <div id="footer">
-      <%= link_to "CMU", "http://www.cmu.edu" %> &middot;
-      <%= link_to "OrgTracker", "https://stugov.andrew.cmu.edu/orgtracker/" %> &middot;
-      <%= link_to "Activities Board", "http://activitiesboard.org/" %> &middot;
-      <%= link_to "AB Tech", "http://www.abtech.org/" %>
-    </div>
   </div>
   </body>
 </html>

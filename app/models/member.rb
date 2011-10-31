@@ -65,6 +65,10 @@ class Member < ActiveRecord::Base
     "#{fullname}"
   end
 
+  def self.active
+    Role.active.members
+  end
+
   def settings
     sets = {};
     if(settingstring)

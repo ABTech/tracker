@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :organizations
   map.resources :bugs
+  map.resources :tshirts
   map.resources :timecard_entries, :except => ['show']
 	map.resources :timecards, :member => {:view => :get }
   map.resources :events,

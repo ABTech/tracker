@@ -366,7 +366,7 @@ class EventsController < ApplicationController
     if(params["selected"])
       @selected = DateTime.parse(params["selected"]);
     else
-			@selected = DateTime.new(Time.now.year, Time.now.month)
+			@selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
 		end
 
     filterStr = "(events.publish OR events.blackout)";

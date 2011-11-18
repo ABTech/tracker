@@ -21,6 +21,8 @@ class Eventdate < ActiveRecord::Base
     validates_presence_of :startdate, :enddate, :description, :event, :locations;
     validates_associated :locations, :equipment;
 
+    validate :valid_times
+
     Event_Span_Days       = 2;
     Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
   
@@ -34,5 +36,9 @@ class Eventdate < ActiveRecord::Base
         return (strikedate &&
                 (strikedate.to_i >= enddate.to_i) &&
                 ((strikedate.to_i - enddate.to_i) < Event_Span_Seconds));
+    end
+
+    def valid_times
+      errors.add_to_base "Invalid Times" unless startdate <= enddate and (strikedate.nil? or enddate <= strikedate) and (calldate.nil? or calldate <= startdate)
     end
 end

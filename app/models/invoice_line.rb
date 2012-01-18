@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 80
+# Schema version: 93
 #
 # Table name: invoice_lines
 #
@@ -7,8 +7,9 @@
 #  invoice_id :integer(11)     not null
 #  memo       :string(255)     not null
 #  category   :string(255)     not null
-#  price      :integer(11)     not null
+#  price      :float
 #  quantity   :integer(11)     not null
+#  notes      :text
 #
 
 class InvoiceLine < ActiveRecord::Base

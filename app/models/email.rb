@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 80
+# Schema version: 93
 #
 # Table name: emails
 #
@@ -9,7 +9,7 @@
 #  timestamp  :datetime        not null
 #  contents   :text            not null
 #  status     :string(255)     default("New"), not null
-#  subject    :string(255)     not null
+#  subject    :string(255)
 #  message_id :string(255)     not null
 #
 

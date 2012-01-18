@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 80
+# Schema version: 93
 #
 # Table name: members
 #
@@ -20,6 +20,8 @@
 #  title                     :string(255)
 #  callsign                  :string(255)
 #  shirt_size                :string(20)
+#  ssn                       :integer(11)
+#  payrate                   :float
 #
 
 require 'digest/sha1'

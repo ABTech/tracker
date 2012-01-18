@@ -1,22 +1,3 @@
-# == Schema Information
-# Schema version: 80
-#
-# Table name: bugs
-#
-#  id           :integer(11)     not null, primary key
-#  member_id    :integer(11)
-#  submitted_on :datetime
-#  description  :text            not null
-#  confirmed    :boolean(1)      not null
-#  resolved     :boolean(1)      not null
-#  resolved_on  :datetime
-#  comment      :text
-#  closed       :boolean(1)      not null
-#  priority     :string(255)
-#  created_on   :datetime
-#  updated_on   :datetime
-#
-
 class Bug < ActiveRecord::Base
   #  MODEL for future reference
   #  CREATE TABLE `abtechtt_prod`.`bugs` (
@@ -43,3 +24,22 @@ class Bug < ActiveRecord::Base
   end
 
 end
+
+# == Schema Information
+#
+# Table name: bugs
+#
+#  id           :integer(11)     not null, primary key
+#  member_id    :integer(11)
+#  submitted_on :datetime
+#  description  :text            not null
+#  confirmed    :boolean(1)      default(FALSE), not null
+#  resolved     :boolean(1)      default(FALSE), not null
+#  resolved_on  :datetime
+#  comment      :text
+#  closed       :boolean(1)      default(FALSE), not null
+#  priority     :string(255)
+#  created_on   :datetime
+#  updated_on   :datetime
+#
+

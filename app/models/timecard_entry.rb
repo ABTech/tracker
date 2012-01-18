@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 93
+#
+# Table name: timecard_entries
+#
+#  id           :integer(11)     not null, primary key
+#  member_id    :integer(11)
+#  hours        :float
+#  eventdate_id :integer(11)
+#  timecard_id  :integer(11)
+#  payrate      :float
+#
+
 class TimecardEntry < ActiveRecord::Base
 	belongs_to :timecard
 

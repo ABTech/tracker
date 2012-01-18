@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 93
+#
+# Table name: timecards
+#
+#  id           :integer(11)     not null, primary key
+#  billing_date :datetime
+#  due_date     :datetime
+#  submitted    :boolean(1)
+#  start_date   :datetime
+#  end_date     :datetime
+#
+
 class Timecard < ActiveRecord::Base
 	# billing_date:datetime
 	# due_date:datetime

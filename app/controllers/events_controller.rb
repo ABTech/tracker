@@ -300,20 +300,13 @@ class EventsController < ApplicationController
 
   def iphone
     @startdate = params["startdate"] ? Date.parse(params["startdate"]) : Date.today 
-    @startdate += 1 if params["later"]
-    @startdate -= 1 if params["earlier"]
-    @startdate = Date.today if params["today"]
     @enddate   = @startdate+7
 
-    @eventdates = Eventdate.find(:all,:order => "startdate ASC", :conditions => "('#{@startdate.strftime("%Y-%m-%d")}' < startdate) AND ('#{@enddate.strftime("%Y-%m-%d")}' > enddate)")
-
-    @eventdates.sort! do |a,b|
-      a.startdate <=> b.startdate
-    end
+    @eventdates = Eventdate.find(:all, :order => "startdate ASC", :conditions => ["? <= startdate AND ? > enddate", @startdate, @enddate])
 
     unless params[:showall]
       @eventdates.reject! do |eventdate|
-      eventdate.event.publish == false
+        eventdate.event.publish == false
       end
     end
 

@@ -1,11 +1,12 @@
 <h1 style="margin-top: 0px;">Upcoming Events</h1>
 <h2 style="text-align:center; font-size: 10pt; width: 100%; margin-top: -20px;">(<%= @startdate.strftime("%D") %> through <%= @enddate.strftime("%D") %>)</h2>
+<%= render :partial => 'iphone_date_chooser' %>
 	    <% if @eventdates.empty? %>
 "There are no events..."
 	<% else %>
 	<table>
     <% @eventdates.each do |eventdate| %>
-	<% if eventdate.class == Date %>
+	<% if eventdate.respond_to? :strftime %>
 	<tr class="day">
 	  <td colspan=3 class="date"><%= eventdate.ago %><span><%= eventdate.strftime("%a, %B %e, %Y") %></span>
 				</td>
@@ -42,16 +43,14 @@ end
           <td><%= eventdate.calldate.strftime("%H:%M") %><br />
             <span class="type"><%= eventdate.description  %></span></td>
           <td><%= eventdate.event.title %><br /><span class="location"><%= eventdate.locations.join "<br />" %></span><br />
-            <span class="times"><%= eventdate.calldate.strftime("%H:%M") %> Call :: <%= eventdate.strikedate.strftime("%H:%M") %> Strike</span></td>
+            <span class="times">
+              <%= eventdate.calldate.strftime("%H:%M") %> Call ::
+              <%= eventdate.startdate.strftime("%H:%M") %> Show ::
+              <%= eventdate.strikedate.strftime("%H:%M") %> Strike
+            </span>
+          </td>
 	</tr>
 <% end %>
 </table>
 <% end %>
-<div id="date_chooser">
-	<form action="/iphone" method="post">
-	  <input type="submit" name="earlier" value="&lt; Earlier" />
-	  <input type="submit" name="today" style="font-size: 12pt; border; " value="Today" />
-	  <input type="submit" name="later" value="Later &gt;" />
-	  <input type="hidden" name="startdate" value="<%= @startdate %>" />
-	</form>
-</div>
+<%= render :partial => 'iphone_date_chooser' %>

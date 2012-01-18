@@ -26,13 +26,24 @@ class MembersController < ApplicationController
       @order += " DESC" 
       @order_desc = true 
     end
-    @members = Member.find(:all, :order => @order);
+
+    @members = Member.find(:all, :select => 'aim, kerbid, namefirst, namelast, namenick, title, phone, callsign, shirt_size, created_at, updated_at, id', :order => @order);
+
+    respond_to do |format|
+      format.html
+      format.vcf { render :layout => false }
+    end
   end
 
   def show
     @title = "Member Display"
 
     @member = Member.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.vcf { render :layout => false }
+    end
   end
 
   def new

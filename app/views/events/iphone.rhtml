@@ -37,7 +37,7 @@ else
 	event_class = "event_incomplete"
 end
 %>
-	<tr class="<%= event_class %>" onclick="window.location = ('<%=h event_url(eventdate.event) %>')">
+	<tr class="<%= event_class %>" onclick="window.location = ('<%=h event_path(eventdate.event) %>')">
           <td></td>
           <td><%= eventdate.calldate.strftime("%H:%M") %><br />
             <span class="type"><%= eventdate.description  %></span></td>

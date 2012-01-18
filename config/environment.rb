@@ -59,3 +59,5 @@ end
 
 # Include your application configuration below
 ActionView::Base.field_error_proc = proc { |input, instance| input }
+
+  Mime::Type.register "text/vcard", :vcf

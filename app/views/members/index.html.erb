@@ -42,5 +42,7 @@
 <% if @edit_others %>
 <br />
 
-<%= link_to 'New member', new_member_path %>
+<%= link_to 'New member', new_member_path %> <br>
+<%= link_to 'Download as V-Cards', formatted_members_path(:vcf) %> <br>
+<%= image_tag "http://www.nw-weathernet.com/webimages/new-icon.gif" %> <%= link_to 'Generate T-Shirt Order', tshirts_path %>
 <% end %>

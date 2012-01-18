@@ -96,7 +96,7 @@ class EmailController < ApplicationController
 
                 # if we can find the eventid in the subject, auto match that to
                 # the event, to save some filing work
-                if(!automatch.empty? && (automatch.length == 1))
+                if(automatch and !automatch.empty? and (automatch.length == 1))
                     message.status = Email::Email_Status_New;
                     message.event_id = automatch[0];
 

@@ -65,6 +65,28 @@ class Member < ActiveRecord::Base
     "#{fullname}"
   end
 
+
+  def to_vcf
+<<EOF
+BEGIN:VCARD
+VERSION:3.0
+N:#{namelast};#{namefirst}
+FN:#{fullname}
+ORG:AB Tech
+CATEGORIES:AB Tech
+NICKNAME:#{namenick}
+TEL;type=CELL:#{phone}
+EMAIL;TYPE=INTERNET:#{kerbid}
+REV:#{updated_at.strftime('%Y%m%dT%H%M%SZ')}
+END:VCARD
+EOF
+  end
+
+
+  def self.active
+    Role.active.members
+  end
+
   def settings
     sets = {};
     if(settingstring)

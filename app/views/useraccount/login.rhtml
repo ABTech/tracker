@@ -1,7 +1,7 @@
 <html>
 <head>
   <link href="/layout.css" rel="stylesheet" type="text/css" />
-  <meta name="viewport" content="width=800px; initial-scale=0.3; maximum-scale=1.0; user-scalable=1;"/>
+  <meta name="viewport" content="width=200px; initial-scale=1; maximum-scale=1.0; user-scalable=1;"/>
 
   <title>ABTT: AB Tech Tracker</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js" type="text/javascript"></script>
@@ -39,20 +39,6 @@
       width: 783px;
       height: 385px;
       padding-top: 415px;
-    }
-
-    @-webkit-keyframes box {
-      0% { -webkit-transform: rotate(.5deg); }
-      100% { -webkit-transform: rotate(-.5deg); }
-    }
-
-    #login_box {
-      -webkit-animation-name: box;
-      -webkit-animation-duration: 1s;
-      -webkit-animation-direction: alternate;
-      -webkit-animation-timing-function: ease-in-out;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-transform-origin: 50% 0;
     }
 
     #footer {
@@ -151,11 +137,9 @@
     </p>
   </div>
   <% end %>
-
     <% form_tag({:action => "login"}, :novalidate => true) do %>
-      <%# TODO: ADD ERROR MESSAGE %>
       <div>
-        <%= text_field_tag("login", "", :id => "username", :type => "text", :required => true, :placeholder => "Username") %></td>
+        <%= text_field_tag("login", "", :id => "username", :type => "email", :required => true, :placeholder => "Username") %></td>
       </div>
       <div>
         <%= password_field_tag("password", "", :placeholder => "Password") %></td>
@@ -166,10 +150,6 @@
       </div>
     <% end %>
 
-    <%# TODO: FIXME %>
-    <% if iphone_user_agent? %>
-        iPhone: <%= check_box_tag :iphone, "awesome", true %>
-    <% end %>
   </div>
   </body>
 </html>

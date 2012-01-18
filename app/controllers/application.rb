@@ -44,4 +44,7 @@ include AuthenticatedSystem
 		end
 		array
 	end
+        def iphone_user_agent?
+          request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iphone|ipod|android|blackberry)/i]
+        end
 end

@@ -40,7 +40,7 @@ module ApplicationHelper
 
    def app_version
      begin
-       IO.read("REVISION")[0,7]
+       %x{git log --pretty=format:"%h"  -n1}
      rescue
        "?"
      end

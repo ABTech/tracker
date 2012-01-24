@@ -1,8 +1,6 @@
 class InvoiceController < ApplicationController
 	before_filter :login_required;
 
-    require 'net/imap'
-    require 'net/http'
     require 'wicked_pdf'
 
 	New_Invoice_New_Line_Display_Count = 5;
@@ -115,9 +113,6 @@ class InvoiceController < ApplicationController
 
 	@invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
 	@title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.event.id}"
-    p "asdfasdfadsf"
-            return
-# instead of http.ge
 		@title = "Create Invoice E-mail";
 
 		@invoice = Invoice.find(params['id'], :include => [:event]);

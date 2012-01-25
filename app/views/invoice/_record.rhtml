@@ -90,10 +90,6 @@ end
 								<%= radio_button("journal_invoice", :account_id, Account::Events_Account.id, :checked => true) %> Event
 								<%= radio_button("journal_invoice", :account_id, Account::Rentals_Credit_Account.id) %> Rental
 							</td>						
-						<tr><td width="70" align="right"><strong>Amount:</strong></td>
-							<td>$<%= @invoice.total %>
-								<%= hidden_field_tag("journal_invoice[amount]", @invoice.total) %> 
-								</td></tr>
 					</table>
 				</div>
 				<%= link_to "E-mail", { :action => "email", :id => @invoice.id } %>

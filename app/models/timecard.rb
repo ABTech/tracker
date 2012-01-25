@@ -16,6 +16,7 @@ class Timecard < ActiveRecord::Base
 	# due_date:datetime
 	# submitted:boolean
 	has_many :timecard_entries
+        has_many :members, :through => :timecard_entries, :order => :namefirst, :uniq => true
 	validates_presence_of :billing_date, :due_date, :start_date, :end_date
 	validates_uniqueness_of :billing_date
 	before_destroy :clear_entries
@@ -50,10 +51,6 @@ class Timecard < ActiveRecord::Base
 		timecard_entries.inject(0) do |sum, entry|
 			sum + ((member.nil? or member == entry.member) ? entry.hours : 0)
 		end
-	end
-
-	def members
-		TimecardEntry.find_by_sql("select distinct member_id from timecard_entries where timecard_id = #{id.to_i}").map {|e| e.member}
 	end
 
 	def self.latest_dates

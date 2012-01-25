@@ -30,12 +30,13 @@ class Member < ActiveRecord::Base
   has_many :eventroles;
   has_and_belongs_to_many :roles
   has_many :filters, :class_name => "MemberFilter", :order => "name ASC"
-	has_many :timecard_entries
+  has_many :timecard_entries
+  has_many :timecards, :through => :timecard_entries, :uniq => true
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  validates_presence_of     :namefirst, :namelast, :kerbid;
+  validates_presence_of     :namefirst, :namelast, :kerbid, :payrate
   validates_associated      :filters;
   #Event::EmailRegex is a generic regex that matches email addresses. It is located in Event for absolutely no fucking reason.
   validates_format_of       :kerbid, :with => Event::EmailRegex;

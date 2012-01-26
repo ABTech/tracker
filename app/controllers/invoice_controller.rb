@@ -1,6 +1,8 @@
 class InvoiceController < ApplicationController
 	before_filter :login_required;
 
+    require 'wicked_pdf'
+
 	New_Invoice_New_Line_Display_Count = 5;
 	Old_Invoice_New_Line_Display_Count = 5;
 
@@ -14,10 +16,26 @@ class InvoiceController < ApplicationController
 	end
 
 	def prettyView
-	@invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
-	@title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.event.id}"
 
+	@invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
+	@title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
+
+# Handle only saving
+        if params[:format]=='pdf' and params[:save]=="yes"
+          @techlogo="file://#{RAILS_ROOT}/public/images/tech-with-fbnsal.png"
+			render :pdf => @title, :layout => false,:save_to_file => "#{RAILS_ROOT}/tmp/test.pdf", :save_only=> true
+            redirect_to :action => "email", :id=>params['id']
+#Handle creation of PDF and sending to browser
+        elsif params[:format] == 'pdf'
+          @techlogo="file://#{RAILS_ROOT}/public/images/tech-with-fbnsal.png"
+			headers['Content-Type'] = 'application/pdf'
+			headers['Content-Disposition'] = "inline; filename=\"test.pdf\""
+			render :pdf => @title, :layout => false
+        else
+
+          @techlogo="/images/tech-with-fbnsal.png"
 	render :layout=>false
+        end
 	end
 
 	def new
@@ -92,6 +110,9 @@ class InvoiceController < ApplicationController
 	end
 
 	def email
+
+	@invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
+	@title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.event.id}"
 		@title = "Create Invoice E-mail";
 
 		@invoice = Invoice.find(params['id'], :include => [:event]);

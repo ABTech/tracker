@@ -23,7 +23,7 @@ class InvoiceController < ApplicationController
 # Handle only saving
         if params[:format]=='pdf' and params[:save]=="yes"
           @techlogo="file://#{RAILS_ROOT}/public/images/tech-with-fbnsal.png"
-			render :pdf => @title, :layout => false,:save_to_file => "/home/joe/abtt/tmp/test.pdf", :save_only=> true
+			render :pdf => @title, :layout => false,:save_to_file => "#{RAILS_ROOT}/tmp/test.pdf", :save_only=> true
             redirect_to :action => "email", :id=>params['id']
 #Handle creation of PDF and sending to browser
         elsif params[:format] == 'pdf'

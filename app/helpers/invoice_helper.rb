@@ -47,6 +47,7 @@ module InvoiceHelper
         end
 
         if(params['journal_invoice_create'])
+          params['journal_invoice']['amount']=invoice.total
             journal = JeInv.new(params['journal_invoice']);
             if(journal.valid?)
                 invoice.journal_invoice = journal;

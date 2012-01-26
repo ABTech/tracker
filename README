@@ -7,3 +7,5 @@ mysql 5.1.54
 Install these gems (there are probably more you need):
 rmail
 
+Install these applications
+wkhtmltopdf (For PDF Invoice Export)

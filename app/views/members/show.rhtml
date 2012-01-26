@@ -33,11 +33,8 @@
 <% @member.timecards.each do |timecard| %>
   <tr>
     <th>Timecard for <%= timecard.billing_date.strftime("%D") %></th>
-    <td> <%= pluralize timecard.hours(@member), "hour" %> @ 
-      <span>
-        ~<%= number_to_currency timecard.entries.reject{|t| t.payrate.nil? }.map(&:payrate).sum/timecard.entries.reject{|t| t.payrate.nil?}.length %>/hr
-      </span> 
-    </td>
+    <td> <%= pluralize timecard.hours(@member), "hour" %>
+   </td>
   </tr>
 <% end %>
 <tr style="border-top-style: double;">

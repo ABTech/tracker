@@ -10,8 +10,9 @@
 <table><tr class="listentry1">
     <% if(@is_view_mode) %>
         <td width="75" align="right">&nbsp;</td>
-        <td align="left"><%= link_to "edit", { :action => "edit", :id => @invoice.id } %>
-          -- <%= link_to "View Invoice", { :action=>"prettyView",:id=>@invoice.id } %> -- <%= link_to "Print Invoice", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id}%></td>
+        <td align="left"><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %>
+          -- <%= link_to "View", { :action=>"prettyView",:id=>@invoice.id } %> -- <%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id}%>
+          -- <%= link_to "Email", {:action=>"email",:id=>@invoice.id} %></td>
 
     <% else %>
         <td width="75" align="right">&nbsp;</td>

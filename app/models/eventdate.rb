@@ -20,9 +20,14 @@ class Eventdate < ActiveRecord::Base
 
     validates_presence_of :startdate, :enddate, :description, :event, :locations;
     validates_associated :locations, :equipment;
+    validate :dates
 
     Event_Span_Days       = 2;
     Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
+
+    def dates
+      errors.add_to_base("We're not a time machine. (End Date can't be before Start Date)") unless startdate<enddate
+    end
   
     def valid_call?
         return (calldate &&

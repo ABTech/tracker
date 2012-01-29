@@ -68,7 +68,7 @@ class Event < ActiveRecord::Base
 
   Event_Status_Group_Declined  = [Event_Status_Event_Declined];
 
-  validates_presence_of     :title, :status, :organization; #:contactemail; #:eventdates
+  validates_presence_of     :title, :status, :organization, :eventdates
   validates_inclusion_of    :status, :in => Event_Status_Group_All;
   validates_associated      :organization, :emails, :event_roles, :eventdates;
   validates_format_of       :contactemail, :with => Event::EmailRegex;

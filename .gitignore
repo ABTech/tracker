@@ -6,3 +6,5 @@ config/database.yml
 *.swo
 *~
 .AppleDouble
+tmp/tags
+config/environments/development.rb

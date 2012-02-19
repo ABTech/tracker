@@ -45,8 +45,11 @@
 					<% 7.times do %>
 						<% # get the events for today
 							todaydates = [];
-							while((dates != nil) && (dates.size() > 0) && (dates[0].startdate.mday() == day.mday()))
-								todaydates << dates.shift();
+              while((dates != nil) && (dates.size() > 0) && (dates[0].startdate.mday() == day.mday()))
+                date = dates.shift();
+                if(date.event.status!=Event::Event_Status_Event_Cancelled )
+                  todaydates << date;
+                end
 							end
 
 							# determine class of cell

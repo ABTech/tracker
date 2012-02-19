@@ -47,10 +47,14 @@
 	<th><label for="ssn">Last 4 digits of SSN</label></th>
 	<td><%= text_field 'member', 'ssn' %></td>
 </tr>
+
+  <% if (current_member().authorized?("/accounts/list")) %>
 <tr>
+
 	<th><label for="payrate">Payrate</label></th>
 	<td>$<%= text_field 'member', 'payrate' %> per hour</td>
 </tr>
+<% end %>
 <tr>
   <th><label for="password">Password</label></th>
   <td><%= password_field 'member', 'password'  %></td>

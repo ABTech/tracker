@@ -88,6 +88,7 @@ class EquipmentController < ApplicationController
         item.description = "New Equipment";
         item.parent = EquipmentCategory.find(id);
         item.position = 0;
+        item.shortname = "New Shortname"
         item.save();
     end
 

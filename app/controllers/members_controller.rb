@@ -77,10 +77,13 @@ class MembersController < ApplicationController
   end
 
   def update
-    if(!current_member().authorized?("/member/edit"))
+    if(!current_member().authorized?("/member/edit")) #They can only edit themselves
       @member = current_member();
       params[:member].delete('role_ids')
-    else
+      if (!current_member().authorized?("/accounts/list"))
+        params[:member].delete('payrate')
+      end
+    else #They can edit any member
       @member = Member.find(params[:id])
     end
     if @member.update_attributes(params[:member])

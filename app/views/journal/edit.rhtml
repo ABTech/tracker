@@ -95,7 +95,9 @@ fieldset { width:40% }
 	</tr>
 </table>
 <%= submit_tag 'Edit Journal' %>
- -- <%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
+-- 
+<%= link_to "Delete Journal",{ :action => "destroy", :id => @journal.id}, :confirm => "Are you sure you want to delete this journal?" %> -- 
+<%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
 </form>
 </fieldset>
 

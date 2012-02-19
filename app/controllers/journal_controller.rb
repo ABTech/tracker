@@ -43,10 +43,6 @@ class JournalController < ApplicationController
 		key = params["njournals"] ? ("journal" + i.to_s()) : "journal";
 		if(params[key]["id"] && ("" != params[key]["id"]))
 			journal = Journal.update(params[key]["id"], params[key]);
-			if ("" == params[key]["amount"] || "" == params[key]["memo"])
-				journal.destroy();
-				journal = nil;
-			end
 		else
 			journal = Journal.new(params[key]);
 			if (journal.memo == "" || journal.amount == 0)

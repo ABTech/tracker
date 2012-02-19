@@ -1,0 +1,42 @@
+<h1><%= link_to 'ABTT Bugs', bugs_path %> &gt; New Bug</h1>
+  <table>
+    <tr>
+      <td valign="top">
+  <p style="width: 333px">
+    <em>Gripe</em> \'grīp\ noun : 1. informal a complaint, esp. a trivial one, see also suggestion, critique. 
+  </p>
+  <p style="width: 333px;">
+  Use this form to submit a gripe about the ABTech tracker. Please include as many details as possible so we can reproduce the problem. You can also use this form to request new features.</p>
+  <p>
+  Priority can be whatever you want. There is no particular scale.
+  </p> 
+  <p>
+  Thanks.
+  </p>
+</td>
+<td>
+<% form_for @bug, :url => "/bugs" do |f| %>
+<div><%= error_messages_for "bug" %></div>
+<table class="generic">
+  <tr>
+    <th><label for="bug_member">Submitter</label></th>
+    <th><label for="bug_priority">Priority</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'bug', 'member', :disabled => true, :size => 15 %>
+    <td><%= text_field 'bug', 'priority', :size => 15 %><br />(There is no particular scale)</td>
+  </tr>
+  <tr>
+    <th colspan=2><label for="bug_description">Describe the problem</label></th>
+  </tr>
+  <tr>
+    <td colspan=2><%= text_area 'bug', 'description' %></td>
+  </tr>
+  <tr>
+    <td colspan=2 align="right"><%= submit_tag "Gripe!" %></td>
+  </tr>
+</table>
+<% end %>
+</td>
+</tr>
+</table>

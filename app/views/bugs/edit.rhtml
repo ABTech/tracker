@@ -1,0 +1,42 @@
+<h1><%= link_to 'ABTT Bugs', bugs_path %> &gt; Bug #<%= @bug.id %></h1>
+  <% if @bug.closed? %>
+  <script type="text/javascript">
+    alert("Warning! You are about to make changes to a bug that has already been closed.");
+  </script>
+  <% end %>
+  <% form_tag bug_path(@bug), :method => "put" do %>
+<div><%= error_messages_for "bug" %></div>
+<table class="generic">
+  <tr>
+    <th><label for="bug_member">Submitter</label></th>
+    <th><label for="bug_priority">Priority</th>
+      <th rowspan=2>
+	<label for="bug_confirmed">Confirmed?</label> <%= check_box 'bug', 'confirmed' %>
+      </th>
+      <th rowspan=2>
+	<label for="bug_resolved">Resolved?</label> <%= check_box 'bug', 'resolved' %>
+    </th>
+  </tr>
+  <tr>
+    <td><%= select_tag('bug[member_id]', options_from_collection_for_select(Member.find(:all, :order => "namelast"), 'id', 'fullname', @bug.member_id)) %>
+      <td><%= text_field 'bug', 'priority', :size => 17 %><br />(There is no particular scale)</td>
+  </tr>
+  <tr>
+    <th colspan=2><label for="bug_description">Original Description</label></th>
+    <th colspan=2><label for="bug_comment">Bug status and progress</label></th>
+  </tr>
+  <tr>
+    <td colspan=2><%= text_area 'bug', 'description' %></td>
+    <td colspan=2><%= text_area 'bug', 'comment' %></td>
+  </tr>
+  <tr>
+    <th><label for="bug_closed">Closed?</label>
+    <%= check_box 'bug', 'closed' %></th>
+  <td colspan=3 align="right">
+    <%= link_to "Nevermind", bugs_path, :confirm  => "You will lose all changes and go back to the bugs index." %>
+    <input type="reset" onclick="return confirm('Are you sure?');" /> <%= submit_tag "Save Changes" %>
+    </td>
+  </tr>
+      
+</table>
+<% end %>

@@ -39,7 +39,7 @@ class Invoice < ActiveRecord::Base
 		return invoice_lines.find(:all, :conditions => "category = 'Itemized' OR category = 'Reimbursement'");
 	end
 
-	validates_presence_of :status, :event;
+	validates_presence_of :status, :event, :event_id
 	validates_inclusion_of :status, :in => Invoice_Status_Group_All;
 	validates_associated :event;
 end

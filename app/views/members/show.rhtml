@@ -27,18 +27,3 @@
 
 <% if @edit_others or @current_member == @member %> <%= link_to 'Edit', edit_member_path(@member) %> | <% end %>
 <%= link_to 'Back', members_path %>
-
-<h2>Billing</h2>
-<table class="generic">
-<% @member.timecards.each do |timecard| %>
-  <tr>
-    <th>Timecard for <%= timecard.billing_date.strftime("%D") %></th>
-    <td> <%= pluralize timecard.hours(@member), "hour" %>
-   </td>
-  </tr>
-<% end %>
-<tr style="border-top-style: double;">
-  <th>Total</th>
-  <td><%= pluralize @member.timecard_entries.map(&:hours).sum, "hour" %> / <%= number_to_currency @member.timecard_entries.map(&:gross_amount).sum %></td>
-</tr>
-</table>

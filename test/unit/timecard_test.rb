@@ -8,16 +8,3 @@ class TimecardTest < Test::Unit::TestCase
     assert true
   end
 end
-
-# == Schema Information
-#
-# Table name: timecards
-#
-#  id           :integer(11)     not null, primary key
-#  billing_date :datetime
-#  due_date     :datetime
-#  submitted    :boolean(1)
-#  start_date   :datetime
-#  end_date     :datetime
-#
-

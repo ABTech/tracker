@@ -1,0 +1,40 @@
+  <h1>ABTT Bugs<%= " &gt; All Bugs" if @show_closed -%></h1>
+<div>
+  <%= link_to "Submit a new bug", new_bug_path %> | <%= link_to "Show closed bugs", bugs_path+"?showclosed=1" unless @show_closed %><%= link_to "Hide closed bugs", bugs_path+"?showclosed=0" if @show_closed %>
+</div>
+<table class="generic" border=1>
+  <tr>
+    <th>#</th>
+    <th>Submitter</th>
+    <th>Submitted on</th>
+    <th>Priority</th>
+    <th>Description</th>
+    <th>Confirmed?</th>
+    <th>Resolved?</th>
+    <th>Comment</th>
+    <th>Closed</th>
+    <th> </th>
+  </tr>
+<%- @bugs.each do |bug| -%>
+<tr class="<%= class_for(bug) %>">
+    <td><%= bug.id %></td>
+    <td><%= link_to h(bug.member), "member/show/#{bug.member.id}" %></td>
+    <td title="<%= bug.submitted_on.strftime("%m/%d/%Y %H:%M:%S") %>"><%= time_ago_in_words(bug.submitted_on)+' ago' -%></td>
+    <td><%= bug.priority %></td>
+    <td><%= summarize bug.description %></td>
+    <td><%= bug.confirmed? ? yes : no %></td>
+    <td<%= " title=\"#{bug.resolved_on.strftime("%m/%d/%Y %H:%M:%S")}\" class=\"hastitle\"" unless bug.resolved_on.nil? -%>><%= bug.resolved? ? yes : no %></td>
+    <td><%= (summarize bug.comment) %></td>
+    <td><%= bug.closed ? yes : no %></td>
+    <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
+  </tr>
+  <%- end -%>
+<% if @bugs.empty? %>
+<tr>
+  <td colspan="9">No bugs...</td>
+</tr>
+<%- end -%>
+</table>
+<div>
+  <%= link_to "Submit a new bug", new_bug_path %>
+</div>

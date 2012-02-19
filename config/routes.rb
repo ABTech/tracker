@@ -37,9 +37,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :attachments, :only => ["index", "destroy"]
 
-  map.connect "login", :controller => "useraccount", :action => "login"
-  map.connect "logout", :controller => "useraccount", :action => "logout"
-
   map.connect '',   :controller => "events", :action => "index" 
 
   # Install the default route as the lowest priority.

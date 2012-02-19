@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 93) do
     t.datetime "timestamp",                     :null => false
     t.text     "contents",                      :null => false
     t.string   "status",     :default => "New", :null => false
-    t.string   "subject"
+    t.string   "subject",                       :null => false
     t.string   "message_id",                    :null => false
   end
 

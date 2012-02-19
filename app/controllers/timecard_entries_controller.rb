@@ -1,5 +1,6 @@
 class TimecardEntriesController < ApplicationController
 	before_filter :login_required
+  before_filter :unsubmitted_timecard?, :only=>[:new, :create]
 	layout 'application2'
 
 	def index
@@ -79,4 +80,13 @@ class TimecardEntriesController < ApplicationController
 		@timecard_entry.destroy
 		redirect_to :action => :index
 	end
+  private
+  def unsubmitted_timecard?
+    if Timecard.valid_timecards.empty?
+      flash[:error]="There are no active timecards"
+      redirect_to :action => :index and return
+    end
+  end
+
+
 end

@@ -33,6 +33,13 @@ class JournalController < ApplicationController
 
     render :layout=>"application2";
   end
+  def destroy
+    @journal = Journal.find(params['id'])
+    @journal.destroy
+
+    flash[:notice] = "Successfully deleted #{@journal.memo} journal entry"
+    redirect_to(:controller => "accounts", :action => "list");
+  end
 
   def save
 	errors = "";
@@ -43,10 +50,6 @@ class JournalController < ApplicationController
 		key = params["njournals"] ? ("journal" + i.to_s()) : "journal";
 		if(params[key]["id"] && ("" != params[key]["id"]))
 			journal = Journal.update(params[key]["id"], params[key]);
-			if ("" == params[key]["amount"] || "" == params[key]["memo"])
-				journal.destroy();
-				journal = nil;
-			end
 		else
 			journal = Journal.new(params[key]);
 			if (journal.memo == "" || journal.amount == 0)

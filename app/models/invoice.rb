@@ -1,15 +1,16 @@
 # == Schema Information
-# Schema version: 80
+# Schema version: 93
 #
 # Table name: invoices
 #
-#  id			:integer(11)	 not null, primary key
-#  created_at	:datetime
-#  event_id	  :integer(11)	 not null
-#  status		:string(255)	 not null
-#  recognized	:boolean(1)	  not null
-#  payment_type  :string(255)	 not null
-#  oracle_string :string(255)	 not null
+#  id            :integer(11)     not null, primary key
+#  created_at    :datetime
+#  event_id      :integer(11)     not null
+#  status        :string(255)     not null
+#  recognized    :boolean(1)      not null
+#  payment_type  :string(255)     not null
+#  oracle_string :string(255)     not null
+#  memo          :text
 #
 
 class Invoice < ActiveRecord::Base

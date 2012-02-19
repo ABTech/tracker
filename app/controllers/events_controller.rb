@@ -201,6 +201,8 @@ class EventsController < ApplicationController
     if(options[:search_terms])
       options[:search_terms].split().each do |word|
         condquery += " AND (events.title LIKE (?))";
+        condquery += " OR (eventdates.description LIKE (?))";
+        condargs << "%" + word + "%";
         condargs << "%" + word + "%";
       end
     end

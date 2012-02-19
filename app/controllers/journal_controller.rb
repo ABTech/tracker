@@ -33,6 +33,13 @@ class JournalController < ApplicationController
 
     render :layout=>"application2";
   end
+  def destroy
+    @journal = Journal.find(params['id'])
+    @journal.destroy
+
+    flash[:notice] = "Successfully deleted #{@journal.memo} journal entry"
+    redirect_to(:controller => "accounts", :action => "list");
+  end
 
   def save
 	errors = "";

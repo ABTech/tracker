@@ -21,15 +21,20 @@ class JournalController < ApplicationController
     
     @journal = Journal.new();
     @journal.date = DateTime.now();
+    @start = (Time.parse Account::Magic_Date)-1.year
+    @end = (Time.parse Account::Future_Magic_Date)
 
     render(:action => "new", :layout => "application2");
   end
 
   def edit
     @title = "Editing JE"
-    @mode = Mode_Edit;
-    
+    @mode = Mode_Edit
     @journal = Journal.find(params['id']);
+    if(@journal.date>(Time.parse Account::Magic_Date) and @journal.date < (Time.parse Account::Future_Magic_Date))
+      @start = (Time.parse Account::Magic_Date)-1.year
+      @end = (Time.parse Account::Future_Magic_Date)
+    end
 
     render :layout=>"application2";
   end

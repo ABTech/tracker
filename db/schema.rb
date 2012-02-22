@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(:version => 94) do
     t.text     "notes"
     t.integer  "account_id",                                     :default => 1,   :null => false
     t.integer  "event_id"
-    t.string   "paymeth_category"
+    t.string   "paymeth_category",                               :default => ""
   end
 
   add_index "journals", ["invoice_id"], :name => "journals_link_id_index"

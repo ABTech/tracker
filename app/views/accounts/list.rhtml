@@ -20,6 +20,8 @@ td:first-child > table.total { margin-left: 0; }
 table.journals { }
 table.journals td { text-align: right; padding-left: 5px; white-space: nowrap; }
 table.journals td:first-child { text-align: left; padding-left: 0; color: #444444; }
+a.tablelink {color: black; text-decoration:none;}
+a.tablelink:hover {color:#99F;}
 
 td.unpaid { font-weight: normal; }
 td.paid { font-weight: bold; }
@@ -36,14 +38,17 @@ td.paid { font-weight: bold; }
 
       <fieldset><legend>Totals</legend>
 
-			<table><tr><td>
+        <table><tr><td>
+              <a href="/accounts/list" class="tablelink">
 				<table class="account total">
 					<tr><td>Total</td></tr>
 					<tr><td><%= "$%01.2f" % (@accounts_receivable_total + @accounts_received_total - @accounts_payable_total - @accounts_paid_total) %></td></tr>
-				</table>
+      </table></a>
 			</td></tr></table>
         <% @cat_totals.keys.each do |category| %>
-			<table><tr><td>
+          <table><tr><td>
+
+                <a href="/accounts/list?category=<%=category%>" class="tablelink">
 				<table class="category">
           <tr><td><%= category.empty? ? "Other" : category%></td></tr>
           <tr><td><%= number_to_currency @cat_totals[category] %></td></tr>

@@ -1,3 +1,32 @@
+<script>
+
+function contact_changed() {
+  var full_contact = document.getElementById("event_contact_name").value;
+  var pattern = /<.+>/gi;
+  var email = pattern.exec(full_contact);
+  if(email){
+    email=email+"";
+    email=email.replace(/[<|>]/gi, "");
+    document.getElementById("event_contactemail").value=email;
+    document.getElementById("event_contact_name").value=full_contact.replace(pattern,"");
+  }
+}
+
+var dirty = false;
+
+function modified()
+{
+  dirty = true;
+}
+
+function switch_page(pgname)
+{
+    if(!dirty || confirm('Your changes will not be saved. Continue?'))
+    {
+        document.location = '<%= url_for(:id => @event.id, :escape => false) %>?page='+pgname;
+    }
+}
+</script>
 <div>
     <table border="0" cellspacing="0" cellpadding="3">
         <!-- event title -->
@@ -68,13 +97,12 @@
             </td>
             <td align="left" class="list"><%= check_box("event", "publish", :disabled => @is_view_mode, :onChange => "modified()") %></td>
         </tr>
-
         <!-- event contact name -->
         <tr class="listentry1">
             <td width="125" align="right" class="list">
                 <strong>Contact Name</strong>
             </td>
-            <td align="left" class="list"><%= @is_view_mode ? @event.contact_name : text_field("event", "contact_name", "size" => 35, :onChange => "modified()") %></td>
+            <td align="left" class="list"><%= @is_view_mode ? @event.contact_name : text_field("event", "contact_name", "size" => 35, :onChange => "contact_changed();modified()") %></td>
         </tr>
         
         <!-- event contact email -->

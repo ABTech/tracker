@@ -18,7 +18,7 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       flash[:notice] = "Attachment has been deleted."
-      format.html { redirect_to :back }
+      format.html { redirect_to request.referer }
     end
   end
 end

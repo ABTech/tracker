@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 93) do
+ActiveRecord::Schema.define(:version => 94) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name",      :null => false
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 93) do
     t.integer  "event_id"
     t.datetime "updated_at"
     t.datetime "created_at"
+    t.integer  "journal_id"
   end
 
   create_table "bugs", :force => true do |t|
@@ -183,14 +184,15 @@ ActiveRecord::Schema.define(:version => 93) do
 
   create_table "journals", :force => true do |t|
     t.datetime "created_at"
-    t.datetime "date",                                                      :null => false
-    t.string   "memo",                                                      :null => false
+    t.datetime "date",                                                            :null => false
+    t.string   "memo",                                                            :null => false
     t.integer  "invoice_id"
-    t.decimal  "amount",     :precision => 9, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "amount",           :precision => 9, :scale => 2, :default => 0.0, :null => false
     t.datetime "date_paid"
     t.text     "notes"
-    t.integer  "account_id",                               :default => 1,   :null => false
+    t.integer  "account_id",                                     :default => 1,   :null => false
     t.integer  "event_id"
+    t.string   "paymeth_category",                               :default => ""
   end
 
   add_index "journals", ["invoice_id"], :name => "journals_link_id_index"

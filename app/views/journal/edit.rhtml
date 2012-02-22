@@ -16,7 +16,7 @@ legend { font-size: 16px; }
 fieldset { width:40% } 
 </style>
 <script>
-  function switch_paymeth_field() {
+  function switch_pay_meth_field() {
     document.getElementById("paymeth").innerHTML="<%= escape_javascript(text_field("journal", "paymeth_category")) %>";
   }
 </script>
@@ -74,8 +74,8 @@ fieldset { width:40% }
     <td>
 
       <div id="paymeth">
-      <a href="javascript:switch_paymeth_field()">&#x270e</a>
-        <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category").collect {|j|j.paymeth_category} ) %>
+      <a href="javascript:switch_pay_meth_field()">THISISAPENCIL</a>
+      <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect {|j|j.paymeth_category}, :include_blank=>true ) %>
       </div>
 		</td>
 	</tr>

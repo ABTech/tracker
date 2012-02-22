@@ -5,6 +5,12 @@ function toggle_notes(id) {
 	document.getElementById("journal" + id + "_notes").className = "";
 	document.getElementById("toggle_" + id).className = "hidden";
 }
+
+  function switch_pay_meth_field(id) {
+    document.getElementById("paymeth"+id).innerHTML="<%= escape_javascript(text_field("journal", "paymeth_category")) %>";
+    document.getElementById("journal_paymeth_category").id="journal"+id+"_paymeth_category"
+    document.getElementById("journal"+id+"_paymeth_category").name="journal"+id+"[paymeth_category]"
+  }
 </script>
 
 <div style="margin-left: 20px">
@@ -29,7 +35,10 @@ function toggle_notes(id) {
 				<td><%= text_field("journal#{i}", "memo", :size => 40) %></td>
         <td>$<%= text_field("journal#{i}", "amount", :size => 6) %></td>
         <td>
-          <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category").collect {|j|j.paymeth_category} ) %>
+          <div id="paymeth<%=i%>">
+          <a href="javascript:switch_pay_meth_field('<%=i%>')">THISISAPENCIL</a>
+          <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect{|j|j.paymeth_category}, :include_blank => true)%>
+          </div>
         </td>
 
 				<td>

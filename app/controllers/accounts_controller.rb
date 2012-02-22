@@ -71,7 +71,16 @@ class AccountsController < ApplicationController
 		
                 @credit_JEs = Journal.find(:all, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?)", Account::Credit_Accounts], :order => "date DESC")
                 @debit_JEs = Journal.find(:all, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?)", Account::Debit_Accounts], :order => "date DESC")
-		
+
+                @credit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date > '#{@start}' AND date < '#{@end}' AND account_id in (?)",Account::Credit_Accounts])
+                @debit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date > '#{@start}' AND date < '#{@end}' AND account_id in (?)",Account::Debit_Accounts])
+                @cat_totals = Hash.new(0)
+                @credit_categories.each do |category|
+                  @cat_totals[category.paymeth_category]+=category.amount
+                end
+                @debit_categories.each do |category|
+                  @cat_totals[category.paymeth_category]-=category.amount
+                end
 		render(:layout => "application2")
     end
     def view

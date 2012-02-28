@@ -6,7 +6,7 @@ set :repository,  "git@github.com:ABTech/abtt.git"
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-#set :branch, "name"
+set :branch, "production"
 
 role :web, "abtt.abtech.org"                          # Your HTTP server, Apache/etc
 role :app, "abtt.abtech.org"                          # This may be the same as your `Web` server

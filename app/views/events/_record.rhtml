@@ -12,6 +12,22 @@
 <% form_tag({:controller => "events", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) do %>
 <% @event_form_name = "eventform"; %>
 
+<script type="text/javascript">
+var dirty = false;
+
+function modified()
+{
+    dirty = true;
+}
+
+function switch_page(pgname)
+{
+    if(!dirty || confirm('Your changes will not be saved. Continue?'))
+    {
+        document.location = '<%= url_for(:id => @event.id, :escape => false) %>?page='+pgname;
+    }
+}
+</script>
 
 <!-- #existing event ID -->
 <%= hidden_field("event", "id") %>

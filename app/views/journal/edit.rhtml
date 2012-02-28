@@ -15,6 +15,11 @@ table.listTable td{
 legend { font-size: 16px; }
 fieldset { width:40% } 
 </style>
+<script>
+  function switch_pay_meth_field() {
+    document.getElementById("paymeth").innerHTML="<%= escape_javascript(text_field("journal", "paymeth_category")) %>";
+  }
+</script>
 
 <fieldset >
 <legend>Edit a Journal Entry</legend>
@@ -62,6 +67,16 @@ fieldset { width:40% }
 		<th>Amount:	</th>
 		<td>
 			$<%= @is_view_mode ? @journal.amount : text_field("journal", "amount") %>
+		</td>
+  </tr>
+	<tr>
+		<th>Category:	</th>
+    <td>
+
+      <div id="paymeth">
+      <a href="javascript:switch_pay_meth_field()">THISISAPENCIL</a>
+      <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect {|j|j.paymeth_category}, :include_blank=>true ) %>
+      </div>
 		</td>
 	</tr>
 	<tr>

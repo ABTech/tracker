@@ -17,6 +17,7 @@
 
 class Journal < ActiveRecord::Base
 	validates_presence_of :date, :memo, :amount, :account;
+  has_many :attachments
 	belongs_to :account, :class_name => "Account", :foreign_key => "account_id";
 	belongs_to :invoice, :class_name => "Invoice", :foreign_key => "invoice_id";
 	belongs_to :event, :class_name => "Event", :foreign_key => "event_id";

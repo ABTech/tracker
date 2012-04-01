@@ -69,6 +69,9 @@ class JournalController < ApplicationController
 				errors += err + "<br />";
 			end
 		end
+    if params[:attachments][i.to_s] and !journal.nil?
+      Attachment.create(:attachment => params[:attachments][i.to_s], :journal_id => journal.id)
+    end
 	end
 
 	flash[:error] = errors

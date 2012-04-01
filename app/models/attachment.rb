@@ -20,4 +20,5 @@ class Attachment < ActiveRecord::Base
   validates_attachment_presence :attachment
 
   belongs_to :event
+  belongs_to :journal
 end

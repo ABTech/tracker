@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 94) do
     t.integer  "event_id"
     t.datetime "updated_at"
     t.datetime "created_at"
+    t.integer  "journal_id"
   end
 
   create_table "bugs", :force => true do |t|

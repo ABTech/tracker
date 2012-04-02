@@ -23,7 +23,7 @@ fieldset { width:40% }
 
 <fieldset >
 <legend>Edit a Journal Entry</legend>
-<form name="jeform" action="<%= url_for :action => "save" %>" method="post">
+<form name="jeform" action="<%= url_for :action => "save" %>" method="post" enctype="multipart/form-data">
 <%= hidden_field("journal", "id") %>
 <%= hidden_field("journal", "type", :value => "JeOther") %>
 <table class=listTable >
@@ -100,14 +100,27 @@ fieldset { width:40% }
 					:conditions=>["updated_on >	?",Time.now.years_ago(1)],
 					:order => "title ASC").collect{|e| 
 					[e.title, e.id]},
-				{:include_blank=>true}) %>
+            {:include_blank=>true}) %>
+          </td>
+        </tr>
 		
 	<tr>
 		<th>Notes:</th>
 		<td>
 			<%= @is_view_mode ? (if (@journal.notes) then @journal.notes.gsub(/\n/, "<br/>") else "" end) : text_area("journal", "notes") %>
 		</td>
-	</tr>
+  </tr>
+
+	<tr>
+    <th>Attachments:</th><td><table>
+    <% @journal.attachments.each do |a| %>
+      <tr><td><%= link_to a.attachment.original_filename, a.attachment.url %> | <%= link_to "Delete", attachment_path(a), :method => "delete",  :confirm => "Are you sure? This is irreversible." %></td></tr>
+    <% end %>
+    <tr><td>
+        <%= file_field "attachments", "0" %></td>
+  </tr></td>
+  </table></td>
+  </tr>
 </table>
 <%= submit_tag 'Edit Journal' %>
 -- 

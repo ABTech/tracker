@@ -16,11 +16,10 @@ function toggle_notes(id) {
 <div style="margin-left: 20px">
 	<h1>Add <%= params[:is_credit] == "true" ? "Credit" : "Debit" %> JEs</h1>
 
-	<form name="jeform" action="<%= url_for :action => "save" %>" method="post">
+	<form name="jeform" action="<%= url_for :action => "save" %>" method="post" enctype="multipart/form-data">
 	
 	<table class="generic">
-    <tr><th>Date</th><th>Account</th><th>Memo</th><th>Amount</th><th>Category</th><th>Notes</th></tr>
-		
+          <tr><th>Date</th><th>Account</th><th>Memo</th><th>Amount</th><th>Category</th><th>Notes</th><th>Attachment</th></tr>
 		<% num_journals = 10 %>
 		<input type="hidden" name="njournals" value="<%= num_journals %>"/>
 		
@@ -44,7 +43,10 @@ function toggle_notes(id) {
 				<td>
 					<%= text_area("journal#{i}", "notes", :rows => 6, :class => "hidden") %>
 					<input id="toggle_<%= i %>" type="button" value="Add Notes" onclick="toggle_notes(<%= i %>)"/>
-				</td>
+        </td>
+        <td>
+          <%= file_field "attachments", "#{i}" %>
+        </td>
 			</tr>
 		<% end %>
 	</table>

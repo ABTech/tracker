@@ -49,6 +49,7 @@ debit_total = 0.0
 <table>
 <% totalCost = 0.00 %>
 <% for eventdate in @event.eventdates do %>
+  <% intermediateCost = 0.00 %>
 	<tr>
 	<th class="listheader"><%= eventdate.description %></th>
 	<th class="listheader">Hrs</th>
@@ -56,16 +57,22 @@ debit_total = 0.0
 	</tr>
 	<% for time_entry in eventdate.timecard_entries do %>
 		<% cost = time_entry.payrate.to_f() * time_entry.hours 
-			totalCost += cost%>
+                totalCost += cost
+              intermediateCost += cost
+              %>
 		<tr>
 		<td>
 			<%= time_entry.member.namefirst %> 
 			<%= time_entry.member.namelast %>
 		</td>
 		<td><%= time_entry.hours %></td>
-		<td>$<%= cost %></td>
+		<td><%= number_to_currency cost %></td>
 		</tr>
 	<% end %>
+          <tr>
+        <td><b>Total:</b></td>
+        <td><b><%= eventdate.timecard_entries.inject(0) { |sum, n| sum + n.hours } %></b></td>
+          <td><b><%= number_to_currency intermediateCost %></b></td>
 	</tr>
 <% end %>
 <script>

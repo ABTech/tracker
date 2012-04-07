@@ -186,7 +186,7 @@ class EmailController < ApplicationController
                     :order => "timestamp ASC", 
                     :conditions => "status = \"#{Email::Email_Status_Unfiled}\"", 
                     :offset => @skip,
-                    :limit => 1);
+                    :limit => 1)
 
         if(emails.size == 0)
             flash[:notice] = "No unfiled email to resolve.";

@@ -184,7 +184,7 @@ td input {
                 <% end %>
             <% end %>
             
-            <% matches = Event.find(:all, :limit => 40, :order => "updated_on DESC", :include => :eventdates) %>
+            <% matches = Event.find(:all, :limit => 80, :order => "updated_on DESC", :include => :eventdates) %>
             <tr><th>all events<br /></th></tr>
             <tr><td>
                 <div style="height: 200px; overflow: auto;">

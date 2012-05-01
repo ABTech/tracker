@@ -33,6 +33,7 @@ class EventsController < ApplicationController
     @title = "Viewing Event";
 
     @event = Event.find_by_id(params["id"], :include => [:eventdates, :emails, :organization]);
+    @new_comment = @event.comments.build
 
     if(!@event)
       flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not, something is very wrong."

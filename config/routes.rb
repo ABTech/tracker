@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :permissions
   map.resources :roles
   map.resources :locations
+  map.resources :comments
   map.resources :members, :collection => [:edit_self]
   map.resources :accounts, :collection => {:list => :get, :unpaid => :get, :unpaid_print => :get, :events => :get}
 

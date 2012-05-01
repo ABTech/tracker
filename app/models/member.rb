@@ -28,6 +28,7 @@ require 'digest/sha1'
 class Member < ActiveRecord::Base
   
   has_many :eventroles;
+  has_many :comments;
   has_and_belongs_to_many :roles
   has_many :filters, :class_name => "MemberFilter", :order => "name ASC"
   has_many :timecard_entries

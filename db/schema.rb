@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 96) do
+ActiveRecord::Schema.define(:version => 97) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name",      :null => false
@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(:version => 96) do
   create_table "organizations", :force => true do |t|
     t.string  "name",      :default => "", :null => false
     t.integer "parent_id"
+    t.string  "org_email"
   end
 
   add_index "organizations", ["name"], :name => "organizations_name_index"

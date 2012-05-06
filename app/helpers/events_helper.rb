@@ -1,5 +1,9 @@
 module EventsHelper
-    def self.generate_new_event()
+
+ def my_comment?(member)   
+   member==current_member
+ end
+  def self.generate_new_event()
         event = Event.new();
         EventsController::New_Event_New_Date_Display_Count.times do
             dt = Eventdate.new();

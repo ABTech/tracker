@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 95) do
+ActiveRecord::Schema.define(:version => 97) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name",      :null => false
@@ -41,6 +41,14 @@ ActiveRecord::Schema.define(:version => 95) do
     t.string   "priority"
     t.datetime "created_on"
     t.datetime "updated_on"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "member_id"
+    t.text     "content"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "email_forms", :force => true do |t|
@@ -143,7 +151,7 @@ ActiveRecord::Schema.define(:version => 95) do
     t.string   "contact_name",    :default => "",                :null => false
     t.string   "contact_phone",   :default => "",                :null => false
     t.integer  "price_quote"
-    t.text     "comments"
+    t.text     "notes"
   end
 
   add_index "events", ["title"], :name => "events_title_index"
@@ -247,6 +255,7 @@ ActiveRecord::Schema.define(:version => 95) do
   create_table "organizations", :force => true do |t|
     t.string  "name",      :default => "", :null => false
     t.integer "parent_id"
+    t.string  "org_email"
   end
 
   add_index "organizations", ["name"], :name => "organizations_name_index"

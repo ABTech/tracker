@@ -1,7 +1,11 @@
 class InvoiceMailer < ActionMailer::Base
   def invoice(invoice,invoice_attachment)
     #set the various header bits
-    recipients  invoice.event.contactemail
+    if(invoice.event.organization.org_email.nil?)
+      recipients  invoice.event.contactemail
+    else
+      recipients  invoice.event.contactemail + (","+invoice.event.organization.org_email)
+    end
     cc "afasulo@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
     from "abtech+billing@andrew.cmu.edu"
     headers "Reply-To" => "abtech+billing@andrew.cmu.edu"

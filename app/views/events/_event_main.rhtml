@@ -99,17 +99,38 @@
                 <strong>Quote</strong>
             </td>
             <td align="left" class="list"><%= @is_view_mode ? number_to_currency(@event.price_quote) : text_field("event", "price_quote", "size" => 11, :onChange => "modified()") %></td>
-        </tr>
+          </tr>
 
+        <!-- event notes -->
+        <tr class="listentry2">
+            <td width="125" align="right" class="list">
+                <strong>Notes</strong>
+              </td>
+              <td align="left" class="list"><%= @is_view_mode ? "<pre style=\"white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;\">#{@event.notes}</pre>" : text_area("event", "notes", :onChange => "modified()") %></td>
+        </tr>
+              <%if @is_view_mode %>
         <!-- event comments -->
         <tr class="listentry1">
             <td width="125" align="right" class="list">
                 <strong>Comments</strong>
             </td>
 
-            <td align="left" class="list"><%= @is_view_mode ? "<pre style=\"white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;\">#{@event.comments}</pre>" : text_area("event", "comments", :onChange => "modified()") %></td>
+            <td align="left" class="list">
+              <% @event.comments.each do |comment| %>
+                <% if !comment.content.blank? %>
+ <fieldset style="font-size:14px;"><legend style="font-size:16px;color:#006;"><%="#{comment.member}"%> said on <%=comment.updated_at.strftime("%m/%d/%y at %I:%M%p")%></legend> <pre><%="#{comment.content}"%></pre> <%= my_comment?(comment.member) ? link_to("Delete Comment", comment_path(comment), :method=>:delete) : ""%></fieldset>
+                <% end %>
+              <% end %>
+              <% form_for @new_comment do |f| %>
+                <%= f.hidden_field :event_id %>
+                <%= f.text_area :content %>
+                <br />
+                <%= f.submit "New Comment" %>
+              <% end %>
+            </td>
         </tr>
 	
+            <% end %>
         <tr class="listentry1">
             <td width="125" align="right" class="list">&nbsp;</td>
             <td align="left" class="list"><%= link_to("delete event", {:action => "delete_conf", :id => @event.id}) %></td>

@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   has_many                :eventdates, :dependent => :destroy, :order => "startdate ASC";
   has_many                :event_roles, :dependent => :destroy;
   has_many                :invoices, :dependent => :destroy;
+  has_many                :comments, :dependent => :destroy
   has_many                :journals;		
   belongs_to              :organization;
   belongs_to              :year;

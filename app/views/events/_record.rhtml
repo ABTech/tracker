@@ -9,7 +9,6 @@
     end
 %>
 
-<% form_tag({:controller => "events", :action => "create", :redirect => request.request_uri()}, :name => "eventform", :multipart => true) do %>
 <% @event_form_name = "eventform"; %>
 
 <script type="text/javascript">
@@ -28,10 +27,12 @@ function switch_page(pgname)
     }
 }
 </script>
+<% if !@is_view_mode %>
+<form action="/events?redirect=<%=request.request_uri%>" enctype="multipart/form-data" method="post" name="eventform">
+<% end %>
 
 <!-- #existing event ID -->
 <%= hidden_field("event", "id") %>
-
 <div class="tab">
     <ul class="tablist">
         <li><%= link_to_function("Main", "switch_page('main');") %></li>
@@ -63,5 +64,3 @@ function switch_page(pgname)
     <% end %>
 </tr>
 </table>
-
-<% end %>

@@ -12,11 +12,6 @@ class InvoiceItemsController < ApplicationController
 		render :action=>'list', :layout=>"application2"
 	end
 
-	def show
-		@invoice_items = InvoiceItems.find(params[:id])
-		render :layout=>"application2"
-	end
-
 	def new
 		@invoice_items = InvoiceItems.new
 		render :layout=>"application2"

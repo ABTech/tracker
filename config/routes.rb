@@ -26,10 +26,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "mobile", :controller => "events", :action => "mobile";
   map.connect "iphone", :controller => "events", :action => "iphone";
   map.connect "i", :controller => "events", :action => "iphone";
-
+  map.connect "invoice/email/:id", :controller =>"invoice", :action=>"email", :conditions => {:method=>:post}
   map.resources :organizations
   map.resources :bugs
   map.resources :tshirts
+  map.resources :invoice
   map.resources :timecard_entries, :except => ['show']
 	map.resources :timecards, :member => {:view => :get }
   map.resources :events,

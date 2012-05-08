@@ -100,14 +100,31 @@ class InvoiceController < ApplicationController
 		@invoices = Invoice.find(:all, :include => [:event, :journal_invoice, :invoice_lines]);
 	end
 
+  def email_confirm
+		@invoice = Invoice.find(params['id'], :include => [:event]);
+	  @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
+    if(@invoice.event.organization.org_email.nil?)
+      @email_to=  @invoice.event.contactemail
+    else
+      @email_to=  @invoice.event.contactemail + ","+@invoice.event.organization.org_email
+    end
+    @email_cc= "afasulo@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
+    @email_subject ="AB Tech Billing For #{@invoice.event.title}"   
+    @email_content="Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Abigail Fasulo (afasulo@andrew.cmu.edu) within two weeks.\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
+    respond_to do |format|
+      format.js
+    end
+  end
 	def email
 		@invoice = Invoice.find(params['id'], :include => [:event]);
     #You need the template line so it uses the .pdf version not the .html
     #version
     attachment=render_to_string :pdf=>"output", :template => 'invoice/prettyView.pdf.erb', :layout=>false
-    InvoiceMailer.deliver_invoice(@invoice,attachment)
+    InvoiceMailer.deliver_invoice(@invoice,attachment,params)
     flash[:notice] = "Email Sent"
-    redirect_to :action => "view", :id => params['id']
+    respond_to do |format|
+      format.html {redirect_to :action => "view", :id => params['id']}
+    end
 	end
 
 end

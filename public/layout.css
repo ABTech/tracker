@@ -4,6 +4,18 @@
 	width: 175px;
 	position: absolute;
 }
+#email_form a{
+  color:blue;
+}
+#email_form input{
+  margin-bottom: 10px;
+}
+#email_form textarea{
+  margin-top:10px;
+}
+#email_form {
+  font-size: 80%;
+}
 
 .small_menu_container {
 	margin-top: 10px;
@@ -242,14 +254,6 @@ a:hover {
 a span {
   display: none;
   width: 150px;
-}
-a:hover span {
-  display: block;
-  position: absolute; top: 10px; left: 0;
-  
-  padding: 5px; margin: 10px; z-index: 100;
-  background: #f0f0f0; border: 1px dotted #c0c0c0;
-  opacity: 0.9;
 }
 
 .group_border {

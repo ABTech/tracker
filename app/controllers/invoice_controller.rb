@@ -117,8 +117,21 @@ class InvoiceController < ApplicationController
   end
 	def email
 		@invoice = Invoice.find(params['id'], :include => [:event]);
+    if(params['mark_completed'])
+      journal = JeInv.new
+      journal.date = DateTime.now
+      journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
+      journal.account=Account::Events_Account
+      journal.invoice=@invoice
+      journal.amount=@invoice.total
+      journal.save!
+      @invoice.event.status= Event::Event_Status_Event_Completed
+      @invoice.event.save!
+    end
+
     #You need the template line so it uses the .pdf version not the .html
     #version
+
     attachment=render_to_string :pdf=>"output", :template => 'invoice/prettyView.pdf.erb', :layout=>false
     InvoiceMailer.deliver_invoice(@invoice,attachment,params)
     flash[:notice] = "Email Sent"

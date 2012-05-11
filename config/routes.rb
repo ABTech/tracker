@@ -26,6 +26,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :attachments, :only => ["index", "destroy"]
 
+  map.resource :version, :controller => :version, :only => ["show"] 
+
   map.connect "login", :controller => "useraccount", :action => "login"
   map.connect "logout", :controller => "useraccount", :action => "logout"
 

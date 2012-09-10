@@ -45,9 +45,9 @@ function switch_page(pgname)
         <li><%= link_to_function("New View", "switch_page('new');") %></li>
     </ul>
     <% if(@event_page != "new") %>
-        <%= render_partial ("event_" + @event_page); %>
+        <%= render :partial => ("event_" + @event_page); %>
     <% else %>
-        <%= render_partial ("event_new"); %>
+        <%= render :partial => 'event_new' %>
     <% end %>
 </div>
 

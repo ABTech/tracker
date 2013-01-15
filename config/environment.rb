@@ -9,7 +9,7 @@ if(Socket.gethostname == "kurma.sys.hackish.org" || Socket.gethostname == "pickl
 end
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.0.5'
+RAILS_GEM_VERSION = '2.3.14'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')

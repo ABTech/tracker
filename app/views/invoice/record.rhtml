@@ -4,7 +4,7 @@
 <% @is_view_mode = (ApplicationController::Mode_View == @mode); %>
 <% @invoice_form_name = "invoiceform"; %>
 
-<%= render_partial("record") %>
+<%= render :partial => 'record' %>
 
 <br>
 <!-- form submission -->

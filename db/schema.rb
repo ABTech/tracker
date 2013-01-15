@@ -1,5 +1,5 @@
 # This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of ActiveRecord to incrementally modify your database, and
+# please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
 # Note that this schema.rb definition is the authoritative source for your database schema. If you need
@@ -62,14 +62,14 @@ ActiveRecord::Schema.define(:version => 97) do
     t.datetime "timestamp",                     :null => false
     t.text     "contents",                      :null => false
     t.string   "status",     :default => "New", :null => false
-    t.string   "subject"
+    t.string   "subject",                       :null => false
     t.string   "message_id",                    :null => false
   end
 
+  add_index "emails", ["contents"], :name => "emails_contents_index"
   add_index "emails", ["event_id"], :name => "emails_event_id_index"
   add_index "emails", ["sender"], :name => "emails_sender_index"
   add_index "emails", ["subject"], :name => "emails_subject_index"
-  add_index "emails", ["contents"], :name => "emails_contents_index"
 
   create_table "equipment", :force => true do |t|
     t.integer "parent_id",   :null => false
@@ -128,10 +128,10 @@ ActiveRecord::Schema.define(:version => 97) do
     t.string   "description", :null => false
   end
 
+  add_index "eventdates", ["description"], :name => "eventdates_description_index"
+  add_index "eventdates", ["enddate"], :name => "eventdates_enddate_index"
   add_index "eventdates", ["event_id"], :name => "eventdates_event_id_index"
   add_index "eventdates", ["startdate"], :name => "eventdates_startdate_index"
-  add_index "eventdates", ["enddate"], :name => "eventdates_enddate_index"
-  add_index "eventdates", ["description"], :name => "eventdates_description_index"
 
   create_table "eventdates_locations", :id => false, :force => true do |t|
     t.integer "eventdate_id", :null => false
@@ -154,9 +154,9 @@ ActiveRecord::Schema.define(:version => 97) do
     t.text     "notes"
   end
 
-  add_index "events", ["title"], :name => "events_title_index"
-  add_index "events", ["status"], :name => "events_status_index"
   add_index "events", ["contactemail"], :name => "events_contactemail_index"
+  add_index "events", ["status"], :name => "events_status_index"
+  add_index "events", ["title"], :name => "events_title_index"
 
   create_table "invoice_items", :force => true do |t|
     t.string  "memo",               :null => false
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(:version => 97) do
     t.string   "salt",                      :limit => 40, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_token"
+    t.string   "remember_token",                          :null => false
     t.datetime "remember_token_expires_at"
     t.string   "settingstring"
     t.string   "title"
@@ -240,17 +240,17 @@ ActiveRecord::Schema.define(:version => 97) do
     t.float    "payrate"
   end
 
+  add_index "members", ["kerbid"], :name => "members_kerbid_index"
   add_index "members", ["namefirst"], :name => "members_namefirst_index"
   add_index "members", ["namelast"], :name => "members_namelast_index"
-  add_index "members", ["kerbid"], :name => "members_kerbid_index"
 
   create_table "members_roles", :id => false, :force => true do |t|
-    t.integer "member_id", :limit => 10, :null => false
-    t.integer "role_id",   :limit => 10, :null => false
+    t.integer "member_id", :null => false
+    t.integer "role_id",   :null => false
   end
 
-  add_index "members_roles", ["role_id"], :name => "roles_users_FKIndex1"
   add_index "members_roles", ["member_id"], :name => "roles_users_FKIndex2"
+  add_index "members_roles", ["role_id"], :name => "roles_users_FKIndex1"
 
   create_table "organizations", :force => true do |t|
     t.string  "name",      :default => "", :null => false
@@ -279,8 +279,8 @@ ActiveRecord::Schema.define(:version => 97) do
   end
 
   create_table "permissions_roles", :id => false, :force => true do |t|
-    t.integer "role_id",       :limit => 10, :null => false
-    t.integer "permission_id", :limit => 10, :null => false
+    t.integer "role_id",       :null => false
+    t.integer "permission_id", :null => false
   end
 
   add_index "permissions_roles", ["permission_id"], :name => "permissions_roles_FKIndex1"

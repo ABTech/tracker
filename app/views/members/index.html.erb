@@ -11,7 +11,7 @@
     <th><%= table_order_link( "Callsign",    "callsign",      @order) %></th>
     <th><%= table_order_link( "Shirt Size",    "shirt_size",      @order) %></th>
   <%- if @edit_others -%>
-    <th><%= table_order_link( "Roles",    "roles",      @order) %></th>
+    <th>Roles</th>
     <th><%= table_order_link( "Created",  "created_at", @order) %></th>
     <th><%= table_order_link( "Updated",  "updated_at", @order) %></th>
     <th colspan=3>&nbsp;</th>
@@ -44,5 +44,5 @@
 
 <%= link_to 'New member', new_member_path %> <br>
 <%= link_to 'Download as V-Cards', formatted_members_path(:vcf) %> <br>
-<%= image_tag "http://www.nw-weathernet.com/webimages/new-icon.gif" %> <%= link_to 'Generate T-Shirt Order', tshirts_path %>
+<%= link_to 'Generate T-Shirt Order', tshirts_path %>
 <% end %>

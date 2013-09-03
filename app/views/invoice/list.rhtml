@@ -14,7 +14,7 @@
 			<td class="list">
         <%= link_to(@invoice.event.title, event_path(@invoice.event)) %>
       </td>
-			<td class="list">$<%= @invoice.total %></td>
+			<td class="list"><%= number_to_currency @invoice.total %></td>
       <td>
         <% if(@invoice.journal_invoice) %>
           <%= link_to(@invoice.journal_invoice.date.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => @invoice.journal_invoice.id}) %>

@@ -4,12 +4,12 @@
 			<table><tr><td>
 				<table class="account total">
 					<tr><td>Accounts <%= is_credit ? "Receivable" : "Payable" %></td></tr>
-					<tr><td><%= "$%01.2f" % (is_credit ? @accounts_receivable_total : @accounts_payable_total) %></td></tr>
+					<tr><td><%= number_to_currency(is_credit ? @accounts_receivable_total : @accounts_payable_total) %></td></tr>
 				</table>
 			</td><td>
 				<table class="account total">
 					<tr><td>Accounts <%= is_credit ? "Received" : "Paid" %></td></tr>
-					<tr><td><%= "$%01.2f" % (is_credit ? @accounts_received_total : @accounts_paid_total) %></td></tr>
+					<tr><td><%= number_to_currency(is_credit ? @accounts_received_total : @accounts_paid_total) %></td></tr>
 				</table>
 			</td></tr></table>
 		</td></tr>
@@ -17,7 +17,7 @@
 			<% (is_credit ? @credit_accounts : @debit_accounts).each do |acc| %>
 				<table class="account">
 					<tr><td><%= acc.name %></td></tr>
-                                        <tr><td><%= acc.total_s(@start, @end) %></td></tr>
+                                        <tr><td><%= number_to_currency acc.total(@start, @end) %></td></tr>
 				</table>
 			<% end %>
 		</td><td style="padding: 6px 0 0 6px">
@@ -31,7 +31,7 @@
 							<%= link_to je_memo, {:controller => "journal", :action => "edit", :id => je.id} %>
 							</td>
 							
-							<td class="<%= je.date_paid ? "paid" : "unpaid" %>"><%= "$%01.2f" % je.amount %></td>
+							<td class="<%= je.date_paid ? "paid" : "unpaid" %>"><%= number_to_currency je.amount %></td>
 						</tr>
 					<% end %>
 				</table>
@@ -39,7 +39,7 @@
 		</td></tr>
 	</table>
 </fieldset>
-<% form_tag :controller => "journal", :action => "new" do %>
+<% form_tag({ :controller => "journal", :action => "new" }, :method => "get") do %>
 	<input type="submit" value="Add <%= is_credit ? "Credit" : "Debit" %>" style="width: 100%"/>
 	<input type="hidden" name="is_credit" value="<%= is_credit ? "true" : "false" %>"/>
 <% end %>

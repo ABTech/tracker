@@ -17,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :organizations
   map.resources :bugs
   map.resources :tshirts
+  map.connect "invoice/list", :controller => "invoice", :action => "list"
   map.resources :invoice
   map.resources :timecard_entries, :except => ['show']
 	map.resources :timecards, :member => {:view => :get }

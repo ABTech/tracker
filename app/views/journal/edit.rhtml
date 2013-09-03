@@ -74,7 +74,7 @@ fieldset { width:40% }
     <td>
 
       <div id="paymeth">
-      <a href="javascript:switch_pay_meth_field()">THISISAPENCIL</a>
+      <a href="javascript:switch_pay_meth_field()"><i class="icon-pencil"></i></a>
       <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect {|j|j.paymeth_category}, :include_blank=>true ) %>
       </div>
 		</td>

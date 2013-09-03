@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>ABTT - <%= @title %></title>
 	<link href="/main.css" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/icon-font.css" rel="stylesheet" type="text/css" />
 	<%
 		def better_select_date(startdate, object, field)
 		    return select_year(startdate, :prefix => "#{object}[#{field}(1i)]", :discard_type => true) + 

@@ -47,7 +47,7 @@
 							todaydates = [];
               while((dates != nil) && (dates.size() > 0) && (dates[0].startdate.mday() == day.mday()))
                 date = dates.shift();
-                if(date.event.status!=Event::Event_Status_Event_Cancelled )
+                unless (Event::Event_Status_Group_Cancelled|Event::Event_Status_Group_Declined).include? date.event.status
                   todaydates << date;
                 end
 							end

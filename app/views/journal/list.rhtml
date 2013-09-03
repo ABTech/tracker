@@ -7,7 +7,7 @@
 <table>
   <tr class=listheader">
     <th>Date
-	<th>Date Paid
+    <th>Date Paid
     <th>Memo
     <th>Amount
     <th>Account
@@ -18,9 +18,9 @@
   <% for journal in @journals.sort{|x, y| y.date <=> x.date} %>
     <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
       <td class="list"><%= journal.date.strftime("%A, %B %d %Y") %>
-	  <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %>
+      <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %>
       <td class="list"><%= link_to(journal.memo, {:action => "edit", :id => journal.id}) %>
-      <td class="list"><%= journal.amount %>
+      <td class="list"><%= number_to_currency journal.amount %>
       <td class="list"><%= link_to(journal.account.name, {:action => "view", :id => journal.account.id}) %>
       <td class="list">
         <% case(journal.class.name) 

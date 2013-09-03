@@ -35,7 +35,7 @@ function toggle_notes(id) {
         <td>$<%= text_field("journal#{i}", "amount", :size => 6) %></td>
         <td>
           <div id="paymeth<%=i%>">
-          <a href="javascript:switch_pay_meth_field('<%=i%>')">THISISAPENCIL</a>
+          <a href="javascript:switch_pay_meth_field('<%=i%>')"><i class="icon-pencil"></i></a>
           <%= select("journal#{i}", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect{|j|j.paymeth_category}, :include_blank => true)%>
           </div>
         </td>

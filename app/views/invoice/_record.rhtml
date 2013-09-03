@@ -140,7 +140,7 @@ end
 
 	<tr class="listentry1">
 		<td align="right" class="list"><strong>Invoice Total:</strong></td>
-		<td class="list" align="left">$<%= @invoice.total %>.00</td>
+		<td class="list" align="left"><%= number_to_currency @invoice.total %></td>
 	</tr>
 </table>
 <br/>
@@ -252,7 +252,7 @@ end
 			<!-- line price -->
 			<td align="left" class="list">
 				<% if(@is_view_mode) %>
-					<%=h line.price() %>
+					<%=h number_to_currency line.price() %>
 				<% else %>
 					<%= text_field_tag("line#{i}[price]", line.price, :size => 5) %>
 				<% end %>
@@ -269,7 +269,7 @@ end
 
 			<!-- line total -->
 			<td align="left" class="list">
-				$<%=h line.total() %>
+				<%=h number_to_currency line.total() %>
 			</td>
 		</tr>
 
@@ -279,7 +279,7 @@ end
 
 	<tr class="listentry2">
 		<td align="right" class="list"><strong>Invoice Total:</strong></td>
-		<td class="list" align="left" colspan="5">$<%= @invoice.total %>.00</td>
+		<td class="list" align="left" colspan="5"><%= number_to_currency @invoice.total %></td>
 	</tr>
 </table>
 

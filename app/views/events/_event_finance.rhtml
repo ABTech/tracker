@@ -23,10 +23,10 @@ debit_total = 0.0
 	<tr class=<%= tmp ? "listentry1" : "listentry2" %>>
 	<td class="list" ><%= journal.memo %></td>
 	<% if journal.account.is_credit? then %>
-		<td class="list" >$<%= journal.amount %></td><td class="list" ></td>
+		<td class="list" ><%= number_to_currency journal.amount %></td><td class="list" ></td>
 		<% credit_total += journal.amount %>
 	<% else %>
-		<td class="list" ></td><td class="list">$<%= journal.amount %></td>
+		<td class="list" ></td><td class="list"><%= number_to_currency journal.amount %></td>
 		<% debit_total += journal.amount %>
 	<% end %>
 	</tr>
@@ -34,9 +34,9 @@ debit_total = 0.0
 <% end %>
 <tr class=<%= tmp ? "listentry1" : "listentry2" %>>
 <td class="list"><strong>Totals:</strong></td>
-<td class="list" >$<%= credit_total %></td>
-<td class="list">$<%= debit_total %></td>
-<td class="list"><strong>$<%= credit_total - debit_total %></strong></td>
+<td class="list" ><%= number_to_currency credit_total %></td>
+<td class="list"><%= number_to_currency debit_total %></td>
+<td class="list"><strong><%= number_to_currency(credit_total - debit_total) %></strong></td>
 </tr>
 </table>
 
@@ -78,7 +78,7 @@ debit_total = 0.0
 <script>
 window.onload = function(){
 	var cost = document.getElementById("payrollCost")
-	cost.innerHTML = "$<%= totalCost %>"
+	cost.innerHTML = "<%= number_to_currency totalCost %>"
 }
 </script>
 

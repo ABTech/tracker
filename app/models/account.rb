@@ -12,9 +12,9 @@
 class Account < ActiveRecord::Base
     has_many :journals, :class_name => "Journal", :foreign_key => "account", :order => "journals.date DESC";
     
-  #When you change this magic date, finances are reset. JEs before this date don't count. Perhaps this should be made sensible some day.
-	Magic_Date = '2012-07-01'
-	Future_Magic_Date = '2013-07-01'
+  	# When you change this magic date, finances are reset. JEs before this date don't count. Perhaps this should be made sensible some day.
+	Magic_Date = '2013-07-01'
+	Future_Magic_Date = '2014-07-01'
   		
 	# Credit
 	Credit_Accounts = Account.find(:all, :conditions => "is_credit = true")
@@ -40,10 +40,6 @@ class Account < ActiveRecord::Base
 		return (t == nil ? 0 : t)
     end
 	
-        def total_s(start_date=nil, end_date=nil)
-            return "$%01.2f" % total(start_date, end_date)
-	end
-    
     #def unpaid_payable
     #    return journals_credit.find(:all, :conditions => ["IFNULL(link_paid_id, 0) = 0 AND date > '2007-05-31'"]);
     #end

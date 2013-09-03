@@ -19,7 +19,7 @@
             <td class="list">
 <%= !inv ?
     link_to("create", {:action => "new", :controller => "invoice", :event_id => event.id}) :
-    link_to("$" + inv.total.to_s() + ".00", {:controller => "invoice", :action => "view", :id => inv.id}) %>
+    link_to(number_to_currency(inv.total), {:controller => "invoice", :action => "view", :id => inv.id}) %>
             </td>
             <td class="list">
 <%= inv && inv.journal_invoice ? 

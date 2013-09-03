@@ -42,7 +42,7 @@ td.paid { font-weight: bold; }
               <a href="/accounts/list" class="tablelink">
 				<table class="account total">
 					<tr><td>Total</td></tr>
-					<tr><td><%= "$%01.2f" % (@accounts_receivable_total + @accounts_received_total - @accounts_payable_total - @accounts_paid_total) %></td></tr>
+					<tr><td><%= number_to_currency (@accounts_receivable_total + @accounts_received_total - @accounts_payable_total - @accounts_paid_total) %></td></tr>
       </table></a>
 			</td></tr></table>
         <% @cat_totals.keys.each do |category| %>

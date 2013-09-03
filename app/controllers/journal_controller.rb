@@ -47,36 +47,36 @@ class JournalController < ApplicationController
   end
 
   def save
-	errors = "";
-	successfully_saved = 0;
-	
-	num_times = params["njournals"] ? params["njournals"].to_i : 1;
-	num_times.times do |i|
-		key = params["njournals"] ? ("journal" + i.to_s()) : "journal";
-		if(params[key]["id"] && ("" != params[key]["id"]))
-			journal = Journal.update(params[key]["id"], params[key]);
-		else
-			journal = Journal.new(params[key]);
-			if (journal.memo == "" || journal.amount == 0)
-				journal = nil
-			end
-		end
-		
-		if (journal && journal.valid? && journal.save())
-			successfully_saved += 1;
-		elsif (journal)
-			journal.errors.each_full() do |err|
-				errors += err + "<br />";
-			end
-		end
-    if params[:attachments][i.to_s] and !journal.nil?
-      Attachment.create(:attachment => params[:attachments][i.to_s], :journal_id => journal.id)
+    errors = "";
+    successfully_saved = 0;
+    
+    num_times = params["njournals"] ? params["njournals"].to_i : 1;
+    num_times.times do |i|
+      key = params["njournals"] ? ("journal" + i.to_s()) : "journal";
+      if(params[key]["id"] && ("" != params[key]["id"]))
+        journal = Journal.update(params[key]["id"], params[key]);
+      else
+        journal = Journal.new(params[key]);
+        if (journal.memo == "" || journal.amount == 0)
+          journal = nil
+        end
+      end
+      
+      if (journal && journal.valid? && journal.save())
+        successfully_saved += 1;
+      elsif (journal)
+        journal.errors.each_full() do |err|
+          errors += err + "<br />";
+        end
+      end
+      if params[:attachments] and params[:attachments][i.to_s] and !journal.nil?
+        Attachment.create(:attachment => params[:attachments][i.to_s], :journal_id => journal.id)
+      end
     end
-	end
 
-	flash[:error] = errors
-	flash[:notice] = successfully_saved.to_s + " Journal(s) Saved";
-	
+    flash[:error] = errors unless errors.empty?
+    flash[:notice] = successfully_saved.to_s + " Journal(s) Saved";
+    
     redirect_to(:controller => "accounts", :action => "list");
   end
 

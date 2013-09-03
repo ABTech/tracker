@@ -66,7 +66,7 @@ fieldset { width:40% }
 	<tr>
 		<th>Amount:	</th>
 		<td>
-			$<%= @is_view_mode ? @journal.amount : text_field("journal", "amount") %>
+			<%= @is_view_mode ? number_to_currency(@journal.amount) : '$' + text_field("journal", "amount") %>
 		</td>
   </tr>
 	<tr>

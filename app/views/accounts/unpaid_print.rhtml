@@ -22,7 +22,7 @@
             <td class="list"><%= event ? event.eventdates[0].startdate.strftime("%D") : "" %></td>
             <td class="list"><%= event ? event.organization.name : "" %></td>
             <td class="list"><%= event ? event.title : "" %></td>
-            <td class="list">$<%= journal.amount %>.00</td>
+            <td class="list"><%= number_to_currency journal.amount %></td>
             <td class="list"><%= event ? event.contactemail : "" %></td>
             <td class="list"><%= journal.invoice ? journal.invoice.oracle_string : "" %></td>
         </tr>
@@ -30,4 +30,4 @@
     <% end %>
 
 </table>
-Total: $<%= total %><br>
+Total: <%= number_to_currency total %><br>

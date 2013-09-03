@@ -50,7 +50,7 @@ fieldset { width:40% }
 	<tr>
 		<th>Amount:	</th>
 		<td>
-			$<%=  @journal.amount %>
+			<%= number_to_currency @journal.amount %>
 		</td>
 	</tr>
 	<tr>

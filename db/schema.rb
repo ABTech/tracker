@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(:version => 97) do
     t.datetime "timestamp",                     :null => false
     t.text     "contents",                      :null => false
     t.string   "status",     :default => "New", :null => false
-    t.string   "subject",                       :null => false
+    t.string   "subject"
     t.string   "message_id",                    :null => false
   end
 
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(:version => 97) do
     t.string   "salt",                      :limit => 40, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_token",                          :null => false
+    t.string   "remember_token"
     t.datetime "remember_token_expires_at"
     t.string   "settingstring"
     t.string   "title"

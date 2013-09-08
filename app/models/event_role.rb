@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: event_roles
 #
-#  id        :integer(11)     not null, primary key
-#  event_id  :integer(11)     not null
-#  member_id :integer(11)     not null
-#  role      :string(255)     not null
+#  id        :integer          not null, primary key
+#  event_id  :integer          not null
+#  member_id :integer          not null
+#  role      :string(255)      not null
 #
 
 class EventRole < ActiveRecord::Base

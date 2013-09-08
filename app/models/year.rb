@@ -1,11 +1,10 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: years
 #
-#  id          :integer(11)     not null, primary key
-#  description :string(255)     not null
-#  active      :integer(11)     default(0), not null
+#  id          :integer          not null, primary key
+#  description :string(255)      not null
+#  active      :integer          default(0), not null
 #
 
 class Year < ActiveRecord::Base

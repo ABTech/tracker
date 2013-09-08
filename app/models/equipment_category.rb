@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: equipment_categories
 #
-#  id        :integer(11)     not null, primary key
-#  name      :string(255)     not null
-#  parent_id :integer(11)     not null
-#  position  :integer(11)     not null
+#  id        :integer          not null, primary key
+#  name      :string(255)      not null
+#  parent_id :integer          not null
+#  position  :integer          not null
 #
 
 class EquipmentCategory < ActiveRecord::Base

@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id              :integer          not null, primary key
+#  title           :string(255)      default(""), not null
+#  organization_id :integer          default(0), not null
+#  status          :string(255)      default("Initial Request"), not null
+#  contactemail    :string(255)
+#  blackout        :boolean          default(FALSE), not null
+#  updated_on      :datetime
+#  publish         :boolean          default(FALSE)
+#  rental          :boolean          not null
+#  year_id         :integer          not null
+#  contact_name    :string(255)      default(""), not null
+#  contact_phone   :string(255)      default(""), not null
+#  price_quote     :integer
+#  notes           :text
+#
+
 class Event < ActiveRecord::Base
   has_many                :emails, :order => "timestamp DESC";
   has_many                :eventdates, :dependent => :destroy, :order => "startdate ASC";
@@ -115,24 +135,4 @@ class Event < ActiveRecord::Base
     
   end
 end
-
-# == Schema Information
-#
-# Table name: events
-#
-#  id              :integer(11)     not null, primary key
-#  title           :string(255)     default(""), not null
-#  organization_id :integer(11)     default(0), not null
-#  status          :string(255)     default("Initial Request"), not null
-#  contactemail    :string(255)
-#  blackout        :boolean(1)      default(FALSE), not null
-#  updated_on      :datetime
-#  publish         :boolean(1)      default(FALSE)
-#  rental          :boolean(1)      not null
-#  year_id         :integer(11)     not null
-#  contact_name    :string(255)     default(""), not null
-#  contact_phone   :string(255)     default(""), not null
-#  price_quote     :integer(11)
-#  comments        :text
-#
 

@@ -1,15 +1,14 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: eventdates
 #
-#  id          :integer(11)     not null, primary key
-#  event_id    :integer(11)     not null
-#  startdate   :datetime        not null
-#  enddate     :datetime        not null
-#  calldate    :datetime        not null
-#  strikedate  :datetime        not null
-#  description :string(255)     not null
+#  id          :integer          not null, primary key
+#  event_id    :integer          not null
+#  startdate   :datetime         not null
+#  enddate     :datetime         not null
+#  calldate    :datetime         not null
+#  strikedate  :datetime         not null
+#  description :string(255)      not null
 #
 
 class Eventdate < ActiveRecord::Base

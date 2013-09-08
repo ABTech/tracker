@@ -11,4 +11,5 @@ gem 'wkhtmltopdf-binary'
 group :development do
   gem 'thin'
   gem 'mailcatcher'
+  gem 'annotate'
 end

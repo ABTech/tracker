@@ -1,13 +1,12 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: timecard_entries
 #
-#  id           :integer(11)     not null, primary key
-#  member_id    :integer(11)
+#  id           :integer          not null, primary key
+#  member_id    :integer
 #  hours        :float
-#  eventdate_id :integer(11)
-#  timecard_id  :integer(11)
+#  eventdate_id :integer
+#  timecard_id  :integer
 #  payrate      :float
 #
 

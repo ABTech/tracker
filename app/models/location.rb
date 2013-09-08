@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: locations
 #
-#  id       :integer(11)     not null, primary key
-#  building :string(255)     not null
-#  floor    :string(255)     not null
-#  room     :string(255)     not null
+#  id       :integer          not null, primary key
+#  building :string(255)      not null
+#  floor    :string(255)      not null
+#  room     :string(255)      not null
 #  details  :text
 #
 

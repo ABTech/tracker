@@ -1,13 +1,12 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: member_filters
 #
-#  id           :integer(11)     not null, primary key
-#  name         :string(255)     default("new filter"), not null
+#  id           :integer          not null, primary key
+#  name         :string(255)      default("new filter"), not null
 #  filterstring :string(255)
-#  displaylimit :integer(11)     default(0), not null
-#  member_id    :integer(11)     not null
+#  displaylimit :integer          default(0), not null
+#  member_id    :integer          not null
 #
 
 class MemberFilter < ActiveRecord::Base

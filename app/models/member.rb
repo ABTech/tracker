@@ -1,17 +1,16 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: members
 #
-#  id                        :integer(11)     not null, primary key
-#  namefirst                 :string(255)     not null
-#  namelast                  :string(255)     not null
-#  kerbid                    :string(255)     not null
-#  namenick                  :string(255)     not null
-#  phone                     :string(255)     not null
-#  aim                       :string(255)     not null
-#  crypted_password          :string(40)      not null
-#  salt                      :string(40)      not null
+#  id                        :integer          not null, primary key
+#  namefirst                 :string(255)      not null
+#  namelast                  :string(255)      not null
+#  kerbid                    :string(255)      not null
+#  namenick                  :string(255)      not null
+#  phone                     :string(255)      not null
+#  aim                       :string(255)      not null
+#  crypted_password          :string(40)       not null
+#  salt                      :string(40)       not null
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token            :string(255)
@@ -20,7 +19,7 @@
 #  title                     :string(255)
 #  callsign                  :string(255)
 #  shirt_size                :string(20)
-#  ssn                       :integer(11)
+#  ssn                       :integer
 #  payrate                   :float
 #
 

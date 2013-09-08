@@ -1,11 +1,11 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: organizations
 #
-#  id        :integer(11)     not null, primary key
-#  name      :string(255)     default(""), not null
-#  parent_id :integer(11)
+#  id        :integer          not null, primary key
+#  name      :string(255)      default(""), not null
+#  parent_id :integer
+#  org_email :string(255)
 #
 
 class Organization < ActiveRecord::Base

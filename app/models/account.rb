@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: accounts
 #
-#  id        :integer(11)     not null, primary key
-#  name      :string(255)     not null
-#  is_credit :boolean(1)      not null
-#  position  :integer(11)     not null
+#  id        :integer          not null, primary key
+#  name      :string(255)      not null
+#  is_credit :boolean          not null
+#  position  :integer          not null
 #
 
 class Account < ActiveRecord::Base

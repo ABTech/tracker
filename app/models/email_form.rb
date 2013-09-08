@@ -1,11 +1,10 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: email_forms
 #
-#  id          :integer(11)     not null, primary key
-#  description :string(255)     not null
-#  contents    :text            not null
+#  id          :integer          not null, primary key
+#  description :string(255)      not null
+#  contents    :text             default(""), not null
 #
 
 class EmailForm < ActiveRecord::Base

@@ -1,17 +1,17 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: attachments
 #
-#  id                      :integer(11)     not null, primary key
+#  id                      :integer          not null, primary key
 #  name                    :string(255)
 #  attachment_file_name    :string(255)
 #  attachment_content_type :string(255)
-#  attachment_file_size    :integer(11)
+#  attachment_file_size    :integer
 #  attachment_updated_at   :datetime
-#  event_id                :integer(11)
+#  event_id                :integer
 #  updated_at              :datetime
 #  created_at              :datetime
+#  journal_id              :integer
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

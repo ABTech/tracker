@@ -1,9 +1,8 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: permissions
 #
-#  id      :integer(10)     not null, primary key
+#  id      :integer          not null, primary key
 #  pattern :string(255)
 #
 

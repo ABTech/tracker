@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id         :integer          not null, primary key
+#  member_id  :integer
+#  content    :text
+#  event_id   :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CommentTest < ActiveSupport::TestCase

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: timecard_entries
+#
+#  id           :integer          not null, primary key
+#  member_id    :integer
+#  hours        :float
+#  eventdate_id :integer
+#  timecard_id  :integer
+#  payrate      :float
+#
+
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TimecardEntryTest < Test::Unit::TestCase
@@ -8,16 +20,3 @@ class TimecardEntryTest < Test::Unit::TestCase
     assert true
   end
 end
-
-# == Schema Information
-#
-# Table name: timecard_entries
-#
-#  id           :integer(11)     not null, primary key
-#  member_id    :integer(11)
-#  hours        :float
-#  eventdate_id :integer(11)
-#  timecard_id  :integer(11)
-#  payrate      :float
-#
-

@@ -1,13 +1,12 @@
 # == Schema Information
-# Schema version: 93
 #
 # Table name: equipment
 #
-#  id          :integer(11)     not null, primary key
-#  parent_id   :integer(11)     not null
-#  description :string(255)     not null
-#  position    :integer(11)     not null
-#  shortname   :string(255)     not null
+#  id          :integer          not null, primary key
+#  parent_id   :integer          not null
+#  description :string(255)      not null
+#  position    :integer          not null
+#  shortname   :string(255)      not null
 #
 
 class Equipment < ActiveRecord::Base

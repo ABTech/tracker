@@ -13,6 +13,8 @@ GEM
     activeresource (2.3.15)
       activesupport (= 2.3.15)
     activesupport (2.3.15)
+    annotate (2.5.0)
+      rake
     backports (3.3.3)
     capistrano (2.15.5)
       highline
@@ -87,6 +89,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-mysql2-adapter
+  annotate
   capistrano
   mailcatcher
   mysql2

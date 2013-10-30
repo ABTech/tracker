@@ -20,10 +20,8 @@ class EventRole < ActiveRecord::Base
     Role_Mon        = "Mon";
     Role_aMon       = "aMon";
     Role_LD         = "LD";
-    Role_iLD        = "iLD";
     Role_aLD        = "aLD";
-    Role_iLprog     = "iLprog"
-    Role_cLprog     = "cLprog"
+    Role_Lprog      = "Lprog"
     Role_ME         = "ME";
     Role_aME        = "aME";
     Role_MR         = "MR";
@@ -35,10 +33,12 @@ class EventRole < ActiveRecord::Base
     Role_Runner     = "Runner";
     Role_Hole       = "Hole";
     Role_aHole      = "aHole";
+    Role_exec       = "exec"
     Role_car	    = "car"
     Role_trunk      = "truck"
     Role_setup      = "setup"
-    Role_strike      = "strike"
+    Role_strike     = "strike"
+    Role_food       = "food"
     
     #Roles_all is also used for ordering roles (sorting)
     Roles_All = [
@@ -50,10 +50,8 @@ class EventRole < ActiveRecord::Base
       Role_Mon	  ,
       Role_aMon	  ,
       Role_LD	  ,
-      Role_iLD	  ,
       Role_aLD	  ,
-      Role_iLprog ,
-      Role_cLprog ,
+      Role_Lprog ,
       Role_ME	  ,
       Role_aME	  ,            
       Role_MR	  ,            
@@ -64,11 +62,13 @@ class EventRole < ActiveRecord::Base
       Role_SpotOp ,            
       Role_Runner ,            
       Role_Hole	  ,            
+      Role_exec   ,
       Role_aHole  ,            
       Role_car	  ,     
       Role_trunk  ,          
       Role_setup  ,
-      Role_strike
+      Role_strike ,
+      Role_food
                 ];
 
     validates_presence_of  :event, :role;

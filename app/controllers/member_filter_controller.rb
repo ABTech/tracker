@@ -1,0 +1,2 @@
+class MemberFilterController < ApplicationController
+end

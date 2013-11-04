@@ -1,0 +1,2 @@
+class TimecardsController < ApplicationController
+end

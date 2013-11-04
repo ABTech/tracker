@@ -1,0 +1,2 @@
+class JeOther < Journal
+end

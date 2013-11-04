@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  organization_id: 
+  status: MyString
+  contactemail: MyString
+  blackout: false
+  publish: false
+  rental: false
+  year_id: 
+  contact_name: MyString
+  contact_phone: MyString
+  price_quote: 1
+  notes: MyText
+
+two:
+  title: MyString
+  organization_id: 
+  status: MyString
+  contactemail: MyString
+  blackout: false
+  publish: false
+  rental: false
+  year_id: 
+  contact_name: MyString
+  contact_phone: MyString
+  price_quote: 1
+  notes: MyText

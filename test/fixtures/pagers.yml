@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pagertype: MyString
+  connectionstr: MyString
+  member_id: 
+  priority: 1
+
+two:
+  pagertype: MyString
+  connectionstr: MyString
+  member_id: 
+  priority: 1

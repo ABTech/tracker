@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  member_id: 
+  hours: 1.5
+  eventdate_id: 
+  timecard_id: 
+  payrate: 1.5
+
+two:
+  member_id: 
+  hours: 1.5
+  eventdate_id: 
+  timecard_id: 
+  payrate: 1.5

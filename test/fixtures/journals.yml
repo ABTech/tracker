@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-11-03 19:11:06
+  memo: MyString
+  invoice_id: 
+  amount: 9.99
+  date_paid: 2013-11-03 19:11:06
+  notes: MyText
+  account_id: 
+  event_id: 
+  paymeth_category: MyString
+
+two:
+  date: 2013-11-03 19:11:06
+  memo: MyString
+  invoice_id: 
+  amount: 9.99
+  date_paid: 2013-11-03 19:11:06
+  notes: MyText
+  account_id: 
+  event_id: 
+  paymeth_category: MyString

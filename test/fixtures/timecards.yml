@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  billing_date: 2013-11-03 19:19:22
+  rails: MyString
+  g: MyString
+  model: MyString
+  due_date: 2013-11-03 19:19:22
+  submitted: false
+  start_date: 2013-11-03 19:19:22
+  end_date: 2013-11-03 19:19:22
+
+two:
+  billing_date: 2013-11-03 19:19:22
+  rails: MyString
+  g: MyString
+  model: MyString
+  due_date: 2013-11-03 19:19:22
+  submitted: false
+  start_date: 2013-11-03 19:19:22
+  end_date: 2013-11-03 19:19:22

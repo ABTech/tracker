@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  event_id: 
+  status: MyString
+  recognized: false
+  payment_type: MyString
+  oracle_string: MyString
+  memo: MyText
+
+two:
+  event_id: 
+  status: MyString
+  recognized: false
+  payment_type: MyString
+  oracle_string: MyString
+  memo: MyText

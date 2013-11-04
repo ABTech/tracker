@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  invoice_id: 
+  memo: MyString
+  category: MyString
+  price: 1.5
+  quantity: 1
+  notes: MyText
+
+two:
+  invoice_id: 
+  memo: MyString
+  category: MyString
+  price: 1.5
+  quantity: 1
+  notes: MyText

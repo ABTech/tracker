@@ -1,0 +1,45 @@
+<fieldset><legend><%= is_credit ? "Credit" : "Debit" %></legend>
+	<table>
+		<tr><td colspan="2">
+			<table><tr><td>
+				<table class="account total">
+					<tr><td>Accounts <%= is_credit ? "Receivable" : "Payable" %></td></tr>
+					<tr><td><%= number_to_currency(is_credit ? @accounts_receivable_total : @accounts_payable_total) %></td></tr>
+				</table>
+			</td><td>
+				<table class="account total">
+					<tr><td>Accounts <%= is_credit ? "Received" : "Paid" %></td></tr>
+					<tr><td><%= number_to_currency(is_credit ? @accounts_received_total : @accounts_paid_total) %></td></tr>
+				</table>
+			</td></tr></table>
+		</td></tr>
+		<tr><td width="1">
+			<% (is_credit ? @credit_accounts : @debit_accounts).each do |acc| %>
+				<table class="account">
+					<tr><td><%= acc.name %></td></tr>
+                                        <tr><td><%= number_to_currency acc.total(@start, @end) %></td></tr>
+				</table>
+			<% end %>
+		</td><td style="padding: 6px 0 0 6px">
+			<div style="height: 600px; overflow: auto">
+				<table width="100%" class="journals">
+					<% i = (is_credit ? @credit_JEs : @debit_JEs).size + 1 %>
+					<% (is_credit ? @credit_JEs : @debit_JEs).each do |je| %>
+						<tr>
+							<td width="250"><%= i = i-1 %>.&nbsp;&nbsp;
+							<% je_memo = je.memo.length > 35 ? je.memo[0,je.memo.rindex(" ", 35)] + "<font color='#AAAAAA'>...</font>" : je.memo %>
+							<%= link_to je_memo, {:controller => "journal", :action => "edit", :id => je.id} %>
+							</td>
+							
+							<td class="<%= je.date_paid ? "paid" : "unpaid" %>"><%= number_to_currency je.amount %></td>
+						</tr>
+					<% end %>
+				</table>
+			</div>
+		</td></tr>
+	</table>
+</fieldset>
+<% form_tag({ :controller => "journal", :action => "new" }, :method => "get") do %>
+	<input type="submit" value="Add <%= is_credit ? "Credit" : "Debit" %>" style="width: 100%"/>
+	<input type="hidden" name="is_credit" value="<%= is_credit ? "true" : "false" %>"/>
+<% end %>

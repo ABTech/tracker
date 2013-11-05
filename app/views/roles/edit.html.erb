@@ -1,0 +1,36 @@
+<% form_for @role do |f| %>
+
+<table width="100%" border="0">
+    <tr><th class="listheader" colspan="2">Role Details:</th></tr>
+	
+    <tr class="listentry2">
+        <td class="list">Name</td>
+        <td class="list"><%= text_field("role", "name") %></td>
+    </tr>
+
+    <tr class="listentry1">
+        <td class="list">Information</td>
+        <td class="list"><%= text_field("role", "info") %></td>
+    </tr>
+
+    <tr class="listentry2">
+        <td class="list">Permissions</td>
+        <td class="list">
+            <select name="role[permission_ids][]" size="5" multiple="multiple">
+                <%= options_from_collection_for_select(Permission.find(:all), "id", "pattern", @role.permissions.collect{|p| p.id}) %>
+            </select>
+        </td>
+    </tr>
+
+    <tr class="listentry1">
+        <td class="list">Active?</td>
+        <td class="list"><%= check_box("role", "active") %>
+    </tr>
+
+    <tr class="listentry2">
+        <td class="list">&nbsp;</td>
+        <td class="list"><%= submit_tag("update") %>
+    </tr>
+</table>
+
+<% end %>

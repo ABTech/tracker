@@ -1,0 +1,45 @@
+<%= hidden_field_tag("role#{i}[id]", role.id) %>
+<% even_row = i ? i%2==0 : 0 %>
+
+	      <tr class="<%= even_row ? 'listentry2':'listentry'%>">
+		<td align="right">
+                            <% if(@is_view_mode) %>
+                                <%= role.role() %>
+                            <% else %>
+                                <select name="<%= "role#{i.to_s()}" %>[role]" onChange="modified()">
+                                    <%= options_for_select([""] + EventRole::Roles_All, role.role()) %>
+                                </select>
+                            <% end %>
+		  </td>
+		  <td align="left">
+                            <% if(@is_view_mode) %>
+			    <%= role.assigned? ? role.member.fullname() : "unassigned" %>
+                            <% else %>
+                                <select name="<%= "role#{i.to_s()}[member_id]" %>" onChange="modified()">
+                                    <option value="">unassigned</option>
+                                    <% if Role.count(:all, :conditions => {:active => true}) > 0 %>
+                                      <optgroup label="Active Tech">
+                                      <%# Note: this works beacuse there can only be one "active" role at a time! %>
+                                      <%= options_from_collection_for_select(Role.find_by_active(true).members.find(:all, :order => "namefirst ASC, namelast ASC"), "id", "fullname", role.member_id) %>
+                                      </optgroup>
+                                    <% end %>
+                                    <optgroup label="Everybody">
+                                    <%= options_from_collection_for_select(Member.find(:all, :order => "namefirst ASC, namelast ASC"), "id", "fullname", role.member_id) %>
+                                  </optgroup>
+                                </select>
+                            <% end %>
+                        </td>
+		<% if @is_view_mode %>
+			  <td>
+			    <% if role.member %>
+			    <%= "<a href=\"mailto:#{role.member.kerbid}\">#{role.member.kerbid}</a>" %>
+			    <% end %>
+			  </td>
+			  <td>
+			    <% if role.member %>
+			    <%= "#{pretty_phone(role.member.phone)}" %>
+			    <% end %>
+			  </td>
+	<% end %>
+		      </tr>
+        

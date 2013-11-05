@@ -1,0 +1,79 @@
+<style>
+td { vertical-align: top }
+table.listTable {
+}
+table.listTable th{
+	width:90px;
+	text-align:right;
+	font-weight:bold;
+	font-size:13px;
+}
+table.listTable td{
+	font-size:12px;
+	padding:3px;
+}
+legend { font-size: 16px; }
+fieldset { width:40% } 
+</style>
+
+<fieldset >
+<legend>Edit a Journal Entry</legend>
+<table class=listTable >
+	<tr>
+		<th>Date:</th>
+		<td>
+			<%= @journal.date.strftime("%A, %B %d %Y, %I:%M %p") %>
+		</td>
+	</tr>
+	<tr>
+		<th>Date Paid:</th>
+		<td>
+			<%= if @journal.date_paid
+				@journal.date_paid.strftime("%A, %B %d %Y, %I:%M %p")
+			else
+				"None"
+			end %>
+		</td>
+	</tr>
+	<tr>
+		<th>Memo:</th>
+		<td>
+			<%= @journal.memo%>
+		</td>
+	</tr>
+	<tr>
+		<th>Account:</th>
+		<td>
+			<%= Account.find(@journal.account).name %>
+		</td>
+	</tr>
+	<tr>
+		<th>Amount:	</th>
+		<td>
+			<%= number_to_currency @journal.amount %>
+		</td>
+	</tr>
+	<tr>
+		<th>Invoice:</th>
+		<td>
+			<%= if @journal.invoice then 
+				link_to @journal.invoice.event.title, 
+					:controller=>"invoice", :action=>"view", 
+					:id=>@journal.invoice.id
+			else
+				"None"
+			end%>
+		</td>
+	</tr> 
+	<tr>
+		<th>Notes:</th>
+		<td>
+			<%=  (if (@journal.notes) then @journal.notes.gsub(/\n/, "<br/>") else "" end)%>
+		</td>
+	</tr>
+</table>
+<%= link_to "Edit Journal", :action=>"edit", :id=>@journal.id %> -- 
+<%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
+</fieldset>
+
+	

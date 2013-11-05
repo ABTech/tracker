@@ -1,0 +1,160 @@
+<table class="eventslist">
+	<tr class="list_header"><td colspan="6" style="border: 0">
+		<table width="100%" style="margin-bottom: 2px;"><tr>
+			<% # create page info
+				if @event_pages and @event_pages[:page_count] > 1
+					page_info = " (" + @event_pages[:first].to_s + "-" + @event_pages[:last].to_s + " of " + @event_pages[:count].to_s + ")"
+				else
+					page_info = " (" + @eventdates.size.to_s + ")"
+				end
+
+				# create paging links
+				forward_link = nil
+				backward_link = nil
+				if @event_pages and @event_pages[:prev] != nil
+					backward_link = link_to("&lt;&lt; Prev", params.clone.merge({:page => @event_pages[:prev]}))
+				end
+				if @event_pages and @event_pages[:next] != nil
+					forward_link = link_to("Next &gt;&gt;", params.clone.merge({:page => @event_pages[:next]}))
+				end
+			%>
+			<td><%= (backward_link != nil) ? backward_link : "" %></td>
+			<td align="center">
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<% if params["selected"] == "search" %>
+					<b><%= params["q"].gsub(/^[a-z]|\s+[a-z]/){ |a| a.upcase } + page_info %></b> &nbsp;&nbsp;&nbsp;&nbsp;
+				<% end %>
+				<%= 	# create the month links
+					now = Time.now
+					now_year = params["year"].to_i.zero? ? now.year : params["year"].to_i
+					now_mon = params["month"].to_i.zero? ? now.month : params["month"].to_i
+					if now_mon < 6
+						now_year -= 1
+					end
+					months = Time::RFC2822_MONTH_NAME
+					month_links = []
+					indices = [(6..12).to_a, (1..5).to_a]
+					indices.each do |is|
+						is.map! do |i|
+							if params["selected"] == "month" && params["year"] == now_year.to_s && params["month"] == i.to_s
+								month_links << "<b>" + months[i-1] + (page_info ? page_info : "") + "</b>"
+							else
+								month_links << link_to(months[i-1], {:action => "index", :selected => "month", :year => now_year, :month => i})
+							end
+						end
+						now_year += 1
+					end
+					month_links.join(" | ")
+				%>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<%= if (params["selected"] == "future") then "<b>Future" + (page_info ? page_info : "") + "</b>" else link_to("Future", {:action => "index", :selected => "future"}) end %> |
+				<%= if (params["selected"] == "past") then "<b>Past" + (page_info ? page_info : "") + "</b>" else link_to("Past", {:action => "index", :selected => "past"}) end %>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td align="right"><%= (forward_link != nil) ? forward_link : "" %></td>
+		</tr></table>
+	</td></tr>
+	<tr>
+		<th width="3" style="border-right: 0; padding: 0"></th>
+		<th style="border-left: 0">Date</th>
+		<th>Name</th>
+		<th>Location, Equipment</th>
+		<th>Timing</th>
+		<th>Roles</th>
+	</tr>
+	<% if eventdates.empty? %>
+		<tr><td colspan="6" style="text-align: center; padding: 10px 0">No events found!</td></tr>
+	<% else %>
+		<% (0..(eventdates.size-1)).each do |i| %>
+			<% eventdate = eventdates[i] %>
+			<% event = eventdate.event %>
+			<% event_class = nil
+				if eventdate.event.blackout
+					event_class = "event_blackout"
+				elsif event.status == "Event Cancelled"
+					event_class = "event_cancelled"
+				elsif event.status == "Event Declined"
+					event_class = "event_cancelled"
+				elsif event.status == "Event Completed"
+					event_class = "event_completed"
+				elsif event.status == "Event Confirmed"
+					event_class = "event_confirmed"
+				elsif event.status == "Initial Request"
+					event_class = "initial_request"
+				elsif event.status == "Tentative Date"
+					event_class = "initial_request"
+				elsif event.status == "Quote Sent"
+					event_class = "event_confirmed"
+				elsif event.status == "Billing Pending"
+					event_class = "billing_pending"
+				else
+					event_class = "event_incomplete"
+				end
+			%>
+			<tr <%= "class='" + event_class + "'" if event_class %>>
+				<td>&nbsp;</td>
+				<td>
+					<% if eventdate.startdate.year == Date.today.year %>
+						<%= eventdate.startdate.strftime("%A, %B %d") %>
+					<% else %>
+						<%= eventdate.startdate.strftime("%B %d, %Y") %>
+					<% end %><br />
+					<small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= eventdate.event.blackout ? ", blackout" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>" : "" %>)</small>
+				</td>
+				<td>
+					<%= link_to(("#{event.title} - #{eventdate.description}"),event_path(event)) %><br />
+					<small class="organization"><%= event.organization.name %></small>
+				</td>
+				<td style="white-space: normal;">
+                                  <%= eventdate.locations.join("<br />") %>
+                                  <%= "<br />" if eventdate.equipment.count >= 1 %>
+                                  <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+				</td>
+				<td>
+					<small>
+						C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>" %><br/>
+						E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
+						S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>" %>
+					</small>
+				</td>
+				<% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>
+				<td style="background: #F2C7C7; font-weight: bold;">
+				<% else %>
+				<td>
+				<% end %>
+					<% event.event_roles.sort!; event.event_roles.each do |role| %>
+						<%= role.to_s() %><br />
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+	<% end %>
+	<% if @event_pages and @event_pages[:page_count] > 1 %>
+		<tr class="list_footer"><td colspan="6" style="border: 0">
+			<table width="100%" style="margin-bottom: 2px;"><tr>
+				<td><%= (backward_link != nil) ? backward_link : "" %></td>
+				<td align="right"><%= (forward_link != nil) ? forward_link : "" %></td>
+			</tr></table>
+		</tr>
+	<% end %>
+</table>
+
+<!--
+<% event = Event.new() %>
+<td class="list">
+	<% newemail = false %>
+	<% event.emails.each do |email| %>
+		<% if(Email::Email_Status_Group_New.include?(email.status)) %>
+			<img src="/images/emailicon.png" />
+			<% break %>
+		<% end %>
+	<% end %>
+</td>
+<td class="list">
+	<div align="center">
+		<% if not event.publish %>
+			<br /><small>(not published)</small>
+		<% end %>
+	</div>
+</td>
+-->

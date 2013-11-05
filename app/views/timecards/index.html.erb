@@ -1,0 +1,31 @@
+<% @title = 'Timecards' %>
+<h1>Timecards</h1>
+<div>
+<p>To prevent members from editing entries for a timecard, edit the
+timecard and check the 'submitted' checkbox. The 'View all details' link
+allows you to see the entries that everyone has submitted, while the
+'Show' link provides information about just your timecard entries.</p>
+<p>Create a <%= link_to 'new', new_timecard_path %> timecard.</p>
+</div>
+<table class="generic" border="1">
+<tr>
+<th>Billing date</th>
+<th>Due date</th>
+<th>Total hours billed</th>
+<th>Submitted</th>
+<th>&nbsp;</th>
+</tr>
+<% @timecards.each do |timecard| %>
+<tr>
+<td><%= timecard.billing_date.strftime "%b %d, %Y" %></td>
+<td><%= timecard.due_date.strftime "%b %d, %Y" %></td>
+<td><%= timecard.hours %></td>
+<td><%= timecard.submitted ? 'yes' : 'no' %></td>
+<td>
+	<%= link_to 'View all details', view_timecard_url(timecard) %>
+	<%= link_to 'Edit', edit_timecard_url(timecard) %>
+	<%= link_to 'Destroy', timecard_url(timecard), :method => 'delete', :confirm => 'Are you sure?' %>
+</td>
+</tr>
+<% end %>
+</table>

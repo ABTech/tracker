@@ -1,0 +1,77 @@
+<% forms = EmailForm.find(:all) %>
+
+<script>
+    var form_responses = new Array(<%= forms.size() %>);
+
+    <% for i in (0..(forms.size()-1)) %>
+        form_responses[<%= i %>] = "<%= escape_javascript(forms[i].contents()) %>";
+    <% end %>
+
+    function prependFormResponse() {
+        var textb = document.forms['emailform'].elements['outgoingcontents'];
+        var selected = document.forms['emailform'].elements['form_response'].value;
+        
+        textb.value = form_responses[selected] + "\n\n" + textb.value;
+    }
+</script>
+
+<% if(@email) %>
+    <% form_tag({:action => "send_email", :controller => "email", :id => @email.id}, :name => "emailform") do %>
+<% else %>
+    <% form_tag({:action => "send_email", :controller => "email"}, :name => "emailform") do %>
+<% end %>
+<%= hidden_field_tag("outgoinginreplyto", @outgoing_inreplyto) %>
+
+<table border="0">
+<!--
+    <tr><td align="center" colspan="2">
+        <small>(only for non-andrew addresses)</small> 
+        SMTP User: <%= text_field_tag("smtpuser", nil, {:size => 12}) %>
+        SMTP Password: <%= password_field_tag("smtppassword", nil, {:size => 12}) %>
+    </td></tr>
+-->
+	<tr class="listheader">
+		<td>&nbsp;</td>
+		<td>Email Response</td>
+	</tr>
+    <tr class="listentry1">
+        <th class="list" width="100" align="right" valign="top" scope="row">From</th>
+        <td class="list"><%= text_field_tag("outgoingfrom", @outgoing_from, {:size => 60}) %></td>
+    </tr>
+    <tr class="listentry2">
+        <th class="list" width="100" align="right" valign="top" scope="row">Date</th>
+        <td class="list"><%= @outgoingemail.timestamp.strftime("%A %B %d, %Y at %I:%M %p") %></td>
+    </tr>
+    <tr class="listentry1">
+        <th class="list" width="100" align="right" valign="top" scope="row">Subject</th>
+        <td class="list"><%= text_field_tag("outgoingsubject", @outgoingemail.subject, {:size => 60}) %></td>
+    </tr>
+    <tr class="listentry2">
+        <th class="list" width="100" align="right" valign="top" scope="row"><small>(split with commas)</small> To</th>
+        <td class="list"><%= text_field_tag("outgoingto", @outgoing_destination, {:size => 60}) %></td>
+    </tr>
+    <tr class="listentry1">
+        <th class="list" width="100" align="right" valign="top" scope="row"<small>(split with commas)</small> CC</th>
+        <td class="list"><%= text_field_tag("outgoingcc", @outgoing_cc, {:size => 60}) %></td>
+    </tr>
+    <tr class="listentry2">
+        <th class="list" width="100" align="right" valign="top" scope="row">Form Responses</th>
+        <td class="list">
+            <select name="form_response" onChange="prependFormResponse()">
+                <option>none</option>
+                <% for i in (0..(forms.size()-1)) %>
+                   <option value="<%= i %>"><%= h forms[i].description() %></option>
+                <% end %>
+            </select>
+        </td>
+    </tr>
+    <tr class="listentry1">
+        <th class="list" width="100" align="right" valign="top" scope="row">Contents</th>
+        <td class="list"><%= text_area_tag("outgoingcontents", @outgoingemail.contents, {:size => "100x30"}) %></td>
+    </tr>
+	<tr class="listentry2">
+		<th class="list">&nbsp;</th>
+		<td class="list"><%= submit_tag("send") %></td>
+	</tr>
+</table>
+<% end %>

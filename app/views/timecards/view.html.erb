@@ -1,0 +1,9 @@
+<% @title = 'Viewing timecard details' %>
+<h1>Showing timecard</h1>
+<p>This timecard is for the billing period ending on <%= @timecard.billing_date.strftime("%b %d, %Y") %> and <% if @timecard.submitted %>was<% else %>is<% end %> due on <%= @timecard.due_date.strftime("%b %d, %Y") %>.</p>
+<p>Download a pdf of <%= link_to 'all timecards', view_timecard_path(:id => @timecard, :format => 'pdf') %> from this period.</p>
+
+<% @timecard.members.each do |member| %>
+  <h2>Timecard for <%= link_to member.fullname, member %> (<%= number_to_currency member.payrate %>/hr)</h2>
+<%= render :partial => 'timecard', :object => @timecard, :locals => {:member => member, :details => false} %>
+<% end %>

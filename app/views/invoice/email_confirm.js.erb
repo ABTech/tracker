@@ -1,0 +1,23 @@
+jQuery("#dialog").html("<%=escape_javascript(render :partial => "email_confirm")%>");
+jQuery("#dialog").dialog({
+  height: 540,
+  resizable: false,
+  position: "top",
+  width: 400,
+  title: "Confirm Email",
+  buttons: {
+    "Send Email": function(){
+      jQuery("#email_form").submit();
+      jQuery("#dialog").dialog("destroy");
+      jQuery("#dialog").html("Sending Email...")
+      jQuery("#dialog").dialog({
+        modal:true,
+        closeOnEscape: false,
+        title: "Don't Navigate Away!"
+      });
+      //Removing ability to close dialog
+      jQuery("#dialog").parent().find('a.ui-dialog-titlebar-close').remove();
+      jQuery("#dialog").bind('dialogbeforeclose', false);
+    }}
+  
+});

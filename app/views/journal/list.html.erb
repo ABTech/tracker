@@ -1,0 +1,38 @@
+<h1>List of Journal Entries</h1>
+<ul>
+<li><%= link_to("Create a new credit JE", :action => "new", :is_credit => 1) %>
+<li><%= link_to("Create a new debit JE", :action => "new", :is_credit => 0) %>
+</ul>
+
+<table>
+  <tr class=listheader">
+    <th>Date
+    <th>Date Paid
+    <th>Memo
+    <th>Amount
+    <th>Account
+    <th>Relation Link
+  </tr>
+  
+  <% tmp = false; %>
+  <% for journal in @journals.sort{|x, y| y.date <=> x.date} %>
+    <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+      <td class="list"><%= journal.date.strftime("%A, %B %d %Y") %>
+      <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %>
+      <td class="list"><%= link_to(journal.memo, {:action => "edit", :id => journal.id}) %>
+      <td class="list"><%= number_to_currency journal.amount %>
+      <td class="list"><%= link_to(journal.account.name, {:action => "view", :id => journal.account.id}) %>
+      <td class="list">
+        <% case(journal.class.name) 
+           when "JeInv", "JeInvPaid" %>
+            <%= link_to("invoice", {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %>
+
+        <% when "JeOther", "JePay" %>
+            none
+        <% else %>
+            unknown JE type: <%= journal.class.name %>
+        <% end %>
+    </tr>
+    <% tmp = !tmp; %>
+  <% end %>
+</table>

@@ -1,0 +1,73 @@
+<%= link_to "calendar", {:action => "usage"} %>
+
+<%
+    def render_item(item)
+        ret = "";
+        ret << item.description;
+        ret << " [";
+        ret << item.shortname;
+        ret << "] <small>";
+        ret << link_to_function("edit", "popupAndReload('" + url_for({:action => "edititem", :id => item.id}) + "')");
+        ret << " ";
+        ret << ajax_link_to("-item", {:action => "delitem", :id => item.id});
+        ret << "</small>\n";
+        return ret;
+    end
+
+    def render_tree(node)
+        ret = "";
+
+        if(node.id != EquipmentCategory::Root_Category)
+            ret << "<strong>";
+            ret << node.name;
+            ret << "</strong><br/>\n";
+            ret << "<small>";
+            ret << link_to_function("edit", "popupAndReload('" + url_for({:action => "editgroup", :id => node.id}) + "')");
+            ret << " ";
+            ret << ajax_link_to("-group", {:action => "delgroup", :id => node.id});
+            ret << " ";
+        else
+            ret << "<strong>[root]</strong> ";
+            ret << "<small>";
+        end
+        ret << ajax_link_to("+group", {:action => "newgroup", :id => node.id});
+        ret << " ";
+        ret << ajax_link_to("+item", {:action => "newitem", :id => node.id});
+        ret << "</small>\n";
+
+        if(node.id != EquipmentCategory::Root_Category)
+            ret << "<ul>\n";
+        else
+            ret << "<ul id='tree'>\n";
+        end
+
+        # do it this way so position is maintained between equipment AND chilren
+        subnodes = node.children | node.equipment;
+        subnodes = subnodes.sort_by { |i| i.position };
+
+        subnodes.each do |n|
+            if(n.class == Equipment)
+                ret << "<li class='tree_item' id='tree_#{EquipmentController::TreeNodeIDOffset + n.id}'>\n";
+                ret << render_item(n);
+                ret << "</li>\n";
+            else
+                ret << "<li class='tree_list' id='tree_#{n.id}'>\n";
+                ret << render_tree(n);
+                ret << "</li>\n";
+            end
+        end
+
+        if(subnodes.empty?)
+            ret << "<li class='tree_item'><small>drop items here</small></li>\n";
+        end
+
+        ret << "</ul>\n";
+
+        return ret;
+    end
+
+    root = EquipmentCategory.find(EquipmentCategory::Root_Category);
+%>
+<%= render_tree(root) %>
+<%= sortable_element("tree", {:tree => true, :url => {:action => "treesave"}, :only => ["tree_list", "tree_item"]}) %>
+        

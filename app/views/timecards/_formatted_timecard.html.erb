@@ -1,0 +1,47 @@
+                           CARNEGIE MELLON UNIVERSITY
+                                HOURLY TIMESHEET
+-------------------------------+-----------------------------------------------
+ SOC. SEC. # XXX-XX-<%= if member.respond_to? :ssn and member.ssn then sprintf("%04d",member.ssn) else '    ' end %>       | PERIOD END DATE   <%= format_timecard_date( timecard.billing_date ) %>
+ NAME:       <%= member.namelast.upcase %>, <%= member.namefirst.upcase %>
+ APPT.:      1                 | HIRING DEPT:   750131-STUDENT ORGS
+-------------------------------+-----------------------------------------------
+  DUE TO DEPARTMENT ADMINISTRATOR BY              <%= format_timecard_date(timecard.due_date) %>
+
+  ________________________________________________________________
+  EMPLOYEEE SIGNATURE AND DATE
+  I certify that all information recorded is true and accurate,
+  both as to the hours I worked and the reasons for my absences.
+
+  ________________________________________________________________
+  SUPERVISOR SIGNATURE AND DATE
+  To the best of my knowledge, the employee worked the hours recorded above.
+-------------------------------------------------------------------------------
+                             OTHER PAID HOURS CODES
+   F - FLOATING HOLIDAY           H - HOLIDAY         S - SICK
+   B - BEREAVEMENT                V - VACATION        J - JURY DUTY
+   P - (PTO) PAID TIME OFF
+
+                               UNPAID HOURS CODES
+   U - UNPAID SICK                A - OTHER UNPAID ABSENCE
+-----+-------+-------+-------+-------+-------+-------+-------+-------++----------
+ DAY |  IN   |  OUT  |  IN   |  OUT  |  IN   |  OUT  |  IN   |  OUT  || DAILY TTL
+<% 2.times do |wk| -%>
+-----+-------+-------+-------+-------+-------+-------+-------+-------++----------
+<% 7.times do |day| -%>
+ <%= Date::DAYNAMES[day-6+timecard.billing_date.wday].slice(0,3).upcase -%>
+ | <% unless timecard.lines(member)[wk*7+day].nil? -%>
+<%= format_time(timecard.lines(member)[wk*7+day][0]) -%>
+ | <%= format_time(timecard.lines(member)[wk*7+day][1]) -%>
+ |       |       |       |       |       |       || <%= sprintf("%5.2f", timecard.lines(member)[wk*7+day][1] - timecard.lines(member)[wk*7+day][0]) -%>
+<% else %>      |       |       |       |       |       |       |       ||<% end %>
+-----+-------+-------+-------+-------+-------+-------+-------+-------++----------
+<% end -%>
+<% end -%>
+          |TOTAL HRS| REG HRS|  OT@1  | OT@1.5 |  OT@2  | CD-HRS  | CD-HRS  |
+          +---------+--------+--------+--------+--------+---+-----+---+-----+
+  WEEK 1: | <%= sprintf("%5.2f", timecard.lines(member)[0,7].inject(0) {|sum,line| if line.nil?; sum else sum + line[1] - line[0] end } ) -%>   |        |        |        |        |   |     |   |     |
+          +---------+--------+--------+--------+--------+---+-----+---+-----+
+  WEEK 2: | <%= sprintf("%5.2f", timecard.lines(member)[7,14].inject(0) {|sum,line| if line.nil?; sum else sum + line[1] - line[0] end } ) -%>   |        |        |        |        |   |     |   |     |
+          +---------+--------+--------+--------+--------+---+-----+---+-----+
+
+Card Recipient:  VAUGHAN, ELIZABETH

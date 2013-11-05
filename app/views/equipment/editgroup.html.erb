@@ -1,9 +1,9 @@
 <html>
-<body>
-Editing equipment group <%= @category.name %>.<br>
-<%= form_tag({:action => :savegroup, :id => @category.id}) %>
-Name: <%= text_field("category", "name") %><br>
-<%= submit_tag() %>
-</form>
-</body>
+  <body>
+    Editing equipment group <%= @category.name %>.<br>
+    <%= form_tag({:action => :savegroup, :id => @category.id}) %>
+      Name: <%= text_field("category", "name") %><br>
+      <%= submit_tag() %>
+    </form>
+  </body>
 </html>

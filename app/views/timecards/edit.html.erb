@@ -2,7 +2,7 @@
 <h1>Update Timecard</h1>
 <p><%= error_messages_for 'timecard' %></p>
 <% form_tag timecard_path(@timecard), :method => 'put' do |f| %>
-<%= render :partial => 'form' %>
-<p>Submitted? <%= check_box :timecard, :submitted %></p>
-<%= submit_tag 'Update' %>
+  <%= render :partial => 'form' %>
+  <p>Submitted? <%= check_box :timecard, :submitted %></p>
+  <%= submit_tag 'Update' %>
 <% end %>

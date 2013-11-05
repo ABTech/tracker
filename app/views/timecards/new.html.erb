@@ -2,6 +2,6 @@
 <h1>Create new Timecard</h1>
 <p><%= error_messages_for 'timecard' %></p>
 <% form_for @timecard, :url => {:action => :create} do |f| %>
-<%= render :partial => 'form' %>
-<%= submit_tag 'Create' %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Create' %>
 <% end %>

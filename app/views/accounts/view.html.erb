@@ -2,41 +2,41 @@
 <h3>Balance: <%= number_to_currency @balance %></h3>
 
 <table>
-    <tr class="listheader">
-        <th width="225">Date</th>
-        <th width="200">Memo</th>
-        <th width="60">Credit</th>
-        <th width="60">Debit</th>
-        <th>Associated Account</th>
-        <th>Relation Link</th>
-    <tr>
+  <tr class="listheader">
+    <th width="225">Date</th>
+    <th width="200">Memo</th>
+    <th width="60">Credit</th>
+    <th width="60">Debit</th>
+    <th>Associated Account</th>
+    <th>Relation Link</th>
+  <tr>
 
-    <% tmp = false; %>
-    <% for journal in @journals %>
-    <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-        <td class="list"><%= journal.date.strftime('%A, %B %d %Y') %></td>
-        <td class="list"><%= journal.memo %></td>
-        <% if(journal.account_credit_id == @account.id) %>
-            <td class="list"><%= number_to_currency journal.amount %>
-            <td class="list">&nbsp;</td>
-            <td class="list"><%= link_to(journal.account_debit.name, {:action => "view", :id => journal.account_debit.id}) %></td>
-        <% else %>
-            <td class="list">&nbsp;</td>
-            <td class="list"><%= number_to_currency journal.amount %></td>
-            <td class="list"><%= link_to(journal.account_credit.name, {:action => "view", :id => journal.account_credit_id}) %></td>
-        <% end %>
-        <td class="list">
-            <% case(journal.class.name) 
-               when "JeInv", "JeInvPaid" %>
-                <%= link_to("invoice", {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %>
-
-            <% when "JeOther", "JePay" %>
-                none
-            <% else %>
-                unknown JE type: <%= journal.class.name %>
-            <% end %>
-        </td>
-        <% tmp = !tmp; %>
-    <tr>
+  <% tmp = false; %>
+  <% for journal in @journals %>
+  <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+    <td class="list"><%= journal.date.strftime('%A, %B %d %Y') %></td>
+    <td class="list"><%= journal.memo %></td>
+    <% if(journal.account_credit_id == @account.id) %>
+      <td class="list"><%= number_to_currency journal.amount %>
+      <td class="list">&nbsp;</td>
+      <td class="list"><%= link_to(journal.account_debit.name, {:action => "view", :id => journal.account_debit.id}) %></td>
+    <% else %>
+      <td class="list">&nbsp;</td>
+      <td class="list"><%= number_to_currency journal.amount %></td>
+      <td class="list"><%= link_to(journal.account_credit.name, {:action => "view", :id => journal.account_credit_id}) %></td>
     <% end %>
+    <td class="list">
+      <% case(journal.class.name) 
+         when "JeInv", "JeInvPaid" %>
+        <%= link_to("invoice", {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %>
+
+      <% when "JeOther", "JePay" %>
+        none
+      <% else %>
+        unknown JE type: <%= journal.class.name %>
+      <% end %>
+    </td>
+    <% tmp = !tmp; %>
+  <tr>
+  <% end %>
 </table>

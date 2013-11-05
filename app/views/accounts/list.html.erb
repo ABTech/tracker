@@ -40,33 +40,32 @@ td.paid { font-weight: bold; }
 
         <table><tr><td>
               <a href="/accounts/list" class="tablelink">
-				<table class="account total">
-					<tr><td>Total</td></tr>
-					<tr><td><%= number_to_currency (@accounts_receivable_total + @accounts_received_total - @accounts_payable_total - @accounts_paid_total) %></td></tr>
+        <table class="account total">
+          <tr><td>Total</td></tr>
+          <tr><td><%= number_to_currency (@accounts_receivable_total + @accounts_received_total - @accounts_payable_total - @accounts_paid_total) %></td></tr>
       </table></a>
-			</td></tr></table>
+      </td></tr></table>
         <% @cat_totals.keys.each do |category| %>
           <table><tr><td>
 
                 <a href="/accounts/list?category=<%=category%>" class="tablelink">
-				<table class="category">
+        <table class="category">
           <tr><td><%= category.empty? ? "Other" : category%></td></tr>
           <tr><td><%= number_to_currency @cat_totals[category] %></td></tr>
-				</table>
+        </table>
   </td></tr></table>
 <% end %>
 
-    </fieldset>
-
-		<div style="margin-left: 8px; margin-top: 5px;">
-			<%= link_to("List Unpaid JEs", :action => "unpaid") %><br/>
-			<%= link_to("Audit Completed Events", :action => "events") %><br/>
-			<%= link_to("List Invoices", :controller => "invoice", :action => "list") %><br/>
-			<%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %><br />
-		</div>
-	</td><td>
-		<%= render :partial => "list", :locals => {:is_credit => true} %>
-	</td><td>
-		<%= render :partial => "list", :locals => {:is_credit => false} %>
-	</td></tr>
+  </fieldset>
+    <div style="margin-left: 8px; margin-top: 5px;">
+      <%= link_to("List Unpaid JEs", :action => "unpaid") %><br/>
+      <%= link_to("Audit Completed Events", :action => "events") %><br/>
+      <%= link_to("List Invoices", :controller => "invoice", :action => "list") %><br/>
+      <%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %><br />
+    </div>
+  </td><td>
+    <%= render :partial => "list", :locals => {:is_credit => true} %>
+  </td><td>
+    <%= render :partial => "list", :locals => {:is_credit => false} %>
+  </td></tr>
 </table>

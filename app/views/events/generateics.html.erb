@@ -12,66 +12,66 @@ calendar.custom_property("X-WR-TIMEZONE", "America/New_York");
 #uid = 0;
 
 @eventdates.each do |date|
-    event = Event.find(date.event_id, :include => [:event_roles]);
-    summary = event.title + " - " + date.description;
-    description = "";
+  event = Event.find(date.event_id, :include => [:event_roles]);
+  summary = event.title + " - " + date.description;
+  description = "";
 
-    description << "Event: #{event.title} - #{date.description}\n";
-    description << "Locations:\n";
-    date.locations.each do |loc|
-        description << "-- " + loc.to_s() + "\n";
+  description << "Event: #{event.title} - #{date.description}\n";
+  description << "Locations:\n";
+  date.locations.each do |loc|
+    description << "-- " + loc.to_s() + "\n";
+  end
+  if(!date.equipment.empty?)
+    description << "Equipment: " <<  date.equipment.collect{ |equipment| equipment.shortname }.join(", ") << "\n";
+  end
+
+  EventRole::Roles_All.each do |type|
+    roles = event.event_roles.reject{ |role| role.role() != type };
+    if(!roles.empty?)
+      description << type + ": ";
+
+      description << roles.collect{ |role|
+          role.member ?
+            role.member.kerbid().split("@").first :
+            "SAM"
+        }.join(", ");
+
+      description << "\n";
     end
-    if(!date.equipment.empty?)
-        description << "Equipment: " <<  date.equipment.collect{ |equipment| equipment.shortname }.join(", ") << "\n";
-    end
+  end
 
-    EventRole::Roles_All.each do |type|
-        roles = event.event_roles.reject{ |role| role.role() != type };
-        if(!roles.empty?)
-            description << type + ": ";
+  # escape for ics format: newline becomes (literal) \n
+  description = description.chomp().gsub("\n", "\\n");
 
-            description << roles.collect{ |role|
-                    role.member ?
-                        role.member.kerbid().split("@").first :
-                        "SAM"
-                }.join(", ");
+  cancelled = Event::Event_Status_Group_Cancelled.index(event.status) ? "CANCELLED - " : "";
 
-            description << "\n";
-        end
-    end
-
-    # escape for ics format: newline becomes (literal) \n
-    description = description.chomp().gsub("\n", "\\n");
-
-    cancelled = Event::Event_Status_Group_Cancelled.index(event.status) ? "CANCELLED - " : "";
-
-    # generate call event 
-    if (date.valid_call?) 
-        calevent = Icalendar::Event.new();
-        calevent.dtstart   = DateTime.parse(date.calldate.to_s).to_ical 
-        calevent.dtend     = DateTime.parse(date.startdate.to_s).to_ical
-        calevent.summary      = cancelled + summary + " Call";
-        calevent.description  = description;
-        calendar.add_event(calevent);
-    end
-
-    # generate event event
+  # generate call event 
+  if (date.valid_call?) 
     calevent = Icalendar::Event.new();
-    calevent.dtstart      DateTime.parse(date.startdate.to_s).to_ical 
-    calevent.dtend        DateTime.parse(date.enddate.to_s).to_ical
-    calevent.summary      = cancelled + summary + " Show";
+    calevent.dtstart   = DateTime.parse(date.calldate.to_s).to_ical 
+    calevent.dtend   = DateTime.parse(date.startdate.to_s).to_ical
+    calevent.summary    = cancelled + summary + " Call";
     calevent.description  = description;
     calendar.add_event(calevent);
+  end
 
-    # generate strike event
-    if(date.valid_strike?)
-        calevent = Icalendar::Event.new();
-        calevent.dtstart      = DateTime.parse(date.strikedate.to_s).to_ical
-        calevent.dtend        = DateTime.parse((date.strikedate + 60 * 60).to_s).to_ical # an hour, sure
-        calevent.summary      = cancelled + summary + " Strike";
-        calevent.description  = description;
-        calendar.add_event(calevent);
-    end
+  # generate event event
+  calevent = Icalendar::Event.new();
+  calevent.dtstart    DateTime.parse(date.startdate.to_s).to_ical 
+  calevent.dtend    DateTime.parse(date.enddate.to_s).to_ical
+  calevent.summary    = cancelled + summary + " Show";
+  calevent.description  = description;
+  calendar.add_event(calevent);
+
+  # generate strike event
+  if(date.valid_strike?)
+    calevent = Icalendar::Event.new();
+    calevent.dtstart    = DateTime.parse(date.strikedate.to_s).to_ical
+    calevent.dtend    = DateTime.parse((date.strikedate + 60 * 60).to_s).to_ical # an hour, sure
+    calevent.summary    = cancelled + summary + " Strike";
+    calevent.description  = description;
+    calendar.add_event(calevent);
+  end
 end
 
 %><%= calendar.to_ical() %>

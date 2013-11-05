@@ -1,9 +1,9 @@
 <h1>Lost Events (events without eventdates)</h1>
 <p>
-So basically the tracker has some issues and events without any associated eventdates are blackholed. This is how you find them again. Somebody should probably fix this some day.
+  So basically the tracker has some issues and events without any associated eventdates are blackholed. This is how you find them again. Somebody should probably fix this some day.
 </p>
 <ul>
-<% @events.each do |event| %>
+  <% @events.each do |event| %>
   <li><%= link_to event.to_s, event %> last updated on <%= event.updated_on.strftime("%Y-%m-%d") %></li>
-<% end %>
+  <% end %>
 </ul>

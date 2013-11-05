@@ -1,4 +1,4 @@
-<% form_tag({:action => "create"}, :name => "eventform", :onsubmit => "if (document.getElementById('event_contactemail').value == '' || document.getElementById('event_title').value == '' || !(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/.test(document.getElementById('event_contactemail').value))){alert('You fucking forgot somethin again.');return false;}") do %>
+<% form_tag({:action => "create"}, :name => "eventform", :onsubmit => "if (document.getElementById('event_contactemail').value == '' || document.getElementById('event_title').value == '' || !(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/.test(document.getElementById('event_contactemail').value))){alert('You forgot something.');return false;}") do %>
 
 <% @event_form_name = "eventform"; %>
 <% @is_view_mode = false; %>
@@ -7,4 +7,3 @@
 <%= submit_tag("Create") %>
 
 <% end %>
-

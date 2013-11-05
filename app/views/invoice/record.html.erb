@@ -1,4 +1,4 @@
-      <div id="dialog"></div>
+    <div id="dialog"></div>
 <form name="invoiceform" action="<%= url_for :action => "create" %>" method="post">
 
 <% @is_view_mode = (ApplicationController::Mode_View == @mode); %>
@@ -9,15 +9,15 @@
 <br>
 <!-- form submission -->
 <table><tr class="listentry1">
-    <% if(@is_view_mode) %>
-        <td width="75" align="right">&nbsp;</td>
-        <td align="left"><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %>
-          -- <%= link_to "View", { :action=>"prettyView",:id=>@invoice.id } %> -- <%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id}%>
-          -- <%= link_to_remote "Email", :url => {:action=>"email_confirm",:id=>@invoice.id, :format=>:js}%>
-    <% else %>
-        <td width="75" align="right">&nbsp;</td>
-        <td align="left"><input type="submit" value="<%= @mode %>"/><%= link_to "view", { :action => "view", :id => @invoice.id } %></td>
-    <% end %>
+  <% if(@is_view_mode) %>
+    <td width="75" align="right">&nbsp;</td>
+    <td align="left"><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %>
+      -- <%= link_to "View", { :action=>"prettyView",:id=>@invoice.id } %> -- <%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id}%>
+      -- <%= link_to_remote "Email", :url => {:action=>"email_confirm",:id=>@invoice.id, :format=>:js}%>
+  <% else %>
+    <td width="75" align="right">&nbsp;</td>
+    <td align="left"><input type="submit" value="<%= @mode %>"/><%= link_to "view", { :action => "view", :id => @invoice.id } %></td>
+  <% end %>
 </tr></table>
 
 </form>

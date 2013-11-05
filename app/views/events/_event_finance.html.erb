@@ -1,10 +1,10 @@
 <div>
-	<% @event.invoices.each do |inv| %>
-			<%= link_to("View Invoice - " + inv.memo.to_s(),
-				{:action => "view", :controller => "invoice", :id => inv.id}) %>
-	<% end %>
+  <% @event.invoices.each do |inv| %>
+      <%= link_to("View Invoice - " + inv.memo.to_s(),
+        {:action => "view", :controller => "invoice", :id => inv.id}) %>
+  <% end %>
 
-	<%= link_to("Add Invoice", {:action => "new", :controller => "invoice", :event_id => @event.id}) %>
+  <%= link_to("Add Invoice", {:action => "new", :controller => "invoice", :event_id => @event.id}) %>
 </div>
 
 <h3>Journal Entries for <%= @event.title %></h3>
@@ -20,17 +20,17 @@ credit_total = 0.0
 debit_total = 0.0
 %>
 <% for journal in @event.journals do %>
-	<tr class=<%= tmp ? "listentry1" : "listentry2" %>>
-	<td class="list" ><%= journal.memo %></td>
-	<% if journal.account.is_credit? then %>
-		<td class="list" ><%= number_to_currency journal.amount %></td><td class="list" ></td>
-		<% credit_total += journal.amount %>
-	<% else %>
-		<td class="list" ></td><td class="list"><%= number_to_currency journal.amount %></td>
-		<% debit_total += journal.amount %>
-	<% end %>
-	</tr>
-	<% tmp = !tmp %>
+  <tr class=<%= tmp ? "listentry1" : "listentry2" %>>
+  <td class="list" ><%= journal.memo %></td>
+  <% if journal.account.is_credit? then %>
+    <td class="list" ><%= number_to_currency journal.amount %></td><td class="list" ></td>
+    <% credit_total += journal.amount %>
+  <% else %>
+    <td class="list" ></td><td class="list"><%= number_to_currency journal.amount %></td>
+    <% debit_total += journal.amount %>
+  <% end %>
+  </tr>
+  <% tmp = !tmp %>
 <% end %>
 <tr class=<%= tmp ? "listentry1" : "listentry2" %>>
 <td class="list"><strong>Totals:</strong></td>
@@ -50,35 +50,35 @@ debit_total = 0.0
 <% totalCost = 0.00 %>
 <% for eventdate in @event.eventdates do %>
   <% intermediateCost = 0.00 %>
-	<tr>
-	<th class="listheader"><%= eventdate.description %></th>
-	<th class="listheader">Hrs</th>
-	<th class="listheader">Cst</th>
-	</tr>
-	<% for time_entry in eventdate.timecard_entries do %>
-		<% cost = time_entry.payrate.to_f() * time_entry.hours 
+  <tr>
+  <th class="listheader"><%= eventdate.description %></th>
+  <th class="listheader">Hrs</th>
+  <th class="listheader">Cst</th>
+  </tr>
+  <% for time_entry in eventdate.timecard_entries do %>
+    <% cost = time_entry.payrate.to_f() * time_entry.hours 
                 totalCost += cost
               intermediateCost += cost
               %>
-		<tr>
-		<td>
-			<%= time_entry.member.namefirst %> 
-			<%= time_entry.member.namelast %>
-		</td>
-		<td><%= time_entry.hours %></td>
-		<td><%= number_to_currency cost %></td>
-		</tr>
-	<% end %>
+    <tr>
+    <td>
+      <%= time_entry.member.namefirst %> 
+      <%= time_entry.member.namelast %>
+    </td>
+    <td><%= time_entry.hours %></td>
+    <td><%= number_to_currency cost %></td>
+    </tr>
+  <% end %>
           <tr>
         <td><b>Total:</b></td>
         <td><b><%= eventdate.timecard_entries.inject(0) { |sum, n| sum + n.hours } %></b></td>
           <td><b><%= number_to_currency intermediateCost %></b></td>
-	</tr>
+  </tr>
 <% end %>
 <script>
 window.onload = function(){
-	var cost = document.getElementById("payrollCost")
-	cost.innerHTML = "<%= number_to_currency totalCost %>"
+  var cost = document.getElementById("payrollCost")
+  cost.innerHTML = "<%= number_to_currency totalCost %>"
 }
 </script>
 

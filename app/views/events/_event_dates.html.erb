@@ -1,140 +1,140 @@
 <div>
-    <script>
-    // script to handle radio buttons and text field changes here
-    // -- disable with radio select
-    // -- update on text field change
-    function date_update(num)
+  <script>
+  // script to handle radio buttons and text field changes here
+  // -- disable with radio select
+  // -- update on text field change
+  function date_update(num)
+  {
+    calldate = document.getElementById("date"+num+"[calldate]");
+    startdate = document.getElementById("date"+num+"[startdate]");
+    enddate = document.getElementById("date"+num+"[enddate]");
+    strikedate = document.getElementById("date"+num+"[strikedate]");
+    
+    if(document.getElementById("call_setting"+num+"_blank").checked)
     {
-        calldate = document.getElementById("date"+num+"[calldate]");
-        startdate = document.getElementById("date"+num+"[startdate]");
-        enddate = document.getElementById("date"+num+"[enddate]");
-        strikedate = document.getElementById("date"+num+"[strikedate]");
-        
-        if(document.getElementById("call_setting"+num+"_blank").checked)
-        {
-            calldate.style.display = "none";
-            calldate.value = startdate.value;
-        } else
-        {
-            calldate.style.display = "";
-        }
-
-        if(document.getElementById("strike_setting"+num+"_blank").checked)
-        {
-            strikedate.style.display = "none";
-            strikedate.value = startdate.value;
-        } else if(document.getElementById("strike_setting"+num+"_enddate").checked)
-        {
-            strikedate.style.display = "none";
-            strikedate.value = enddate.value;
-        } else
-        {
-            strikedate.style.display = "";
-        }
+      calldate.style.display = "none";
+      calldate.value = startdate.value;
+    } else
+    {
+      calldate.style.display = "";
     }
-    </script>
 
-    <table border="0" cellspacing="0" cellpadding="3">
-        <% tmp = false; %>
-        <!-- event dates -->
-        <% @event.eventdates.length().times do |i| %>
-            <% date = @event.eventdates[i]; %>
-            <%= hidden_field_tag("date#{i}[id]", date.id) %>
+    if(document.getElementById("strike_setting"+num+"_blank").checked)
+    {
+      strikedate.style.display = "none";
+      strikedate.value = startdate.value;
+    } else if(document.getElementById("strike_setting"+num+"_enddate").checked)
+    {
+      strikedate.style.display = "none";
+      strikedate.value = enddate.value;
+    } else
+    {
+      strikedate.style.display = "";
+    }
+  }
+  </script>
 
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td width="100" align="right">Description:</td>
-                <td align="left">
-                    <% if(@is_view_mode) %>
-                        <%= date.description %>
-                    <% else %>
-                        <%= text_field_tag("date#{i}[description]", date.description, "size" => 20, :onChange => "modified()") %>
-                    <% end %>
-                </td>
-            </tr>
+  <table border="0" cellspacing="0" cellpadding="3">
+    <% tmp = false; %>
+    <!-- event dates -->
+    <% @event.eventdates.length().times do |i| %>
+      <% date = @event.eventdates[i]; %>
+      <%= hidden_field_tag("date#{i}[id]", date.id) %>
 
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td align="right">Call:</td>
-                <td><% if (@is_view_mode) %>
-                        <%= date.valid_call? ? date.calldate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
-                    <% else %>
-                        <input type="radio" name="call_setting<%= i %>" id="call_setting<%= i %>_blank" value="invalid" <% if(!date.valid_call?) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> blank<br/>
-                        <input type="radio" name="call_setting<%= i %>" id="call_setting<%= i %>_literal" value="text" <% if(date.valid_call?) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> literal
-                        <%= text_field_tag("date#{i}[calldate]", date.calldate ? date.calldate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
-                    <% end %>
-                </td>
-            </tr>
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td width="100" align="right">Description:</td>
+        <td align="left">
+          <% if(@is_view_mode) %>
+            <%= date.description %>
+          <% else %>
+            <%= text_field_tag("date#{i}[description]", date.description, "size" => 20, :onChange => "modified()") %>
+          <% end %>
+        </td>
+      </tr>
 
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td align="right">Start:</td>
-                <td><% if (@is_view_mode) %>
-                        <%= date.startdate ? date.startdate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
-                    <% else %>
-                        <%= text_field_tag("date#{i}[startdate]", date.startdate ? date.startdate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
-                    <% end %>
-                </td>
-            </tr>
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td align="right">Call:</td>
+        <td><% if (@is_view_mode) %>
+            <%= date.valid_call? ? date.calldate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
+          <% else %>
+            <input type="radio" name="call_setting<%= i %>" id="call_setting<%= i %>_blank" value="invalid" <% if(!date.valid_call?) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> blank<br/>
+            <input type="radio" name="call_setting<%= i %>" id="call_setting<%= i %>_literal" value="text" <% if(date.valid_call?) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> literal
+            <%= text_field_tag("date#{i}[calldate]", date.calldate ? date.calldate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
+          <% end %>
+        </td>
+      </tr>
 
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td align="right">End:</td>
-                <td><% if (@is_view_mode) %>
-                        <%= date.enddate ? date.enddate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
-                    <% else %>
-                        <%= text_field_tag("date#{i}[enddate]", date.enddate ? date.enddate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
-                    <% end %>
-                </td>
-            </tr>
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td align="right">Start:</td>
+        <td><% if (@is_view_mode) %>
+            <%= date.startdate ? date.startdate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
+          <% else %>
+            <%= text_field_tag("date#{i}[startdate]", date.startdate ? date.startdate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
+          <% end %>
+        </td>
+      </tr>
 
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td align="right">Strike:</td>
-                <td><% if (@is_view_mode) %>
-                        <%= date.valid_strike? ? date.strikedate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
-                    <% else %>
-                        <input type="radio" name="strike_setting<%= i %>" id="strike_setting<%= i %>_blank" value="invalid" <% if(!date.valid_strike?) %>checked="checked"<% end %> onClick="date_update(<%= i %>)" /> blank<br/>
-                        <input type="radio" name="strike_setting<%= i %>" id="strike_setting<%= i %>_enddate" value="enddate" <% if(date.valid_strike? && (date.strikedate==date.enddate)) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> enddate<br/>
-                        <input type="radio" name="strike_setting<%= i %>" id="strike_setting<%= i %>_literal" value="text" <% if(date.valid_strike? && (date.strikedate!=date.enddate)) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> literal
-                        <%= text_field_tag("date#{i}[strikedate]", date.strikedate ? date.strikedate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
-                    <% end %>
-                </td>
-            </tr>
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td align="right">End:</td>
+        <td><% if (@is_view_mode) %>
+            <%= date.enddate ? date.enddate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
+          <% else %>
+            <%= text_field_tag("date#{i}[enddate]", date.enddate ? date.enddate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
+          <% end %>
+        </td>
+      </tr>
 
-            <!-- date location -->
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td align="right">Location:</td>
-                <td colspan="2" align="left">
-                    <% if(@is_view_mode) %>
-                        <% date.locations.each do |loc| %>
-                            <%= loc.to_s() %><br/>
-                        <% end %>
-                    <% else %>
-                        <select name="date<%= i %>[location_ids][]" size="5" multiple="multiple" onChange="modified()">
-                            <%= options_from_collection_for_select(Location.find(:all, :order => "building ASC, floor ASC, room ASC"), "id", "to_s", date.locations.collect{|loc| loc.id}) %>
-                        </select>
-                    <% end %>
-                </td>
-            </tr>
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td align="right">Strike:</td>
+        <td><% if (@is_view_mode) %>
+            <%= date.valid_strike? ? date.strikedate.strftime('%A, %B %d %Y, %I:%M %p') : "n/a" %>
+          <% else %>
+            <input type="radio" name="strike_setting<%= i %>" id="strike_setting<%= i %>_blank" value="invalid" <% if(!date.valid_strike?) %>checked="checked"<% end %> onClick="date_update(<%= i %>)" /> blank<br/>
+            <input type="radio" name="strike_setting<%= i %>" id="strike_setting<%= i %>_enddate" value="enddate" <% if(date.valid_strike? && (date.strikedate==date.enddate)) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> enddate<br/>
+            <input type="radio" name="strike_setting<%= i %>" id="strike_setting<%= i %>_literal" value="text" <% if(date.valid_strike? && (date.strikedate!=date.enddate)) %>checked="checked"<% end %> onClick="date_update(<%= i %>)"/> literal
+            <%= text_field_tag("date#{i}[strikedate]", date.strikedate ? date.strikedate.strftime('%Y/%m/%d %H:%M') : "", :onChange => "modified(); date_update("+i.to_s()+")") %>
+          <% end %>
+        </td>
+      </tr>
 
-            <!-- date equipment -->
-            <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-                <td align="right" class="list">Equipment:</td>
-                <td colspan="2" align="left" class="list">
-                    <% if(@is_view_mode) %>
-                        <% date.equipment.each do |equip| %>
-                            <%= equip.description() %><br/>
-                        <% end %>
-                    <% else %>
-                        <select name="date<%= i %>[equipment_ids][]" size="5" multiple="multiple" onChange="modified()">
-                            <%= options_from_collection_for_select(EquipmentCategory::tree_as_collection(), "id", "description", date.equipment.collect{|equip| equip.id}) %>
-                        </select>
-                    <% end %>
-                </td>
-            </tr>
+      <!-- date location -->
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td align="right">Location:</td>
+        <td colspan="2" align="left">
+          <% if(@is_view_mode) %>
+            <% date.locations.each do |loc| %>
+              <%= loc.to_s() %><br/>
+            <% end %>
+          <% else %>
+            <select name="date<%= i %>[location_ids][]" size="5" multiple="multiple" onChange="modified()">
+              <%= options_from_collection_for_select(Location.find(:all, :order => "building ASC, floor ASC, room ASC"), "id", "to_s", date.locations.collect{|loc| loc.id}) %>
+            </select>
+          <% end %>
+        </td>
+      </tr>
 
-            <script>
-            date_update(<%= i %>);
-            </script>
+      <!-- date equipment -->
+      <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+        <td align="right" class="list">Equipment:</td>
+        <td colspan="2" align="left" class="list">
+          <% if(@is_view_mode) %>
+            <% date.equipment.each do |equip| %>
+              <%= equip.description() %><br/>
+            <% end %>
+          <% else %>
+            <select name="date<%= i %>[equipment_ids][]" size="5" multiple="multiple" onChange="modified()">
+              <%= options_from_collection_for_select(EquipmentCategory::tree_as_collection(), "id", "description", date.equipment.collect{|equip| equip.id}) %>
+            </select>
+          <% end %>
+        </td>
+      </tr>
 
-            <% tmp = !tmp %>
-        <% end %>
-        <%= hidden_field_tag("ndates", @event.eventdates.length()) %>
-    </table>
+      <script>
+      date_update(<%= i %>);
+      </script>
+
+      <% tmp = !tmp %>
+    <% end %>
+    <%= hidden_field_tag("ndates", @event.eventdates.length()) %>
+  </table>
 </div>

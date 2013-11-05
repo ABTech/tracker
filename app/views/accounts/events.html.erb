@@ -1,33 +1,33 @@
 <table>
-    <tr class="listheader">
-        <th class="list">ID</th>
-        <th class="list">Date</th>
+  <tr class="listheader">
+    <th class="list">ID</th>
+    <th class="list">Date</th>
 	<th class="list">Organization</th>
-        <th class="list">Name</th>
-        <th class="list">Invoice</th>
-        <th class="list">Invoiced</th>
-    </tr>
+    <th class="list">Name</th>
+    <th class="list">Invoice</th>
+    <th class="list">Invoiced</th>
+  </tr>
 
-    <% tmp = false; %>
-    <% @events.sort_by{|x| x.eventdates.size > 0 ? x.eventdates[0].startdate : Time.local(1970,1,1)}.each do |event| %>
-        <% inv = event.invoices.empty? ? nil : event.invoices[0] %>
-        <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-            <td class="list"><%= event.id %></td>
-            <td class="list"><%= (event.eventdates.size > 0) ? event.eventdates[0].startdate.strftime('%D') : 'unknown' %></td>
-	    <td class="list"><%= event.organization.name %></td>
-            <td class="list"><%= link_to(event.title, event_path(event)) %></td>
-            <td class="list">
+  <% tmp = false; %>
+  <% @events.sort_by{|x| x.eventdates.size > 0 ? x.eventdates[0].startdate : Time.local(1970,1,1)}.each do |event| %>
+    <% inv = event.invoices.empty? ? nil : event.invoices[0] %>
+    <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+      <td class="list"><%= event.id %></td>
+      <td class="list"><%= (event.eventdates.size > 0) ? event.eventdates[0].startdate.strftime('%D') : 'unknown' %></td>
+	  <td class="list"><%= event.organization.name %></td>
+      <td class="list"><%= link_to(event.title, event_path(event)) %></td>
+      <td class="list">
 <%= !inv ?
-    link_to("create", {:action => "new", :controller => "invoice", :event_id => event.id}) :
-    link_to(number_to_currency(inv.total), {:controller => "invoice", :action => "view", :id => inv.id}) %>
-            </td>
-            <td class="list">
+  link_to("create", {:action => "new", :controller => "invoice", :event_id => event.id}) :
+  link_to(number_to_currency(inv.total), {:controller => "invoice", :action => "view", :id => inv.id}) %>
+      </td>
+      <td class="list">
 <%= inv && inv.journal_invoice ? 
-    link_to(inv.journal_invoice.date.strftime('%D'), {:action => "view", :controller => "journal", :id => inv.journal_invoice.id}) :
-    "&nbsp;"%>
-            </td>
-        </tr>
-        <% tmp = !tmp %>
-    <% end %>
+  link_to(inv.journal_invoice.date.strftime('%D'), {:action => "view", :controller => "journal", :id => inv.journal_invoice.id}) :
+  "&nbsp;"%>
+      </td>
+    </tr>
+    <% tmp = !tmp %>
+  <% end %>
 
 </table>

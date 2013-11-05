@@ -1,35 +1,35 @@
 <table width="100%" border="0">
-    <tr>
-        <th class="listheader" scope="col">Creation Date</th>
-        <th class="listheader" scope="col">Event</th>
-        <th class="listheader" scope="col">Ammount</th>
-        <th class="listheader" scope="col">Invoice JE</th>
-        <th class="listheader" scope="col">Paid JE</th>
+  <tr>
+    <th class="listheader" scope="col">Creation Date</th>
+    <th class="listheader" scope="col">Event</th>
+    <th class="listheader" scope="col">Ammount</th>
+    <th class="listheader" scope="col">Invoice JE</th>
+    <th class="listheader" scope="col">Paid JE</th>
+  </tr>
+  
+  <% @tmp = false %>
+  <% @invoices.sort{|x, y| y.created_at <=> x.created_at}.each do |@invoice| %>
+    <tr class="<%= @tmp ? "hoverlistentry1" : "hoverlistentry2" %>">
+      <td class="list"><%= @invoice.created_at.strftime("%B %d %Y") %></td>
+      <td class="list">
+    <%= link_to(@invoice.event.title, event_path(@invoice.event)) %>
+    </td>
+      <td class="list"><%= number_to_currency @invoice.total %></td>
+    <td>
+    <% if(@invoice.journal_invoice) %>
+      <%= link_to(@invoice.journal_invoice.date.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => @invoice.journal_invoice.id}) %>
+    <% else %>
+      none
+    <% end %>
+    </td>
+    <td>
+    <% if(@invoice.journal_invoice and @invoice.journal_invoice.date_paid) %>
+      <%= link_to(@invoice.journal_invoice.date_paid.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => @invoice.journal_invoice.id}) %>
+    <% else %>
+      none
+    <% end %>
+    </td>
     </tr>
-	
-	<% @tmp = false %>
-	<% @invoices.sort{|x, y| y.created_at <=> x.created_at}.each do |@invoice| %>
-		<tr class="<%= @tmp ? "hoverlistentry1" : "hoverlistentry2" %>">
-			<td class="list"><%= @invoice.created_at.strftime("%B %d %Y") %></td>
-			<td class="list">
-        <%= link_to(@invoice.event.title, event_path(@invoice.event)) %>
-      </td>
-			<td class="list"><%= number_to_currency @invoice.total %></td>
-      <td>
-        <% if(@invoice.journal_invoice) %>
-          <%= link_to(@invoice.journal_invoice.date.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => @invoice.journal_invoice.id}) %>
-        <% else %>
-          none
-        <% end %>
-      </td>
-      <td>
-        <% if(@invoice.journal_invoice and @invoice.journal_invoice.date_paid) %>
-            <%= link_to(@invoice.journal_invoice.date_paid.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => @invoice.journal_invoice.id}) %>
-        <% else %>
-            none
-        <% end %>
-      </td>
-		</tr>
-		<% @tmp = !@tmp %>
-	<% end %>
+    <% @tmp = !@tmp %>
+  <% end %>
 </table>

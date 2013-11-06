@@ -1,5 +1,5 @@
 set :application, "abtt"
-set :repository,  "ssh:git@github.com:ABTech/abtt.git"
+set :repository,  "https://github.com/ABTech/abtt.git"
 set :branch, "rails-4"
 set :deploy_to, "/srv/rails/abtt"
 set :user, 'egarbade'

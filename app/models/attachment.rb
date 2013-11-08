@@ -4,5 +4,10 @@ class Attachment < ActiveRecord::Base
 
   has_attached_file :attachment
 
+  #TODO: Convert this properly
+  #has_attached_file :avatar,
+  #  :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+  #  :url => "/system/:attachment/:id/:style/:filename"
+
   validates_attachment_presence :attachment
 end

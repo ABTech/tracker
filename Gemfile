@@ -45,3 +45,4 @@ gem 'capistrano', '~> 2.1', group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'wkhtmltopdf-binary'
+gem "paperclip", "~> 3.0"

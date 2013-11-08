@@ -32,7 +32,7 @@ test:
 production:
   adapter: mysql2
   encoding: utf8
-  database: abtt_production
+  database: abtechtt_production
   pool: 5
   username: root
   password:

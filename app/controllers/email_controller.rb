@@ -1,5 +1,6 @@
 class EmailController < ApplicationController
-  filter_parameter_logging :imappassword
+  #TODO: debug why below doesn't work
+  #filter_parameter_logging :imappassword
 
   #require 'rmail.rb'
   require 'net/imap'

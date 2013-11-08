@@ -15,7 +15,7 @@ class Email < ActiveRecord::Base
     
   validates_presence_of :sender, :timestamp, :contents, :status; #:contactemail
   validates_inclusion_of :status, :in => Email_Status_Group_All;
-  validates_format_of :sender, :with => Event::EmailRegex;
+  validates_format_of :sender, :with => Event::EmailRegex, :multiline => true;
 
   def headerless_contents
     segments = contents.split(/\n[\r]*\n/);

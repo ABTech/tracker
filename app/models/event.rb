@@ -51,7 +51,7 @@ class Event < ActiveRecord::Base
   validates_presence_of     :title, :status, :organization, :eventdates
   validates_inclusion_of    :status, :in => Event_Status_Group_All;
   validates_associated      :organization, :emails, :event_roles, :eventdates;
-  validates_format_of       :contactemail, :with => Event::EmailRegex;
+  validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true;
 
   def locations
     locs = [];

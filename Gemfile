@@ -43,3 +43,5 @@ gem 'capistrano', '~> 2.1', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'wkhtmltopdf-binary'

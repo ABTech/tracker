@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  require 'rmail.rb'
+  #TODO: what is this file? What does it do?
+  #require 'rmail.rb'
   before_filter :login_required, :except => [:generate, :calendar];
 
   ### various parameters for editing things

@@ -25,6 +25,8 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
+    acts_as_tree (1.4.0)
+      activerecord (>= 3.0.0)
     arel (4.0.1)
     atomic (1.1.14)
     builder (3.1.4)
@@ -132,6 +134,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_tree
   capistrano (~> 2.1)
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)

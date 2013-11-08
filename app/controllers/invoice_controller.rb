@@ -1,7 +1,8 @@
 class InvoiceController < ApplicationController
   before_filter :login_required;
 
-  require 'wicked_pdf'
+  #TODO: is this required?
+  #require 'wicked_pdf'
 
   New_Invoice_New_Line_Display_Count = 5;
   Old_Invoice_New_Line_Display_Count = 5;

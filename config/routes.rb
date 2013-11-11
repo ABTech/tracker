@@ -52,10 +52,8 @@ Abtt::Application.routes.draw do
 
   resources :version, only: [:show]
 
-  get 'login' => 'Useraccount#login'
-  get 'logout' => 'Useraccount#logout'
+  get 'login' => 'useraccount#login'
+  get 'logout' => 'useraccount#logout'
 
   root to: 'events#index'
-
-  match ':controller/:action/:id', via: :all
 end

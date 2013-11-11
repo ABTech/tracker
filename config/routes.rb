@@ -59,5 +59,5 @@ Abtt::Application.routes.draw do
   root to: 'events#index'
 
   resources :emailforms
-#  get 'useraccount/access_denied' => 'Useraccount#access_denied'
+  get 'useraccount/access_denied' => 'Useraccount#access_denied'
 end

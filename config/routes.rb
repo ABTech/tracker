@@ -55,5 +55,6 @@ Abtt::Application.routes.draw do
   get 'login' => 'useraccount#login'
   get 'logout' => 'useraccount#logout'
 
+  get 'useraccount/access_denied'
   root to: 'events#index'
 end

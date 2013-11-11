@@ -2,7 +2,7 @@ Abtt::Application.routes.draw do
   resources :permissions
   resources :roles
   resources :locations
-  resources :comments, only: [:create, :destroy]
+  resources :comments
   resources :members do
     collection do
       get 'edit_self'
@@ -14,7 +14,6 @@ Abtt::Application.routes.draw do
       get 'unpaid'
       get 'unpaid_print'
       get 'events'
-      get 'confirm_paid'
     end
   end
 
@@ -58,6 +57,5 @@ Abtt::Application.routes.draw do
 
   root to: 'events#index'
 
-  resources :emailforms
-  get 'useraccount/access_denied'
+  match ':controller/:action/:id', via: :all
 end

@@ -1,0 +1,254 @@
+body, input, textarea, select {
+	margin: 0;
+	font-size:10px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+table { border-collapse: collapse; }
+td, th { padding: 0; }
+a { color: #3333FF; }
+h1 a { text-decoration: none; color: inherit; }
+h1 a:hover { text-decoration: underline; color: #3333FF }
+
+/* =======================  HEADER ======================= */
+
+div.login {
+	float: right;
+	margin-top: -29px;
+	margin-right: 7px;
+	text-align: right;
+	color: #666666;
+}
+
+div.header {
+	background: #F3F3F3;
+}
+
+#version {
+  margin-top: 1em;
+}
+
+
+/* ====================== NOTICE ========================*/
+
+div.notice {
+  color: green;
+  border: 1px solid black;
+  margin: 0 10px;
+  width: 400px;
+  padding: .5em;
+  font-size: 120%;
+  text-align: center;
+}
+
+div.error {
+  color: red;
+  border: 4px solid red;
+  margin: 0 10px;
+  width: 400px;
+  padding: .5em;
+  font-size: 120%;
+  text-align: center;
+}
+/* =======================  MENU ======================= */
+
+/* .menu kept for posterity */
+div.menu, div#menu, div#submenu {
+	margin: 5px 20px 0 20px;
+}
+
+div.menu a, div#menu a, div#submenu a {
+	margin-right: 30px;
+	font-size: 18px;
+	color: #9999FF;
+	line-height: 175%;
+}
+
+div.menu a.current, div#menu a.current, div#submenu a.current { background: #FDFDFF; border: 1px solid #EEEEFF; padding: 4px; }
+
+div#submenu {
+  font-size: 14px;
+}
+
+div#submenu a {
+  font-size: 14px;
+}
+
+
+
+/* ======================= GENERIC ======================= */
+
+table.generic th {
+	background: #F0F0F0;
+	border: 1px solid #BBBBBB;
+        padding: 2px;
+}
+
+table.generic td {
+	padding: 5px;
+	background: #FCFCFC;
+	border: 1px solid #BBBBBB;
+	vertical-align: top;
+}
+
+table.generic th > a {
+ color: black;
+ text-decoration: none;
+}
+
+table.generic th > a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+table.generic tr:hover td {
+  background-color: #A6FFA6 !important;
+}
+
+th img.order {
+  border-width: 0;
+  margin: 0 0 -2px 0; 
+  padding: 0;
+}
+
+
+div#container {
+margin: 20px;
+}
+
+.hastitle { 
+}
+
+.bug:hover td {
+  background-color: #A6FFA6 !important;
+}
+
+
+/* =======================  EVENTS LIST ======================= */
+
+table.eventsmain {
+	width: 100%;
+	margin-top: 10px;
+}
+
+table.eventsmain > tbody > tr > td {
+	vertical-align: top;
+}
+
+/* generic event list attributes */
+table.eventslist {
+	width: 99%;
+	margin: 0 20px 0 0;
+}
+table.eventslist > tbody > tr > th {
+	border: 1px solid #BBBBBB;
+	background: #F0F0F0;
+}
+table.eventslist > tbody > tr > td {
+	border: 1px solid #BBBBBB;
+	padding: 0px 7px;
+	white-space: nowrap;
+}
+table.eventslist tr.list_header, table.eventslist tr.list_footer {
+	color: #555555;
+}
+table.eventslist tr.list_header a, table.eventslist tr.list_footer a {
+	color: #9999FF;
+}
+table.eventslist td:first-child {
+	padding: 0;
+}
+
+/* row colors */
+table.eventslist tr.event_confirmed { background: #E2F2E2; }
+table.eventslist tr.event_confirmed > td:first-child { background: #00FF00; font-size: 5px; }
+table.eventslist tr.billing_pending { background: #E1EAEF; }
+table.eventslist tr.billing_pending > td:first-child { background: #FF0000; font-size: 5px; }
+table.eventslist tr.event_completed { background: #E1EAEF; }
+table.eventslist tr.event_completed > td:first-child { background: #00A4FF; font-size: 5px; }
+table.eventslist tr.event_cancelled { background: #F9F9F9; color: #AAAAAA; }
+table.eventslist tr.event_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
+table.eventslist tr.event_cancelled a { color: #9999FF; }
+table.eventslist tr.event_incomplete { background: #F7F7D3; }
+table.eventslist tr.event_incomplete > td:first-child { background: #FFFF00; font-size: 5px; }
+table.eventslist tr.initial_request { background: #F2C7C7; }
+table.eventslist tr.initial_request> td:first-child { background: #FF0000; font-size: 5px; }
+table.eventslist tr.event_blackout { background: #666666; color: #DDDDDD; }
+table.eventslist tr.event_blackout > td:first-child { background: #000000; font-size: 5px; }
+table.eventslist tr.event_blackout a { color: #9999FF; }
+
+/* cell styles */
+table.eventslist small.published {
+	color: #AAAAAA;
+}
+table.eventslist small.organization {
+}
+table.eventslist span.unknown {
+	color: #EE6666;
+}
+
+/* ======================= CALENDAR ======================= */
+
+table.calendarmain {
+	margin-top: 10px;
+}
+
+table.calendarmain > tbody > tr > td {
+	vertical-align: top;
+	padding: 5px;
+}
+
+/* generic calendar attributes */
+table.calendar {
+	width: 175px;
+}
+table.calendar table {
+	width: 100%;
+}
+table.calendar td.header_month {
+	padding-bottom: 3px
+}
+table.calendar td.header_month a {
+	color: #9999FF;
+}
+table.calendar td.header_days table {
+	border: 1px solid #CCCCCC;
+	background: #F0F0F0;
+}
+table.calendar td.header_days table tr td {
+	width: 24px;
+	text-align: center;
+}
+table.calendar td.body {
+	background: #F9F9F9;
+}
+table.calendar td.body table tr td {
+	border: 1px solid #CCCCCC;
+	width: 25px;
+	height: 25px;
+	text-align: center;
+}
+
+table.calendar span.hide {
+	display: none;
+}
+table.calendar span.show {
+	display: block;
+	position: absolute;
+	border: 1px solid #BBBBBB;
+	text-align: left;
+	padding: 5px;
+	z-index: 100;
+}
+table.calendar span.show span {
+	color: #777777;
+}
+
+/* calendar colors for specific days */
+td.not_on_calendar { color: #BBBBBB; }
+td.one_event, td.one_event span { background: #A6FFA6; }
+td.two_events, td.two_events span { background: #DFFFA6; }
+td.three_events, td.three_events span { background: #FFFDA6; }
+td.four_events, td.four_events span { background: #FFD9A6; }
+td.more_events, td.more_events span { background: #FFA6A6; }
+td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD }

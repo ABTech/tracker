@@ -27,7 +27,7 @@ Abtt::Application.routes.draw do
   resources :organizations
   resources :bugs
   resources :tshirts
-  get 'invoice/list' => 'invoice#list'
+  get 'invoice/list'
   resources :invoice
   resources :timecard_entries, except: :show
   resources :timecards do
@@ -60,4 +60,5 @@ Abtt::Application.routes.draw do
 
   get 'email/list'
   get 'equipment/tree'
+  get 'invoice_items/index'
 end

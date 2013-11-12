@@ -137,7 +137,7 @@
     </p>
   </div>
   <% end %>
-    <% form_tag("/login", :novalidate => true) do %>
+    <%= form_tag("/login", :novalidate => true) do %>
       <div>
         <%= text_field_tag("login", "", :id => "username", :type => "email", :required => true, :placeholder => "Username") %></td>
       </div>

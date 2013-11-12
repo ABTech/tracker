@@ -59,4 +59,5 @@ Abtt::Application.routes.draw do
   root to: 'events#index'
 
   get 'email/list'
+  get 'equipment/tree'
 end

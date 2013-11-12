@@ -57,4 +57,6 @@ Abtt::Application.routes.draw do
 
   get 'useraccount/access_denied'
   root to: 'events#index'
+
+  get 'list/email'
 end

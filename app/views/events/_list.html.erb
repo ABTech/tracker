@@ -44,7 +44,7 @@
             end
             now_year += 1
           end
-          month_links.join(" | ")
+          month_links.join(" | ").html_safe
         %>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <%= if (params["selected"] == "future") then "<b>Future" + (page_info ? page_info : "") + "</b>" else link_to("Future", {:action => "index", :selected => "future"}) end %> |

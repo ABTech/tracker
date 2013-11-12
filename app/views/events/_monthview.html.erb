@@ -70,7 +70,7 @@
                 day_class = "more_events"
               end
             %>
-            <td width="14%" <%= "class='" + day_class + "'" if day_class %> <% if !todaydates.empty? %>onmouseover="this.getElementsByTagName('span')[0].className='show'" onmouseout="this.getElementsByTagName('span')[0].className='hide'"<% end %>>
+            <td width="14%" <%= "class='".html_safe + day_class + "'".html_safe if day_class %> <% if !todaydates.empty? %>onmouseover="this.getElementsByTagName('span')[0].className='show'" onmouseout="this.getElementsByTagName('span')[0].className='hide'"<% end %>>
               <%= day.mday %>
 
               <% if(!@public and !todaydates.empty?) %>

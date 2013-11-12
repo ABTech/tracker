@@ -91,7 +91,7 @@
           event_class = "event_incomplete"
         end
       %>
-      <tr <%= "class='" + event_class + "'" if event_class %>>
+      <tr <%= "class='".html_safe + event_class + "'".html_safe if event_class %>>
         <td>&nbsp;</td>
         <td>
           <% if eventdate.startdate.year == Date.today.year %>

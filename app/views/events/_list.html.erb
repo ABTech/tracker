@@ -99,22 +99,22 @@
           <% else %>
             <%= eventdate.startdate.strftime("%B %d, %Y") %>
           <% end %><br />
-          <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= eventdate.event.blackout ? ", blackout" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>" : "" %>)</small>
+          <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= eventdate.event.blackout ? ", blackout" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
         </td>
         <td>
           <%= link_to(("#{event.title} - #{eventdate.description}"),event_path(event)) %><br />
           <small class="organization"><%= event.organization.name %></small>
         </td>
         <td style="white-space: normal;">
-                                  <%= eventdate.locations.join("<br />") %>
-                                  <%= "<br />" if eventdate.equipment.count >= 1 %>
+                                  <%= eventdate.locations.join("<br />".html_safe) %>
+                                  <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
                                   <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
         </td>
         <td>
           <small>
-            C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>" %><br/>
+            C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
             E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
-            S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>" %>
+            S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
           </small>
         </td>
         <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>

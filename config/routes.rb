@@ -52,7 +52,7 @@ Abtt::Application.routes.draw do
 
   resources :version, only: [:show]
 
-  get 'login' => 'useraccount#login'
+  post 'login' => 'useraccount#login'
   get 'logout' => 'useraccount#logout'
 
   get 'useraccount/access_denied'

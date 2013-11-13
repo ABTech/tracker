@@ -7,6 +7,9 @@ Abtt::Application.routes.draw do
     collection do
       get 'edit_self'
     end
+    member do
+      get 'settings'
+    end
   end
   resources :accounts do
     collection do
@@ -61,5 +64,4 @@ Abtt::Application.routes.draw do
   get 'email/list'
   get 'equipment/tree'
   get 'invoice_items/index'
-  get 'members/settings/:id'
 end

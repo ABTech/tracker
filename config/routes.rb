@@ -3,6 +3,7 @@ Abtt::Application.routes.draw do
     collection do
       get 'confirm_paid'
       get 'events'
+      get 'list'
       get 'unpaid'
       get 'unpaid_print'
       get 'view'

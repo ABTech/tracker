@@ -61,4 +61,5 @@ Abtt::Application.routes.draw do
   get 'email/list'
   get 'equipment/tree'
   get 'invoice_items/index'
+  get 'members/settings/:id/'
 end

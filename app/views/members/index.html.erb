@@ -43,6 +43,6 @@
 <br />
 
 <%= link_to 'New member', new_member_path %> <br>
-<%= link_to 'Download as V-Cards', formatted_members_path(:vcf) %> <br>
+<%= link_to 'Download as V-Cards', members_path(:format => :vcf) %> <br>
 <%= link_to 'Generate T-Shirt Order', tshirts_path %>
 <% end %>

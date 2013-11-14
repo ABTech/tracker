@@ -25,6 +25,9 @@ Abtt::Application.routes.draw do
       get 'send_email'
       get 'unfile'
     end
+    member do
+      get 'view'
+    end
   end
 
   resources :email_forms, except: [:index] do
@@ -83,6 +86,9 @@ Abtt::Application.routes.draw do
   resources :journal, except: [:show, :update] do
     collection do
       get 'list'
+    end
+    member do
+      post 'save'
     end
   end
 

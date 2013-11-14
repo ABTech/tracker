@@ -27,7 +27,7 @@
           <% (is_credit ? @credit_JEs : @debit_JEs).each do |je| %>
             <tr>
               <td width="250"><%= i = i-1 %>.&nbsp;&nbsp;
-              <% je_memo = je.memo.length > 35 ? je.memo[0,je.memo.rindex(" ", 35)] + "<font color='#AAAAAA'>...</font>" : je.memo %>
+              <% je_memo = je.memo.length > 35 ? je.memo[0,je.memo.rindex(" ", 35)] + "<font color='#AAAAAA'>...</font>".html_safe : je.memo %>
               <%= link_to je_memo, {:controller => "journal", :action => "edit", :id => je.id} %>
               </td>
               

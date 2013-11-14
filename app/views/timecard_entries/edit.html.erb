@@ -1,7 +1,7 @@
 <% @title = 'Edit timecard entry' %>
 <h1>Edit timecard entry</h1>
 <p><%= error_messages_for 'timecard_entry' %></p>
-<% form_tag timecard_entry_path(@timecard_entry), :method => 'put' do %>
+<%= form_tag timecard_entry_path(@timecard_entry), :method => 'put' do %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Update' %>
   <p>

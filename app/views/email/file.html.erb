@@ -108,7 +108,7 @@ td input {
 </div>
 </td><td style="vertical-align: top">
 <div style="padding-top: 11px;">
-  <% form_tag({:action => "file", :id => @email.id}, :name => "fileform") do %>
+  <%= form_tag({:action => "file", :id => @email.id}, :name => "fileform") do %>
   <%= hidden_field_tag("skip", @skip) %>
   
   <div class="buttons">

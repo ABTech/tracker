@@ -1,5 +1,5 @@
 <h2>New Organization</h2>
-<% form_tag '/organizations', :method => :post do -%>
+<%= form_tag '/organizations', :method => :post do -%>
   Name:
   <input type="text"  name="organization[name]" value="<%= h @org.name %>" name=/>
   <%= submit_tag "Submit" %>

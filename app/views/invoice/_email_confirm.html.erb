@@ -1,4 +1,4 @@
-<% form_tag({:action=>"email",:id=>@invoice.id},:id=>"email_form")  do%>
+<%= form_tag({:action=>"email",:id=>@invoice.id},:id=>"email_form")  do%>
   To:<%= text_field_tag "to", @email_to, :size=>40 %><br />
   CC:<%= text_field_tag "cc", @email_cc, :size=>40 %><br />
   Subject:<%= text_field_tag "subject", @email_subject, :size=>37%><br />

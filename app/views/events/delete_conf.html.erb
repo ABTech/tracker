@@ -9,7 +9,7 @@ function boxUpdate()
 }
 </script>
 
-<% form_tag({:action => "delete", :id => @event.id}, {:name => "delete_conf"}) do %>
+<%= form_tag({:action => "delete", :id => @event.id}, {:name => "delete_conf"}) do %>
 You have requested deletion of the event <strong><%= @event.title %></strong>.<br/><br/>
 
 This is not an easy task. This should not be done very often. As such, please read the following:

@@ -89,6 +89,7 @@ Abtt::Application.routes.draw do
     end
     member do
       post 'save'
+      get 'view'
     end
   end
 
@@ -99,8 +100,6 @@ Abtt::Application.routes.draw do
   resources :members do
     collection do
       get 'edit_self'
-    end
-    member do
       get 'settings'
     end
   end

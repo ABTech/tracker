@@ -47,6 +47,8 @@ gem 'capistrano', '~> 2.1', group: :development
 gem 'wkhtmltopdf-binary'
 gem "paperclip", "~> 3.0"
 gem "acts_as_tree"
+gem "rmail"
+gem "wicked_pdf"
 
 # This is not a long term solution
 gem "protected_attributes"

@@ -39,7 +39,7 @@ fieldset { width:40% }
       <%= if @journal.date_paid
           @is_view_mode ? @journal.date_paid.strftime("%A, %B %d %Y, %I:%M %p") : date_select( "journal", "date_paid", :include_blank => true)
       else
-        %Q[Not paid <span id="date_paid_field" style="display: none;">#{date_select("journal", "date_paid", { :include_blank => true, :default => Date.today })}</span> <a href="#" onclick="$('date_paid_field').show(); $(this).hide(); return false;"><i class="icon-pencil"></i></a>]
+        %Q[Not paid <span id="date_paid_field" style="display: none;">#{date_select("journal", "date_paid", { :include_blank => true, :default => Date.today })}</span> <a href="#" onclick="$('date_paid_field').show(); $(this).hide(); return false;"><i class="icon-pencil"></i></a>].html_safe
       end %>
     </td>
   </tr>

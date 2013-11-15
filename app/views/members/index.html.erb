@@ -2,7 +2,7 @@
   <p>See also: <a href="https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList">https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList</a></p>
 <table class="generic">
   <tr>
-    <th><%= table_order_link( "kerbid",   "kerbid",     @order).html_safe %></th>
+    <th><%= table_order_link( "kerbid",   "kerbid",     @order) %></th>
     <th><%= table_order_link( "Name",     "namefirst",  @order) %></th>
     <th><%= table_order_link( "Title",    "title",      @order) %></th>
     <th><%= table_order_link( "Nickname", "namenick",   @order) %></th>
@@ -25,13 +25,13 @@
     <td><%=h member.title %></td>
     <td><%=h member.namenick %></td>
     <td><%=h(pretty_phone(member.phone)) %></td>
-    <td><%= "<a href=\"aim:goim?screenname=#{h(member.aim)}\">#{h(member.aim)}</a>" unless member.aim.nil? %></td>
-    <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}" %></td>
+    <td><%= "<a href=\"aim:goim?screenname=#{h(member.aim)}\">#{h(member.aim)}</a>".html_safe unless member.aim.nil? %></td>
+    <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%=h member.shirt_size %></td>
   <%- if @edit_others -%>
-    <td><%= member.roles.collect{ |role| "<span title=\"#{h(role.permissions.join("\n"))}\">#{h(role.name)}</span>" }.join("<br/>") %></td>
-    <td title="<%= member.created_at.nil? ? '">' : "#{member.created_at.strftime("%c")}\">#{member.created_at.strftime("%m/%d/%Y")}" %></td>
-    <td title="<%= member.updated_at.nil? ? '">' : "#{member.updated_at.strftime("%c")}\">#{member.updated_at.strftime("%m/%d/%Y")}" %></td>
+    <td><%= member.roles.collect{ |role| "<span title=\"#{h(role.permissions.join("\n"))}\">#{h(role.name)}</span>".html_safe }.join("<br/>") %></td>
+    <td title="<%= member.created_at.nil? ? '">' : "#{member.created_at.strftime("%c")}\">#{member.created_at.strftime("%m/%d/%Y")}".html_safe %></td>
+    <td title="<%= member.updated_at.nil? ? '">' : "#{member.updated_at.strftime("%c")}\">#{member.updated_at.strftime("%m/%d/%Y")}".html_safe %></td>
     <td><%= link_to 'Show', :action => 'show', :id => member %></td>
     <td><%= link_to 'Edit', :action => 'edit', :id => member %></td>
     <td><%= link_to 'Destroy', { :action => 'destroy', :id => member }, :confirm => 'Are you sure?', :post => true %></td>

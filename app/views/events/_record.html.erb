@@ -35,8 +35,8 @@ function switch_page(pgname)
 <%= hidden_field("event", "id") %>
 <div class="tab">
   <ul class="tablist">
-    <li><%= link_to_function("Main", "switch_page('main');".html_safe) %></li>
-    <li><%= link_to_function("Dates", "switch_page('dates');".html_safe) %></li>
+    <li><%= link_to_function("Main", "switch_page(\'main\');".html_safe) %></li>
+    <li><%= link_to_function("Dates", "switch_page(\'dates\');".html_safe) %></li>
     <li><%= link_to_function("Roles", "switch_page('roles');".html_safe) %></li>
     <li><%= link_to_function("Email", "switch_page('email');".html_safe) %></li>
     <li><%= link_to_function("Attachments (#{@event.attachments.count})", "switch_page('attachments');".html_safe) %></li>

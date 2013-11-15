@@ -58,6 +58,7 @@ Abtt::Application.routes.draw do
       get 'mobile_email'
     end
     collection do
+      get 'delete_conf'
       get 'calendar'
       get 'iphone'
       get 'mobile'

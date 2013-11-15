@@ -35,14 +35,14 @@ function switch_page(pgname)
 <%= hidden_field("event", "id") %>
 <div class="tab">
   <ul class="tablist">
-    <li><%= link_to_function("Main", "switch_page('main');") %></li>
-    <li><%= link_to_function("Dates", "switch_page('dates');") %></li>
-    <li><%= link_to_function("Roles", "switch_page('roles');") %></li>
-    <li><%= link_to_function("Email", "switch_page('email');") %></li>
-    <li><%= link_to_function("Attachments (#{@event.attachments.count})", "switch_page('attachments');") %></li>
-    <li><%= link_to_function("Finance", "switch_page('finance');") %></li>
-    <li><%= link_to_function("Related", "switch_page('related');") %></li>
-    <li><%= link_to_function("New View", "switch_page('new');") %></li>
+    <li><%= link_to_function("Main", "switch_page('main');".html_safe) %></li>
+    <li><%= link_to_function("Dates", "switch_page('dates');".html_safe) %></li>
+    <li><%= link_to_function("Roles", "switch_page('roles');".html_safe) %></li>
+    <li><%= link_to_function("Email", "switch_page('email');".html_safe) %></li>
+    <li><%= link_to_function("Attachments (#{@event.attachments.count})", "switch_page('attachments');".html_safe) %></li>
+    <li><%= link_to_function("Finance", "switch_page('finance');".html_safe) %></li>
+    <li><%= link_to_function("Related", "switch_page('related');".html_safe) %></li>
+    <li><%= link_to_function("New View", "switch_page('new');".html_safe) %></li>
   </ul>
   <% if(@event_page != "new") %>
     <%= render :partial => ("event_" + @event_page); %>

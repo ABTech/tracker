@@ -12,10 +12,15 @@
                select_day(startdate, :prefix => "#{object}[#{field}(3i)]", :discard_type => true)
     end
   %>
-<%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag :defaults %>
 </head>
 <body>
-  <div class="header"><%= '<div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>' if ENV["RAILS_ENV"] == 'development'-%><%= link_to raw("<img src=\"/images/header.png\" style=\"border: 0 solid black;\" />"), "/" %></div>
+  <div class="header">
+    <% if ENV["RAILS_ENV"] == 'development' %>
+      <div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>
+    <% end %>
+    <%= link_to image_tag("/images/header.png"), root_url %>
+  </div>
   <div class="login">
   <% if logged_in?() %>
     <b><%= current_member().fullname %></b> (<%= current_member().kerbid() %>)<br/>

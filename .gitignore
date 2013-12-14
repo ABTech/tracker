@@ -5,3 +5,16 @@ mkmf.log
 *.swo
 *~
 .AppleDouble
+/config/initializers/secret_token.rb
+*.rbc
+*.sassc
+.sass-cache
+capybara-*.html
+/.bundle
+/vendor/bundle
+/coverage/
+/spec/tmp/*
+**.orig
+rerun.txt
+pickle-email-*.html
+.DS_Store

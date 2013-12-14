@@ -1,6 +1,0 @@
-cron job to backup database
-
-ruby gems:
-  rails
-  icalendar (patch with conversions.rb from doc/)
-  rmail

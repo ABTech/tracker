@@ -1,5 +1,4 @@
 class UseraccountController < ApplicationController
-#  filter_parameter_logging :password;
 
   def login
     login_member = Member.authenticate(params["login"], params["password"]);

@@ -131,9 +131,12 @@
     </tr>
 	
       <% end %>
+      
+    <% if !@event.new_record? %>
     <tr class="listentry1">
       <td width="125" align="right" class="list">&nbsp;</td>
       <td align="left" class="list"><%= link_to("delete event", {:action => "delete_conf", :id => @event.id}) %></td>
     </tr>
+    <% end %>
   </table>
 </div>

@@ -32,7 +32,7 @@ class EmailController < ApplicationController
             redirect_to(:action => "list");
             return;
         end
-        imap.select('user.abtech.todo')
+        imap.select('inbox')
 
         # messages we've saved locally, to be flagged so we don't
         # pull them again
@@ -47,7 +47,6 @@ class EmailController < ApplicationController
 
             # create our local message
             message = Email.new();
-	    message.event_id = 0;
             message.status      = Email::Email_Status_Unfiled;
             if(envelope.reply_to && (envelope.reply_to.size() > 0))
                 message.sender      = envelope.reply_to[0].mailbox + '@' + envelope.reply_to[0].host;
@@ -57,7 +56,7 @@ class EmailController < ApplicationController
 
             message.timestamp   = DateTime.parse(envelope.date);
             message.subject     = envelope.subject;
-	    message.message_id  = envelope.message_id;
+            message.message_id  = envelope.message_id;
 
             message.contents = "";
             message.contents << "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n";
@@ -258,7 +257,7 @@ class EmailController < ApplicationController
         @outgoing_destination = @email.sender;
         @outgoing_cc = EmailHelper::SMTP_CC_List.join(", ");
         @outgoing_from = EmailHelper::SMTP_From;
-	@outgoing_inreplyto = @email.message_id;
+        @outgoing_inreplyto = @email.message_id;
 
         # if the old subject didn't have the eventid tag, add it
         if(EmailController.find_eventids(@email.subject).empty?)
@@ -352,12 +351,7 @@ class EmailController < ApplicationController
 
     def list
         @title = "Email List";
-        size = 20
-        page = params[:page].to_i
-        page = 1 if page < 1
-        @emails = Email.find(:all, :order => 'timestamp DESC', :limit => size, :offset => size*(page-1))
-        @previous = page - 1 if page > 1
-        @next = page + 1 if page*size < Email.find_by_sql('select count(*) as count_all from emails')[0].count_all.to_i
+        @emails = Email.paginate(:per_page => 20, :page => params[:page]).order("timestamp DESC")
     end
 
     def view

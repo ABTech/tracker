@@ -17,10 +17,11 @@ Abtt::Application.routes.draw do
   resources :email, only: [:view] do
     collection do
       get 'file'
+      post 'file'
       get 'list'
       get 'mark_status'
       get 'new_thread'
-      get 'pull_email'
+      post 'pull_email'
       get 'reply_to'
       get 'send_email'
       get 'unfile'

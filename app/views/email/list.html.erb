@@ -13,6 +13,8 @@
   </tr>
 </table></center>
 
+<%= will_paginate @emails %>
+
 <table width="100%" border="0">
   <tr>
     <th width="75" class="listheader" scope="col">Date</th>
@@ -28,25 +30,22 @@
     <tr class="<%= @tmp ? "hoverlistentry1" : "hoverlistentry2" %>">
       <td class="list"><div align="left"><%= email.timestamp.strftime("%b %d, %Y") %></div></td>
       <td class="list"><div align="left"><%= email.timestamp.strftime("%I:%M %p") %></div></td>
-      <td class="list"><div align="left"><%= email.status %> <small><%= link_to("unfile", {:action => "unfile", :id => email.id}) %></small></div></td>
+      <td class="list"><div align="left"><%= email.status %> <small>
+        <% if email.status == "Unfiled" %>
+          <%= link_to("file", {:action => "file", :id => email.id}) %>
+        <% else %>
+          <%= link_to("unfile", {:action => "unfile", :id => email.id}) %>
+        <% end %></small></div></td>
       <td class="list"><div align="left"><%= email.sender %></div></td>
       <td class="list"><div align="left"><%= link_to(email.subject, {:action => "view", :id => email.id}) %></div></td>
       <td class="list"><div align="right">
         <% if(email.event) %>
-          <%= link_to "event", edit_event_path(email.event) %>
+          <%= link_to "event", event_path(email.event) %>
         <% end %>
       </div></td>
     </tr>
     <% @tmp = !@tmp %>
   <% end %>
 </table>
-<table align="center" width=300>
-  <tr>
-    <td width=150>
-      <%= link_to "Previous Page", { :page => @previous } if @previous %>&nbsp;
-    </td>
-    <td width=150>
-      <%= link_to "Next Page", { :page => @next } if @next %>&nbsp;
-    </td>
-  </tr>
-</table>
+
+<%= will_paginate @emails %>

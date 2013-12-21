@@ -3,9 +3,9 @@ class Member < ActiveRecord::Base
   has_many :eventroles;
   has_many :comments;
   has_and_belongs_to_many :roles
-  has_many :filters, :class_name => "MemberFilter", :order => "name ASC"
+  has_many :filters, -> { order "name ASC" }, :class_name => "MemberFilter"
   has_many :timecard_entries
-  has_many :timecards, :through => :timecard_entries, :uniq => true
+  has_many :timecards, -> { distinct }, :through => :timecard_entries
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password

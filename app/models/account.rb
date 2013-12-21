@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
-  has_many :journals, :class_name => "Journal", :foreign_key => "account", :order => "journals.date DESC";
+  has_many :journals, -> { order "journals.date DESC" }, :class_name => "Journal", :foreign_key => "account"
     
   validates_presence_of :name, :position;
   validates_inclusion_of :is_credit, :in => [true, false];

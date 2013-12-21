@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
   belongs_to :organization
   belongs_to :year
-  has_many :emails, :order => "timestamp DESC"
-  has_many :eventdates, :dependent => :destroy, :order => "startdate ASC"
+  has_many :emails, -> { order "timestamp DESC" }
+  has_many :eventdates, -> { order "startdate ASC" }, :dependent => :destroy
   has_many :event_roles, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
   has_many :comments, :dependent => :destroy

@@ -1,5 +1,5 @@
 module EmailHelper
-  IMAP_Server           = "imap.gmail.com";
+  IMAP_Server           = "cyrus.andrew.cmu.edu";
   IMAP_Port             = 993;
 
   SMTP_Server           = "localhost"

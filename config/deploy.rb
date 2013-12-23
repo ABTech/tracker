@@ -1,9 +1,13 @@
+require "bundler/capistrano"
+
 set :application, "abtt"
-set :repository,  "https://github.com/ABTech/abtt.git"
+set :repository,  "https://github.com/hatkirby/abtt.git"
 set :branch, "rails-4"
 set :deploy_to, "/srv/rails/abtt"
-set :user, 'egarbade'
+set :user, 'hatkirby'
 set :domain, 'egarbade.org'
+set :default_shell, "sudo su"
+set :rails_env, "production"
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -25,4 +29,11 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+  
+  desc "Symlink shared config files"
+  task :symlink_config_files do
+    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secret_token.rb #{ release_path }/config/initializers/secret_token.rb"
+  end
 end
+
+after "deploy:finalize_update", "deploy:symlink_config_files"

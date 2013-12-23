@@ -74,6 +74,8 @@ class EmailController < ApplicationController
                         end
                     end
                 end
+                
+                message.event_id = nil
 
                 message.contents << "\n"
                 # get the actual contents, finding the text multipart segment

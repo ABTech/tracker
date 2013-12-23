@@ -22,7 +22,6 @@ class EmailController < ApplicationController
     end
 
     def pull_email
-
         # first, connect to the IMAP server
         imap = Net::IMAP.new(EmailHelper::IMAP_Server, EmailHelper::IMAP_Port, true); # last is to use SSL
         begin
@@ -33,88 +32,82 @@ class EmailController < ApplicationController
             return;
         end
         imap.select('inbox')
+        
+        # if we've never pulled emails before, pull all emails that arrived
+        # before tomorrow. otherwise, pull all emails that arrived on or after
+        # the day of the last arrived email.
+        query = ["BEFORE", Net::IMAP.format_date(Time.now + 1.day)]
+        latest = Email.order("timestamp DESC").limit(1).first
+        query = ["SINCE", Net::IMAP.format_date(latest.timestamp)] if latest
 
-        # messages we've saved locally, to be flagged so we don't
-        # pull them again
-        saved_set = [];
-
-        # this could become "unread" or "every message" (and delete
-        # them after importing) if this webapp reaches maturity.
-        imap.search(["UNFLAGGED"]).each do |message_id|
+        imap.search(query).each do |message_id|
             # download the message
             fetchd = imap.fetch(message_id, ["RFC822", "BODYSTRUCTURE", "ENVELOPE"])[0];
             envelope = fetchd.attr["ENVELOPE"]
-
-            # create our local message
-            message = Email.new();
-            message.status      = Email::Email_Status_Unfiled;
-            if(envelope.reply_to && (envelope.reply_to.size() > 0))
-                message.sender      = envelope.reply_to[0].mailbox + '@' + envelope.reply_to[0].host;
-            else
-                message.sender      = envelope.from[0].mailbox + '@' + envelope.from[0].host;
-            end
-
-            message.timestamp   = DateTime.parse(envelope.date);
-            message.subject     = envelope.subject;
-            message.message_id  = envelope.message_id;
-
-            message.contents = "";
-            message.contents << "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n";
-
-            # conveniently the formats are all the same, so just look through a 
-            # list of parameters to check for addresses
-            addresses_to_add = ["from", "reply_to", "to", "cc", "bcc"];
-            addresses_to_add.each do |prop|
-                val = eval("envelope.#{prop}");
-                if(val)
-                    val.each do |addr|
-                        message.contents << "#{prop}: #{addr.mailbox}@#{addr.host} (#{addr.name})\n"
-                    end
+            
+            # imap can only query messages based on day of pull, not time, so we
+            # have to manually filter out the ones we've already pulled
+            if not latest or DateTime.parse(envelope.date) > latest.timestamp
+                # create our local message
+                message = Email.new()
+                message.status = Email::Email_Status_Unfiled
+                if envelope.reply_to and envelope.reply_to.size > 0
+                    message.sender = envelope.reply_to[0].mailbox + '@' + envelope.reply_to[0].host
+                else
+                    message.sender = envelope.from[0].mailbox + '@' + envelope.from[0].host
                 end
-            end
 
-            message.contents << "\n";
-            # get the actual contents, finding the text multipart segment
-            # if we've got a multipart message (a message with attachment)
-            structure = fetchd.attr["BODYSTRUCTURE"];
-            if(structure.multipart?)
-                message.contents << imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n";
-            else
-                message.contents << fetchd.attr["RFC822"] << "\n";
-            end
+                message.timestamp   = DateTime.parse(envelope.date)
+                message.subject = envelope.subject
+                message.message_id  = envelope.message_id
 
-            # save our local message
-            if(!message.valid?)
-                message.errors.each_full do |err|
-                end
-            else
-                automatch = EmailController.find_eventids(message.subject);
+                message.contents = "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n"
 
-                # if we can find the eventid in the subject, auto match that to
-                # the event, to save some filing work
-                if(automatch and !automatch.empty? and (automatch.length == 1))
-                    message.status = Email::Email_Status_New;
-                    message.event_id = automatch[0];
-
-                    # if we sent the message, mark it as read
-                    if(EmailHelper::SMTP_From == message.sender())
-                        message.status = Email::Email_Status_Read;
+                # conveniently the formats are all the same, so just look through a 
+                # list of parameters to check for addresses
+                addresses_to_add = ["from", "reply_to", "to", "cc", "bcc"]
+                addresses_to_add.each do |prop|
+                    val = eval("envelope.#{prop}")
+                    if val
+                        val.each do |addr|
+                            message.contents << "#{prop}: #{addr.mailbox}@#{addr.host} (#{addr.name})\n"
+                        end
                     end
                 end
 
-                message.save!();
+                message.contents << "\n"
+                # get the actual contents, finding the text multipart segment
+                # if we've got a multipart message (a message with attachment)
+                structure = fetchd.attr["BODYSTRUCTURE"]
+                if structure.multipart?
+                    message.contents << imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n"
+                else
+                    message.contents << fetchd.attr["RFC822"] << "\n"
+                end
 
-                saved_set << fetchd.seqno;
+                # save our local message
+                if message.valid?
+                    automatch = EmailController.find_eventids(message.subject)
+
+                    # if we can find the eventid in the subject, auto match that to
+                    # the event, to save some filing work
+                    if automatch and !automatch.empty? and automatch.length == 1
+                        message.status = Email::Email_Status_New
+                        message.event_id = automatch[0]
+
+                        # if we sent the message, mark it as read
+                        if EmailHelper::SMTP_From == message.sender
+                            message.status = Email::Email_Status_Read
+                        end
+                    end
+
+                    message.save!
+                end
             end
         end
 
-        if(!saved_set.empty?)
-            # store the flages for pulled messages
-            imap.store(saved_set, "+FLAGS", [:Flagged]);
-        end
-
-        imap.close();
-        redirect_to(:action => "file");
+        imap.close()
+        redirect_to(:action => "file")
     end
 
     def file

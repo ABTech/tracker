@@ -31,7 +31,7 @@ class EmailController < ApplicationController
             redirect_to(:action => "list");
             return;
         end
-        imap.select('inbox')
+        imap.select('user.abtech.inbox')
         
         # if we've never pulled emails before, pull all emails that arrived
         # before tomorrow. otherwise, pull all emails that arrived on or after

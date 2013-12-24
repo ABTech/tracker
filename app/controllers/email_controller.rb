@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class EmailController < ApplicationController
   require 'net/imap'
 

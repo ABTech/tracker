@@ -33,7 +33,7 @@ class EmailController < ApplicationController
             redirect_to(:action => "list");
             return;
         end
-        imap.select('user.abtech.inbox')
+        imap.select('user.abtech')
         
         # if we've never pulled emails before, pull all emails that arrived
         # before tomorrow. otherwise, pull all emails that arrived on or after
@@ -89,12 +89,11 @@ class EmailController < ApplicationController
                     message.contents << fetchd.attr["RFC822"] << "\n"
                 end
                 
-                # cyrus appears to have some difficulty with conforming to the
-                # rfc with regards to unicode characters so we're going to
-                # manually transliterate fancy quotes and accented characters,
-                # and then parse out any other unicode characters
-                message.contents = message.contents.tr("ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž“”‘’","AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz\"\"''")
-                message.contents.gsub!(/\P{ASCII}/, '')
+                # cyrus returns buggy unicode data in the guise of 8-bit ascii.
+                # just filter out any bytes with a value over 127 and pretend
+                # it never happened.
+                message.contents = message.contents.bytes.select { |c| c < 128 }.pack('c*')
+                message.contents.encode!("UTF-8")
 
                 # save our local message
                 if message.valid?

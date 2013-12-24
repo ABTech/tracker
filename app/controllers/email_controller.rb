@@ -86,6 +86,13 @@ class EmailController < ApplicationController
                 else
                     message.contents << fetchd.attr["RFC822"] << "\n"
                 end
+                
+                # cyrus appears to have some difficulty with conforming to the
+                # rfc with regards to unicode characters so we're going to
+                # manually transliterate fancy quotes and accented characters,
+                # and then parse out any other unicode characters
+                message.contents = message.contents.tr("ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž“”‘’","AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz\"\"''")
+                message.contents.gsub!(/\P{ASCII}/, '')
 
                 # save our local message
                 if message.valid?

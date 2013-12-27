@@ -17,7 +17,11 @@
     <td><%= a.id %></td>
     <td><%= link_to a.attachment.original_filename, a.attachment.url %></td>
     <td><%= a.attachment.content_type %></td>
-    <td><%= a.attachment.size %></td>
+	  <% if (a.attachment.size / 1024) < 1024 %>
+		  <td><%= (a.attachment.size / 1024.0).ceil %> kB</td>
+    <% else %>
+      <td><%= (a.attachment.size / 1048576.0).to_s[0..3] %> MB</td>
+    <% end %>
     <td><%= link_to a.event, event_path(a.event) %></td>
     <td><%= link_to "Destroy", attachment_path(a), :method => "delete",  :confirm => "Are you sure? This is irreversible." %></td>
   </tr>

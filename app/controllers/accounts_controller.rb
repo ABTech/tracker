@@ -1,4 +1,6 @@
 class AccountsController < ApplicationController
+  layout "application2"
+  
   before_filter :login_required
 
   def index

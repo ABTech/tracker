@@ -94,7 +94,6 @@ class EventsController < ApplicationController
       save_event = Event.update(params["event"]["id"], params['event']);
     else
       save_event = Event.new(params['event']);
-      save_event.year_id = Year.active_year.id;
     end
 
     nots, errs = EventsHelper.update_event(save_event, params)

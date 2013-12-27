@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131223222248) do
+ActiveRecord::Schema.define(version: 20131227012004) do
 
   create_table "accounts", force: true do |t|
     t.string  "name",      null: false
@@ -149,7 +149,6 @@ ActiveRecord::Schema.define(version: 20131223222248) do
     t.datetime "updated_on"
     t.boolean  "publish",         default: false
     t.boolean  "rental",                                      null: false
-    t.integer  "year_id",                                     null: false
     t.string   "contact_name",    default: "",                null: false
     t.string   "contact_phone",   default: "",                null: false
     t.integer  "price_quote"
@@ -308,11 +307,6 @@ ActiveRecord::Schema.define(version: 20131223222248) do
     t.boolean  "submitted"
     t.datetime "start_date"
     t.datetime "end_date"
-  end
-
-  create_table "years", force: true do |t|
-    t.string  "description",             null: false
-    t.integer "active",      default: 0, null: false
   end
 
 end

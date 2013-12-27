@@ -137,7 +137,6 @@ class EmailController < ApplicationController
                 case(params['fileaction'])
                 when File_Action_New_Event
                     event = Event.new(params['event']);
-                    event.year_id = Year.active_year.id;
                     EventsHelper.update_event(event, params);
                     if(!event.save())
                         flash[:error] = "";

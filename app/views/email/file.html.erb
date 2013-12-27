@@ -141,7 +141,7 @@ td input {
   
   <div id="existing-event-div" class="hidden">
     <table>
-      <% matches = Event.find(:all, :conditions => ["year_id = (?) AND id IN (SELECT DISTINCT event_id FROM emails WHERE subject LIKE (?))", Year.active_year.id, (@email.subject[4,@email.subject.length])], :order => "updated_on DESC") %>
+      <% matches = Event.find(:all, :conditions => ["id IN (SELECT DISTINCT event_id FROM emails WHERE subject LIKE (?))", (@email.subject[4,@email.subject.length])], :order => "updated_on DESC") %>
       <% if(!matches.empty?) %>
         <tr><th class="subject-match">match by subject<br /></th></tr>
         <tr><td class="subject-match">
@@ -154,7 +154,7 @@ td input {
         <tr><td class="spacer"></td></tr>
       <% end %>
       
-      <% matches = Event.find(:all, :conditions => ["year_id = (?) AND contactemail LIKE (?)", Year.active_year.id, "%#{@email.sender}%"], :order => "updated_on DESC") %>
+      <% matches = Event.find(:all, :conditions => ["contactemail LIKE (?)", "%#{@email.sender}%"], :order => "updated_on DESC") %>
       <% if(!matches.empty?) %>
         <tr><th>match by sender<br /></th></tr>
         <tr><td>
@@ -169,7 +169,7 @@ td input {
     
       <% @email.subject.split().each do |word| %>
         <% if (word != "Re:") %>
-          <% matches = Event.find(:all, :conditions => ["year_id = (?) AND title LIKE (?)", Year.active_year.id,"%#{word}%"], :limit => 5, :order => "updated_on DESC") %>
+          <% matches = Event.find(:all, :conditions => ["title LIKE (?)", "%#{word}%"], :limit => 5, :order => "updated_on DESC") %>
           <% if(!matches.empty?) %>
             <tr><th>match by subject (<%= word %>)<br /></th></tr>
             <tr><td>

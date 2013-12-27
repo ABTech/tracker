@@ -109,8 +109,7 @@ class AccountsController < ApplicationController
 
   def events
     @title = "Completed Events Validation"
-    @events = Event.find(:all, :include => [:invoices, :organization],
-            :conditions => ["events.status IN (?) AND events.year_id = (?)", Event::Event_Status_Event_Completed, Year.active_year.id])
+    @events = Event.where(["events.status IN (?)", Event::Event_Status_Event_Completed]).all
   end
 
   def unpaid

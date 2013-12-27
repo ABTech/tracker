@@ -8,7 +8,6 @@ one:
   blackout: false
   publish: false
   rental: false
-  year_id: 
   contact_name: MyString
   contact_phone: MyString
   price_quote: 1
@@ -22,7 +21,6 @@ two:
   blackout: false
   publish: false
   rental: false
-  year_id: 
   contact_name: MyString
   contact_phone: MyString
   price_quote: 1

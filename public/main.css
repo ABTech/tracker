@@ -34,7 +34,7 @@ div.header {
 div.notice {
   color: green;
   border: 1px solid black;
-  margin: 0 10px;
+  margin: 0 auto;
   width: 400px;
   padding: .5em;
   font-size: 120%;
@@ -44,7 +44,7 @@ div.notice {
 div.error {
   color: red;
   border: 4px solid red;
-  margin: 0 10px;
+  margin: 0 auto;
   width: 400px;
   padding: .5em;
   font-size: 120%;
@@ -252,3 +252,158 @@ td.three_events, td.three_events span { background: #FFFDA6; }
 td.four_events, td.four_events span { background: #FFD9A6; }
 td.more_events, td.more_events span { background: #FFA6A6; }
 td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD }
+
+#event-container {
+  width: 80%;
+  margin: 1em auto;
+}
+
+#event-left {
+  float: left;
+  width: 80%;
+}
+
+#event-info {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: .5em 1em;
+  margin-bottom: 1em;
+}
+
+#event-info h2 {
+  font-size: 21pt;
+  font-weight: bold;
+  color: #444;
+  margin: 0;
+}
+
+#event-org {
+  background-color: #f9f8ed;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #505050;
+  margin-bottom: .5em;
+  padding: 7px 7px 6px 7px;
+}
+
+#event-org h3 {
+  font-size: 11pt;
+  margin: 0 7px 6px 0;
+}
+
+#event-schedule {
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+#event-schedule td:first-child {
+  padding-left: .5em;
+}
+
+#event-emails {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: .5em 1em;
+  margin-bottom: 1em;
+}
+
+#event-emails h4 {
+  text-align: center;
+  margin: 0;
+}
+
+#event-roles {
+  width: 15%;
+  float: right;
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: .5em 1em;
+}
+
+#event-roles h4 {
+  margin: 0;
+  text-align: center;
+}
+
+#event-roles ul {
+  padding: 0;
+}
+
+#event-roles ul li {
+  display: block;
+}
+
+table.edlist {
+  width: 100%;
+}
+
+table.edlist > tbody > tr > th {
+	border: 1px solid #BBBBBB;
+	background: #F0F0F0;
+}
+table.edlist > tbody > tr > td {
+	border: 1px solid #BBBBBB;
+	padding: 0px 7px;
+	white-space: nowrap;
+}
+table.edlist tr.list_header, table.edlist tr.list_footer {
+	color: #555555;
+}
+table.edlist tr.list_header a, table.edlist tr.list_footer a {
+	color: #9999FF;
+}
+
+table.edlist > tbody > tr > td.ed-equipment {
+  white-space: normal;
+}
+
+table.edlist span.unknown {
+	color: #EE6666;
+}
+
+#event-notes,
+#event-invoices,
+#event-attachments {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: .5em 1em;
+  margin-bottom: 1em;
+}
+
+#event-notes h4,
+#event-invoices h4,
+#event-attachments h4 {
+  margin: 0;
+  text-align: center;
+}
+
+#event-comments {
+  clear: both;
+  margin-top: 1em;
+}
+
+#event-comments h4 {
+  font-size: 2em;
+  margin-bottom: .5em;
+}
+
+#event-comments fieldset+fieldset {
+  margin-top: 1em;
+}
+
+#event-comments form {
+  margin: 1em 0;
+}
+
+#event-comments form textarea {
+  width: 100%;
+  height: 5em;
+}
+
+#event-comments form input[type=submit] {
+  margin-top: 1em;
+}

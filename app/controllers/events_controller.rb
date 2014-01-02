@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  layout "application2"
+  
   before_filter :login_required, :except => [:generate, :calendar];
 
   ### various parameters for editing things
@@ -28,20 +30,15 @@ class EventsController < ApplicationController
   helper :members
 
   def show
-    @mode = Mode_View;
     @title = "Viewing Event";
-
-    @event = Event.find_by_id(params["id"], :include => [:eventdates, :emails, :organization]);
-    @new_comment = @event.comments.build
+    
+    @event = Event.find(params[:id])
 
     if(!@event)
       flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not, something is very wrong."
       redirect_to(:action => "index");
       return;
     end
-
-    @event_page = "main";
-    render(:action => "record");
   end
 
   def new
@@ -290,7 +287,7 @@ class EventsController < ApplicationController
       _, @monthdates = filtered_events({:startdate => firstOfFirstEventsMonth, :enddate => (firstOfFirstEventsMonth >> 1)})
     end
 
-    render(:layout => "application2")
+    render
   end
 
   def calendar_full

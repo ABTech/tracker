@@ -49,6 +49,7 @@ gem "paperclip", "~> 3.0"
 gem "acts_as_tree"
 gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
+gem 'rails_autolink'
 
 # This is not a long term solution
 gem "protected_attributes"

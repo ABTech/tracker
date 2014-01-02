@@ -12,7 +12,8 @@
                select_day(startdate, :prefix => "#{object}[#{field}(3i)]", :discard_type => true)
     end
   %>
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
 </head>
 <body>
   <div class="header">

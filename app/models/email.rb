@@ -29,4 +29,8 @@ class Email < ActiveRecord::Base
       read_attribute(:subject)
     end
   end
+  
+  def display_title
+    timestamp.strftime("%A, %B %d at %I:%M %p") + " - " + subject
+  end
 end

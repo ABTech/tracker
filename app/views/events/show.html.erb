@@ -1,0 +1,140 @@
+<div id="event-container">
+  <div id="event-left">
+    <div id="event-info">
+      <h2><%= @event.title %></h2>
+    
+      <div id="event-org">
+        <h3><%= @event.organization.name %></h3>
+      
+        <b><%= @event.contact_name %></b> | <%= @event.contactemail %>
+      </div>
+    
+      <b><%= @event.status %></b>,
+      <%= @event.rental ? "Rental" : "Full Event" %>,
+      <%= @event.publish ? "Published" : "Not Published" %>
+    </div>
+  
+    <div id="event-schedule">
+      <table class="edlist">
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Location, Equipment</th>
+          <th>Timing</th>
+        </tr>
+      
+        <% @event.eventdates.each do |eventdate| %>
+          <tr>
+            <td>
+              <% if eventdate.startdate.year == Date.today.year %>
+                <%= eventdate.startdate.strftime("%A, %B %d") %>
+              <% else %>
+                <%= eventdate.startdate.strftime("%B %d, %Y") %>
+              <% end %>
+            </td>
+            <td><%= eventdate.description %></td>
+            <td class="ed-equipment">
+              <%= eventdate.locations.join("<br />").html_safe %>
+              <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
+              <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+            </td>
+            <td>
+              C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
+              E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
+              S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    
+    <% if not @event.notes.empty? %>
+    <div id="event-notes">
+      <h4>Notes</h4>
+      <%= simple_format @event.notes %>
+    </div>
+    <% end %>
+  
+    <% if not @event.emails.empty? %>
+      <div id="event-emails">
+        <h4>Emails</h4>
+    
+        <ul>
+          <% @event.emails.each do |email| %>
+            <li><%= link_to email.display_title, view_email_url(email) %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <% if current_member.authorized? "invoices/view" %>
+      <% if not @event.invoices.empty? %>
+        <div id="event-invoices">
+          <% if current_member.authorized? "invoices/new" %>
+            <h4>Invoices (<%= link_to("create new", {:action => "new", :controller => "invoice", :event_id => @event.id}) %>)</h4>
+          <% else %>
+            <h4>Invoices</h4>
+          <% end %>
+      
+          <ul>
+            <% @event.invoices.each do |invoice| %>
+              <li><%= link_to invoice.display_title, view_invoice_index_url(:id => invoice) %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% elsif current_member.authorized? "invoices/new" %>
+        <div id="event-invoices">
+          <h4>Invoices</h4>
+      
+          <p>There aren't yet any invoices for this event.
+          <%= link_to("Would you like to create one?", {:action => "new", :controller => "invoice", :event_id => @event.id}) %></p>
+        </div>
+      <% end %>
+    <% end %>
+    
+    <% if not @event.attachments.empty? %>
+      <div id="event-attachments">
+        <h4>Attachments</h4>
+        
+        <ul>
+          <% @event.attachments.each do |a| %>
+            <li><%= link_to a.attachment.original_filename, a.attachment.url %> - <%= a.friendly_size %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  
+  <div id="event-roles">
+    <h4>Roles</h4>
+    
+    <ul>
+      <% @event.event_roles.each do |role| %>
+        <li><%= role %></li>
+      <% end %>
+    </ul>
+  </div>
+  
+  <div id="event-comments">
+    <h4>Comments</h4>
+    
+    <% @event.comments.each do |comment| %>
+      <fieldset>
+        <legend>
+          <%= comment.member %> said on <%= comment.updated_at.strftime("%m/%d/%y at %I:%M%p") %>
+          <% if comment.member == current_member %>
+            (<%= link_to "delete", comment_url(comment), :method => :delete, :confirm => "Are you sure you would like to delete this comment?" %>)
+          <% end %>
+        </legend>
+        <%= auto_link simple_format comment.content %>
+      </fieldset>
+    <% end %>
+    
+    <%= form_for @event.comments.build do |f| %>
+      <%= f.hidden_field :event_id %>
+      <%= f.text_area :content %>
+      <br />
+      <%= f.submit "New Comment" %>
+    <% end %>
+  </div>
+</div>

@@ -25,4 +25,12 @@ class Invoice < ActiveRecord::Base
   def itemized_list
     return invoice_lines.find(:all, :conditions => "category = 'Itemized' OR category = 'Reimbursement'");
   end
+  
+  def display_title
+    if not (memo.nil? or memo.empty?)
+      "Invoice at " + created_at.strftime("%A, %B %d at %I:%M %p") + " - " + memo
+    else
+      "Invoice at " + created_at.strftime("%A, %B %d at %I:%M %p")
+    end
+  end
 end

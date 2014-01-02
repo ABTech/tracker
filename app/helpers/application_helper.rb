@@ -17,7 +17,7 @@ module ApplicationHelper
 
   def conditional_link_to_remote(title, controller, action, update, html = {})
     if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to_remote(title, { :url => {:controller => controller, :action => action}, :update => update }, html)
+      link_to(title, { :url => {:controller => controller, :action => action}, :update => update }, html, :remote => true)
     else
       ""
     end

@@ -53,13 +53,7 @@ class Event < ActiveRecord::Base
   validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true;
 
   def locations
-    locs = [];
-
-    eventdates.each do |date|
-      locs = locs | date.locations;
-    end
-
-    return locs;
+    eventdates.flat_map(&:locations).uniq
   end
 
   # return an array of dates segmenting regions of dates.

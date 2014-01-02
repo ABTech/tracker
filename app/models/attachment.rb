@@ -10,4 +10,12 @@ class Attachment < ActiveRecord::Base
   #  :url => "/system/:attachment/:id/:style/:filename"
 
   validates_attachment_presence :attachment
+  
+  def friendly_size
+	  if (attachment.size / 1024) < 1024
+      (attachment.size / 1024.0).ceil.to_s + " kB"
+    else
+      (attachment.size / 1048576.0).to_s[0..3] + " MB"
+    end
+  end
 end

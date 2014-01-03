@@ -59,7 +59,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     if(!@event)
       if(!params["id"])
         flash[:error] = "You must specify an ID.";

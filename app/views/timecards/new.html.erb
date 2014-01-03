@@ -23,7 +23,7 @@
 
   <% end %>
 </p>
-<% form_for @timecard, :url => {:action => :create} do |f| %>
+<%= form_for @timecard, :url => {:action => :create} do |f| %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Create' %>
 <% end %>

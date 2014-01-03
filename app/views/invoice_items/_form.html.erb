@@ -1,4 +1,24 @@
-<%= error_messages_for 'invoice_items' %>
+  <% if @invoice_items.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@invoice_items.errors.count, "error") %> prohibited
+
+        this invoice_items from being saved:</h2>
+
+      <ul>
+
+      <% @invoice_items.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
 
 <!--[form:invoice_items]-->
 <p><label for="invoice_items_memo">Memo</label><br/>

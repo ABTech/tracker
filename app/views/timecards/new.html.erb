@@ -1,6 +1,28 @@
 <% @title = 'New timecard' %>
 <h1>Create new Timecard</h1>
-<p><%= error_messages_for 'timecard' %></p>
+<p>
+  <% if @timecard.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@timecard.errors.count, "error") %> prohibited
+
+        this timecard from being saved:</h2>
+
+      <ul>
+
+      <% @timecard.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
+</p>
 <% form_for @timecard, :url => {:action => :create} do |f| %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Create' %>

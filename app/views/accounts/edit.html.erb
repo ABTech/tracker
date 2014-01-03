@@ -1,6 +1,26 @@
 <h1>Editing account</h1>
 
-<%= error_messages_for :account %>
+  <% if @account.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@account.errors.count, "error") %> prohibited
+
+        this account from being saved:</h2>
+
+      <ul>
+
+      <% @account.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
 
 <% form_for(@account) do |f| %>
   <p>

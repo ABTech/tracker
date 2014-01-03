@@ -1,4 +1,24 @@
-<%= error_messages_for 'emailform' %>
+  <% if @emailform.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@emailform.errors.count, "error") %> prohibited
+
+        this emailform from being saved:</h2>
+
+      <ul>
+
+      <% @emailform.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
 
 <!--[form:emailform]-->
 <p><label for="emailform_description">Description</label><br/>

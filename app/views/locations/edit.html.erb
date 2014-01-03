@@ -1,8 +1,8 @@
 <h1>Editing location</h1>
 
-<% form_for @location do |f| %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+<%= form_for @location do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= f.submit 'Edit' %>
 <% end %>
 
 <%= link_to 'Show', @location %> |

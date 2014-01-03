@@ -1,19 +1,23 @@
-<table>
+<h1>Locations</h1>
+
+<table class="generic">
   <tr>
-  <% for column in Location.content_columns %>
-    <th class="listheader"><%= column.human_name %></th>
-  <% end %>
+    <th>Building</th>
+    <th>Floor</th>
+    <th>Room</th>
+    <th>Details</th>
+    <th />
   </tr>
   
-    <% tmp = false; %>
-    <% for location in @locations %>
-      <tr class="<%= tmp ? "hoverlistentry1" : "hoverlistentry2" %>" onClick="document.location = '<%= edit_location_url(location) %>'">
-      <% for column in Location.content_columns %>
-        <td class="list"><%=h location.send(column.name) %></td>
-      <% end %>
-      </tr>
-      <% tmp = !tmp %>
-    <% end %>
+  <% for location in @locations %>
+    <tr>
+      <td><%= location.building %></td>
+      <td><%= location.floor %></td>
+      <td><%= location.room %></td>
+      <td><%= location.details %></td>
+      <td><%= link_to "Edit", edit_location_url(location) %></td>
+    </tr>
+  <% end %>
 </table>
 
 <br />

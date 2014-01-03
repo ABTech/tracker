@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_filter :login_required;
+  before_filter :login_required
 
   layout "application2"
 

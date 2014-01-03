@@ -4,7 +4,7 @@
       <h2><%= @event.title %></h2>
     
       <div id="event-org">
-        <h3><%= @event.organization.name %></h3>
+        <h3><%= link_to @event.organization.name, @event.organization %></h3>
       
         <b><%= @event.contact_name %></b> | <%= @event.contactemail %>
       </div>

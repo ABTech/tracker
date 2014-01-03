@@ -27,12 +27,8 @@
           <% (is_credit ? @credit_JEs : @debit_JEs).each do |je| %>
             <tr>
               <td width="250"><%= i = i-1 %>.&nbsp;&nbsp;
-              <% if je.memo.length > 35 %>
-               <%=je.memo[0,je.memo.rindex(" ", 35)]%><font color='#AAAAAA'>...</font>
-              <% else %>
-               <%= je.memo %>
-              <% end %>
-              <%= link_to je.memo, {:controller => "journal", :action => "edit", :id => je.id} %>
+              <% je_memo = (je.memo.length > 35 ? je.memo[0,je.memo.rindex(" ", 35)] + "<font color='#AAAAAA'>...</font>".html_safe : je.memo) %>
+              <%= link_to je_memo.html_safe, {:controller => "journal", :action => "edit", :id => je.id} %>
               </td>
               
               <td class="<%= je.date_paid ? "paid" : "unpaid" %>"><%= number_to_currency je.amount %></td>

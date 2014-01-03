@@ -47,8 +47,17 @@
           month_links.join(" | ").html_safe
         %>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <%= if (params["selected"] == "future") then "<b>Future" + (page_info ? page_info : "") + "</b>" else link_to("Future", {:action => "index", :selected => "future"}) end %> |
-        <%= if (params["selected"] == "past") then "<b>Past" + (page_info ? page_info : "") + "</b>" else link_to("Past", {:action => "index", :selected => "past"}) end %>
+        <% if (params["selected"] == "future") %>
+         <b>Future <%=(page_info ? page_info : "")%></b>
+        <% else %>
+         <%= link_to("Future", {:action => "index", :selected => "future"}) %>
+        <% end %>
+        |
+        <% if (params["selected"] == "past") %> 
+         <b>Past <%=(page_info ? page_info : "")%></b>
+        <% else %>
+         <%= link_to("Past", {:action => "index", :selected => "past"}) %>
+        <% end %>
         &nbsp;&nbsp;&nbsp;&nbsp;
       </td>
       <td align="right"><%= (forward_link != nil) ? forward_link : "" %></td>

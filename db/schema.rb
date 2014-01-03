@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103173449) do
+ActiveRecord::Schema.define(version: 20140103201651) do
 
   create_table "accounts", force: true do |t|
     t.string  "name",      null: false
@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 20140103173449) do
     t.string   "contact_name",    default: "",                null: false
     t.string   "contact_phone",   default: "",                null: false
     t.integer  "price_quote"
-    t.text     "notes"
+    t.text     "notes",                                       null: false
   end
 
   add_index "events", ["contactemail"], name: "events_contactemail_index", using: :btree

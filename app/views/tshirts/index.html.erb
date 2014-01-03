@@ -13,7 +13,9 @@
       <td><%= members.length %></td>
       <td>
         <ul>
-          <%= members.collect { |m| "<li>#{m}</li>" } %> 
+          <%= members.collect do |m| %>
+            <li><%=m%></li>
+          <% end %> 
         </ul>
       </td>
     </tr>

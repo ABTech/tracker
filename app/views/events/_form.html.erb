@@ -81,6 +81,20 @@
         <%= link_to_add_fields "Add another event date", f, :eventdates %>
       </p>
     </fieldset>
+    
+    <fieldset id="event-form-attachments">
+      <legend>Attachments</legend>
+      
+      <table>
+        <%= f.fields_for :attachments do |builder| %>
+          <%= render :partial => 'attachment_fields', :locals => {:f => builder} %>
+        <% end %>
+      
+        <tr>
+          <td colspan=3><%= link_to_add_fields "Add an attachment", f, :attachments, "2" %></td>
+        </tr>
+      </table>
+    </fieldset>
   </div>
   
   <fieldset id="event-form-roles">

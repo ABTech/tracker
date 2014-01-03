@@ -10,13 +10,14 @@ class Event < ActiveRecord::Base
   
   accepts_nested_attributes_for :eventdates, :allow_destroy => true
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
+  accepts_nested_attributes_for :attachments, :allow_destroy => true
   
   attr_accessor :org_type, :org_new
   
   before_save :handle_organization, :ensure_tic, :sort_roles
   after_initialize :default_values
   
-  attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes
+  attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes, :attachments_attributes
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/

@@ -3,18 +3,6 @@ class EventsController < ApplicationController
   
   before_filter :login_required, :except => [:generate, :calendar];
 
-  ### various parameters for editing things
-  # number of empty date rows to show for new and old events
-  New_Event_New_Date_Display_Count = 3;
-  Old_Event_New_Date_Display_Count = 3;
-  # number of empty role rows to show for new and old events
-  New_Event_New_Role_Display_Count = 5;
-  Old_Event_New_Role_Display_Count = 3;
-  # number of empty log to show for events
-  ### flags for organization new/old on event save
-  New_Event_Existing_Organization = "existing";
-  New_Event_New_Organization      = "new";
-
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
   Format_ICS          = "ics";

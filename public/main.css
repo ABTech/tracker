@@ -294,11 +294,42 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-schedule {
   margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#event-schedule table {
   width: 100%;
 }
 
-#event-schedule td:first-child {
-  padding-left: .5em;
+#event-schedule table th {
+  color: #888;
+  background-color: #f7f7f7;
+  padding: 6px 12px;
+}
+
+#event-schedule td {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  padding: 6px 6px;
+}
+
+#event-schedule td.es-date {
+  color: #666;
+  background-color: #faf8e3;
+  text-align: right;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#event-schedule td.es-time {
+  color: #222;
+  background-color: #f9f8ed;
+  white-space: nowrap;
+}
+
+#event-schedule td.es-name {
+  white-space: nowrap;
 }
 
 #event-emails {
@@ -339,34 +370,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-roles ul li,
 #event-more ul li {
   display: block;
-}
-
-table.edlist {
-  width: 100%;
-}
-
-table.edlist > tbody > tr > th {
-	border: 1px solid #BBBBBB;
-	background: #F0F0F0;
-}
-table.edlist > tbody > tr > td {
-	border: 1px solid #BBBBBB;
-	padding: 0px 7px;
-	white-space: nowrap;
-}
-table.edlist tr.list_header, table.edlist tr.list_footer {
-	color: #555555;
-}
-table.edlist tr.list_header a, table.edlist tr.list_footer a {
-	color: #9999FF;
-}
-
-table.edlist > tbody > tr > td.ed-equipment {
-  white-space: normal;
-}
-
-table.edlist span.unknown {
-	color: #EE6666;
 }
 
 #event-notes,

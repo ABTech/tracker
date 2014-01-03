@@ -67,4 +67,23 @@ class Eventdate < ActiveRecord::Base
     return "enddate" if self.strikedate == self.enddate
     return "literal"
   end
+  
+  def times
+    times = []
+    
+    if !self.calldate.nil?
+      times << { :date => self.calldate, :name => "Call", :same => false }
+      times << { :date => self.startdate, :name => "Event Starts", :same => (self.startdate.day == self.calldate.day)}
+    else
+      times << { :date => self.startdate, :name => "Event Starts", :same => false }
+    end
+    
+    times << { :date => self.enddate, :name => "Event Ends", :same => (self.enddate.day == self.startdate.day)}
+    
+    if !self.strikedate.nil?
+      times << { :date => self.strikedate, :name => "Strike", :same => (self.strikedate.day == self.enddate.day)}
+    end
+    
+    times
+  end
 end

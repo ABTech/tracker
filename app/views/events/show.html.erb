@@ -13,37 +13,35 @@
       <%= @event.rental ? "Rental" : "Full Event" %>,
       <%= @event.publish ? "Published" : "Not Published" %>
     </div>
-  
+    
     <div id="event-schedule">
-      <table class="edlist">
-        <tr>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Location, Equipment</th>
-          <th>Timing</th>
-        </tr>
-      
+      <table>
         <% @event.eventdates.each do |eventdate| %>
           <tr>
-            <td>
-              <% if eventdate.startdate.year == Date.today.year %>
-                <%= eventdate.startdate.strftime("%A, %B %d") %>
-              <% else %>
-                <%= eventdate.startdate.strftime("%B %d, %Y") %>
-              <% end %>
-            </td>
-            <td><%= eventdate.description %></td>
-            <td class="ed-equipment">
-              <%= eventdate.locations.join("<br />").html_safe %>
-              <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
-              <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
-            </td>
-            <td>
-              C: <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
-              E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
-              S: <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
-            </td>
+            <th colspan=4>"<%= eventdate.description %>"</th>
           </tr>
+          <% eventdate.times.each do |time| %>
+            <tr>
+              <% if !time[:same] %>
+                <td class="es-date"><%= time[:date].strftime("%A, %b %-d, %Y") %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+              <td class="es-time"><%= time[:date].strftime("%I:%M %p") %></td>
+              <td class="es-name"><%= time[:name] %></td>
+              <% if time == eventdate.times.first %>
+                <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
+                  <b>Location:</b><br />
+                  <%= eventdate.locations.join("<br />").html_safe %><br />
+                  <% if !eventdate.equipment.empty? %>
+                    <br />
+                    <b>Equipment:</b><br />
+                    <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
         <% end %>
       </table>
     </div>

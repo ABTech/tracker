@@ -39,9 +39,9 @@
               <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
             </td>
             <td>
-              C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
+              C: <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
               E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
-              S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
+              S: <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
             </td>
           </tr>
         <% end %>
@@ -109,9 +109,17 @@
     <h4>Roles</h4>
     
     <ul>
-      <% @event.event_roles.each do |role| %>
+      <% @event.event_roles.sort.each do |role| %>
         <li><%= role %></li>
       <% end %>
+    </ul>
+  </div>
+  
+  <div id="event-more">
+    <h4>More</h4>
+    
+    <ul>
+      <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
     </ul>
   </div>
   

@@ -1,5 +1,5 @@
 <div id="event-container">
-  <h2>Create new event</h2>
+  <h2>Edit event "<%= @event.title %>"</h2>
   
   <%= form_for @event do |builder| %>
     <%= render :partial => "form", :locals => {:f => builder} %>

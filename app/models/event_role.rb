@@ -60,8 +60,10 @@ class EventRole < ActiveRecord::Base
     Role_strike ,
     Role_food   ]
 
-  validates_presence_of  :event, :role;
-  validates_inclusion_of :role, :in => Roles_All;
+  validates_presence_of :role
+  validates_inclusion_of :role, :in => Roles_All
+  
+  attr_accessible :role, :member_id, :event_id, :event
 
   def assigned?
     return (member != nil);

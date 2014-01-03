@@ -27,9 +27,9 @@
   Date:      <%= date.startdate.strftime("%a, %b %d") %>
   Event:     <%= cancelled  ? "CANCELLED - " : "" %><%= event.title %> - <%= date.description %>
   Location:  <%= date.locations.empty? ? "?" : date.locations.collect { |loc| loc.room() }.join(", ") %>
-  Call:      <%= cancelled  ? "CANCELLED " : (date.valid_call?() ? date.calldate.strftime("%I:%M %p").downcase() : "?") %>
+  Call:      <%= cancelled  ? "CANCELLED " : (!date.calldate.nil? ? date.calldate.strftime("%I:%M %p").downcase() : "?") %>
   Show:      <%= cancelled ? "CANCELLED" : (date.startdate.strftime("%I:%M %p").downcase()) %>
-  Strike:    <%= cancelled ? "CANCELLED" : (date.valid_strike?() ? date.strikedate.strftime("%I:%M %p").downcase() : "?") %>
+  Strike:    <%= cancelled ? "CANCELLED" : (!date.strikedate.nil? ? date.strikedate.strftime("%I:%M %p").downcase() : "?") %>
   Equipment: <%= date.equipment.empty? ? "?" : date.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
   <%= role_line %>
 <% end %>

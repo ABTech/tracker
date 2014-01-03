@@ -30,99 +30,46 @@ class EventsController < ApplicationController
   helper :members
 
   def show
-    @title = "Viewing Event";
-    
+    @title = "Viewing Event"
     @event = Event.find(params[:id])
-
-    if(!@event)
-      flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not, something is very wrong."
-      redirect_to(:action => "index");
-      return;
-    end
   end
 
   def new
-  @title = "Create New Event";
-  @mode = Mode_New;
-  @event = EventsHelper.generate_new_event();
+    @title = "Create New Event"
+    @event = Event.new
   end
 
   def edit
-    @title = "Edit Event";
-    @mode = Mode_Edit;
-    if(!@event)
-      if(!params["id"])
-        flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "index");
-        return;
-      end
-
-      @event = Event.find_by_id(params["id"]);
-      if(!@event)
-        flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not the tracker is f--k'd."
-        redirect_to(:action => "index");
-        return;
-      end
-    end
-
-    if (params["page"] != "new")
-      Old_Event_New_Date_Display_Count.times do
-        dt = Eventdate.new()
-        dt.calldate = Time.now();
-        dt.startdate = Time.now();
-        dt.enddate = Time.now();
-        dt.strikedate = Time.now();
-        @event.eventdates << dt;
-      end
-      Old_Event_New_Role_Display_Count.times do
-        rl = EventRole.new();
-        @event.event_roles << rl;
-      end
-    end
-
-    @event_page = "main";
-    render(:action => "record");
+    @title = "Edit Event"
+    @event = Event.find(params[:id])
   end
-
+  
   def create
-    # --------------------
-    # create new event/find old event
-    if(params["event"]["id"] && (params["event"]["id"] != ""))
-      save_event = Event.update(params["event"]["id"], params['event']);
+    @title = "Create New Event"
+    params[:event].permit!
+    
+    @event = Event.new(params[:event])
+    
+    if @event.save
+      flash[:notice] = "Event created successfully!"
+      redirect_to @event
     else
-      save_event = Event.new(params['event']);
+      render :new
     end
-
-    nots, errs = EventsHelper.update_event(save_event, params)
-    flash[:notice] = nots;
-    flash[:error] = errs;
-
-    # Add attachment if necessary
-    if params[:attachments]
-      Attachment.create(:attachment => params[:attachments]["1"], :event_id => save_event.id)
-    end
-
-    # -------------------
-    # sort event.event_roles for viewing pleasure
-    save_event.event_roles.sort!
-    # --------------------
-    # save event
-    if(save_event.save())
-      flash[:notice] += "<br/>Event Saved";
+  end
+  
+  def update
+    @title = "Edit Event"
+    params[:event].permit!
+    
+    @event = Event.find(params[:id])
+    if @event.update(params[:event])
+      flash[:notice] = "Event updated successfully!"
+      redirect_to @event
     else
-      save_event.errors.each_full() do |err|
-        flash[:error] += err + "<br />";
-      end
+      render :edit
     end
-
-    if(params["redirect"])
-      redirect_to(params["redirect"])
-    elsif(save_event.new_record?())
-      redirect_to(:action => "new");
-    else
-      redirect_to(:action => "edit", :id => save_event.id);
-    end
-  end #end of update
+  end
 
   def delete
     if(!@event)

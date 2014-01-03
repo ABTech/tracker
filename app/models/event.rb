@@ -8,6 +8,16 @@ class Event < ActiveRecord::Base
   has_many :journals
   has_many :attachments
   
+  accepts_nested_attributes_for :eventdates, :allow_destroy => true
+  accepts_nested_attributes_for :event_roles, :allow_destroy => true
+  
+  attr_accessor :org_type, :org_new
+  
+  before_save :handle_organization, :ensure_tic, :sort_roles
+  after_initialize :default_values
+  
+  attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes
+  
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
   
@@ -25,12 +35,12 @@ class Event < ActiveRecord::Base
                                   Event_Status_Event_Cancelled,
                                   Event_Status_Event_Declined]
   
-  Event_Status_Group_All = [Event_Status_Tentative_Date,
-                            Event_Status_Initial_Request,
+  Event_Status_Group_All = [Event_Status_Initial_Request,
+                            Event_Status_Tentative_Date,
                             Event_Status_Details_Requested,
                             Event_Status_Quote_Sent,
                             Event_Status_Event_Confirmed,
-			    Event_Status_Billing_Pending,
+                            Event_Status_Billing_Pending,
                             Event_Status_Event_Completed,
                             Event_Status_Event_Declined,
                             Event_Status_Event_Cancelled]
@@ -40,7 +50,7 @@ class Event < ActiveRecord::Base
                             Event_Status_Details_Requested,
                             Event_Status_Quote_Sent,
                             Event_Status_Event_Confirmed,
-			    Event_Status_Billing_Pending,
+			                      Event_Status_Billing_Pending,
                             Event_Status_Event_Completed]
 
   Event_Status_Group_Cancelled = [Event_Status_Event_Cancelled];
@@ -105,4 +115,38 @@ class Event < ActiveRecord::Base
       ( uniq_roles << er.member unless er.member.nil? or uniq_roles.any? { |ur| ur.id == er.member_id } ) or uniq_roles 
     end
   end
+  
+  private
+    def handle_organization
+      if self.org_type == "new"
+        self.organization = Organization.create(:name => org_new)
+      end
+    end
+    
+    def ensure_tic
+      if not self.event_roles.any? { |role| role.role == EventRole::Role_TIC }
+        rl = EventRole.new
+        rl.role = EventRole::Role_TIC
+        self.event_roles << rl
+      end
+    end
+    
+    def default_values
+      if self.new_record?
+        if self.eventdates.size == 0
+          dt = Eventdate.new
+          dt.calldate = Time.now
+          dt.startdate = Time.now
+          dt.enddate = Time.now
+          dt.strikedate = Time.now
+          self.eventdates << dt
+        end
+        
+        if self.event_roles.size == 0
+          rl = EventRole.new
+          rl.role = EventRole::Role_TIC
+          self.event_roles << rl
+        end
+      end
+    end
 end

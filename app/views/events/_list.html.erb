@@ -112,9 +112,9 @@
         </td>
         <td>
           <small>
-            C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
+            C: <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
             E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
-            S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
+            S: <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
           </small>
         </td>
         <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>
@@ -122,7 +122,7 @@
         <% else %>
         <td>
         <% end %>
-          <% event.event_roles.sort!; event.event_roles.each do |role| %>
+          <% event.event_roles.sort.each do |role| %>
             <%= role.to_s() %><br />
           <% end %>
         </td>

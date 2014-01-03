@@ -1,0 +1,53 @@
+<div class="event-date-form fields association-<%= f.index %>">
+  <table>
+    <tr>
+      <td><%= f.label :description %>:</td>
+      <td><%= f.text_field :description %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :calldate, "Call" %>:</td>
+      <td>
+        <%= f.radio_button :call_type, "blank" %>
+        <%= f.label :call_type_blank, "blank" %>
+        <br />
+        <%= f.radio_button :call_type, "literal" %>
+        <%= f.label :call_type_literal, "literal" %>
+        <%= f.text_field :call_literal, value: (f.object.calldate ? f.object.calldate.strftime('%Y/%m/%d %H:%M') : "") %>
+      </td>
+    </tr>
+    <tr>
+      <td><%= f.label :startdate, "Start" %>:</td>
+      <td><%= f.text_field :startdate, value: (f.object.startdate ? f.object.startdate.strftime('%Y/%m/%d %H:%M') : "") %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :enddate, "Ends" %>:</td>
+      <td><%= f.text_field :enddate, value: (f.object.enddate ? f.object.enddate.strftime('%Y/%m/%d %H:%M') : "") %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :strikedate, "Strike" %>:</td>
+      <td>
+        <%= f.radio_button :strike_type, "blank" %>
+        <%= f.label :strike_type_blank, "blank" %>
+        <br />
+        <%= f.radio_button :strike_type, "enddate" %>
+        <%= f.label :strike_type_enddate, "enddate" %>
+        <br />
+        <%= f.radio_button :strike_type, "literal" %>
+        <%= f.label :strike_type_literal, "literal" %>
+        <%= f.text_field :strike_literal, value: (f.object.strikedate ? f.object.strikedate.strftime('%Y/%m/%d %H:%M') : "") %>
+      </td>
+    </tr>
+    <tr>
+      <td><%= f.label :location_ids, "Location" %>:</td>
+      <td><%= f.select :location_ids, options_from_collection_for_select(Location.order("building ASC, floor ASC, room ASC").all, "id", "to_s", f.object.locations.collect(&:id)), {}, {multiple: "multiple", size: "5"} %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :equipment_ids, "Equipment" %>:</td>
+      <td><%= f.select :equipment_ids, options_from_collection_for_select(EquipmentCategory::tree_as_collection, "id", "description", f.object.equipment.collect(&:id)), {}, {multiple: "multiple", size: "5"} %>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= link_to_remove_fields "Delete this event date", f %></td>
+    </tr>
+  </table>
+</div>

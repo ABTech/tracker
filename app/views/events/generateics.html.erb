@@ -46,7 +46,7 @@ calendar.custom_property("X-WR-TIMEZONE", "America/New_York");
   cancelled = Event::Event_Status_Group_Cancelled.index(event.status) ? "CANCELLED - " : "";
 
   # generate call event 
-  if (date.valid_call?) 
+  if (!date.calldate.nil?) 
     calevent = Icalendar::Event.new();
     calevent.dtstart   = DateTime.parse(date.calldate.to_s).to_ical 
     calevent.dtend   = DateTime.parse(date.startdate.to_s).to_ical
@@ -64,7 +64,7 @@ calendar.custom_property("X-WR-TIMEZONE", "America/New_York");
   calendar.add_event(calevent);
 
   # generate strike event
-  if(date.valid_strike?)
+  if(!date.strikedate.nil?)
     calevent = Icalendar::Event.new();
     calevent.dtstart    = DateTime.parse(date.strikedate.to_s).to_ical
     calevent.dtend    = DateTime.parse((date.strikedate + 60 * 60).to_s).to_ical # an hour, sure

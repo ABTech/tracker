@@ -1,5 +1,7 @@
 class Organization < ActiveRecord::Base
-  has_many :events;
+  has_many :events
 
-  validates_presence_of :name;
+  validates_presence_of :name
+  
+  attr_accessible :name
 end

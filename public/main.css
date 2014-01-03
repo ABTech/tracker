@@ -314,25 +314,30 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin: 0;
 }
 
-#event-roles {
+#event-roles,
+#event-more {
   width: 15%;
   float: right;
   background: #f7f7f7;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: .5em 1em;
+  margin-bottom: 1em;
 }
 
-#event-roles h4 {
+#event-roles h4,
+#event-more h4 {
   margin: 0;
   text-align: center;
 }
 
-#event-roles ul {
+#event-roles ul,
+#event-more ul {
   padding: 0;
 }
 
-#event-roles ul li {
+#event-roles ul li,
+#event-more ul li {
   display: block;
 }
 
@@ -406,4 +411,51 @@ table.edlist span.unknown {
 
 #event-comments form input[type=submit] {
   margin-top: 1em;
+}
+
+.event-form td:first-child {
+  vertical-align: top;
+  padding-right: 1em;
+}
+
+.event-form tr+tr td {
+  padding-top: 1em;
+}
+
+.event-form input[type=text] {
+  width: 40em;
+}
+
+.event-form legend {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.event-date-form {
+  border-bottom: 1px dashed black;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+
+.field_with_errors {
+  color: red;
+  font-weight: bold;
+  display: inline;
+}
+
+@media (min-width: 1092px) {
+  #event-container #event-form-left {
+    float: left;
+    width: 70%;
+  }
+
+  #event-container #event-form-roles {
+    width: 25%;
+    float: right;
+  }
+}
+
+#event-form-submit {
+  clear: both;
+  width: 100%;
 }

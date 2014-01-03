@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131227012004) do
+ActiveRecord::Schema.define(version: 20140103173449) do
 
   create_table "accounts", force: true do |t|
     t.string  "name",      null: false
@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 20131227012004) do
 
   create_table "event_roles", force: true do |t|
     t.integer "event_id",  null: false
-    t.integer "member_id", null: false
+    t.integer "member_id"
     t.string  "role",      null: false
   end
 
@@ -125,8 +125,8 @@ ActiveRecord::Schema.define(version: 20131227012004) do
     t.integer  "event_id",    null: false
     t.datetime "startdate",   null: false
     t.datetime "enddate",     null: false
-    t.datetime "calldate",    null: false
-    t.datetime "strikedate",  null: false
+    t.datetime "calldate"
+    t.datetime "strikedate"
     t.string   "description", null: false
   end
 

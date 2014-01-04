@@ -1,4 +1,6 @@
 class EquipmentController < ApplicationController
+  layout "application2"
+
   before_filter :login_required;
 
   # we need to represent categories and nodes within the same
@@ -164,6 +166,8 @@ class EquipmentController < ApplicationController
   end
 
   def usage
+    @title = "Equipment Usage"
+
     @step_hours  = 4; # must be a factor of 24
 
     # Determine date period

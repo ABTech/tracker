@@ -76,7 +76,7 @@ class Timecard < ActiveRecord::Base
       # and there's no room)
       unless try_add_entry(timecard_entry, idx, lines)
         new_idx = (idx + 1) % 14
-        while (new_idx != idx and !try_add_entry(timecard_entry, new_idx))
+        while (new_idx != idx and !try_add_entry(timecard_entry, new_idx, lines))
           new_idx = (new_idx + 1) % 14
         end
       end

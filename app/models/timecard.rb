@@ -32,8 +32,10 @@ class Timecard < ActiveRecord::Base
   end
 
   def hours(member=nil)
-    timecard_entries.inject(0) do |sum, entry|
-      sum + ((member.nil? or member == entry.member) ? entry.hours : 0)
+    if member
+      timecard_entries.where(member: member).map(&:hours).reduce(&:+).round(1)
+    else
+      timecard_entries.map(&:hours).reduce(&:+).round(1)
     end
   end
 

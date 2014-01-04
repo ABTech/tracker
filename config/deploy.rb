@@ -4,7 +4,7 @@ set :application, "abtt"
 set :repository,  "https://github.com/hatkirby/abtt.git"
 set :branch, "rails-4"
 set :deploy_to, "/srv/rails/abtt"
-set :user, 'hatkirby'
+set :user, 'egarbade'
 set :domain, 'egarbade.org'
 set :default_shell, "sudo su"
 set :rails_env, "production"

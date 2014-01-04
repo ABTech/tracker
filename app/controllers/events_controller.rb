@@ -319,8 +319,6 @@ class EventsController < ApplicationController
 
     if(@public)
       render(:action => "calendar", :layout => "public");
-    else
-      render(:layout => "application2")
     end
   end
 
@@ -451,7 +449,6 @@ class EventsController < ApplicationController
 
   def lost
     @events = Event.find(:all, :order => 'updated_on desc').select { |e| e.eventdates.empty? }
-    render :layout => "application2"
   end
 
   private

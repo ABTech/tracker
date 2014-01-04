@@ -1,4 +1,6 @@
 class InvoiceItemsController < ApplicationController
+  layout "application2"
+
   def index
     list
   end
@@ -9,12 +11,11 @@ class InvoiceItemsController < ApplicationController
 
   def list
     @invoice_items = InvoiceItems.all
-    render :action=>'list', :layout=>"application2"
+    render :action=>'list'
   end
 
   def new
     @invoice_items = InvoiceItems.new
-    render :layout=>"application2"
   end
 
   def create
@@ -23,13 +24,12 @@ class InvoiceItemsController < ApplicationController
       flash[:notice] = 'InvoiceItems was successfully created.'
       redirect_to :action => 'list'
     else
-      render :action => 'new', :layout=>"application2"
+      render :action => 'new'
     end
   end
 
   def edit
     @invoice_items = InvoiceItems.find(params[:id])
-    render :layout=>"application2"
   end
 
   def update
@@ -38,7 +38,7 @@ class InvoiceItemsController < ApplicationController
       flash[:notice] = 'InvoiceItems was successfully updated.'
       redirect_to :action => 'show', :id => @invoice_items
     else
-      render :action => 'edit', :layout=>"application2"
+      render :action => 'edit'
     end
   end
 

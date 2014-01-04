@@ -89,8 +89,6 @@ class AccountsController < ApplicationController
     @debit_categories.each do |category|
       @cat_totals[category.paymeth_category]-=category.amount
     end
-
-    render(:layout => "application2")
   end
 
   def view

@@ -73,20 +73,20 @@ class AccountsController < ApplicationController
     @credit_accounts = Account.find(:all, :conditions => "is_credit = true")
     @debit_accounts = Account.find(:all, :conditions => "is_credit = false")
 
-    @accounts_receivable_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"' AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter])
+    @accounts_receivable_total = Journal.sum(:amount, :conditions => ["date >= '" + @start+ "' AND date < '"+ @end +"' AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter])
     @accounts_receivable_total = (@accounts_receivable_total == nil) ? 0 : @accounts_receivable_total
-    @accounts_received_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter])
+    @accounts_received_total = Journal.sum(:amount, :conditions => ["date >= '" + @start+ "' AND date < '"+ @end +"'  AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter])
     @accounts_received_total = (@accounts_received_total == nil) ? 0 : @accounts_received_total
-    @accounts_payable_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "'  AND date < '"+ @end +"' AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter])
+    @accounts_payable_total = Journal.sum(:amount, :conditions => ["date >= '" + @start+ "'  AND date < '"+ @end +"' AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter])
     @accounts_payable_total = (@accounts_payable_total == nil) ? 0 : @accounts_payable_total
-    @accounts_paid_total = Journal.sum(:amount, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter])
+    @accounts_paid_total = Journal.sum(:amount, :conditions => ["date >= '" + @start+ "' AND date < '"+ @end +"'  AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter])
     @accounts_paid_total = (@accounts_paid_total == nil) ? 0 : @accounts_paid_total
 
-    @credit_JEs = Journal.find(:all, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter], :order => "date DESC")
-    @debit_JEs = Journal.find(:all, :conditions => ["date > '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter], :order => "date DESC")
+    @credit_JEs = Journal.find(:all, :conditions => ["date >= '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter], :order => "date DESC")
+    @debit_JEs = Journal.find(:all, :conditions => ["date >= '" + @start+ "' AND date < '"+ @end +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter], :order => "date DESC")
 
-    @credit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date > '#{@start}' AND date < '#{@end}' AND account_id in (?)",Account::Credit_Accounts])
-    @debit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date > '#{@start}' AND date < '#{@end}' AND account_id in (?)",Account::Debit_Accounts])
+    @credit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date >= '#{@start}' AND date < '#{@end}' AND account_id in (?)",Account::Credit_Accounts])
+    @debit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date >= '#{@start}' AND date < '#{@end}' AND account_id in (?)",Account::Debit_Accounts])
     @cat_totals = Hash.new(0)
 
     @credit_categories.each do |category|
@@ -120,13 +120,13 @@ class AccountsController < ApplicationController
   def unpaid
     @title = "Unpaid JEs"
 
-    @journals = Journal.find(:all, :conditions => ["date > '" + Account::Magic_Date + "' AND date_paid IS NULL"])
+    @journals = Journal.find(:all, :conditions => ["date >= '" + Account::Magic_Date + "' AND date_paid IS NULL"])
   end
 
   def unpaid_print
     @title = "Unpaid JEs"
 
-    @journals = Journal.find(:all, :conditions => ["date > '" + Account::Magic_Date + "' AND date_paid IS NULL"])
+    @journals = Journal.find(:all, :conditions => ["date >= '" + Account::Magic_Date + "' AND date_paid IS NULL"])
   end
 
   def confirm_paid

@@ -1,5 +1,4 @@
 class EmailController < ApplicationController
-  layout "application2"
   
   require 'net/imap'
 

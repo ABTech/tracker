@@ -1,6 +1,5 @@
 class TimecardEntriesController < ApplicationController
   before_filter :login_required
-  layout 'application2'
 
   def index
     @timecard_entries = TimecardEntry.find(:all, :conditions => { :member_id => current_member.id })

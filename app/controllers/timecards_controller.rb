@@ -1,6 +1,5 @@
 class TimecardsController < ApplicationController
   before_filter :login_required
-  layout 'application2'
 
   def index
     @timecards = Timecard.find(:all, :order => 'billing_date DESC')

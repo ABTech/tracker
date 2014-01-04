@@ -1,5 +1,4 @@
 class TshirtsController < ApplicationController
-  layout "application2"
 
   def index
     @title = "T-Shirt Sizes"

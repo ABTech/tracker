@@ -1,7 +1,6 @@
 class OrganizationsController < ApplicationController
   before_filter :login_required
 
-  layout "application2"
 
   def index
     @title = "Organizations"

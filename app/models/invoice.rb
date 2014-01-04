@@ -6,6 +6,8 @@ class Invoice < ActiveRecord::Base
   Payment_Types = ["StuAct", "Check", "Oracle"];
   Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received" ];
 
+  attr_accessible :event_id, :status, :recognized, :payment_type, :oracle_string, :memo
+
   validates_presence_of :status, :event, :event_id
   validates_inclusion_of :status, :in => Invoice_Status_Group_All;
   validates_associated :event;

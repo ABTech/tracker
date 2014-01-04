@@ -90,9 +90,9 @@ Abtt::Application.routes.draw do
   resources :journal, except: [:show, :update] do
     collection do
       get 'list'
+      post 'save'
     end
     member do
-      post 'save'
       get 'view'
     end
   end

@@ -21,6 +21,11 @@ class EventsController < ApplicationController
     @title = "Viewing Event"
     @event = Event.find(params[:id])
   end
+  
+  def show_email
+    @title = "Viewing Event Emails"
+    @event = Event.find(params[:id])
+  end
 
   def new
     @title = "Create New Event"

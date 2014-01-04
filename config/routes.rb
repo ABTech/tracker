@@ -57,6 +57,7 @@ Abtt::Application.routes.draw do
     member do
       get 'delete_conf'
       get 'mobile_email'
+      get 'show_email'
     end
     collection do
       get 'delete_conf'

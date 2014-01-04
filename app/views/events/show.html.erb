@@ -55,7 +55,7 @@
   
     <% if not @event.emails.empty? %>
       <div id="event-emails">
-        <h4>Emails</h4>
+        <h4>Emails (<%= link_to "full view", show_email_event_url(@event) %>)</h4>
     
         <ul>
           <% @event.emails.each do |email| %>

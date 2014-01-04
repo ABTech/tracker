@@ -1,0 +1,21 @@
+<div id="event-container">
+  <h2>Emails for "<%= link_to @event.title, @event %>"</h2>
+  
+  <div id="event-email-outline">
+    <h4>Outline</h4>
+    
+    <ul>
+      <% @event.emails.each do |email| %>
+        <li><%= link_to email.display_title, "#email" + email.id.to_s %></li>
+      <% end %>
+    </ul>
+  </div>
+  
+  <% @event.emails.each do |email| %>
+    <div class="event-email-full" id="email<%= email.id %>">
+      <strong><%= email.display_title %></strong><br />
+      
+      <%= simple_format email.headerless_contents %>
+    </div>
+  <% end %>
+</div>

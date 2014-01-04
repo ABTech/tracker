@@ -376,7 +376,8 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-notes,
 #event-invoices,
-#event-attachments {
+#event-attachments,
+#event-email-outline {
   background: #f7f7f7;
   border: 1px solid #ccc;
   padding: .5em 1em;
@@ -385,7 +386,8 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-notes h4,
 #event-invoices h4,
-#event-attachments h4 {
+#event-attachments h4,
+#event-email-outline h4 {
   margin: 0;
   text-align: center;
 }
@@ -446,6 +448,12 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   color: red;
   font-weight: bold;
   display: inline;
+}
+
+.event-email-full+.event-email-full {
+  margin-top: 1em;
+  border-top: 1px dashed black;
+  padding-top: 1em;
 }
 
 @media (min-width: 1092px) {

@@ -4,24 +4,23 @@
 <li><%= link_to("Create a new debit JE", :action => "new", :is_credit => 0) %>
 </ul>
 
-<table>
-  <tr class=listheader">
-    <th>Date
-    <th>Date Paid
-    <th>Memo
-    <th>Amount
-    <th>Account
-    <th>Relation Link
+<table class="generic" width="100%">
+  <tr>
+    <th class="listheader">Date</th>
+    <th class="listheader">Date Paid</th>
+    <th class="listheader">Memo</th>
+    <th class="listheader">Amount</th>
+    <th class="listheader">Account</th>
+    <th class="listheader">Relation Link</th>
   </tr>
   
-  <% tmp = false; %>
   <% for journal in @journals.sort{|x, y| y.date <=> x.date} %>
-    <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
-      <td class="list"><%= journal.date.strftime("%A, %B %d %Y") %>
-      <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %>
-      <td class="list"><%= link_to(journal.memo, {:action => "edit", :id => journal.id}) %>
-      <td class="list"><%= number_to_currency journal.amount %>
-      <td class="list"><%= link_to(journal.account.name, {:action => "view", :id => journal.account.id}) %>
+    <tr>
+      <td class="list"><%= journal.date.strftime("%A, %B %d %Y") %></td>
+      <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %></td>
+      <td class="list"><%= link_to(journal.memo, {:action => "edit", :id => journal.id}) %></td>
+      <td class="list"><%= number_to_currency journal.amount %></td>
+      <td class="list"><%= link_to(journal.account.name, {:action => "view", :id => journal.account.id}) %></td>
       <td class="list">
         <% case(journal.class.name) 
            when "JeInv", "JeInvPaid" %>
@@ -32,7 +31,7 @@
         <% else %>
             unknown JE type: <%= journal.class.name %>
         <% end %>
+      </td>
     </tr>
-    <% tmp = !tmp; %>
   <% end %>
 </table>

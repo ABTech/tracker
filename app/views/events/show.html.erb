@@ -18,7 +18,7 @@
       <table>
         <% @event.eventdates.each do |eventdate| %>
           <tr>
-            <th colspan=4>"<%= eventdate.description %>"</th>
+            <th colspan=4><%= eventdate.description %></th>
           </tr>
           <% eventdate.times.each do |time| %>
             <tr>

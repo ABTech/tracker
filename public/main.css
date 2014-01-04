@@ -302,7 +302,7 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 }
 
 #event-schedule table th {
-  color: #888;
+  font-weight: bold;
   background-color: #f7f7f7;
   padding: 6px 12px;
 }
@@ -333,6 +333,7 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-schedule td.es-locequip {
   border-right: none;
+  width: 100%;
 }
 
 #event-emails {

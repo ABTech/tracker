@@ -18,3 +18,4 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 .DS_Store
+public/system

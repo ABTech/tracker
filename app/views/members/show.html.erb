@@ -14,12 +14,23 @@
 <% end %>
 <tr>
   <th>Role</th>
-  <td><%= @member.roles.collect { |r| link_to(h(r.name), r) }.join("<br />") %></td>
+  <td>
+    <ul class="simple">
+      <% @member.roles.each do |role| %>
+        <li><%= link_to role.name, role %></li>
+      <% end %>
+    </ul>
 </tr>
 <tr>
   <th>Permissions</th>
   <td>
-    <span style="display: none;" id="permissions"><%= @member.permission_strings.sort.uniq.join("<br />") %></span>
+    <span style="display: none;" id="permissions">
+      <ul class="simple">
+        <% @member.permission_strings.sort.uniq.each do |p| %>
+          <li><%= p %></li>
+        <% end %>
+      </ul>
+    </span>
     <a href="#" onclick="Effect.Fade($('permissions_label'), {duration: 0.2});Effect.Appear($('permissions'));" id="permissions_label">Click to display</a>
   </td>
 </tr>

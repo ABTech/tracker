@@ -508,3 +508,12 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
     margin-right: 1em; }
   .pagination .next_page {
     margin-left: 1em; }
+    
+ul.simple {
+  margin: 0;
+  padding-left: 0;
+}
+
+ul.simple li {
+  display: block;
+}

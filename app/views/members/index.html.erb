@@ -31,7 +31,7 @@
   <%- if @edit_others -%>
     <td>
       <% member.roles.each do |role| %>
-        <span title="#{h(role.permissions.join("\n"))\"><%=role.name%></span><br/>
+        <span title="<%= role.permissions.join("\n") %>"><%=role.name%></span><br/>
       <% end %>
     </td>
     <td title="<%= member.created_at.nil? ? '">' : "#{member.created_at.strftime("%c")}\">#{member.created_at.strftime("%m/%d/%Y")}".html_safe %></td>

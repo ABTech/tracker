@@ -25,11 +25,15 @@
     <td><%=h member.title %></td>
     <td><%=h member.namenick %></td>
     <td><%=h(pretty_phone(member.phone)) %></td>
-    <td><%= "<a href=\"aim:goim?screenname=#{h(member.aim)}\">#{h(member.aim)}</a>".html_safe unless member.aim.nil? %></td>
+    <td><%= link_to h(member.aim), "aim:goim?screenname=#{h(member.aim)}" unless member.aim.nil? %></td>
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%=h member.shirt_size %></td>
   <%- if @edit_others -%>
-    <td><%= member.roles.collect{ |role| "<span title=\"#{h(role.permissions.join("\n"))}\">#{h(role.name)}</span>".html_safe }.join("<br/>") %></td>
+    <td>
+      <% member.roles.each do |role| %>
+        <span title="#{h(role.permissions.join("\n"))\"><%=role.name%></span><br/>
+      <% end %>
+    </td>
     <td title="<%= member.created_at.nil? ? '">' : "#{member.created_at.strftime("%c")}\">#{member.created_at.strftime("%m/%d/%Y")}".html_safe %></td>
     <td title="<%= member.updated_at.nil? ? '">' : "#{member.updated_at.strftime("%c")}\">#{member.updated_at.strftime("%m/%d/%Y")}".html_safe %></td>
     <td><%= link_to 'Show', :action => 'show', :id => member %></td>

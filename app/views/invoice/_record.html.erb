@@ -80,7 +80,7 @@ end
         <%= check_box_tag("journal_invoice_create", "1", false, :onChange => "invoiceJeDisplay()") %>
 
         <div id="invoice_je" class="hidden">
-          <table class="genric">
+          <table class="generic">
             <tr><td width="70" align="right"><strong>Date:</strong></td>
               <td><%= better_select_date(DateTime.now(), "journal_invoice", "date"); %></td></tr>
             <tr><td width="70" align="right"><strong>Memo:</strong></td>

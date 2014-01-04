@@ -2,8 +2,6 @@
      return dt + (@step_hours * 60 * 60)
   end %>
 
-<% tmp = true %>
-
 <table cellspacing="0" cellpadding="0" class="generic">
   <tr class="listheader">
     <th class="list" width=150>&nbsp;</th>
@@ -40,7 +38,7 @@
   </tr>
 
   <% EquipmentCategory::tree_as_collection.each do |equip| %>
-    <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+    <tr>
       <td class="list_nopad" align="right" height=20> <%= equip.description %> </td>
 
       <% date = @startdate %>
@@ -73,6 +71,5 @@
         </td>
       <% end %>
     </tr>
-    <% tmp = !tmp; %>
   <% end %>
-<table>
+</table>

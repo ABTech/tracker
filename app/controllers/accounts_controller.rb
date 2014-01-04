@@ -3,18 +3,26 @@ class AccountsController < ApplicationController
   before_filter :login_required
 
   def index
+    @title = "Account List"
+
     @accounts = Account.find(:all)
   end
 
   def show
+    @title = "Account Display"
+
     @account = Account.find(params[:id])
   end
 
   def new
+    @title = "Account List"
+
     @account = Account.new
   end
 
   def edit
+    @title = "Edit Account"
+
     @account = Account.find(params[:id])
   end
 

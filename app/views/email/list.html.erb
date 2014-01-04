@@ -25,9 +25,8 @@
     <th width="25" class="listheader" scope="col">Event</th>
   </tr>
   
-  <% @tmp = false %>
   <% @emails.each do |email| %>
-    <tr class="<%= @tmp ? "hoverlistentry1" : "hoverlistentry2" %>">
+    <tr>
       <td class="list"><div align="left"><%= email.timestamp.strftime("%b %d, %Y") %></div></td>
       <td class="list"><div align="left"><%= email.timestamp.strftime("%I:%M %p") %></div></td>
       <td class="list"><div align="left"><%= email.status %> <small>
@@ -42,7 +41,6 @@
         <% end %>
       </div></td>
     </tr>
-    <% @tmp = !@tmp %>
   <% end %>
 </table>
 

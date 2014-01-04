@@ -8,7 +8,8 @@
 
 <br>
 <!-- form submission -->
-<table><tr class="listentry1">
+<table class="generic">
+  <tr>
   <% if(@is_view_mode) %>
     <td width="75" align="right">&nbsp;</td>
     <td align="left"><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %>
@@ -18,6 +19,7 @@
     <td width="75" align="right">&nbsp;</td>
     <td align="left"><input type="submit" value="<%= @mode %>"/><%= link_to "view", { :action => "view", :id => @invoice.id } %></td>
   <% end %>
-</tr></table>
+</tr>
+</table>
 
 </form>

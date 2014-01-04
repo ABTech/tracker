@@ -16,7 +16,9 @@ class Eventdate < ActiveRecord::Base
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
 
   def dates
-    errors[:base] << "We're not a time machine. (End Date can't be before Start Date)" unless startdate<enddate
+    if startdate and enddate
+      errors[:base] << "We're not a time machine. (End Date can't be before Start Date)" unless startdate < enddate
+    end
   end
   
   def validate_call

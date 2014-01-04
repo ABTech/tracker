@@ -16,16 +16,16 @@ end
 </style>
 
 <!-- invoice header: random data, summary -->
-<table width="100%" border="0">
-  <tr><td class="listheader" align="left" colspan="2"><strong>Invoice Summary:</strong>
+<table width="100%" border="0" class="generic">
+  <tr><th class="listheader" align="left" colspan="2"><strong>Invoice Summary:</strong>
   <% if (@is_view_mode) then  %>
     <%= @invoice.memo %>
   <% else %>
     <%= text_field("invoice", "memo") %> 
   <% end %>
-  </td></tr>
+  </th></tr>
 
-  <tr class="listentry2">
+  <tr>
     <td align="right" class="list"><strong>Event:</strong></td>
     <td class="list" width="100%" align="left">
       <% if(@is_view_mode) %>
@@ -36,22 +36,22 @@ end
     </td>
   </tr>
 
-  <tr class="listentry1">
+  <tr>
     <td align="right" class="list"><strong>Invoice Creation Date:</strong></td>
     <td class="list" align="left"><%= @invoice.created_at ? @invoice.created_at.strftime("%A, %B %d %Y, %I:%M %p") : "now" %></td>
   </tr>
 
-  <tr class="listentry2">
+  <tr>
     <td align="right" class="list"><strong>Status:</strong></td>
     <td class="list" align="left"><%= @is_view_mode ? @invoice.status : select("invoice", "status", Invoice::Invoice_Status_Group_All) %></td>
   </tr>
 
-  <tr class="listentry1">
+  <tr>
     <td align="right" class="list"><strong>Recognized?:</strong></td>
     <td class="list" align="left"><%= @is_view_mode ? (@invoice.recognized? ? "yes" : "no") : check_box("invoice", "recognized") %></td>
   </tr>
 
-  <tr class="listentry2">
+  <tr>
     <td align="right" class="list"><strong>Invoice JE:</strong></td>
     <td class="list" align="left">
       <% if(@invoice.journal_invoice) %>
@@ -80,7 +80,7 @@ end
         <%= check_box_tag("journal_invoice_create", "1", false, :onChange => "invoiceJeDisplay()") %>
 
         <div id="invoice_je" class="hidden">
-          <table>
+          <table class="genric">
             <tr><td width="70" align="right"><strong>Date:</strong></td>
               <td><%= better_select_date(DateTime.now(), "journal_invoice", "date"); %></td></tr>
             <tr><td width="70" align="right"><strong>Memo:</strong></td>
@@ -97,7 +97,7 @@ end
     </td>
   </tr>
 
-  <tr class="listentry1">
+  <tr>
     <td align="right" class="list"><strong>Invoice Paid JE:</strong></td>
     <td class="list" align="left">
       <% if(@invoice.journal_invoice and @invoice.journal_invoice.date_paid) %>
@@ -108,7 +108,7 @@ end
     </td>
   </tr>
   
-  <tr class="listentry2">
+  <tr>
     <td align="right" class="list"><strong>Payment Type:</strong></td>
     <td class="list" align="left">
       <% if(@is_view_mode) %>
@@ -138,7 +138,7 @@ end
     </td>
   </tr>
 
-  <tr class="listentry1">
+  <tr>
     <td align="right" class="list"><strong>Invoice Total:</strong></td>
     <td class="list" align="left"><%= number_to_currency @invoice.total %></td>
   </tr>
@@ -186,7 +186,7 @@ end
 </script>
 
 <!-- invoice lines -->
-<table border="0">
+<table class="generic" border="0">
   <tr>
     <td class="listheader" align="left" colspan="6"><strong>Invoice Lines:</strong></td>
   </tr>
@@ -277,7 +277,7 @@ end
   <% end %>
   <%= hidden_field_tag("nlines", @invoice.invoice_lines.length()) %>
 
-  <tr class="listentry2">
+  <tr>
     <td align="right" class="list"><strong>Invoice Total:</strong></td>
     <td class="list" align="left" colspan="5"><%= number_to_currency @invoice.total %></td>
   </tr>

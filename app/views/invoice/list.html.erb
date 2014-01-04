@@ -1,4 +1,4 @@
-<table width="100%" border="0">
+<table width="100%" border="0" class="generic">
   <tr>
     <th class="listheader" scope="col">Creation Date</th>
     <th class="listheader" scope="col">Event</th>
@@ -7,9 +7,8 @@
     <th class="listheader" scope="col">Paid JE</th>
   </tr>
   
-  <% @tmp = false %>
   <% @invoices.sort{|x, y| y.created_at <=> x.created_at}.each do |invoice| %>
-    <tr class="<%= @tmp ? "hoverlistentry1" : "hoverlistentry2" %>">
+    <tr>
       <td class="list"><%= invoice.created_at.strftime("%B %d %Y") %></td>
       <td class="list">
     <%= link_to(invoice.event.title, event_path(invoice.event)) %>
@@ -30,6 +29,5 @@
     <% end %>
     </td>
     </tr>
-    <% @tmp = !@tmp %>
   <% end %>
 </table>

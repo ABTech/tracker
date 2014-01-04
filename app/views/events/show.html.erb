@@ -27,7 +27,7 @@
               <% else %>
                 <td></td>
               <% end %>
-              <td class="es-time"><%= time[:date].strftime("%I:%M %p") %></td>
+              <td class="es-time"><%= time[:date].strftime("%H:%M") %></td>
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-locequip">

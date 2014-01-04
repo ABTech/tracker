@@ -63,6 +63,7 @@ Abtt::Application.routes.draw do
       get 'delete_conf'
       get 'calendar'
       get 'iphone'
+      post 'iphone'
       get 'mobile'
       get 'lost'
     end

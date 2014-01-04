@@ -1,9 +1,11 @@
 class RolesController < ApplicationController
+  layout "application2"
+  
   before_filter :login_required;
 
   def index
     @title = "Listing Roles"
-    @roles = Role.find(:all)
+    @roles = Role.order("id ASC").all
   end
 
   def show

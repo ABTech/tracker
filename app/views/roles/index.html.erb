@@ -1,4 +1,4 @@
-<table width="100%" border="0">
+<table class="generic" width="100%">
   <tr>
     <th width="25" class="listheader">&nbsp;</th>
     <th width="60" class="listheader" scope="col"><div align="center">ID</div></th>
@@ -7,9 +7,8 @@
     <th class="listheader" scope="col">Permissions</th>
   </tr>
   
-  <% @tmp = false %>
-  <% Role.find(:all, :order => "name DESC").each do |role| %>
-    <tr class="<%= @tmp ? "listentry1" : "listentry2" %>">
+  <% @roles.each do |role| %>
+    <tr>
       <td class="list"><div align="right">
         <span class="listcontrollink">
           <%= link_to "show", role %><br />
@@ -26,7 +25,6 @@
         <% end %>
       </td>
     </tr>
-    <% @tmp = !@tmp %>
   <% end %>
 </table>
 

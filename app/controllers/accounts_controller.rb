@@ -114,7 +114,7 @@ class AccountsController < ApplicationController
 
   def events
     @title = "Completed Events Validation"
-    @events = Event.where(["events.status IN (?)", Event::Event_Status_Event_Completed]).all
+    @events = Event.where(["events.status IN (?)", Event::Event_Status_Event_Completed]).sort_by{|x| x.eventdates.size > 0 ? x.eventdates[0].startdate : Time.local(1970,1,1)}
   end
 
   def unpaid

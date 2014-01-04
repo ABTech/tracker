@@ -8,7 +8,7 @@
     <th class="list">Invoiced</th>
   </tr>
 
-  <% @events.sort_by{|x| x.eventdates.size > 0 ? x.eventdates[0].startdate : Time.local(1970,1,1)}.each do |event| %>
+  <% @events.each do |event| %>
     <% inv = event.invoices.empty? ? nil : event.invoices[0] %>
     <tr>
       <td class="list"><%= event.id %></td>
@@ -21,9 +21,9 @@
   link_to(number_to_currency(inv.total), {:controller => "invoice", :action => "view", :id => inv.id}) %>
       </td>
       <td class="list">
-<%= inv && inv.journal_invoice ? 
-  link_to(inv.journal_invoice.date.strftime('%D'), {:action => "view", :controller => "journal", :id => inv.journal_invoice.id}) :
-  "&nbsp;".html_safe%>
+        <% if inv and inv.journal_invoice %>
+          <%= link_to(inv.journal_invoice.date.strftime('%D'), {:action => "view", :controller => "journal", :id => inv.journal_invoice.id}) %>
+        <% end %>
       </td>
     </tr>
   <% end %>

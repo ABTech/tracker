@@ -6,9 +6,12 @@ class Member < ActiveRecord::Base
   has_many :filters, -> { order "name ASC" }, :class_name => "MemberFilter"
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
+  
+  Member_Shirt_Sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
+  attr_accessible :password, :password_confirmation, :kerbid, :namefirst, :namelast, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role_ids
 
   validates_presence_of     :namefirst, :namelast, :kerbid, :payrate
   validates_associated      :filters;
@@ -20,6 +23,7 @@ class Member < ActiveRecord::Base
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
+  validates_inclusion_of    :shirt_size, :in => Member_Shirt_Sizes
 
   validates_format_of :phone, :with => /\A\+?[0-9]*\Z/, :message => "must only use numbers"
   before_validation Proc.new { |m|

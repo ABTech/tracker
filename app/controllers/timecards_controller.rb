@@ -56,7 +56,7 @@ class TimecardsController < ApplicationController
     @timecard = Timecard.find(params[:id])
     if @timecard.update_attributes(params[:timecard])
       flash[:notice] = 'Timecard updated successfully'
-      redirect_to :action => 'show'
+      redirect_to :action => 'view'
     else
       render :action => 'edit'
     end

@@ -1,8 +1,12 @@
 class PermissionsController < ApplicationController
+  layout "application2"
+
   before_filter :login_required
   # GET /permissions
   # GET /permissions.xml
   def index
+    @title = "Listing Permissions"
+
     @permissions = Permission.find(:all)
 
     respond_to do |format|
@@ -14,6 +18,8 @@ class PermissionsController < ApplicationController
   # GET /permissions/1
   # GET /permissions/1.xml
   def show
+    @title = "Permission View"
+
     @permission = Permission.find(params[:id])
 
     respond_to do |format|
@@ -25,6 +31,8 @@ class PermissionsController < ApplicationController
   # GET /permissions/new
   # GET /permissions/new.xml
   def new
+    @title = "Creating Permission"
+
     @permission = Permission.new
 
     respond_to do |format|
@@ -35,6 +43,8 @@ class PermissionsController < ApplicationController
 
   # GET /permissions/1/edit
   def edit
+    @title = "Editing Permission"
+
     @permission = Permission.find(params[:id])
   end
 

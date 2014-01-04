@@ -7,7 +7,7 @@
   margin-left: 20px;
   vertical-align: top;
 }
-label {
+label.big {
   font-size: 13pt;
   font-weight: bold;
 }
@@ -90,9 +90,9 @@ td input {
 <table><tr><td style="vertical-align: top">
 <div style="margin: 0 10px">
   <input id="condensed-radio" type="radio" name="showemail" onChange="showEmail(true);" checked="checked">
-  <label for="condensed-radio">Condensed</label>
+  <label class="big" for="condensed-radio">Condensed</label>
   <input id="full-radio" type="radio" name="showemail" onChange="showEmail(false);">
-  <label for="full-radio">Full</label><br/>
+  <label class="big" for="full-radio">Full</label><br/>
   <div id="condensed-div" class="shown">
     <b>Date:</b> <%= @email.timestamp.strftime("%A, %B %d at %I:%M %p") %><br/>
     <b>Sender:</b> <%= @email.sender %><br/>
@@ -106,10 +106,14 @@ td input {
     <%= simple_format(h @email.contents)%>
   </div>
 </div>
-</td><td style="vertical-align: top">
+</td>
+
+<% if (current_member.authorized? "email/file") and (@email.status == Email::Email_Status_Unfiled) %>
+<td style="vertical-align: top">
 <div style="padding-top: 11px;">
   <%= form_tag({:action => "file", :id => @email.id}, :name => "fileform") do %>
   <%= hidden_field_tag("skip", @skip) %>
+  <%= hidden_field_tag("next", @next) %>
   
   <div class="buttons">
     <%= submit_tag(EmailController::File_Action_Trash) %>
@@ -118,15 +122,17 @@ td input {
   </div>
   
   <%= radio_button_tag("fileaction", EmailController::File_Action_New_Event, (@fileaction == EmailController::File_Action_New_Event), :onClick => "divfilter('new-event-div')", :id => "new-event-radio") %>
-  <label for="new-event-radio" style="margin-right: 8px;">New Event</label>
+  <label class="big" for="new-event-radio" style="margin-right: 8px;">New Event</label>
   
   <%= radio_button_tag("fileaction", EmailController::File_Action_Existing_Event, (@fileaction == EmailController::File_Action_Existing_Event), :onClick => "divfilter('existing-event-div')", :id => "existing-event-radio") %>
-  <label for="existing-event-radio">Existing Event</label><br />
+  <label class="big" for="existing-event-radio">Existing Event</label><br />
   
   <div id="new-event-div" class="hidden">
   <% @event_form_name = "fileform"; %>
   <% @is_view_mode = false; %>
-  <%= render(:partial => 'events/quickrecord', :controller => 'events') %>
+  <%= fields_for @event do |builder| %>
+    <%= render(:partial => 'events/form', :controller => 'events', :locals => {:f => builder}) %>
+  <% end %>
   </div>
 
   <% default_found = false; %>
@@ -134,7 +140,7 @@ td input {
   <%
     def event_date(evt)
       if (evt.eventdates.length() > 0 && evt.eventdates[0].startdate)
-        "<span class=\"date\">" + evt.eventdates[0].startdate.strftime('%m/%d/%y') + "</span>"
+        "<span class=\"date\">".html_safe + evt.eventdates[0].startdate.strftime('%m/%d/%y') + "</span>".html_safe
       end
     end
   %>
@@ -201,7 +207,10 @@ td input {
   
   <% end %>
 </div>
-</td></tr>
+</td>
+<% end %>
+
+</tr>
 </table>
 <script>
 <% 

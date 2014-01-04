@@ -3,5 +3,11 @@
   
   <%= form_for @event do |builder| %>
     <%= render :partial => "form", :locals => {:f => builder} %>
+    
+    <fieldset id="event-form-submit">
+      <legend>Submit</legend>
+    
+      <input type="submit">
+    </div>
   <% end %>
 </div>

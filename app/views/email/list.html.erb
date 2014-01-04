@@ -1,4 +1,6 @@
-<center><table width="100%" border="0" cellpadding="0" cellspacing="0">
+<h1>Email Filing</h1>
+
+<center><table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 1em">
   <tr>
     <td align="left">
       <%= form_tag(:action => "pull_email") do %>
@@ -13,9 +15,7 @@
   </tr>
 </table></center>
 
-<%= will_paginate @emails %>
-
-<table width="100%" border="0">
+<table width="100%" class="generic">
   <tr>
     <th width="75" class="listheader" scope="col">Date</th>
     <th width="75" class="listheader" scope="col">Time</th>
@@ -31,9 +31,7 @@
       <td class="list"><div align="left"><%= email.timestamp.strftime("%b %d, %Y") %></div></td>
       <td class="list"><div align="left"><%= email.timestamp.strftime("%I:%M %p") %></div></td>
       <td class="list"><div align="left"><%= email.status %> <small>
-        <% if email.status == "Unfiled" %>
-          <%= link_to("file", {:action => "file", :id => email.id}) %>
-        <% else %>
+        <% if email.status != "Unfiled" %>
           <%= link_to("unfile", {:action => "unfile", :id => email.id}) %>
         <% end %></small></div></td>
       <td class="list"><div align="left"><%= email.sender %></div></td>

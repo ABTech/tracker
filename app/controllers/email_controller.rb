@@ -1,6 +1,6 @@
-# encoding: UTF-8
-
 class EmailController < ApplicationController
+  layout "application2"
+  
   require 'net/imap'
 
   before_filter :login_required;
@@ -117,7 +117,7 @@ class EmailController < ApplicationController
         end
 
         imap.close()
-        redirect_to(:action => "file")
+        redirect_to(:action => "file", :next => "continue")
     end
 
     def file
@@ -136,13 +136,17 @@ class EmailController < ApplicationController
             when File_Action_File_Event
                 case(params['fileaction'])
                 when File_Action_New_Event
-                    event = Event.new(params['event']);
-                    EventsHelper.update_event(event, params);
+                    event = Event.new(params['event'])
+
                     if(!event.save())
-                        flash[:error] = "";
-                        event.errors.each_full() do |err|
-                            flash[:error] += err + "<br />";
-                        end
+                        flash[:error] = "Error saving the event"
+                        @fileaction = File_Action_New_Event
+                        @email = email
+                        @event = event
+                        @skip = params[:skip]
+                        @next = params[:next]
+                        render
+                        return
                     else
                         flash[:notice] = "Event Saved";
                         email.status = Email::Email_Status_New;
@@ -159,7 +163,7 @@ class EmailController < ApplicationController
                     email.status = Email::Email_Status_New;
                     if(!email.save())
                         flash[:error] = "";
-                        email.errors.each_full() do |err|
+                        email.errors.each do |err|
                             flash[:error] += err + "<br />";
                         end
                     end
@@ -168,7 +172,7 @@ class EmailController < ApplicationController
                 email.status = Email::Email_Status_Ignored;
                 if(!email.save())
                     flash[:error] = "";
-                    email.errors.each_full() do |err|
+                    email.errors.each do |err|
                         flash[:error] += err + "<br />";
                     end
                 end
@@ -179,34 +183,26 @@ class EmailController < ApplicationController
             end
         end
 
-        # find the first unfiled email, by date, and file it
-        emails = Email.find(:all, 
-                    :order => "timestamp ASC", 
-                    :conditions => "status = \"#{Email::Email_Status_Unfiled}\"", 
-                    :offset => @skip,
-                    :limit => 1)
+        if params[:next] == "continue"
+          # find the first unfiled email, by date, and file it
+          emails = Email.find(:all, 
+                      :order => "timestamp ASC", 
+                      :conditions => "status = \"#{Email::Email_Status_Unfiled}\"", 
+                      :offset => @skip,
+                      :limit => 1)
 
-        if(emails.size == 0)
-            flash[:notice] = "No unfiled email to resolve.";
-            redirect_to(:action => "list");
-            return;
+          if(emails.size == 0)
+              flash[:notice] = "No unfiled email to resolve.";
+              redirect_to(:action => "list");
+              return;
+          end
+
+          @email = emails.first
+        
+          redirect_to :action => "view", :id => @email.id, :skip => @skip, :next => "continue"
+        else
+          redirect_to view_email_url(params[:id])
         end
-
-        @email = emails.first;
-        # default action:
-        @fileaction = File_Action_Existing_Event;
-
-        @event = EventsHelper.generate_new_event();
-        @event.title = @email.subject;
-        @event.contactemail = @email.sender;
-        if (@email.contents =~ /from:.*\((.*)\)/)
-            @event.contact_name = $1;
-        end
-        if (@email.contents =~ /\s(\(?\d{3}\)?\D\d{3}\D\d{4})\s/)
-            @event.contact_phone = $1;
-        end
-
-        render(:action => "file");
     end
 
     def unfile
@@ -359,6 +355,30 @@ class EmailController < ApplicationController
     def view
         @title = "Viewing Message"
 
-        @email = Email.find(params["id"]);
+        @email = Email.find(params["id"])
+        
+        if @email.status == Email::Email_Status_Unfiled
+          @fileaction = File_Action_Existing_Event
+          
+          @event = Event.new
+          @event.title = @email.subject
+          @event.contactemail = @email.sender
+          if (@email.contents =~ /from:.*\((.*)\)/)
+              @event.contact_name = $1
+          end
+          if (@email.contents =~ /\s(\(?\d{3}\)?\D\d{3}\D\d{4})\s/)
+              @event.contact_phone = $1
+          end
+        end
+        
+        if params[:skip]
+          @skip = params[:skip]
+        end
+        
+        if params[:next]
+          @next = params[:next]
+        end
+        
+        render :action => "file"
     end
 end

@@ -18,8 +18,9 @@ class Email < ActiveRecord::Base
   validates_format_of :sender, :with => Event::EmailRegex, :multiline => true;
 
   def headerless_contents
-    segments = contents.split(/\n[\r]*\n/);
-    contents = segments[2, segments.size()].join("\n\n");
+    segments = contents.split(/\n[\r]*\n/)
+    contents = segments[2, segments.size()].join("\n\n")
+    contents.lines.reject { |l| l[0] == ">" }.join("")
   end
 
   def subject

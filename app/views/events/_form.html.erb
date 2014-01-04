@@ -70,7 +70,7 @@
       <legend>Dates</legend>
     
       <%= f.fields_for :eventdates do |builder| %>
-        <%= render :partial => 'eventdate_fields', :locals => {:f => builder} %>
+        <%= render :partial => 'events/eventdate_fields', :locals => {:f => builder} %>
       <% end %>
     
       <p>
@@ -83,7 +83,7 @@
       
       <table>
         <%= f.fields_for :attachments do |builder| %>
-          <%= render :partial => 'attachment_fields', :locals => {:f => builder} %>
+          <%= render :partial => 'events/attachment_fields', :locals => {:f => builder} %>
         <% end %>
       
         <tr>
@@ -103,7 +103,7 @@
       </tr>
       
       <%= f.fields_for :event_roles do |builder| %>
-        <%= render :partial => 'event_role_fields', :locals => {:f => builder} %>
+        <%= render :partial => 'events/event_role_fields', :locals => {:f => builder} %>
       <% end %>
     
       <tr>
@@ -111,10 +111,4 @@
       </tr>
     </table>
   </fieldset>
-  
-  <fieldset id="event-form-submit">
-    <legend>Submit</legend>
-    
-    <input type="submit">
-  </div>
 </div>

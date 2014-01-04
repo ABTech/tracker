@@ -8,7 +8,7 @@ class Eventdate < ActiveRecord::Base
   validates_associated :locations, :equipment
   validate :dates, :validate_call, :validate_strike
   
-  attr_accessor :call_literal, :strike_literal
+  attr_accessor :call_literal, :strike_literal, :call_is_literal, :strike_is_literal
   
   attr_accessible :event_id, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, :location_ids, :equipment_ids, :call_literal, :strike_literal
 
@@ -43,7 +43,7 @@ class Eventdate < ActiveRecord::Base
     if type == "blank"
       self.calldate = nil
     elsif type == "literal"
-      self.calldate = self.call_literal
+      self.call_is_literal = true
     end
   end
   
@@ -58,6 +58,7 @@ class Eventdate < ActiveRecord::Base
     elsif type == "enddate"
       self.strikedate = self.enddate
     elsif type == "literal"
+      self.strike_is_literal = true
       self.strikedate = self.strike_literal
     end
   end
@@ -66,6 +67,16 @@ class Eventdate < ActiveRecord::Base
     return "blank" if self.strikedate.nil?
     return "enddate" if self.strikedate == self.enddate
     return "literal"
+  end
+  
+  def call_literal=(literal)
+    @call_literal = literal
+    self.calldate = literal if self.call_is_literal
+  end
+  
+  def strike_literal=(literal)
+    @strike_literal = literal
+    self.strikedate = literal if self.strike_is_literal
   end
   
   def times

@@ -254,9 +254,8 @@ td.more_events, td.more_events span { background: #FFA6A6; }
 td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD }
 
 #event-container {
-  width: 80%;
-  margin: 1em auto;
   font-size: 11px;
+  margin-right: 2em;
 }
 
 #event-left {

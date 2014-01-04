@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
-  layout "application2"
+  layout "events"
   
   before_filter :login_required, :except => [:generate, :calendar];
+  before_filter :get_events
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -189,45 +190,6 @@ class EventsController < ApplicationController
 
   def index
     @title = "Event List";
-
-    # default view mode
-    if (not params["selected"])
-      params["selected"] = "future";
-    end
-
-    # set up options
-    options = {:limit => 50};
-    if (params[:selected] == "future")
-      options[:startdate] = Time.now;
-    elsif (params[:selected] == "past")
-      options[:enddate] = Time.now;
-      options[:order] = "eventdates.startdate DESC";
-    elsif (params[:selected] == "incomplete")
-      options[:condquery] = "NOT events.status IN (?)";
-      options[:condargs] = [Event::Event_Status_Group_Completed];
-    elsif (params[:selected] == "month")
-      options[:startdate] = Date.civil(params["year"].to_i, params["month"].to_i, 1)
-      options[:enddate] = options[:startdate] >> 1;
-    elsif (params[:selected] == "search")
-      options[:search_terms] = params["q"];
-      options[:order] = "eventdates.startdate DESC";
-    end
-
-    # grab the events for the list
-    @event_pages, @eventdates = filtered_events(options);
-
-    # grab the events for the calendar
-    if params["selected"] == "month"
-      @monthdates = Array.new(@eventdates)
-    elsif @eventdates.empty?
-      firstOfThisMonth = Date.civil(Date.today.year, Date.today.month, 1)
-      _, @monthdates = filtered_events({:startdate => firstOfThisMonth, :enddate => (firstOfThisMonth >> 1)})
-    else
-      firstOfFirstEventsMonth = Date.civil(@eventdates[0].startdate.year, @eventdates[0].startdate.month, 1)
-      _, @monthdates = filtered_events({:startdate => firstOfFirstEventsMonth, :enddate => (firstOfFirstEventsMonth >> 1)})
-    end
-
-    render
   end
 
   def calendar_full
@@ -476,5 +438,44 @@ class EventsController < ApplicationController
     end
 
     return login_required();
+  end
+  
+  def get_events
+    # default view mode
+    if (not params["selected"])
+      params["selected"] = "future";
+    end
+    
+    # set up options
+    options = {:limit => 50};
+    if (params[:selected] == "future")
+      options[:startdate] = Time.now;
+    elsif (params[:selected] == "past")
+      options[:enddate] = Time.now;
+      options[:order] = "eventdates.startdate DESC";
+    elsif (params[:selected] == "incomplete")
+      options[:condquery] = "NOT events.status IN (?)";
+      options[:condargs] = [Event::Event_Status_Group_Completed];
+    elsif (params[:selected] == "month")
+      options[:startdate] = Date.civil(params["year"].to_i, params["month"].to_i, 1)
+      options[:enddate] = options[:startdate] >> 1;
+    elsif (params[:selected] == "search")
+      options[:search_terms] = params["q"];
+      options[:order] = "eventdates.startdate DESC";
+    end
+
+    # grab the events for the list
+    @event_pages, @eventdates = filtered_events(options);
+
+    # grab the events for the calendar
+    if params["selected"] == "month"
+      @monthdates = Array.new(@eventdates)
+    elsif @eventdates.empty?
+      firstOfThisMonth = Date.civil(Date.today.year, Date.today.month, 1)
+      _, @monthdates = filtered_events({:startdate => firstOfThisMonth, :enddate => (firstOfThisMonth >> 1)})
+    else
+      firstOfFirstEventsMonth = Date.civil(@eventdates[0].startdate.year, @eventdates[0].startdate.month, 1)
+      _, @monthdates = filtered_events({:startdate => firstOfFirstEventsMonth, :enddate => (firstOfFirstEventsMonth >> 1)})
+    end
   end
 end

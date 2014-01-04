@@ -4,6 +4,8 @@ class Timecard < ActiveRecord::Base
 
   validates_presence_of :billing_date, :due_date, :start_date, :end_date
   validates_uniqueness_of :billing_date
+  
+  attr_accessible :billing_date, :due_date, :start_date, :end_date, :submitted
 
   before_destroy :clear_entries
 
@@ -32,8 +34,16 @@ class Timecard < ActiveRecord::Base
   end
 
   def hours(member=nil)
-    timecard_entries.inject(0) do |sum, entry|
-      sum + ((member.nil? or member == entry.member) ? entry.hours : 0)
+    if member
+      scope = timecard_entries.where(member: member)
+    else
+      scope = timecard_entries
+    end
+    
+    if scope.empty?
+      0
+    else
+      scope.map(&:hours).reduce(&:+).round(1)
     end
   end
 

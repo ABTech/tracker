@@ -1,7 +1,7 @@
 Abtt::Application.routes.draw do
   resources :accounts do
     collection do
-      get 'confirm_paid'
+      post 'confirm_paid'
       get 'events'
       get 'list'
       get 'unpaid'

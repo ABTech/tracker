@@ -2,7 +2,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :event
   belongs_to :journal
 
-  has_attached_file :attachment
+  has_attached_file :attachment, :url => "/system/attachments/:id/:style/:filename", :path => ":rails_root/public/system/attachments/:id/:style/:filename"
 
   validates_attachment_presence :attachment
   

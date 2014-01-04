@@ -17,9 +17,7 @@ class Email < ActiveRecord::Base
   validates_inclusion_of :status, :in => Email_Status_Group_All;
   validates_format_of :sender, :with => Event::EmailRegex, :multiline => true;
 
-  def headerless_contents
-    segments = contents.split(/\n[\r]*\n/)
-    contents = segments[2, segments.size()].join("\n\n")
+  def quoteless_contents
     contents.lines.reject { |l| l[0] == ">" }.join("")
   end
 

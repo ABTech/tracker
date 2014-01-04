@@ -28,7 +28,7 @@
       <%= link_to(email.timestamp.strftime("%b %d @ %I:%M %p") + " - " + email.subject, {:controller => "email", :action => "view", :id => email.id}) %>
     </strong><br/>
 
-    <%= simple_format(email.headerless_contents) %>
+    <%= simple_format(email.quoteless_contents) %>
     </li>
   <% end %>
   </ul>

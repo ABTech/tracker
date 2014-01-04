@@ -97,12 +97,13 @@ td input {
     <b>Date:</b> <%= @email.timestamp.strftime("%A, %B %d at %I:%M %p") %><br/>
     <b>Sender:</b> <%= @email.sender %><br/>
     <b>Subject:</b> <%= @email.subject %><br/>
-    <%= simple_format(h @email.headerless_contents)%>
+    <%= simple_format(h @email.quoteless_contents)%>
   </div>
   <div id="full-div" class="hidden">
     <b>Date:</b> <%= @email.timestamp.strftime("%A, %B %d at %I:%M %p") %><br/>
     <b>Sender:</b> <%= @email.sender %><br/>
     <b>Subject:</b> <%= @email.subject %><br/>
+    <%= simple_format(h @email.headers) %>
     <%= simple_format(h @email.contents)%>
   </div>
 </div>

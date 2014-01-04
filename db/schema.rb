@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140104160318) do
+ActiveRecord::Schema.define(version: 20140104165150) do
 
   create_table "accounts", force: true do |t|
     t.string  "name",      null: false
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140104160318) do
     t.string   "status",     default: "New", null: false
     t.string   "subject"
     t.string   "message_id",                 null: false
+    t.text     "headers"
   end
 
   add_index "emails", ["contents"], name: "emails_contents_index", type: :fulltext

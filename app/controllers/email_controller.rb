@@ -63,7 +63,7 @@ class EmailController < ApplicationController
                 message.subject = envelope.subject
                 message.message_id  = envelope.message_id
 
-                message.contents = "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n"
+                message.headers = "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n"
 
                 # conveniently the formats are all the same, so just look through a 
                 # list of parameters to check for addresses
@@ -72,21 +72,20 @@ class EmailController < ApplicationController
                     val = eval("envelope.#{prop}")
                     if val
                         val.each do |addr|
-                            message.contents << "#{prop}: #{addr.mailbox}@#{addr.host} (#{addr.name})\n"
+                            message.headers << "#{prop}: #{addr.mailbox}@#{addr.host} (#{addr.name})\n"
                         end
                     end
                 end
                 
                 message.event_id = nil
 
-                message.contents << "\n"
                 # get the actual contents, finding the text multipart segment
                 # if we've got a multipart message (a message with attachment)
                 structure = fetchd.attr["BODYSTRUCTURE"]
                 if structure.multipart?
-                    message.contents << imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n"
+                    message.contents = imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n"
                 else
-                    message.contents << fetchd.attr["RFC822"] << "\n"
+                    message.contents = fetchd.attr["RFC822"] << "\n"
                 end
                 
                 # cyrus returns buggy unicode data in the guise of 8-bit ascii.
@@ -272,7 +271,7 @@ class EmailController < ApplicationController
         end
         @outgoingemail.contents = "\nOn #{@email.timestamp.strftime('%b %d, %Y at %I:%M %p')}, #{@email.sender} wrote:\n\n"
 
-        @email.headerless_contents.each_line do |line|
+        @email.contents.each_line do |line|
             @outgoingemail.contents << "> " + line;
         end
     end

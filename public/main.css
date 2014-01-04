@@ -256,6 +256,7 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-container {
   width: 80%;
   margin: 1em auto;
+  font-size: 11px;
 }
 
 #event-left {
@@ -266,7 +267,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-info {
   background: #f7f7f7;
   border: 1px solid #ccc;
-  border-radius: 4px;
   padding: .5em 1em;
   margin-bottom: 1em;
 }
@@ -295,7 +295,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-schedule {
   margin-bottom: 1em;
   border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 #event-schedule table {
@@ -332,10 +331,13 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   white-space: nowrap;
 }
 
+#event-schedule td.es-locequip {
+  border-right: none;
+}
+
 #event-emails {
   background: #f7f7f7;
   border: 1px solid #ccc;
-  border-radius: 4px;
   padding: .5em 1em;
   margin-bottom: 1em;
 }
@@ -351,7 +353,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   float: right;
   background: #f7f7f7;
   border: 1px solid #ccc;
-  border-radius: 4px;
   padding: .5em 1em;
   margin-bottom: 1em;
 }
@@ -377,7 +378,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-attachments {
   background: #f7f7f7;
   border: 1px solid #ccc;
-  border-radius: 4px;
   padding: .5em 1em;
   margin-bottom: 1em;
 }

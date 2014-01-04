@@ -122,7 +122,7 @@ class EquipmentController < ApplicationController
     if(!@item)
       flash[:error] = "Please select a valid item.";
     end
-    render(:action => "equipment/edititem", :layout => false);
+    render :layout => false
   end
 
   def editgroup
@@ -132,7 +132,7 @@ class EquipmentController < ApplicationController
     if(!@category)
       flash[:error] = "Please select a valid category.";
     end
-    render(:action => "equipment/editgroup", :layout => false);
+    render :layout => false
   end
 
   def saveitem
@@ -141,11 +141,11 @@ class EquipmentController < ApplicationController
     record = Equipment.find(params['id']);
     if(!record)
       flash[:error] = "Please select a valid item.";
-      render(:action => "equipment/edititem", :layout => false);
+      render :layout => false
     else
       record.update_attributes(params['item']);
       record.save();
-      render(:action => "equipment/saveitem", :layout => false);
+      render :layout => false
     end
   end
 
@@ -155,11 +155,11 @@ class EquipmentController < ApplicationController
     record = EquipmentCategory.find(params['id']);
     if(!record)
       flash[:error] = "Please select a valid category.";
-      render(:action => "equipment/editgroup", :layout => false);
+      render :layout => false
     else
       record.update_attributes(params['category']);
       record.save();
-      render(:action => "equipment/savegroup", :layout => false);
+      render :layout => false
     end
   end
 

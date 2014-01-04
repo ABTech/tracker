@@ -258,9 +258,17 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin-right: 2em;
 }
 
-#event-left {
-  float: left;
-  width: 80%;
+@media (min-width: 900px) {
+  #event-left {
+    float: left;
+    width: 80%;
+  }
+  
+  #event-roles,
+  #event-more {
+    width: 15%;
+    float: right;
+  }
 }
 
 #event-info {
@@ -349,8 +357,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-roles,
 #event-more {
-  width: 15%;
-  float: right;
   background: #f7f7f7;
   border: 1px solid #ccc;
   padding: .5em 1em;

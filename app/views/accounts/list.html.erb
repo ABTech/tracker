@@ -62,6 +62,7 @@ td.paid { font-weight: bold; }
       <%= link_to("Audit Completed Events", :action => "events") %><br/>
       <%= link_to("List Invoices", :controller => "invoice", :action => "list") %><br/>
       <%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %><br />
+      <%= link_to "View Accounts", accounts_path %><br>
     </div>
   </td><td>
     <%= render :partial => "list", :locals => {:is_credit => true} %>

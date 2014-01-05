@@ -130,26 +130,37 @@ class AccountsController < ApplicationController
   end
 
   def confirm_paid
-    flash[:error] = ""
     date = params["date"]
-
+    
+    completed = 0
+    
     date.keys.each do |key|
       if(date[key].empty?)
         next
       end
 
       rec = Journal.find(key.to_i())
-      rec.date_paid = Date.parse(date[key], true)
+      begin
+        rec.date_paid = Date.parse(date[key], true)
+      rescue ArgumentError
+        flash[:error] = "Invalid date for event #{rec.invoice.event.id}"
+        redirect_to :action => "unpaid"
+        return
+      end
 
       if(rec.valid?)
         rec.save()
+        completed += 1
       else
+        flash[:error] ||= ""
         rec.errors.each_full do |err|
           flash[:error] = flash[:error] + "<br/>" + err
         end
       end
     end
+    
+    flash[:notice] = "#{completed} JEs marked as paid." if completed > 0
 
-    redirect_to(:action => "unpaid")
+    redirect_to :action => "unpaid"
   end
 end

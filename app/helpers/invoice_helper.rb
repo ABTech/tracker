@@ -49,6 +49,7 @@ module InvoiceHelper
     if(params['journal_invoice_create'])
       params['journal_invoice']['amount']=invoice.total
       journal = JeInv.new(params['journal_invoice']);
+      journal.event = invoice.event
       if(journal.valid?)
         invoice.journal_invoice = journal;
       else
@@ -56,6 +57,10 @@ module InvoiceHelper
           errors += err + "<br />";
         end
       end
+    end
+    
+    if params['journal_invoice_markpaid']
+      invoice.journal_invoice.update(params['journal_invoice'])
     end
 
     return notices, errors;

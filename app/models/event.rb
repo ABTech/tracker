@@ -11,6 +11,7 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :eventdates, :allow_destroy => true
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
   accepts_nested_attributes_for :attachments, :allow_destroy => true
+  accepts_nested_attributes_for :invoices
   
   attr_accessor :org_type, :org_new
   
@@ -18,7 +19,7 @@ class Event < ActiveRecord::Base
   before_save :handle_organization, :ensure_tic, :sort_roles
   after_initialize :default_values
   
-  attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes, :attachments_attributes
+  attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes, :attachments_attributes, :invoices_attributes
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
@@ -115,6 +116,16 @@ class Event < ActiveRecord::Base
   def members
     @members or @members = event_roles.inject(Array.new) do |uniq_roles, er| 
       ( uniq_roles << er.member unless er.member.nil? or uniq_roles.any? { |ur| ur.id == er.member_id } ) or uniq_roles 
+    end
+  end
+  
+  def journals_total
+    journals.reduce(0) do |memo,journal|
+      if journal.account.is_credit?
+        memo + journal.amount
+      else
+        memo - journal.amount
+      end
     end
   end
   

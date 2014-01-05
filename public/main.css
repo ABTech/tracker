@@ -399,7 +399,8 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-invoices h4,
 #event-attachments h4,
 #event-email-outline h4,
-#event-comments h4 {
+#event-comments h4,
+#event-finances h4 {
   margin: 0;
   text-align: center;
 }
@@ -419,6 +420,43 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-comments form input[type=submit] {
   margin-top: 1em;
+}
+
+#event-finances table td.money,
+#event-finances table th.money {
+  text-align: right;
+}
+
+#event-finances {
+  width: 100%;
+  clear: both;
+  background-color: #f7f7f7;
+  padding-top: .5em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+}
+
+#event-finances table {
+  width: 100%;
+  margin-top: .5em;
+}
+
+#event-finances table th {
+  font-weight: bold;
+  background-color: #f7f7f7;
+  padding: 6px 12px;
+  text-align: left;
+  border-top: 1px solid #ccc;
+}
+
+#event-finances table td {
+  background-color: #f9f9f9;
+  padding: 6px 6px;
+  vertical-align: top;
+}
+
+#event-finances form {
+  display: inline;
 }
 
 .event-form td:first-child {

@@ -80,20 +80,22 @@ class InvoiceController < ApplicationController
     end
 
     nots, errs = InvoiceHelper.update_invoice(@invoice, params);
-    flash[:notice] = nots;
-    flash[:error] = errs;
+    flash[:notice] = nots if !nots.empty?
+    flash[:error] = errs if !errs.empty?
 
     # --------------------
     # save invoice
     if(@invoice.save())
+      flash[:notice] ||= ""
       flash[:notice] += "Invoice Saved";
+      redirect_to view_invoice_index_url(:id => @invoice.id)
     else
+      flash[:error] ||= ""
       @invoice.errors.each_full() do |err|
         flash[:error] += err + "<br />";
       end
+      redirect_to edit_invoice_index_url(@invoice)
     end
-
-    redirect_to(:action => "edit", :id => @invoice.id);
   end
 
   def list

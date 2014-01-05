@@ -1,0 +1,61 @@
+<div id="dialog"></div>
+
+<div id="event-container">
+  <h2>Finances for "<%= link_to @event.title, @event %>"</h2>
+  
+  <% @event.invoices.each do |invoice| %>
+  <table width="100%" border="0" class="generic">
+    <tr>
+      <th colspan=2>Invoice Summary: <%= invoice.memo %></th>
+    </tr>
+    <tr>
+      <th>Created on:</th>
+      <td><%= invoice.created_at.strftime("%A, %B %d %Y, %I:%M %p") %>
+    </tr>
+    <tr>
+      <th>Status:</th>
+      <td><%= invoice.status %></td>
+    </tr>
+    <tr>
+      <th>Recognized?</th>
+      <td><%= invoice.recognized? ? "yes" : "no" %></td>
+    </tr>
+    <tr>
+      <th>Invoice JE:</th>
+      <td>
+        <% if invoice.journal_invoice %>
+          <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Invoice Paid JE:</th>
+      <td>
+        <% if invoice.journal_invoice and invoice.journal_invoice.date_paid %>
+          <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Payment Type:</th>
+      <td><%= invoice.payment_type %> <%= invoice.oracle_string %></td>
+    </tr>
+    <tr>
+      <th>Invoice Total:</th>
+      <td><%= number_to_currency invoice.total %></td>
+    </tr>
+    <tr>
+      <th>Actions:</th>
+      <td>
+        <ul class="simple">
+          <li><%= link_to "Show full invoice", view_invoice_index_url(:id => invoice.id) %>.</li>
+          <li><%= link_to "Edit invoice", edit_invoice_url(invoice) %>.</li>
+          <li><%= link_to "Preview invoice", prettyView_invoice_index_url(:id => invoice.id) %>.</li>
+          <li><%= link_to "Print invoice", prettyView_invoice_index_url(:id => invoice.id, :format => :pdf) %>.</li>
+          <li><%= link_to "Email invoice", email_confirm_invoice_index_url(:id => invoice.id, :format => :js), :remote => true %>.</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+  <% end %>
+</div>

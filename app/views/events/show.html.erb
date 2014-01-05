@@ -144,6 +144,9 @@
     <h4>More</h4>
   
     <ul>
+      <% if current_member.authorized? "events/finance" %>
+        <li><%= link_to "View finances", finance_event_url(@event) %></li>
+      <% end %>
       <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
       <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
     </ul>

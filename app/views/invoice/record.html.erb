@@ -5,7 +5,6 @@
   <% @invoice_form_name = "invoiceform"; %>
 
   <%= render :partial => 'record' %>
-
   <br>
   <!-- form submission -->
   <table class="generic">
@@ -14,7 +13,7 @@
       <td width="75" align="right">&nbsp;</td>
       <td align="left"><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %>
         -- <%= link_to "View", { :action=>"prettyView",:id=>@invoice.id } %> -- <%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id}%>
-        -- <%= link_to "Email", :url => {:action=>"email_confirm",:id=>@invoice.id, :format=>:js}, :remote => true%>
+        -- <%= link_to "Email", :url => email_confirm_invoice_index_url(:id => @invoice.id, :format => :js), :remote => true %>
     <% else %>
       <td width="75" align="right">&nbsp;</td>
       <td align="left"><input type="submit" value="<%= @mode %>"/><%= link_to "view", { :action => "view", :id => @invoice.id } %></td>

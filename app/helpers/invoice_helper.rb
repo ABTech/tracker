@@ -24,7 +24,7 @@ module InvoiceHelper
         else
           line = InvoiceLine.update(params[key]["id"], params[key]);
         
-          line.errors.each_full() do |err|
+          line.errors.each do |err|
             errors += err + "<br />";
           end
           
@@ -52,7 +52,7 @@ module InvoiceHelper
       if(journal.valid?)
         invoice.journal_invoice = journal;
       else
-        journal.errors.each_full() do |err|
+        journal.errors.each do |err|
           errors += err + "<br />";
         end
       end

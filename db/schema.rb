@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140105045703) do
+ActiveRecord::Schema.define(version: 20140105055652) do
 
   create_table "accounts", force: true do |t|
     t.string  "name",      null: false
@@ -29,20 +29,6 @@ ActiveRecord::Schema.define(version: 20140105045703) do
     t.datetime "updated_at"
     t.datetime "created_at"
     t.integer  "journal_id"
-  end
-
-  create_table "bugs", force: true do |t|
-    t.integer  "member_id"
-    t.datetime "submitted_on"
-    t.text     "description",                  null: false
-    t.boolean  "confirmed",    default: false, null: false
-    t.boolean  "resolved",     default: false, null: false
-    t.datetime "resolved_on"
-    t.text     "comment"
-    t.boolean  "closed",       default: false, null: false
-    t.string   "priority"
-    t.datetime "created_on"
-    t.datetime "updated_on"
   end
 
   create_table "comments", force: true do |t|
@@ -214,13 +200,6 @@ ActiveRecord::Schema.define(version: 20140105045703) do
     t.text   "details"
   end
 
-  create_table "member_filters", force: true do |t|
-    t.string  "name",         default: "new filter", null: false
-    t.string  "filterstring"
-    t.integer "displaylimit", default: 0,            null: false
-    t.integer "member_id",                           null: false
-  end
-
   create_table "members", force: true do |t|
     t.string   "namefirst",                            null: false
     t.string   "namelast",                             null: false
@@ -261,20 +240,6 @@ ActiveRecord::Schema.define(version: 20140105045703) do
   end
 
   add_index "organizations", ["name"], name: "organizations_name_index", using: :btree
-
-  create_table "pagers", force: true do |t|
-    t.string  "pagertype",     null: false
-    t.string  "connectionstr", null: false
-    t.integer "member_id",     null: false
-    t.integer "priority",      null: false
-  end
-
-  create_table "pages", force: true do |t|
-    t.datetime "created_on"
-    t.text     "message",    null: false
-    t.integer  "priority",   null: false
-    t.integer  "member_id",  null: false
-  end
 
   create_table "permissions", force: true do |t|
     t.string "pattern"

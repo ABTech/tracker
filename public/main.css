@@ -427,6 +427,10 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   text-align: right;
 }
 
+#event-finances table tr+tr {
+  border-top: 1px solid #eee;
+}
+
 #event-finances {
   width: 100%;
   clear: both;

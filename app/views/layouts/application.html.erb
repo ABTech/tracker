@@ -5,7 +5,7 @@
   <title>ABTT - <%= @title %></title>
   <link href="/main.css" rel="stylesheet" type="text/css" />
   <link href="/stylesheets/icon-font.css" rel="stylesheet" type="text/css" />
-  <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%
     def better_select_date(startdate, object, field)
         return select_year(startdate, :prefix => "#{object}[#{field}(1i)]", :discard_type => true) + 
@@ -14,7 +14,6 @@
     end
   %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>

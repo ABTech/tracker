@@ -28,7 +28,7 @@ class UseraccountController < ApplicationController
 
   def logout
     if(logged_in?)
-      self.current_member.forget_me();
+      #self.current_member.forget_me();
     end
     cookies.delete( :auth_token );
     reset_session();

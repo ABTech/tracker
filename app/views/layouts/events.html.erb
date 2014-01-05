@@ -43,13 +43,10 @@
           <input type="hidden" name="selected" value="search"/>
           <input id="search" name="q" type="text" value="Search" class="search_empty" onFocus="focus_search()" onBlur="blur_search()"/>
         </form><br/>
-        Create a <%= link_to("new event", new_event_path) %>.<br/>
-        There are <%= link_to(Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]).to_s + " incomplete events", {:controller => 'events', :action => 'index', :selected => "incomplete"}) %>!
-                          <br />
-                          <br />
-                          <%= link_to "Lost Events", lost_events_path %>
-        <br />
-        <br />
+        <% if content_for?(:sidebar) %>
+          <%= yield :sidebar %>
+        <% end %>
+        
         Submit a <%= link_to "tracker bug", "https://github.com/ABTech/abtt/issues" %>. <%# this link could be a modal popup %>
         <!-- Tracker revision -->
     <div id="version">

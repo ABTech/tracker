@@ -258,19 +258,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin-right: 2em;
 }
 
-@media (min-width: 900px) {
-  #event-left {
-    float: left;
-    width: 80%;
-  }
-  
-  #event-roles,
-  #event-more {
-    width: 15%;
-    float: right;
-  }
-}
-
 #event-info {
   background: #f7f7f7;
   border: 1px solid #ccc;
@@ -302,6 +289,9 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-schedule {
   margin-bottom: 1em;
   border: 1px solid #ccc;
+  width: 66%;
+  float: left;
+  box-sizing: border-box;
 }
 
 #event-schedule table {
@@ -355,7 +345,16 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin: 0;
 }
 
-#event-roles,
+#event-roles {
+  box-sizing: border-box;
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  padding: .5em 1em;
+  margin-bottom: 1em;
+  width: 33%;
+  float: right;
+}
+
 #event-more {
   background: #f7f7f7;
   border: 1px solid #ccc;
@@ -388,6 +387,7 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   border: 1px solid #ccc;
   padding: .5em 1em;
   margin-bottom: 1em;
+  clear: both;
 }
 
 #event-notes h4,

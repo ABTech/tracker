@@ -70,10 +70,14 @@ class EventRole < ActiveRecord::Base
   end
 
   def to_s
-    if(assigned?)
-      return role() + ": " + member.fullname;
+    role + ": " + assigned_to
+  end
+  
+  def assigned_to
+    if assigned?
+      member.fullname
     else
-      return role() + ": (unassigned)";
+      "(unassigned)"
     end
   end
 

@@ -286,12 +286,14 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin: 0 7px 6px 0;
 }
 
+#event-schedule-container {
+  width: 66%;
+  float: left;
+}
+
 #event-schedule {
   margin-bottom: 1em;
   border: 1px solid #ccc;
-  width: 66%;
-  float: left;
-  box-sizing: border-box;
 }
 
 #event-schedule table {
@@ -346,14 +348,16 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin: 0;
 }
 
+#event-roles-container {
+  width: 33%;
+  float: right;
+}
+
 #event-roles {
-  box-sizing: border-box;
   background: #f7f7f7;
   border: 1px solid #ccc;
   padding: .5em 1em;
   margin-bottom: 1em;
-  width: 33%;
-  float: right;
 }
 
 #event-more {

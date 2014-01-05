@@ -13,46 +13,50 @@
     <%= @event.publish ? "Published" : "Not Published" %>
   </div>
   
-  <div id="event-schedule">
-    <table>
-      <% @event.eventdates.each do |eventdate| %>
-        <tr>
-          <th colspan=4><%= eventdate.description %></th>
-        </tr>
-        <% eventdate.times.each do |time| %>
+  <div id="event-schedule-container">
+    <div id="event-schedule">
+      <table>
+        <% @event.eventdates.each do |eventdate| %>
           <tr>
-            <% if !time[:same] %>
-              <td class="es-date"><%= time[:date].strftime("%A, %b %-d, %Y") %></td>
-            <% else %>
-              <td></td>
-            <% end %>
-            <td class="es-time"><%= time[:date].strftime("%H:%M") %></td>
-            <td class="es-name"><%= time[:name] %></td>
-            <% if time == eventdate.times.first %>
-              <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
-                <b>Location:</b><br />
-                <%= eventdate.locations.join("<br />").html_safe %><br />
-                <% if !eventdate.equipment.empty? %>
-                  <br />
-                  <b>Equipment:</b><br />
-                  <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
-                <% end %>
-              </td>
-            <% end %>
+            <th colspan=4><%= eventdate.description %></th>
           </tr>
+          <% eventdate.times.each do |time| %>
+            <tr>
+              <% if !time[:same] %>
+                <td class="es-date"><%= time[:date].strftime("%A, %b %-d, %Y") %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+              <td class="es-time"><%= time[:date].strftime("%H:%M") %></td>
+              <td class="es-name"><%= time[:name] %></td>
+              <% if time == eventdate.times.first %>
+                <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
+                  <b>Location:</b><br />
+                  <%= eventdate.locations.join("<br />").html_safe %><br />
+                  <% if !eventdate.equipment.empty? %>
+                    <br />
+                    <b>Equipment:</b><br />
+                    <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </table>
+      </table>
+    </div>
   </div>
   
-  <div id="event-roles">
-    <h4>Roles</h4>
+  <div id="event-roles-container">
+    <div id="event-roles">
+      <h4>Roles</h4>
   
-    <ul>
-      <% @event.event_roles.sort.each do |role| %>
-        <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
-      <% end %>
-    </ul>
+      <ul>
+        <% @event.event_roles.sort.each do |role| %>
+          <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
   
   <% if not @event.notes.empty? %>

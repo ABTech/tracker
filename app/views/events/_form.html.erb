@@ -44,23 +44,23 @@
           <td><%= f.check_box :rental %></td>
         </tr>
         <tr>
-          <td>Published:</td>
+          <td><%= f.label :publish, "Published" %>:</td>
           <td><%= f.check_box :publish %></td>
         </tr>
         <tr>
-          <td>Contact Name:</td>
+          <td><%= f.label :contact_name, "Contact Name" %>:</td>
           <td><%= f.text_field :contact_name %></td>
         </tr>
         <tr>
-          <td>Contact Email:</td>
+          <td><%= f.label :contactemail, "Contact Email" %>:</td>
           <td><%= f.text_field :contactemail %></td>
         </tr>
         <tr>
-          <td>Contact Phone:</td>
+          <td><%= f.label :contact_phone, "Contact Phone" %>:</td>
           <td><%= f.text_field :contact_phone %></td>
         </tr>
         <tr>
-          <td>Notes:</td>
+          <td><%= f.label :notes, "Notes" %>:</td>
           <td><%= f.text_area :notes, size: "80x10" %></td>
         </tr>
       </table>

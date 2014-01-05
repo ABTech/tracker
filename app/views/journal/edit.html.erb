@@ -23,7 +23,7 @@ fieldset { width:40% }
 
 <fieldset >
 <legend>Edit a Journal Entry</legend>
-<form name="jeform" action="<%= url_for :action => "save" %>" method="post" enctype="multipart/form-data">
+<%= form_tag save_journal_index_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
 <%= hidden_field("journal", "id") %>
 <%= hidden_field("journal", "type", :value => "JeOther") %>
 <table class=listTable >
@@ -128,7 +128,7 @@ fieldset { width:40% }
 -- 
 <%= link_to "Delete Journal", journal_path(@journal),  :method => "delete", data: {:confirm => "Are you sure you want to delete this journal?" } %> -- 
 <%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
-</form>
+<% end %>
 </fieldset>
 
   

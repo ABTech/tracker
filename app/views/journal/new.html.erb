@@ -16,7 +16,7 @@ function toggle_notes(id) {
 <div style="margin-left: 20px">
   <h1>Add <%= params[:is_credit] == "true" ? "Credit" : "Debit" %> JEs</h1>
 
-  <form name="jeform" action="<%= save_journal_index_path() %>" method="post" enctype="multipart/form-data">
+  <%= form_tag save_journal_index_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
   
   <table class="generic">
           <tr><th>Date</th><th>Account</th><th>Memo</th><th>Amount</th><th>Category</th><th>Notes</th><th>Attachment</th></tr>
@@ -53,5 +53,5 @@ function toggle_notes(id) {
   <br/>
   
   <input type="submit" value="Edit Journal">
-  </form>
+  <% end %>
 </div>

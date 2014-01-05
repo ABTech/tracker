@@ -199,12 +199,11 @@ end
     <td class="listheader" align="left">Total</td>
   </tr>
 
-  <% tmp = false; %>
   <% @invoice.invoice_lines.length().times do |i| %>
     <% line = @invoice.invoice_lines[i]; %>
     <%= hidden_field_tag("line#{i}[id]", line.id) %>
 
-    <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+    <tr>
       <!-- line presets -->
       <td align="left" class="list">
         <% if(!@is_view_mode) %>
@@ -233,7 +232,7 @@ end
         <% if(@is_view_mode) %>
           <%=h line.memo() %>
           <% if line.notes && (line.notes.length > 0) then %>
-            <br><font size=-1><%= line.notes().gsub("\n","<br>") %></font>
+            <br><%= line.notes().gsub("\n","<br>") %>
           <% end %>
         <% else %>
           <%= text_field_tag("line#{i}[memo]", line.memo, :size => 35) %>
@@ -272,8 +271,6 @@ end
         <%=h number_to_currency line.total() %>
       </td>
     </tr>
-
-    <% tmp = !tmp %>
   <% end %>
   <%= hidden_field_tag("nlines", @invoice.invoice_lines.length()) %>
 

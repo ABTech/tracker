@@ -7,8 +7,7 @@ class UseraccountController < ApplicationController
     end
 
     if(current_member)
-      #Well, of course we are fat!
-      if(params["remember_me"] == "1" or true)
+      if(params["remember_me"] == "1")
           #self.current_member.remember_me();
           cookies[:auth_token] = { :value => self.current_member.remember_token , :expires => self.current_member.remember_token_expires_at }
       end

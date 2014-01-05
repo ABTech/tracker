@@ -12,10 +12,9 @@
     <th class="list">Oracle</th>
   </tr>
 
-  <% tmp = false; %>
   <% @journals.sort_by{|x| x.date }.each do |journal| %>
     <% total += journal.amount %>
-	<tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+	<tr>
       <% event = journal.invoice ? journal.invoice.event : nil %>
       <td class="list"><%= event ? event.id : "" %></td>
       <td class="list"><%= journal.date.strftime('%D') %></td>
@@ -26,7 +25,6 @@
       <td class="list"><%= event ? event.contactemail : "" %></td>
       <td class="list"><%= journal.invoice ? journal.invoice.oracle_string : "" %></td>
     </tr>
-    <% tmp = !tmp %>
   <% end %>
 
 </table>

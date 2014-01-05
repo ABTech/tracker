@@ -11,9 +11,8 @@
     <th>Relation Link</th>
   <tr>
 
-  <% tmp = false; %>
   <% for journal in @journals %>
-  <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+  <tr>
     <td class="list"><%= journal.date.strftime('%A, %B %d %Y') %></td>
     <td class="list"><%= journal.memo %></td>
     <% if(journal.account_credit_id == @account.id) %>
@@ -36,7 +35,6 @@
         unknown JE type: <%= journal.class.name %>
       <% end %>
     </td>
-    <% tmp = !tmp; %>
   <tr>
   <% end %>
 </table>

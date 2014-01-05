@@ -160,24 +160,6 @@
 	border-bottom-color: #000000;
 	border-left-color: #000000;
 }
-.listentry1 {
-	background-color: #FFFFFF;
-}
-.listentry2 {
-	background-color: #FFFFE6;
-}
-.hoverlistentry1 {
-	background-color: #FFFFFF;
-}
-.hoverlistentry2 {
-	background-color: #FFFFE6;
-}
-.hoverlistentry1:hover {
-	background-color: #6666FF;
-}
-.hoverlistentry2:hover {
-	background-color: #6666FF;
-}
 
 .snideremark {
 	color: gray;

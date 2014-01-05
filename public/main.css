@@ -338,6 +338,7 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   border: 1px solid #ccc;
   padding: .5em 1em;
   margin-bottom: 1em;
+  clear: both;
 }
 
 #event-emails h4 {

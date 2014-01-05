@@ -101,6 +101,29 @@
         </ul>
       </div>
     <% end %>
+    
+    <div id="event-comments">
+      <h4>Comments</h4>
+    
+      <% @event.comments.each do |comment| %>
+        <fieldset>
+          <legend>
+            <%= comment.member %> said on <%= comment.updated_at.strftime("%m/%d/%y at %I:%M%p") %>
+            <% if comment.member == current_member %>
+              (<%= link_to "delete", comment_url(comment), :method => :delete, :confirm => "Are you sure you would like to delete this comment?" %>)
+            <% end %>
+          </legend>
+          <%= auto_link simple_format comment.content %>
+        </fieldset>
+      <% end %>
+    
+      <%= form_for @event.comments.build do |f| %>
+        <%= f.hidden_field :event_id %>
+        <%= f.text_area :content %>
+        <br />
+        <%= f.submit "New Comment" %>
+      <% end %>
+    </div>
   </div>
   
   <div id="event-roles">
@@ -120,28 +143,5 @@
       <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
       <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
     </ul>
-  </div>
-  
-  <div id="event-comments">
-    <h4>Comments</h4>
-    
-    <% @event.comments.each do |comment| %>
-      <fieldset>
-        <legend>
-          <%= comment.member %> said on <%= comment.updated_at.strftime("%m/%d/%y at %I:%M%p") %>
-          <% if comment.member == current_member %>
-            (<%= link_to "delete", comment_url(comment), :method => :delete, :confirm => "Are you sure you would like to delete this comment?" %>)
-          <% end %>
-        </legend>
-        <%= auto_link simple_format comment.content %>
-      </fieldset>
-    <% end %>
-    
-    <%= form_for @event.comments.build do |f| %>
-      <%= f.hidden_field :event_id %>
-      <%= f.text_area :content %>
-      <br />
-      <%= f.submit "New Comment" %>
-    <% end %>
   </div>
 </div>

@@ -1,4 +1,5 @@
 <h2><%= @org.id %>: <%= @org.name %></h2>
+<p><%= link_to "Edit", edit_organization_path(@org) %></p>
 <p><b><%= @org.events.length %> Events:</b></p>
 <ul>
   <% @org.events.each do |e| %>

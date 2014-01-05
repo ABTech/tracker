@@ -40,8 +40,8 @@ fieldset { width:40% }
           <%= @is_view_mode ? @journal.date_paid.strftime("%A, %B %d %Y, %I:%M %p") : date_select( "journal", "date_paid", :include_blank => true) %>
       <% else %>
         Not paid <span id="date_paid_field" style="display: none;">
-          <%date_select("journal", "date_paid", { :include_blank => true, :default => Date.today })%>
-        </span> <a href="#" onclick="$('date_paid_field').show(); $(this).hide(); return false;"><i class="icon-pencil"></i></a>
+          <%=date_select("journal", "date_paid", { :include_blank => true, :default => Date.today })%>
+        </span> <a href="#" onclick="$('#date_paid_field').show(); $(this).hide(); return false;"><i class="icon-pencil"></i></a>
       <% end %>
     </td>
   </tr>

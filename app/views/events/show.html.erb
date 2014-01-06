@@ -23,7 +23,7 @@
       <table>
         <% @event.eventdates.each do |eventdate| %>
           <tr>
-            <th colspan=4 class="listheader"><%= eventdate.description %></th>
+            <th colspan=4><%= eventdate.description %></th>
           </tr>
           <% eventdate.times.each do |time| %>
             <tr>
@@ -69,18 +69,6 @@
     <h4>Notes</h4>
     <%= auto_link simple_format @event.notes %>
   </div>
-  <% end %>
-
-  <% if not @event.emails.empty? %>
-    <div id="event-emails">
-      <h4>Emails (<%= link_to "full view", show_email_event_url(@event) %>)</h4>
-  
-      <ul>
-        <% @event.emails.each do |email| %>
-          <li><%= link_to email.display_title, view_email_url(email) %></li>
-        <% end %>
-      </ul>
-    </div>
   <% end %>
   
   <% if current_member.authorized? "events/finance" %>
@@ -247,6 +235,9 @@
     <ul>
       <% if current_member.authorized? "events/finance" %>
         <li><%= link_to "View payroll", finance_event_url(@event) %></li>
+      <% end %>
+      <% if not @event.emails.empty? %>
+        <li><%= link_to "View emails", show_email_event_url(@event) %></li>
       <% end %>
       <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
       <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>

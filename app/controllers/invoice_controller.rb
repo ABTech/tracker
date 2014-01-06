@@ -112,12 +112,12 @@ class InvoiceController < ApplicationController
     else
       @email_to=  @invoice.event.contactemail + ","+@invoice.event.organization.org_email
     end
-    if @invoice.status == "Quote"
-      @email_cc= @invoice.event.tic.kerbid + ",abtech+billing@andrew.cmu.edu"
-      @email_content="Attached is the quote for your event with AB Tech.  If you have any questions please let us know.\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
-    else
+    if @invoice.status == "Invoice"
       @email_cc= "ritac@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
       @email_content="Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Rita Ciccariello (ritac@andrew.cmu.edu) within two weeks.\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
+    else
+      @email_cc= @invoice.event.tic.kerbid + ",abtech@andrew.cmu.edu"
+      @email_content="Attached is the quote for your event with AB Tech.  If you have any questions please let us know.\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
     end
     @email_subject ="AB Tech Billing For #{@invoice.event.title}"   
     

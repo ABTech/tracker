@@ -8,6 +8,9 @@
       <h3><%= link_to @event.organization.name, @event.organization %></h3>
     
       <b><%= @event.contact_name %></b> | <%= @event.contactemail %>
+      <% if @event.contact_phone and !@event.contact_phone.empty? %>
+        | <%= @event.contact_phone %>
+      <% end %>
     </div>
   
     <b><%= @event.status %></b>,

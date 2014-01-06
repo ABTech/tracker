@@ -175,7 +175,7 @@
       </table>
       <table class="event-finances-je">
         <tr>
-          <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true) %>, <%= link_to "Debit", new_journal_url(:is_credit => false) %>)</th>
+          <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true, :event_id => @event.id) %>, <%= link_to "Debit", new_journal_url(:is_credit => false, :event_id => @event.id) %>)</th>
           <th class="money">Credit</th>
           <th class="money">Debit</th>
         </tr>

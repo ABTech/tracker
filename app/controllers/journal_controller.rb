@@ -21,6 +21,8 @@ class JournalController < ApplicationController
     @journal.date = DateTime.now()
     @start = (Time.parse Account::Magic_Date)-1.year
     @end = (Time.parse Account::Future_Magic_Date)
+    @events = Event.where("updated_at >= ?", 1.year.ago).order("title ASC")
+    @event_id = params[:event_id] if params[:event_id]
 
     render(:action => "new")
   end
@@ -74,6 +76,10 @@ class JournalController < ApplicationController
     flash[:error] = errors unless errors.empty?
     flash[:notice] = successfully_saved.to_s + " Journal(s) Saved"
     
-    redirect_to(:controller => "accounts", :action => "list")
+    if params[:event_id]
+      redirect_to event_url(params[:event_id])
+    else
+      redirect_to(:controller => "accounts", :action => "list")
+    end
   end
 end

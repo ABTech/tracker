@@ -99,7 +99,7 @@ fieldset { width:40% }
     <td>
       <%= select("journal", "event_id", 
         Event.find(:all,
-          :conditions=>["updated_on >  ?",Time.now.years_ago(1)],
+          :conditions=>["updated_at >  ?",Time.now.years_ago(1)],
           :order => "title ASC").collect{|e| 
           [e.title, e.id]},
             {:include_blank=>true}) %>

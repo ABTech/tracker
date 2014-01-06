@@ -420,7 +420,7 @@ class EventsController < ApplicationController
   end
 
   def lost
-    @events = Event.find(:all, :order => 'updated_on desc').select { |e| e.eventdates.empty? }
+    @events = Event.find(:all, :order => 'updated_at desc').select { |e| e.eventdates.empty? }
   end
 
   private

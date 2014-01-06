@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140105055652) do
+ActiveRecord::Schema.define(version: 20140106015117) do
 
   create_table "accounts", force: true do |t|
-    t.string  "name",      null: false
-    t.boolean "is_credit", null: false
-    t.integer "position",  null: false
+    t.string   "name",       null: false
+    t.boolean  "is_credit",  null: false
+    t.integer  "position",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "attachments", force: true do |t|
@@ -40,8 +42,10 @@ ActiveRecord::Schema.define(version: 20140105055652) do
   end
 
   create_table "email_forms", force: true do |t|
-    t.string "description", null: false
-    t.text   "contents",    null: false
+    t.string   "description", null: false
+    t.text     "contents",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "emails", force: true do |t|
@@ -53,6 +57,8 @@ ActiveRecord::Schema.define(version: 20140105055652) do
     t.string   "subject"
     t.string   "message_id",                 null: false
     t.text     "headers"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "emails", ["contents"], name: "emails_contents_index", type: :fulltext
@@ -61,19 +67,23 @@ ActiveRecord::Schema.define(version: 20140105055652) do
   add_index "emails", ["subject"], name: "emails_subject_index", using: :btree
 
   create_table "equipment", force: true do |t|
-    t.integer "parent_id",   null: false
-    t.string  "description", null: false
-    t.integer "position",    null: false
-    t.string  "shortname",   null: false
+    t.integer  "parent_id",   null: false
+    t.string   "description", null: false
+    t.integer  "position",    null: false
+    t.string   "shortname",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "equipment", ["description"], name: "equipment_description_index", using: :btree
   add_index "equipment", ["parent_id"], name: "equipment_parent_id_index", using: :btree
 
   create_table "equipment_categories", force: true do |t|
-    t.string  "name",      null: false
-    t.integer "parent_id", null: false
-    t.integer "position",  null: false
+    t.string   "name",       null: false
+    t.integer  "parent_id",  null: false
+    t.integer  "position",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "equipment_categories", ["name"], name: "equipment_categories_name_index", using: :btree
@@ -99,9 +109,11 @@ ActiveRecord::Schema.define(version: 20140105055652) do
   end
 
   create_table "event_roles", force: true do |t|
-    t.integer "event_id",  null: false
-    t.integer "member_id"
-    t.string  "role",      null: false
+    t.integer  "event_id",   null: false
+    t.integer  "member_id"
+    t.string   "role",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "event_roles", ["event_id"], name: "event_roles_event_id_index", using: :btree
@@ -115,6 +127,8 @@ ActiveRecord::Schema.define(version: 20140105055652) do
     t.datetime "calldate"
     t.datetime "strikedate"
     t.string   "description", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "eventdates", ["description"], name: "eventdates_description_index", using: :btree
@@ -133,13 +147,14 @@ ActiveRecord::Schema.define(version: 20140105055652) do
     t.string   "status",          default: "Initial Request", null: false
     t.string   "contactemail"
     t.boolean  "blackout",        default: false,             null: false
-    t.datetime "updated_on"
+    t.datetime "updated_at"
     t.boolean  "publish",         default: false
     t.boolean  "rental",                                      null: false
     t.string   "contact_name",    default: "",                null: false
     t.string   "contact_phone",   default: "",                null: false
     t.integer  "price_quote"
     t.text     "notes",                                       null: false
+    t.datetime "created_at"
   end
 
   add_index "events", ["contactemail"], name: "events_contactemail_index", using: :btree
@@ -147,21 +162,25 @@ ActiveRecord::Schema.define(version: 20140105055652) do
   add_index "events", ["title"], name: "events_title_index", using: :btree
 
   create_table "invoice_items", force: true do |t|
-    t.string  "memo",               null: false
-    t.string  "category",           null: false
-    t.integer "price_recognized",   null: false
-    t.integer "price_unrecognized", null: false
+    t.string   "memo",               null: false
+    t.string   "category",           null: false
+    t.integer  "price_recognized",   null: false
+    t.integer  "price_unrecognized", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "invoice_items", ["category"], name: "invoice_items_category_index", using: :btree
 
   create_table "invoice_lines", force: true do |t|
-    t.integer "invoice_id", null: false
-    t.string  "memo",       null: false
-    t.string  "category",   null: false
-    t.float   "price"
-    t.integer "quantity",   null: false
-    t.text    "notes"
+    t.integer  "invoice_id", null: false
+    t.string   "memo",       null: false
+    t.string   "category",   null: false
+    t.float    "price"
+    t.integer  "quantity",   null: false
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "invoice_lines", ["invoice_id"], name: "invoice_lines_invoice_id_index", using: :btree
@@ -174,6 +193,7 @@ ActiveRecord::Schema.define(version: 20140105055652) do
     t.string   "payment_type",  null: false
     t.string   "oracle_string", null: false
     t.text     "memo"
+    t.datetime "updated_at"
   end
 
   add_index "invoices", ["event_id"], name: "invoices_event_id_index", using: :btree
@@ -189,15 +209,18 @@ ActiveRecord::Schema.define(version: 20140105055652) do
     t.integer  "account_id",                               default: 1,   null: false
     t.integer  "event_id"
     t.string   "paymeth_category",                         default: ""
+    t.datetime "updated_at"
   end
 
   add_index "journals", ["invoice_id"], name: "journals_link_id_index", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string "building", null: false
-    t.string "floor",    null: false
-    t.string "room",     null: false
-    t.text   "details"
+    t.string   "building",   null: false
+    t.string   "floor",      null: false
+    t.string   "room",       null: false
+    t.text     "details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "members", force: true do |t|
@@ -234,15 +257,19 @@ ActiveRecord::Schema.define(version: 20140105055652) do
   add_index "members_roles", ["role_id"], name: "roles_users_FKIndex1", using: :btree
 
   create_table "organizations", force: true do |t|
-    t.string  "name",      default: "", null: false
-    t.integer "parent_id"
-    t.string  "org_email"
+    t.string   "name",       default: "", null: false
+    t.integer  "parent_id"
+    t.string   "org_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "organizations", ["name"], name: "organizations_name_index", using: :btree
 
   create_table "permissions", force: true do |t|
-    t.string "pattern"
+    t.string   "pattern"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "permissions_roles", id: false, force: true do |t|
@@ -254,17 +281,21 @@ ActiveRecord::Schema.define(version: 20140105055652) do
   add_index "permissions_roles", ["role_id"], name: "permissions_roles_FKIndex2", using: :btree
 
   create_table "roles", force: true do |t|
-    t.string  "name",   limit: 40,                 null: false
-    t.string  "info",   limit: 80,                 null: false
-    t.boolean "active",            default: false, null: false
+    t.string   "name",       limit: 40,                 null: false
+    t.string   "info",       limit: 80,                 null: false
+    t.boolean  "active",                default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "timecard_entries", force: true do |t|
-    t.integer "member_id"
-    t.float   "hours"
-    t.integer "eventdate_id"
-    t.integer "timecard_id"
-    t.float   "payrate"
+    t.integer  "member_id"
+    t.float    "hours"
+    t.integer  "eventdate_id"
+    t.integer  "timecard_id"
+    t.float    "payrate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "timecards", force: true do |t|
@@ -273,6 +304,8 @@ ActiveRecord::Schema.define(version: 20140105055652) do
     t.boolean  "submitted"
     t.datetime "start_date"
     t.datetime "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

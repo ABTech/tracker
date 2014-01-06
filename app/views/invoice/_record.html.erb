@@ -31,7 +31,7 @@ end
       <% if(@is_view_mode) %>
         <%= link_to(@invoice.event.title, event_path(@invoice.event)) %>
       <% else %>
-        <%= select("invoice", "event_id", Event.find(:all, :order => "updated_on ASC").collect{|e| [e.title, e.id]}) %>
+        <%= select("invoice", "event_id", Event.find(:all, :order => "updated_at ASC").collect{|e| [e.title, e.id]}) %>
       <% end %>
     </td>
   </tr>

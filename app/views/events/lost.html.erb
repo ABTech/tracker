@@ -4,6 +4,6 @@
 </p>
 <ul>
   <% @events.each do |event| %>
-  <li><%= link_to event.to_s, event %> last updated on <%= event.updated_on.strftime("%Y-%m-%d") %></li>
+  <li><%= link_to event.to_s, event %> last updated on <%= event.updated_at.strftime("%Y-%m-%d") %></li>
   <% end %>
 </ul>

@@ -99,4 +99,12 @@ class Eventdate < ActiveRecord::Base
     
     times
   end
+  
+  def total_hours
+    timecard_entries.map(&:hours).reduce(0, &:+)
+  end
+  
+  def total_gross
+    timecard_entries.map(&:gross_amount).reduce(0.0, &:+)
+  end
 end

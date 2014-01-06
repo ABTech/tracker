@@ -129,6 +129,10 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def total_payroll
+    eventdates.map(&:total_gross).reduce(0.0, &:+)
+  end
+  
   private
     def handle_organization
       if self.org_type == "new"

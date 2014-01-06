@@ -53,6 +53,7 @@ gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
 gem 'rails_autolink'
 gem 'prawn'
+gem 'icalendar'
 
 # This is not a long term solution
 gem "protected_attributes"

@@ -260,12 +260,12 @@ class EventsController < ApplicationController
     else
       @public = false;
     end
-
-    if(params["selected"])
-      @selected = DateTime.parse(params["selected"]);
-    else
-			@selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
-		end
+    
+    begin
+      @selected = DateTime.parse(params[:selected])
+    rescue ArgumentError
+      @selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
+    end
 
     filterStr = "(events.publish OR events.blackout)";
     if(action_name() == "calendar_full")

@@ -55,6 +55,7 @@ GEM
     highline (1.6.20)
     hike (1.2.3)
     i18n (0.6.5)
+    icalendar (1.5.0)
     jbuilder (1.5.2)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -161,6 +162,7 @@ DEPENDENCIES
   acts_as_tree
   capistrano (~> 2.1)
   coffee-rails (~> 4.0.0)
+  icalendar
   jbuilder (~> 1.2)
   jquery-rails
   mysql2

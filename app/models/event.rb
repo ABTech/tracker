@@ -133,6 +133,10 @@ class Event < ActiveRecord::Base
     eventdates.map(&:total_gross).reduce(0.0, &:+)
   end
   
+  def tic
+    event_roles.where(role: EventRole::Role_TIC).first.member
+  end
+  
   private
     def handle_organization
       if self.org_type == "new"

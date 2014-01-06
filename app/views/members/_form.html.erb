@@ -23,13 +23,7 @@
 <table class="generic">
 <tr>
   <th><%= f.label :kerbid, "Kerbid" %></th>
-  <td>
-    <% if(@member.new_record?) %>
-      <%= f.text_field :kerbid %>
-    <% else %>
-      <%= @member.kerbid %>
-    <% end %>
-  </td>
+  <td><%= f.text_field :kerbid %></td>
 </tr>
 <tr>
   <th><%= f.label :namefirst, "First name" %></th>

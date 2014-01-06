@@ -308,7 +308,9 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-schedule {
   margin-bottom: 1em;
-  border: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
 #event-schedule table {

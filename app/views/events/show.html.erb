@@ -97,6 +97,7 @@
                       <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
                     <% else %>
                       <%= hidden_field_tag "invoice[id]", invoice.id %>
+                      <%= hidden_field_tag "redirect", "event" %>
                       Create? <%= check_box_tag("journal_invoice_create", "1", false, :onChange => "$('#invoice#{invoice.id}-createje').toggle('Blind')") %>
                       <div id="invoice<%= invoice.id %>-createje" style="display: none">
                         <table class="generic">
@@ -127,6 +128,7 @@
                         <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
                       <% else %>
                         <%= hidden_field_tag "invoice[id]", invoice.id %>
+                        <%= hidden_field_tag "redirect", "event" %>
                         Mark paid?  <%= check_box_tag("journal_invoice_markpaid", "1", false, :onChange => "$('#invoice#{invoice.id}-markpaid').toggle('Blind')") %>
                         <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
                           <table class="generic">

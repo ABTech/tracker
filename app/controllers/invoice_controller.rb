@@ -88,7 +88,12 @@ class InvoiceController < ApplicationController
     if(@invoice.save())
       flash[:notice] ||= ""
       flash[:notice] += "Invoice Saved";
-      redirect_to view_invoice_index_url(:id => @invoice.id)
+      
+      if params[:redirect] == "event"
+        redirect_to event_url(@invoice.event)
+      else
+        redirect_to view_invoice_index_url(:id => @invoice.id)
+      end
     else
       flash[:error] ||= ""
       @invoice.errors.each_full() do |err|

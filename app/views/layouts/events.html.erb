@@ -10,11 +10,14 @@
     <input id="search" name="q" type="text" value="Search" class="search_empty" onFocus="focus_search()" onBlur="blur_search()"/>
   </form><br/>
   <% if content_for?(:more) %>
-    <div id="event-more">
+    <div id="event-more" class="event-box">
       <h4>More</h4>
       
       <%= yield :more %>
     </div>
+  <% end %>
+  <% if content_for?(:extra) %>
+    <%= yield :extra %>
   <% end %>
   
   Submit a <%= link_to "tracker bug", "https://github.com/ABTech/abtt/issues" %>. <%# this link could be a modal popup %>

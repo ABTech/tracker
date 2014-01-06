@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140106042140) do
+ActiveRecord::Schema.define(version: 20140106191757) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -287,7 +287,7 @@ ActiveRecord::Schema.define(version: 20140106042140) do
   create_table "timecards", force: true do |t|
     t.datetime "billing_date"
     t.datetime "due_date"
-    t.boolean  "submitted"
+    t.boolean  "submitted",    default: false, null: false
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "created_at"

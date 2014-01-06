@@ -353,15 +353,14 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   width: 100%;
 }
 
-#event-more {
+.event-box {
   background: #f7f7f7;
   border: 1px solid #ccc;
   padding: .5em 1em;
   margin-bottom: 1em;
 }
 
-#event-roles h4,
-#event-more h4 {
+.event-box h4 {
   margin: 0;
   text-align: center;
 }
@@ -374,27 +373,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-roles ul li,
 #event-more ul li {
   display: block;
-}
-
-#event-emails,
-#event-roles,
-#event-notes,
-#event-attachments,
-#event-email-outline,
-#event-comments {
-  background: #f7f7f7;
-  border: 1px solid #ccc;
-  padding: .5em 1em;
-  margin-bottom: 1em;
-}
-
-#event-emails h4,
-#event-notes h4,
-#event-attachments h4,
-#event-email-outline h4,
-#event-comments h4 {
-  margin: 0;
-  text-align: center;
 }
 
 #event-invoices,
@@ -546,4 +524,8 @@ ul.simple {
 
 ul.simple li {
   display: block;
+}
+
+h4 + ul.simple {
+  margin-top: 1em;
 }

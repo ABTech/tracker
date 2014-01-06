@@ -52,7 +52,7 @@
     </div>
   
     <% if not @event.notes.empty? %>
-    <div id="event-notes">
+    <div id="event-notes" class="event-box">
       <h4>Notes</h4>
       <%= auto_link simple_format @event.notes %>
     </div>
@@ -60,7 +60,7 @@
   </div>
   
   <div id="event-container-right">
-    <div id="event-roles">
+    <div id="event-roles" class="event-box">
       <h4>Roles</h4>
 
       <ul>
@@ -195,7 +195,7 @@
     <% end %>
   
     <% if not @event.attachments.empty? %>
-      <div id="event-attachments">
+      <div id="event-attachments" class="event-box">
         <h4>Attachments</h4>
       
         <ul>
@@ -207,7 +207,7 @@
     <% end %>
   </div>
   
-  <div id="event-comments">
+  <div id="event-comments" class="event-box">
     <h4>Comments</h4>
   
     <% @event.comments.each do |comment| %>

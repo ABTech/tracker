@@ -377,7 +377,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-emails,
 #event-roles,
 #event-notes,
-#event-invoices,
 #event-attachments,
 #event-email-outline,
 #event-comments {
@@ -389,11 +388,9 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 
 #event-emails h4,
 #event-notes h4,
-#event-invoices h4,
 #event-attachments h4,
 #event-email-outline h4,
-#event-comments h4,
-#event-finances h4 {
+#event-comments h4 {
   margin: 0;
   text-align: center;
 }
@@ -419,30 +416,24 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin-top: 1em;
 }
 
-#event-finances table td.money,
-#event-finances table th.money {
+.event-finance td.money,
+.event-finance th.money {
   text-align: right;
 }
 
-#event-finances table tr+tr {
+.event-finance tr+tr {
   border-top: 1px solid #eee;
 }
 
-#event-finances {
-  width: 100%;
-  clear: both;
-  background-color: #f7f7f7;
-  padding-top: .5em;
-  margin-bottom: 1em;
-  border: 1px solid #ccc;
-}
-
-#event-finances table {
+.event-finance {
   width: 100%;
   margin-top: .5em;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
-#event-finances table th {
+.event-finance th {
   font-weight: bold;
   background-color: #f7f7f7;
   padding: 6px 12px;
@@ -450,14 +441,10 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   border-top: 1px solid #ccc;
 }
 
-#event-finances table td {
+.event-finance td {
   background-color: #f9f9f9;
   padding: 6px 6px;
   vertical-align: top;
-}
-
-#event-finances form {
-  display: inline;
 }
 
 .event-form td:first-child {

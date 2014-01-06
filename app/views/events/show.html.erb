@@ -71,10 +71,8 @@
     </div>
   
     <% if current_member.authorized? "events/finance" %>
-      <div id="event-finances">
-        <h4>Finances</h4>
-      
-        <table class="event-finances-invoices">
+      <div id="event-invoices">
+        <table class="event-finance">
           <tr>
             <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
             <th>Status</th>
@@ -165,7 +163,10 @@
             <% end %>
           <% end %>
         </table>
-        <table class="event-finances-je">
+      </div>
+      
+      <div id="event-journals">
+        <table class="event-finance">
           <tr>
             <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true, :event_id => @event.id) %>, <%= link_to "Debit", new_journal_url(:is_credit => false, :event_id => @event.id) %>)</th>
             <th class="money">Credit</th>

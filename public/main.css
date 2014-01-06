@@ -130,7 +130,7 @@ table.eventsmain {
 	max-width: 1280px;
   margin: 0 auto;
 	margin-top: 10px;
-  margin-right: 2em;
+  padding-right: 2em;
 }
 
 table.eventsmain > tbody > tr > td {

@@ -348,6 +348,7 @@ class EmailController < ApplicationController
     def list
         @title = "Email List";
         @emails = Email.paginate(:per_page => 20, :page => params[:page]).order("timestamp DESC")
+        @file_email = Email.where(status: Email::Email_Status_Unfiled).order("timestamp ASC").first
     end
 
     def view

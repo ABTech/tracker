@@ -1,12 +1,14 @@
 module InvoiceHelper
   def self.generate_new_invoice()
-    invoice = Invoice.new();
+    invoice = Invoice.new
+    invoice.status = "Quote"
+    
     InvoiceController::New_Invoice_New_Line_Display_Count.times do
-      ln = InvoiceLine.new();
-      invoice.invoice_lines << ln;
+      ln = InvoiceLine.new
+      invoice.invoice_lines << ln
     end
 
-    return invoice;
+    return invoice
   end
 
   def self.update_invoice(invoice, params)

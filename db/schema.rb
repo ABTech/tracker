@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140106022838) do
+ActiveRecord::Schema.define(version: 20140106041444) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -210,14 +210,14 @@ ActiveRecord::Schema.define(version: 20140106022838) do
   end
 
   create_table "members", force: true do |t|
-    t.string   "namefirst",                            null: false
-    t.string   "namelast",                             null: false
-    t.string   "kerbid",                               null: false
-    t.string   "namenick",                             null: false
-    t.string   "phone",                                null: false
-    t.string   "aim",                                  null: false
-    t.string   "crypted_password",          limit: 40, null: false
-    t.string   "salt",                      limit: 40, null: false
+    t.string   "namefirst",                                         null: false
+    t.string   "namelast",                                          null: false
+    t.string   "kerbid",                                            null: false
+    t.string   "namenick",                             default: "", null: false
+    t.string   "phone",                                             null: false
+    t.string   "aim",                                               null: false
+    t.string   "crypted_password",          limit: 40,              null: false
+    t.string   "salt",                      limit: 40,              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"

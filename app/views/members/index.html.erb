@@ -34,8 +34,16 @@
         <span title="<%= role.permissions.join("\n") %>"><%=role.name%></span><br/>
       <% end %>
     </td>
-    <td title="<%= member.created_at.nil? ? '">' : "#{member.created_at.strftime("%c")}\">#{member.created_at.strftime("%m/%d/%Y")}".html_safe %></td>
-    <td title="<%= member.updated_at.nil? ? '">' : "#{member.updated_at.strftime("%c")}\">#{member.updated_at.strftime("%m/%d/%Y")}".html_safe %></td>
+    <% if member.created_at.nil? %>
+      <td></td>
+    <% else %>
+      <td title="<%= member.created_at.strftime('%c') %>"><%= member.created_at.strftime("%m/%d/%Y") %></td>
+    <% end %>
+    <% if member.updated_at.nil? %>
+      <td></td>
+    <% else %>
+      <td title="<%= member.updated_at.strftime('%c') %>"><%= member.updated_at.strftime("%m/%d/%Y") %></td>
+    <% end %>
     <td><%= link_to 'Show', :action => 'show', :id => member %></td>
     <td><%= link_to 'Edit', :action => 'edit', :id => member %></td>
     <td><%= link_to 'Destroy', { :action => 'destroy', :id => member }, :confirm => 'Are you sure?', :post => true %></td>

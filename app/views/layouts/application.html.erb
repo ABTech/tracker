@@ -65,14 +65,43 @@
 <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 <% if flash[:error] %> <div class="error"> <%= flash[:error] %> </div><% end %>
 
+<style>
+  input.search_empty, input.search_full {
+    width: 173px;
+    margin-left: -1px;
+    padding-left: 1px;
+  }
+  input.search_empty { color: #BBBBBB; border: 1px solid #BBBBBB; }
+  input.search_full { color: #000000; border: 1px solid #666666; }
+</style>
 
-<%# the event controller is special %>
-<% unless controller.controller_name == 'events' %>
-<div id="container">
-  <%= yield %>
-</div>
-<%- else -%>
-<%= yield(:content) %>
-<%- end -%>
+<script>
+  function focus_search() {
+    search = document.getElementById("search");
+    if (search.className == "search_empty") {
+      search.className = "search_full";
+      search.value = "";
+    }
+  }
+  function blur_search() {
+    search = document.getElementById("search");
+    if (search.value == "") {
+      search.className = "search_empty";
+      search.value = "Search";
+    }
+  }
+</script>
+
+<table class="eventsmain">
+  <tr>
+    <td style="padding: 0 20px">
+      <%= content_for :sidebar %>
+    </td>
+    <td style="width: 100%">
+      <%= yield %>
+    </td>
+  </tr>
+</table>
+
 </body>
 </html>

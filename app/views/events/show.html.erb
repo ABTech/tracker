@@ -231,19 +231,15 @@
   </div>
 </div>
 
-<% content_for :sidebar do %>
-  <div id="event-more">
-    <h4>More</h4>
-  
-    <ul>
-      <% if current_member.authorized? "events/finance" %>
-        <li><%= link_to "View payroll", finance_event_url(@event) %></li>
-      <% end %>
-      <% if not @event.emails.empty? %>
-        <li><%= link_to "View emails", show_email_event_url(@event) %></li>
-      <% end %>
-      <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
-      <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
-    </ul>
-  </div>
+<% content_for :more do %>
+  <ul>
+    <% if current_member.authorized? "events/finance" %>
+      <li><%= link_to "View payroll", finance_event_url(@event) %></li>
+    <% end %>
+    <% if not @event.emails.empty? %>
+      <li><%= link_to "View emails", show_email_event_url(@event) %></li>
+    <% end %>
+    <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
+    <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
+  </ul>
 <% end %>

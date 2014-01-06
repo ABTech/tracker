@@ -1,12 +1,21 @@
 <%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
 
-<% content_for :sidebar do %>
-  <div id="event-more">
-    <h4>More</h4>
-    
-    <ul>
-      <li>Create a <%= link_to("new event", new_event_path) %>.</li>
-      <li>View <%= link_to "incomplete events", {:controller => 'events', :action => 'index', :selected => "incomplete"} %>. (<%= Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]) %>)
-    </ul>
-  </div>
+<% content_for :calendar do %>
+  <%=
+  if (params[:selected] == "month" && params[:year] && params[:month])
+    selected = Date.civil(params[:year].to_i, params[:month].to_i, 1)
+  elsif (not @eventdates.empty?)
+    selected = Date.parse(@eventdates[0].startdate.to_s)
+  else
+    selected = Date.today
+  end
+  render :partial => "monthview", :locals => {:selected => selected, :dates => @monthdates, :show_arrows => true}
+  %>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li>Create a <%= link_to("new event", new_event_path) %>.</li>
+    <li>View <%= link_to "incomplete events", {:controller => 'events', :action => 'index', :selected => "incomplete"} %>. (<%= Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]) %>)
+  </ul>
 <% end %>

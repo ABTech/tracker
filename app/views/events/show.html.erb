@@ -1,24 +1,24 @@
 <div id="dialog"></div>
 
 <div id="event-container">
-  <div id="event-info">
-    <h2><%= @event.title %></h2>
+  <div id="event-container-left">
+    <div id="event-info">
+      <h2><%= @event.title %></h2>
   
-    <div id="event-org">
-      <h3><%= link_to @event.organization.name, @event.organization %></h3>
+      <div id="event-org">
+        <h3><%= link_to @event.organization.name, @event.organization %></h3>
     
-      <b><%= @event.contact_name %></b> | <%= @event.contactemail %>
-      <% if @event.contact_phone and !@event.contact_phone.empty? %>
-        | <%= @event.contact_phone %>
-      <% end %>
+        <b><%= @event.contact_name %></b> | <%= @event.contactemail %>
+        <% if @event.contact_phone and !@event.contact_phone.empty? %>
+          | <%= @event.contact_phone %>
+        <% end %>
+      </div>
+  
+      <b><%= @event.status %></b>,
+      <%= @event.rental ? "Rental" : "Full Event" %>,
+      <%= @event.publish ? "Published" : "Not Published" %>
     </div>
   
-    <b><%= @event.status %></b>,
-    <%= @event.rental ? "Rental" : "Full Event" %>,
-    <%= @event.publish ? "Published" : "Not Published" %>
-  </div>
-  
-  <div id="event-schedule-container">
     <div id="event-schedule">
       <table>
         <% @event.eventdates.each do |eventdate| %>
@@ -50,161 +50,161 @@
         <% end %>
       </table>
     </div>
+  
+    <% if not @event.notes.empty? %>
+    <div id="event-notes">
+      <h4>Notes</h4>
+      <%= auto_link simple_format @event.notes %>
+    </div>
+    <% end %>
   </div>
   
-  <div id="event-roles-container">
+  <div id="event-container-right">
     <div id="event-roles">
       <h4>Roles</h4>
-  
+
       <ul>
         <% @event.event_roles.sort.each do |role| %>
           <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
         <% end %>
       </ul>
     </div>
-  </div>
   
-  <% if not @event.notes.empty? %>
-  <div id="event-notes">
-    <h4>Notes</h4>
-    <%= auto_link simple_format @event.notes %>
-  </div>
-  <% end %>
-  
-  <% if current_member.authorized? "events/finance" %>
-    <div id="event-finances">
-      <h4>Finances</h4>
+    <% if current_member.authorized? "events/finance" %>
+      <div id="event-finances">
+        <h4>Finances</h4>
       
-      <table class="event-finances-invoices">
-        <tr>
-          <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-        <% if @event.invoices.empty? %>
+        <table class="event-finances-invoices">
           <tr>
-            <td colspan=3>There are currently no invoices for this event.</td>
+            <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
-        <% else %>
-          <% @event.invoices.each do |invoice| %>
+          <% if @event.invoices.empty? %>
             <tr>
-              <td>
-                <p><%= link_to invoice.display_title, view_invoice_index_url(:id => invoice.id) %></p>
-                <p>
-                  <%= form_tag invoice_index_url, :method => :post do %>
-                    Invoice JE:
-                    <% if invoice.journal_invoice %>
-                      <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-                    <% else %>
-                      <%= hidden_field_tag "invoice[id]", invoice.id %>
-                      <%= hidden_field_tag "redirect", "event" %>
-                      Create? <%= check_box_tag("journal_invoice_create", "1", false, :onChange => "$('#invoice#{invoice.id}-createje').toggle('Blind')") %>
-                      <div id="invoice<%= invoice.id %>-createje" style="display: none">
-                        <table class="generic">
-                          <tr><td width="70" align="right"><strong>Date:</strong></td>
-                            <td><%= better_select_date(DateTime.now(), "journal_invoice", "date") %></td></tr>
-                          <tr><td width="70" align="right"><strong>Memo:</strong></td>
-                            <td><%= text_field_tag("journal_invoice[memo]", invoice.event.organization.name + " - " + invoice.event.title, :size => 40) %></td></tr>
-                          <tr><td width="70" align="right"><strong>Account:</strong></td>
-                            <td>
-                              <%= radio_button("journal_invoice", :account_id, Account::Events_Account.id, :checked => true) %> Event
-                              <%= radio_button("journal_invoice", :account_id, Account::Rentals_Credit_Account.id) %> Rental
-                            </td>  
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td><%= submit_tag %></td>
-                          </tr>          
-                        </table>
-                      </div>
-                    <% end %>
-                  <% end %>
-                </p>
-                <% if invoice.journal_invoice %>
+              <td colspan=3>There are currently no invoices for this event.</td>
+            </tr>
+          <% else %>
+            <% @event.invoices.each do |invoice| %>
+              <tr>
+                <td>
+                  <p><%= link_to invoice.display_title, view_invoice_index_url(:id => invoice.id) %></p>
                   <p>
                     <%= form_tag invoice_index_url, :method => :post do %>
-                      Invoice Paid JE:
-                      <% if invoice.journal_invoice.date_paid %>
-                        <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+                      Invoice JE:
+                      <% if invoice.journal_invoice %>
+                        <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
                       <% else %>
                         <%= hidden_field_tag "invoice[id]", invoice.id %>
                         <%= hidden_field_tag "redirect", "event" %>
-                        Mark paid?  <%= check_box_tag("journal_invoice_markpaid", "1", false, :onChange => "$('#invoice#{invoice.id}-markpaid').toggle('Blind')") %>
-                        <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+                        Create? <%= check_box_tag("journal_invoice_create", "1", false, :onChange => "$('#invoice#{invoice.id}-createje').toggle('Blind')") %>
+                        <div id="invoice<%= invoice.id %>-createje" style="display: none">
                           <table class="generic">
-                            <tr><td width="70" align="right"><strong>Date Paid:</strong></td>
-                              <td><%= better_select_date(DateTime.now(), "journal_invoice", "date_paid") %></td>
+                            <tr><td width="70" align="right"><strong>Date:</strong></td>
+                              <td><%= better_select_date(DateTime.now(), "journal_invoice", "date") %></td></tr>
+                            <tr><td width="70" align="right"><strong>Memo:</strong></td>
+                              <td><%= text_field_tag("journal_invoice[memo]", invoice.event.organization.name + " - " + invoice.event.title, :size => 40) %></td></tr>
+                            <tr><td width="70" align="right"><strong>Account:</strong></td>
+                              <td>
+                                <%= radio_button("journal_invoice", :account_id, Account::Events_Account.id, :checked => true) %> Event
+                                <%= radio_button("journal_invoice", :account_id, Account::Rentals_Credit_Account.id) %> Rental
+                              </td>  
                             </tr>
                             <tr>
                               <td></td>
                               <td><%= submit_tag %></td>
-                            </tr>
+                            </tr>          
                           </table>
                         </div>
                       <% end %>
                     <% end %>
                   </p>
-                <% end %>
-              </td>
-              <td>
-                <%= form_for @event, html: {:id => "invoice-status-#{invoice.id}"} do |f| %>
-                  <%= f.fields_for :invoices, invoice do |ff| %>
-                    <%= ff.select :status, Invoice::Invoice_Status_Group_All, {}, :onChange => "$('#invoice-status-#{invoice.id}').submit()" %>
+                  <% if invoice.journal_invoice %>
+                    <p>
+                      <%= form_tag invoice_index_url, :method => :post do %>
+                        Invoice Paid JE:
+                        <% if invoice.journal_invoice.date_paid %>
+                          <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+                        <% else %>
+                          <%= hidden_field_tag "invoice[id]", invoice.id %>
+                          <%= hidden_field_tag "redirect", "event" %>
+                          Mark paid?  <%= check_box_tag("journal_invoice_markpaid", "1", false, :onChange => "$('#invoice#{invoice.id}-markpaid').toggle('Blind')") %>
+                          <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+                            <table class="generic">
+                              <tr><td width="70" align="right"><strong>Date Paid:</strong></td>
+                                <td><%= better_select_date(DateTime.now(), "journal_invoice", "date_paid") %></td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td><%= submit_tag %></td>
+                              </tr>
+                            </table>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </p>
                   <% end %>
-                <% end %>
-              </td>
-              <td>
-                <ul class="simple">
-                  <li><%= link_to "Show full", view_invoice_index_url(:id => invoice.id) %></li>
-                  <li><%= link_to "Edit", edit_invoice_url(invoice) %></li>
-                  <li><%= link_to "Preview", prettyView_invoice_index_url(:id => invoice.id) %></li>
-                  <li><%= link_to "Print", prettyView_invoice_index_url(:id => invoice.id, :format => :pdf) %></li>
-                  <li><%= link_to "Email", email_confirm_invoice_index_url(:id => invoice.id, :format => :js), :remote => true %></li>
-                </ul>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <%= form_for @event, html: {:id => "invoice-status-#{invoice.id}"} do |f| %>
+                    <%= f.fields_for :invoices, invoice do |ff| %>
+                      <%= ff.select :status, Invoice::Invoice_Status_Group_All, {}, :onChange => "$('#invoice-status-#{invoice.id}').submit()" %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <ul class="simple">
+                    <li><%= link_to "Show full", view_invoice_index_url(:id => invoice.id) %></li>
+                    <li><%= link_to "Edit", edit_invoice_url(invoice) %></li>
+                    <li><%= link_to "Preview", prettyView_invoice_index_url(:id => invoice.id) %></li>
+                    <li><%= link_to "Print", prettyView_invoice_index_url(:id => invoice.id, :format => :pdf) %></li>
+                    <li><%= link_to "Email", email_confirm_invoice_index_url(:id => invoice.id, :format => :js), :remote => true %></li>
+                  </ul>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </table>
-      <table class="event-finances-je">
-        <tr>
-          <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true, :event_id => @event.id) %>, <%= link_to "Debit", new_journal_url(:is_credit => false, :event_id => @event.id) %>)</th>
-          <th class="money">Credit</th>
-          <th class="money">Debit</th>
-        </tr>
-        <% if @event.journals.empty? %>
+        </table>
+        <table class="event-finances-je">
           <tr>
-            <td colspan=3>There are currently no journal entries for this event.</td>
+            <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true, :event_id => @event.id) %>, <%= link_to "Debit", new_journal_url(:is_credit => false, :event_id => @event.id) %>)</th>
+            <th class="money">Credit</th>
+            <th class="money">Debit</th>
           </tr>
-        <% else %>
-          <% @event.journals.each do |journal| %>
+          <% if @event.journals.empty? %>
             <tr>
-              <td><%= link_to journal.memo, edit_journal_url(journal) %></td>
-              <td class="money"><%= number_to_currency journal.amount if journal.account.is_credit? %></td>
-              <td class="money"><%= number_to_currency journal.amount if !journal.account.is_credit? %></td>
+              <td colspan=3>There are currently no journal entries for this event.</td>
+            </tr>
+          <% else %>
+            <% @event.journals.each do |journal| %>
+              <tr>
+                <td><%= link_to journal.memo, edit_journal_url(journal) %></td>
+                <td class="money"><%= number_to_currency journal.amount if journal.account.is_credit? %></td>
+                <td class="money"><%= number_to_currency journal.amount if !journal.account.is_credit? %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <th>Total</th>
+              <th class="money"><%= number_to_currency @event.journals_total if @event.journals_total >= 0 %>
+              <th class="money"><%= number_to_currency -@event.journals_total if @event.journals_total < 0 %></th>
             </tr>
           <% end %>
-          <tr>
-            <th>Total</th>
-            <th class="money"><%= number_to_currency @event.journals_total if @event.journals_total >= 0 %>
-            <th class="money"><%= number_to_currency -@event.journals_total if @event.journals_total < 0 %></th>
-          </tr>
-        <% end %>
-      </table>
-    </div>
-  <% end %>
+        </table>
+      </div>
+    <% end %>
   
-  <% if not @event.attachments.empty? %>
-    <div id="event-attachments">
-      <h4>Attachments</h4>
+    <% if not @event.attachments.empty? %>
+      <div id="event-attachments">
+        <h4>Attachments</h4>
       
-      <ul>
-        <% @event.attachments.each do |a| %>
-          <li><%= link_to a.attachment.original_filename, a.attachment.url %> - <%= a.friendly_size %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+        <ul>
+          <% @event.attachments.each do |a| %>
+            <li><%= link_to a.attachment.original_filename, a.attachment.url %> - <%= a.friendly_size %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
   
   <div id="event-comments">
     <h4>Comments</h4>

@@ -254,9 +254,29 @@ td.four_events, td.four_events span { background: #FFD9A6; }
 td.more_events, td.more_events span { background: #FFA6A6; }
 td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD }
 
+#main-left {
+  float: left;
+}
+
+#main-right {
+  float: right;
+}
+
 #event-container {
   font-size: 11px;
   margin-right: 2em;
+}
+
+@media (min-width: 1000px) {
+  #event-container-left {
+    width: 49%;
+    float: left;
+  }
+
+  #event-container-right {
+    width: 49%;
+    float: right;
+  }
 }
 
 #event-info {
@@ -286,11 +306,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   margin: 0 7px 6px 0;
 }
 
-#event-schedule-container {
-  width: 66%;
-  float: left;
-}
-
 #event-schedule {
   margin-bottom: 1em;
   border: 1px solid #ccc;
@@ -312,6 +327,10 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   padding: 6px 6px;
 }
 
+#event-schedule td:first-child {
+  border-left: 0;
+}
+
 #event-schedule td.es-date {
   text-align: right;
   font-weight: bold;
@@ -330,31 +349,6 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-schedule td.es-locequip {
   border-right: none;
   width: 100%;
-}
-
-#event-emails {
-  background: #f7f7f7;
-  border: 1px solid #ccc;
-  padding: .5em 1em;
-  margin-bottom: 1em;
-  clear: both;
-}
-
-#event-emails h4 {
-  text-align: center;
-  margin: 0;
-}
-
-#event-roles-container {
-  width: 33%;
-  float: right;
-}
-
-#event-roles {
-  background: #f7f7f7;
-  border: 1px solid #ccc;
-  padding: .5em 1em;
-  margin-bottom: 1em;
 }
 
 #event-more {
@@ -380,6 +374,8 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   display: block;
 }
 
+#event-emails,
+#event-roles,
 #event-notes,
 #event-invoices,
 #event-attachments,
@@ -389,9 +385,9 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   border: 1px solid #ccc;
   padding: .5em 1em;
   margin-bottom: 1em;
-  clear: both;
 }
 
+#event-emails h4,
 #event-notes h4,
 #event-invoices h4,
 #event-attachments h4,
@@ -400,6 +396,10 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
 #event-finances h4 {
   margin: 0;
   text-align: center;
+}
+
+#event-comments {
+  clear: both;
 }
 
 #event-comments fieldset+fieldset {

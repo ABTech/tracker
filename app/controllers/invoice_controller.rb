@@ -127,11 +127,27 @@ class InvoiceController < ApplicationController
       end
     end
     
-    if @invoice.status == "Invoice"
-      @email_content="Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Rita Ciccariello (ritac@andrew.cmu.edu) within two weeks.\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
-    else
-      @email_content="Attached is the quote for your event with AB Tech.  If you have any questions please let us know.\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
+    if @invoice.status == "New" or @invoice.status == "Quote"
+      @email_content = "Attached is the quote for your event with AB Tech.  Please check all information listed for accuracy, and reply with confirmation.  If you have any questions please let us know."
+    elsif @invoice.status == "Contract"
+      @email_content = "Attached is the quote for your event with AB Tech.  Please read the contract terms, and let us know if you have any questions.  Please reply with the signed contract attached, return the contract to 5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213, or fax to 412-268-5938 ATTN:  AB Tech."
+    elsif @invoice.status == "Invoice"
+      if @invoice.payment_type == "StuAct"
+        @email_content = "Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Rita Ciccariello (ritac@andrew.cmu.edu) within two weeks."
+      elsif @invoice.payment_type == "Check"
+        @email_content = "Attached is the final invoice for your event with AB Tech.  Please make all checks payable to Carnegie Mellon University, with AB Tech listed in the memo ﬁeld. Checks should be sent to 5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213."
+      elsif @invoice.payment_type == "Oracle"
+        if @invoice.oracle_string.empty?
+          @email_content = "Attached is the final invoice for your event with AB Tech.  We need your Oracle string to complete payment.  Please reply all to this email with your Oracle String and the total amount will automatically be deducted from your account by Rita Ciccariello (ritac@andrew.cmu.edu) within two weeks."
+        else
+          @email_content = "Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Rita Ciccariello (ritac@andrew.cmu.edu) within two weeks."
+        end
+      end
+    elsif @invoice.status == "Received"
+      @email_content = "Attached is the final invoice for your event with AB Tech.  We have received your payment, and this copy is for your reference only. "
     end
+        
+    @email_content += "\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
     
     @email_subject = "AB Tech Billing For #{@invoice.event.title}"   
     

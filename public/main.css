@@ -395,6 +395,11 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   text-align: center;
 }
 
+#event-invoices,
+#event-journals {
+  margin-bottom: 1em;
+}
+
 #event-comments {
   clear: both;
 }

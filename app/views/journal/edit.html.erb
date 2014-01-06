@@ -68,7 +68,11 @@ fieldset { width:40% }
   <tr>
     <th>Amount:  </th>
     <td>
-      <%= @is_view_mode ? number_to_currency(@journal.amount) : text_field("journal", "amount").html_safe %>
+      <% if @journal.invoice or @is_view_mode %>
+        <%= number_to_currency(@journal.amount) %>
+      <% else %>
+        <%= text_field("journal", "amount") %>
+      <% end %>
     </td>
   </tr>
   <tr>

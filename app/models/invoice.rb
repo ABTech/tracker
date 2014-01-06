@@ -1,16 +1,16 @@
 class Invoice < ActiveRecord::Base
   belongs_to :event
-  has_many :invoice_lines, :dependent => :destroy;
-  has_one :journal_invoice, :class_name => "Journal", :foreign_key => "invoice_id", :dependent => :destroy;
+  has_many :invoice_lines, :dependent => :destroy
+  has_one :journal_invoice, :class_name => "Journal", :foreign_key => "invoice_id", :dependent => :destroy
 
-  Payment_Types = ["StuAct", "Check", "Oracle"];
-  Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received" ];
+  Payment_Types = ["StuAct", "Check", "Oracle"]
+  Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received" ]
 
   attr_accessible :event_id, :status, :recognized, :payment_type, :oracle_string, :memo
 
   validates_presence_of :status, :event, :event_id
-  validates_inclusion_of :status, :in => Invoice_Status_Group_All;
-  validates_associated :event;
+  validates_inclusion_of :status, :in => Invoice_Status_Group_All
+  validates_associated :event
 
   def total
     return invoice_lines.inject(0) {|sum,line| sum + line.total};

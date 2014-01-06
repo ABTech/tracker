@@ -5,6 +5,6 @@
   Attachment: <%=link_to @attach_title, {:action=>"prettyView",:id=>@invoice.id, :format=>:pdf }, :target=>"_blank"%><br />
   <%= text_area_tag "content", @email_content, :size => "40x15" %><br />
   <% if @invoice.status == "Invoice" %>
-  Create JE and Mark as Complete?: <%=check_box_tag "mark_completed", "true", true%>
+  Create JE and Mark as Billing Pending?: <%=check_box_tag "mark_completed", "true", true%>
   <% end %>
 <% end %>

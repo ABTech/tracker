@@ -1,6 +1,5 @@
 <table class="generic">
   <tr class="listheader">
-    <th class="list">ID</th>
     <th class="list">Date</th>
 	<th class="list">Organization</th>
     <th class="list">Name</th>
@@ -8,10 +7,9 @@
     <th class="list">Invoiced</th>
   </tr>
 
-  <% @events.each do |event| %>
+  <% @events.sort{|x, y| y.id <=> x.id}.each do |event| %>
     <% inv = event.invoices.empty? ? nil : event.invoices[0] %>
     <tr>
-      <td class="list"><%= event.id %></td>
       <td class="list"><%= (event.eventdates.size > 0) ? event.eventdates[0].startdate.strftime('%D') : 'unknown' %></td>
 	  <td class="list"><%= event.organization.name %></td>
       <td class="list"><%= link_to(event.title, event_path(event)) %></td>

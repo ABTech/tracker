@@ -18,13 +18,11 @@
 
 <% end %>
 
-<% if @is_view_more %>
+<% if @is_view_mode %>
   <% content_for :more do %>
-    <ul>
-      <li><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %></li>
-      <li><%= link_to "Preview", { :action=>"prettyView",:id=>@invoice.id } %></li>
-      <li><%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id} %></li>
-      <li><%= link_to "Email", email_confirm_invoice_index_url(:id => @invoice.id, :format => :js), :remote => true %></li>
-    </ul>
+    <li><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %></li>
+    <li><%= link_to "Preview", { :action=>"prettyView",:id=>@invoice.id } %></li>
+    <li><%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id} %></li>
+    <li><%= link_to "Email", email_confirm_invoice_index_url(:id => @invoice.id, :format => :js), :remote => true %></li>
   <% end %>
 <% end %>

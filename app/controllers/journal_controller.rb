@@ -1,4 +1,5 @@
 class JournalController < ApplicationController
+  layout "finance"
 
   before_filter :login_required
 

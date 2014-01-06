@@ -22,4 +22,6 @@
 
 <br />
 
-<%= link_to 'New invoice_items', :action => 'new' %>
+<% content_for :more do %>
+  <li><%= link_to 'New invoice item', :action => 'new' %></li>
+<% end %>

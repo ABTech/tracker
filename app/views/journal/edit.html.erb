@@ -129,10 +129,9 @@ fieldset { width:40% }
   </tr>
 </table>
 <%= submit_tag 'Edit Journal' %>
--- 
-<%= link_to "Delete Journal", journal_path(@journal),  :method => "delete", data: {:confirm => "Are you sure you want to delete this journal?" } %> -- 
-<%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
 <% end %>
 </fieldset>
 
-  
+<% content_for :more do %>
+  <li><%= link_to "Delete Journal", journal_path(@journal),  :method => "delete", data: {:confirm => "Are you sure you want to delete this journal?" } %></li>
+<% end %>

@@ -1,4 +1,5 @@
 class InvoiceController < ApplicationController
+  layout "finance"
 
   before_filter :login_required;
 

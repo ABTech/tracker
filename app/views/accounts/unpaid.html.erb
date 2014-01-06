@@ -1,7 +1,9 @@
 <%= form_tag({:action => "confirm_paid"}) do %>
 <% total = 0 %>
 
-<%= link_to("Printable list", :action => "unpaid_print")%>
+<% content_for :more do %>
+  <li><%= link_to("Printable list", :action => "unpaid_print") %></li>
+<% end %>
 
 <table class="generic">
 

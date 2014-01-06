@@ -1,4 +1,5 @@
 class InvoiceItemsController < ApplicationController
+  layout "finance"
 
   def index
     list

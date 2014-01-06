@@ -127,7 +127,8 @@ margin: 20px;
 /* =======================  EVENTS LIST ======================= */
 
 table.eventsmain {
-	width: 100%;
+	max-width: 1280px;
+  margin: 0 auto;
 	margin-top: 10px;
 }
 

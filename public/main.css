@@ -197,6 +197,11 @@ table.eventslist span.unknown {
 	color: #EE6666;
 }
 
+table.eventslist .ticless {
+  background: #F2C7C7;
+  font-weight: bold;
+}
+
 /* ======================= CALENDAR ======================= */
 
 table.calendarmain {

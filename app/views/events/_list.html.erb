@@ -127,7 +127,7 @@
           </small>
         </td>
         <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>
-        <td style="background: #F2C7C7; font-weight: bold;">
+        <td class="ticless">
         <% else %>
         <td>
         <% end %>

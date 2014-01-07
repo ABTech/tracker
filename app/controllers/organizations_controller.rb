@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
 
   def index
     @title = "Organizations"
-    @orgs = Organization.find(:all)
+    @orgs = Organization.order("name ASC")
   end
 
   def new

@@ -562,8 +562,8 @@ a.tablelink:hover {color:#99F;}
 td.unpaid { font-weight: normal; }
 td.paid { font-weight: bold; }
 
-fieldset#account-totals {
+fieldset.account-totals {
   border: 1px solid #BBBBBB;
   margin-bottom: 1em;
 }
-fieldset#account-totals legend { font-size: 16px; }
+fieldset.account-totals legend { font-size: 16px; }

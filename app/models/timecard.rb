@@ -52,7 +52,7 @@ class Timecard < ActiveRecord::Base
   end
 
   def self.valid_timecards
-    Timecard.find(:all, :order => 'due_date DESC').select {|timecard| !timecard.submitted }
+    Timecard.where(submitted: false).order("due_date DESC")
   end
 
   DAY = 24*60*60

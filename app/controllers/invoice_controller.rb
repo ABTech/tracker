@@ -15,7 +15,7 @@ class InvoiceController < ApplicationController
 
     @invoice = Invoice.find(params['id'], :include => [:event, :journal_invoice, :invoice_lines]);
 
-    render :action => 'record'
+    render :action => 'record', :layout => 'events'
   end
 
   def prettyView
@@ -68,7 +68,7 @@ class InvoiceController < ApplicationController
       @invoice.invoice_lines << ln;
     end
 
-    render :action => 'record'
+    render :action => 'record', :layout => 'events'
   end
 
   def create

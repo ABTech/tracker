@@ -123,6 +123,13 @@ margin: 20px;
   background-color: #A6FFA6 !important;
 }
 
+table.genericless td {
+	padding: 5px;
+	background: #FCFCFC;
+	border: 1px solid #BBBBBB;
+	vertical-align: top;
+}
+
 
 /* =======================  EVENTS LIST ======================= */
 

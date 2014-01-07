@@ -18,7 +18,7 @@ class Timecard < ActiveRecord::Base
 
   def self.valid_eventdates
     timecards = self.valid_timecards
-    return Eventdate.find(:all) if timecards.size == 0
+    return Eventdate.where(["startdate >= ?", Account::Magic_Date]).sort_by{|ed| ed.event.title} if timecards.size == 0
     start_date, end_date = timecards.inject([nil,nil]) do |pair, timecard|
       [
         ((pair[0].nil? or timecard.start_date < pair[0]) ? timecard.start_date : pair[0]), 

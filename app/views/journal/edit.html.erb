@@ -101,14 +101,9 @@ fieldset { width:40% }
   <tr>
     <th>Event:</th>
     <td>
-      <%= select("journal", "event_id", 
-        Event.find(:all,
-          :conditions=>["updated_at >  ?",Time.now.years_ago(1)],
-          :order => "title ASC").collect{|e| 
-          [e.title, e.id]},
-            {:include_blank=>true}) %>
-          </td>
-        </tr>
+      <%= select("journal", "event_id", options_from_collection_for_select(@events, 'id', 'title'), {:include_blank=>true}) %>
+    </td>
+  </tr>
     
   <tr>
     <th>Notes:</th>

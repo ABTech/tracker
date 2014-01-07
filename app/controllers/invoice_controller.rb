@@ -105,9 +105,9 @@ class InvoiceController < ApplicationController
   end
 
   def list
-    @title = "Invoice List";
-
-    @invoices = Invoice.find(:all, :include => [:event, :journal_invoice, :invoice_lines]);
+    @title = "Invoice List"
+    
+    @invoices = Invoice.includes(:event, :journal_invoice, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
   end
 
   def email_confirm

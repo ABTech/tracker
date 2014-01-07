@@ -5,7 +5,7 @@ class JournalController < ApplicationController
 
   def list
     @title = "List of Journals"
-    @journals = Journal.find(:all)
+    @journals = Journal.order("date DESC").paginate(:per_page => 50, :page => params[:date])
   end
 
   def view

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140106191757) do
+ActiveRecord::Schema.define(version: 20140107044931) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -128,19 +128,20 @@ ActiveRecord::Schema.define(version: 20140106191757) do
   end
 
   create_table "events", force: true do |t|
-    t.string   "title",           default: "",                null: false
-    t.integer  "organization_id", default: 0,                 null: false
-    t.string   "status",          default: "Initial Request", null: false
+    t.string   "title",               default: "",                null: false
+    t.integer  "organization_id",     default: 0,                 null: false
+    t.string   "status",              default: "Initial Request", null: false
     t.string   "contactemail"
-    t.boolean  "blackout",        default: false,             null: false
+    t.boolean  "blackout",            default: false,             null: false
     t.datetime "updated_at"
-    t.boolean  "publish",         default: false
-    t.boolean  "rental",                                      null: false
-    t.string   "contact_name",    default: "",                null: false
-    t.string   "contact_phone",   default: "",                null: false
+    t.boolean  "publish",             default: false
+    t.boolean  "rental",                                          null: false
+    t.string   "contact_name",        default: "",                null: false
+    t.string   "contact_phone",       default: "",                null: false
     t.integer  "price_quote"
-    t.text     "notes",                                       null: false
+    t.text     "notes",                                           null: false
     t.datetime "created_at"
+    t.datetime "representative_date",                             null: false
   end
 
   add_index "events", ["contactemail"], name: "events_contactemail_index", using: :btree

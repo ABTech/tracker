@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
   attr_accessor :org_type, :org_new
   
   before_validation :prune_attachments
-  before_save :handle_organization, :ensure_tic, :sort_roles
+  before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
   
   attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes, :attachments_attributes, :invoices_attributes
@@ -135,6 +135,10 @@ class Event < ActiveRecord::Base
   
   def tic
     event_roles.where(role: EventRole::Role_TIC).first.member
+  end
+  
+  def synchronize_representative_date
+    self.representative_date = self.eventdates[0].startdate
   end
   
   private

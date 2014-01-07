@@ -498,7 +498,8 @@ td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD 
   text-align: center;
   padding: 0.3em;
   cursor: default;
-  margin-top: 1em; }
+  margin-top: 1em;
+  margin-bottom: 1em; }
   .pagination a, .pagination span, .pagination em {
     padding: 0.2em 0.5em; }
   .pagination .disabled {

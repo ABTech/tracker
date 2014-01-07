@@ -11,6 +11,8 @@ class Eventdate < ActiveRecord::Base
   attr_accessor :call_literal, :strike_literal, :call_is_literal, :strike_is_literal
   
   attr_accessible :event_id, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, :location_ids, :equipment_ids, :call_literal, :strike_literal
+  
+  after_save :synchronize_representative_date
 
   Event_Span_Days       = 2;
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
@@ -106,5 +108,9 @@ class Eventdate < ActiveRecord::Base
   
   def total_gross
     timecard_entries.map(&:gross_amount).reduce(0.0, &:+)
+  end
+  
+  def synchronize_representative_date
+    self.event.synchronize_representative_date
   end
 end

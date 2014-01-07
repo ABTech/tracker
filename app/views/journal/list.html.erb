@@ -4,6 +4,8 @@
 <li><%= link_to("Create a new debit JE", :action => "new", :is_credit => 0) %>
 </ul>
 
+<%= will_paginate @journals %>
+
 <table class="generic" width="100%">
   <tr>
     <th class="listheader">Date</th>
@@ -14,7 +16,7 @@
     <th class="listheader">Relation Link</th>
   </tr>
   
-  <% for journal in @journals.sort{|x, y| y.date <=> x.date} %>
+  <% @journals.each do |journal| %>
     <tr>
       <td class="list"><%= journal.date.strftime("%A, %B %d %Y") %></td>
       <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %></td>
@@ -35,3 +37,5 @@
     </tr>
   <% end %>
 </table>
+
+<%= will_paginate @journals %>

@@ -232,7 +232,7 @@ end
         <% if(@is_view_mode) %>
           <%=h line.memo() %>
           <% if line.notes && (line.notes.length > 0) then %>
-            <br><%= line.notes().gsub("\n","<br>") %>
+            <%= simple_format line.notes %>
           <% end %>
         <% else %>
           <%= text_field_tag("line#{i}[memo]", line.memo, :size => 35) %>

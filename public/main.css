@@ -545,7 +545,6 @@ h4 + ul.simple {
 }
 
 table.accounts { margin-top: 10px; }
-table.accounts > tbody > tr > td { padding-left: 10px; }
 
 table.category {width:230px;margin-top:10px;}
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140107044931) do
+ActiveRecord::Schema.define(version: 20140108042059) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -227,8 +227,8 @@ ActiveRecord::Schema.define(version: 20140107044931) do
     t.string   "title"
     t.string   "callsign"
     t.string   "shirt_size",                limit: 20
-    t.integer  "ssn"
     t.float    "payrate"
+    t.string   "ssn"
   end
 
   add_index "members", ["kerbid"], name: "members_kerbid_index", using: :btree

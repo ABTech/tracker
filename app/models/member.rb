@@ -22,6 +22,7 @@ class Member < ActiveRecord::Base
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_inclusion_of    :shirt_size, :in => Member_Shirt_Sizes
+  validates :ssn, :format => { :with => /\A\d{4}\z/, :message => "must be exactly four digits", :allow_nil => true }
 
   validates_format_of :phone, :with => /\A\+?[0-9]*\Z/, :message => "must only use numbers"
   before_validation Proc.new { |m|
@@ -31,6 +32,10 @@ class Member < ActiveRecord::Base
   before_validation Proc.new { |m|
     m.callsign.upcase! if m.callsign.respond_to? "upcase!"
   }
+  
+  before_validation do |m|
+    m.ssn = nil if m.ssn.empty?
+  end
 
   before_save :encrypt_password
 

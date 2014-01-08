@@ -29,8 +29,7 @@
 -----+-------+-------+-------+-------+-------+-------+-------+-------++----------
 <% 7.times do |day| -%>
  <%= Date::DAYNAMES[day-6+timecard.billing_date.wday].slice(0,3).upcase -%>
- | <% unless timecard.lines(member)[wk*7+day].nil? -%>
-<%= format_time(timecard.lines(member)[wk*7+day][0]) -%>
+ | <% unless timecard.lines(member)[wk*7+day].nil? -%><%= format_time(timecard.lines(member)[wk*7+day][0]) -%>
  | <%= format_time(timecard.lines(member)[wk*7+day][1]) -%>
  |       |       |       |       |       |       || <%= sprintf("%5.2f", timecard.lines(member)[wk*7+day][1] - timecard.lines(member)[wk*7+day][0]) -%>
 <% else %>      |       |       |       |       |       |       |       ||<% end %>
@@ -44,4 +43,4 @@
   WEEK 2: | <%= sprintf("%5.2f", timecard.lines(member)[7,14].inject(0) {|sum,line| if line.nil?; sum else sum + line[1] - line[0] end } ) -%>   |        |        |        |        |   |     |   |     |
           +---------+--------+--------+--------+--------+---+-----+---+-----+
 
-Card Recipient:  VAUGHAN, ELIZABETH
+Card Recipient:  CICCARIELLO, RITA

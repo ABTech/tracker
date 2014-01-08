@@ -54,6 +54,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'rails_autolink'
 gem 'prawn'
 gem 'icalendar'
+gem 'mail'
 
 # This is not a long term solution
 gem "protected_attributes"

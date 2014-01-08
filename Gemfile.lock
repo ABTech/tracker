@@ -165,6 +165,7 @@ DEPENDENCIES
   icalendar
   jbuilder (~> 1.2)
   jquery-rails
+  mail
   mysql2
   paperclip (~> 3.0)
   prawn

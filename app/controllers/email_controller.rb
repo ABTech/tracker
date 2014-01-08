@@ -43,7 +43,8 @@ class EmailController < ApplicationController
 
         imap.search(query).each do |message_id|
             # download the message
-            fetchd = imap.fetch(message_id, ["RFC822", "BODYSTRUCTURE", "ENVELOPE"])[0];
+            fetchd = imap.fetch(message_id, ["RFC822", "BODYSTRUCTURE", "ENVELOPE"])[0]
+            mail = Mail.new(fetchd.attr["RFC822"])
             envelope = fetchd.attr["ENVELOPE"]
             
             # imap can only query messages based on day of pull, not time, so we
@@ -82,9 +83,14 @@ class EmailController < ApplicationController
                 # if we've got a multipart message (a message with attachment)
                 structure = fetchd.attr["BODYSTRUCTURE"]
                 if structure.multipart?
-                    message.contents = imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n"
+                  fp = mail.parts.select { |part| part.content_type == "text/plain" }.first
+                  if fp
+                    message.contents = fp.body.decoded
+                  else
+                    message.contents = mail.parts.first.body.decoded
+                  end
                 else
-                    message.contents = fetchd.attr["RFC822"] << "\n"
+                  message.contents = mail.body.decoded
                 end
                 
                 # cyrus returns buggy unicode data in the guise of 8-bit ascii.

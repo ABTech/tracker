@@ -1,4 +1,0 @@
-10/28/09 mreiss:
-Followed instructions on http://www.tc.umn.edu/~brams006/selfsign.html to make a self-signed cert.
-abtt-self.crt and abtt-self.key copied to /etc/apache2/ssl.crt/
-

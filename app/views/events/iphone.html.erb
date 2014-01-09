@@ -40,13 +40,13 @@ end
 %>
 	<tr class="<%= event_class %>" onclick="window.location = ('<%=h event_path(eventdate.event) %>')">
           <td></td>
-          <td><%= eventdate.calldate.strftime("%H:%M") %><br />
+          <td><%= eventdate.startdate.strftime("%H:%M") %><br />
             <span class="type"><%= eventdate.description  %></span></td>
-          <td><%= eventdate.event.title %><br /><span class="location"><%= eventdate.locations.join "<br />" %></span><br />
+          <td><%= eventdate.event.title %><br /><span class="location"><%= (eventdate.locations.join "<br />").html_safe %></span><br />
             <span class="times">
-              <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "????" %> Call ::
+              <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "????" %> Call ::
               <%= eventdate.startdate.strftime("%H:%M") %> Show ::
-              <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "????" %> Strike
+              <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "????" %> Strike
             </span>
           </td>
 	</tr>

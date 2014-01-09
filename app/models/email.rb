@@ -17,9 +17,8 @@ class Email < ActiveRecord::Base
   validates_inclusion_of :status, :in => Email_Status_Group_All;
   validates_format_of :sender, :with => Event::EmailRegex, :multiline => true;
 
-  def headerless_contents
-    segments = contents.split(/\n[\r]*\n/);
-    contents = segments[2, segments.size()].join("\n\n");
+  def quoteless_contents
+    contents.lines.reject { |l| l[0] == ">" }.join("")
   end
 
   def subject
@@ -28,5 +27,9 @@ class Email < ActiveRecord::Base
     else
       read_attribute(:subject)
     end
+  end
+  
+  def display_title
+    timestamp.strftime("%A, %B %d at %I:%M %p") + " - " + subject
   end
 end

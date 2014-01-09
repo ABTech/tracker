@@ -1,4 +1,5 @@
 class EmailFormsController < ApplicationController
+
   before_filter :login_required;
 
   def list

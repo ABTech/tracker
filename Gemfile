@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem "prototype-rails"
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
@@ -47,8 +49,12 @@ gem 'capistrano', '~> 2.1', group: :development
 gem 'wkhtmltopdf-binary'
 gem "paperclip", "~> 3.0"
 gem "acts_as_tree"
-gem "rmail"
 gem "wicked_pdf"
+gem 'will_paginate', '~> 3.0'
+gem 'rails_autolink'
+gem 'prawn'
+gem 'icalendar'
+gem 'mail'
 
 # This is not a long term solution
 gem "protected_attributes"

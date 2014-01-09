@@ -1,12 +1,14 @@
 module InvoiceHelper
   def self.generate_new_invoice()
-    invoice = Invoice.new();
+    invoice = Invoice.new
+    invoice.status = "Quote"
+    
     InvoiceController::New_Invoice_New_Line_Display_Count.times do
-      ln = InvoiceLine.new();
-      invoice.invoice_lines << ln;
+      ln = InvoiceLine.new
+      invoice.invoice_lines << ln
     end
 
-    return invoice;
+    return invoice
   end
 
   def self.update_invoice(invoice, params)
@@ -24,7 +26,7 @@ module InvoiceHelper
         else
           line = InvoiceLine.update(params[key]["id"], params[key]);
         
-          line.errors.each_full() do |err|
+          line.errors.each do |err|
             errors += err + "<br />";
           end
           
@@ -49,13 +51,18 @@ module InvoiceHelper
     if(params['journal_invoice_create'])
       params['journal_invoice']['amount']=invoice.total
       journal = JeInv.new(params['journal_invoice']);
+      journal.event = invoice.event
       if(journal.valid?)
         invoice.journal_invoice = journal;
       else
-        journal.errors.each_full() do |err|
+        journal.errors.each do |err|
           errors += err + "<br />";
         end
       end
+    end
+    
+    if params['journal_invoice_markpaid']
+      invoice.journal_invoice.update(params['journal_invoice'])
     end
 
     return notices, errors;

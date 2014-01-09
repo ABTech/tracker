@@ -23,7 +23,7 @@ fieldset { width:40% }
 
 <fieldset >
 <legend>Edit a Journal Entry</legend>
-<form name="jeform" action="<%= url_for :action => "save" %>" method="post" enctype="multipart/form-data">
+<%= form_tag save_journal_index_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
 <%= hidden_field("journal", "id") %>
 <%= hidden_field("journal", "type", :value => "JeOther") %>
 <table class=listTable >
@@ -36,11 +36,13 @@ fieldset { width:40% }
   <tr>
     <th>Date Paid:</th>
     <td>
-      <%= if @journal.date_paid
-          @is_view_mode ? @journal.date_paid.strftime("%A, %B %d %Y, %I:%M %p") : date_select( "journal", "date_paid", :include_blank => true)
-      else
-        %Q[Not paid <span id="date_paid_field" style="display: none;">#{date_select("journal", "date_paid", { :include_blank => true, :default => Date.today })}</span> <a href="#" onclick="$('date_paid_field').show(); $(this).hide(); return false;"><i class="icon-pencil"></i></a>].html_safe
-      end %>
+      <% if @journal.date_paid %>
+          <%= @is_view_mode ? @journal.date_paid.strftime("%A, %B %d %Y, %I:%M %p") : date_select( "journal", "date_paid", :include_blank => true) %>
+      <% else %>
+        Not paid <span id="date_paid_field" style="display: none;">
+          <%=date_select("journal", "date_paid", { :include_blank => true, :default => Date.today })%>
+        </span> <a href="#" onclick="$('#date_paid_field').show(); $(this).hide(); return false;"><i class="icon-pencil"></i></a>
+      <% end %>
     </td>
   </tr>
   <tr>
@@ -66,7 +68,11 @@ fieldset { width:40% }
   <tr>
     <th>Amount:  </th>
     <td>
-      <%= @is_view_mode ? number_to_currency(@journal.amount) : '$' + text_field("journal", "amount").html_safe %>
+      <% if @journal.invoice or @is_view_mode %>
+        <%= number_to_currency(@journal.amount) %>
+      <% else %>
+        <%= text_field("journal", "amount") %>
+      <% end %>
     </td>
   </tr>
   <tr>
@@ -95,14 +101,9 @@ fieldset { width:40% }
   <tr>
     <th>Event:</th>
     <td>
-      <%= select("journal", "event_id", 
-        Event.find(:all,
-          :conditions=>["updated_on >  ?",Time.now.years_ago(1)],
-          :order => "title ASC").collect{|e| 
-          [e.title, e.id]},
-            {:include_blank=>true}) %>
-          </td>
-        </tr>
+      <%= select("journal", "event_id", options_from_collection_for_select(@events, 'id', 'title'), {:include_blank=>true}) %>
+    </td>
+  </tr>
     
   <tr>
     <th>Notes:</th>
@@ -123,10 +124,9 @@ fieldset { width:40% }
   </tr>
 </table>
 <%= submit_tag 'Edit Journal' %>
--- 
-<%= link_to "Delete Journal",{ :action => "destroy", :id => @journal.id}, :confirm => "Are you sure you want to delete this journal?" %> -- 
-<%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
-</form>
+<% end %>
 </fieldset>
 
-  
+<% content_for :more do %>
+  <li><%= link_to "Delete Journal", journal_path(@journal),  :method => "delete", data: {:confirm => "Are you sure you want to delete this journal?" } %></li>
+<% end %>

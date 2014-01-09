@@ -1,8 +1,5 @@
 class EmailController < ApplicationController
-  #TODO: debug why below doesn't work
-  #filter_parameter_logging :imappassword
-
-  #require 'rmail.rb'
+  
   require 'net/imap'
 
   before_filter :login_required;
@@ -26,7 +23,6 @@ class EmailController < ApplicationController
     end
 
     def pull_email
-
         # first, connect to the IMAP server
         imap = Net::IMAP.new(EmailHelper::IMAP_Server, EmailHelper::IMAP_Port, true); # last is to use SSL
         begin
@@ -36,90 +32,96 @@ class EmailController < ApplicationController
             redirect_to(:action => "list");
             return;
         end
-        imap.select('user.abtech.todo')
+        imap.select('user.abtech')
+        
+        # if we've never pulled emails before, pull all emails that arrived
+        # before tomorrow. otherwise, pull all emails that arrived on or after
+        # the day of the last arrived email.
+        query = ["BEFORE", Net::IMAP.format_date(Time.now + 1.day)]
+        latest = Email.order("timestamp DESC").limit(1).first
+        query = ["SINCE", Net::IMAP.format_date(latest.timestamp)] if latest
 
-        # messages we've saved locally, to be flagged so we don't
-        # pull them again
-        saved_set = [];
-
-        # this could become "unread" or "every message" (and delete
-        # them after importing) if this webapp reaches maturity.
-        imap.search(["UNFLAGGED"]).each do |message_id|
+        imap.search(query).each do |message_id|
             # download the message
-            fetchd = imap.fetch(message_id, ["RFC822", "BODYSTRUCTURE", "ENVELOPE"])[0];
+            fetchd = imap.fetch(message_id, ["RFC822", "BODYSTRUCTURE", "ENVELOPE"])[0]
+            mail = Mail.new(fetchd.attr["RFC822"])
             envelope = fetchd.attr["ENVELOPE"]
+            
+            # imap can only query messages based on day of pull, not time, so we
+            # have to manually filter out the ones we've already pulled
+            if not latest or DateTime.parse(envelope.date) > latest.timestamp
+                # create our local message
+                message = Email.new()
+                message.status = Email::Email_Status_Unfiled
+                if envelope.reply_to and envelope.reply_to.size > 0
+                    message.sender = envelope.reply_to[0].mailbox + '@' + envelope.reply_to[0].host
+                else
+                    message.sender = envelope.from[0].mailbox + '@' + envelope.from[0].host
+                end
 
-            # create our local message
-            message = Email.new();
-	    message.event_id = 0;
-            message.status      = Email::Email_Status_Unfiled;
-            if(envelope.reply_to && (envelope.reply_to.size() > 0))
-                message.sender      = envelope.reply_to[0].mailbox + '@' + envelope.reply_to[0].host;
-            else
-                message.sender      = envelope.from[0].mailbox + '@' + envelope.from[0].host;
-            end
+                message.timestamp   = DateTime.parse(envelope.date)
+                message.subject = envelope.subject
+                message.message_id  = envelope.message_id
 
-            message.timestamp   = DateTime.parse(envelope.date);
-            message.subject     = envelope.subject;
-	    message.message_id  = envelope.message_id;
+                message.headers = "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n"
 
-            message.contents = "";
-            message.contents << "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n";
-
-            # conveniently the formats are all the same, so just look through a 
-            # list of parameters to check for addresses
-            addresses_to_add = ["from", "reply_to", "to", "cc", "bcc"];
-            addresses_to_add.each do |prop|
-                val = eval("envelope.#{prop}");
-                if(val)
-                    val.each do |addr|
-                        message.contents << "#{prop}: #{addr.mailbox}@#{addr.host} (#{addr.name})\n"
+                # conveniently the formats are all the same, so just look through a 
+                # list of parameters to check for addresses
+                addresses_to_add = ["from", "reply_to", "to", "cc", "bcc"]
+                addresses_to_add.each do |prop|
+                    val = eval("envelope.#{prop}")
+                    if val
+                        val.each do |addr|
+                            message.headers << "#{prop}: #{addr.mailbox}@#{addr.host} (#{addr.name})\n"
+                        end
                     end
                 end
-            end
+                
+                message.event_id = nil
 
-            message.contents << "\n";
-            # get the actual contents, finding the text multipart segment
-            # if we've got a multipart message (a message with attachment)
-            structure = fetchd.attr["BODYSTRUCTURE"];
-            if(structure.multipart?)
-                message.contents << imap.fetch(message_id, ["BODY[1]"])[0].attr["BODY[1]"] << "\n";
-            else
-                message.contents << fetchd.attr["RFC822"] << "\n";
-            end
-
-            # save our local message
-            if(!message.valid?)
-                message.errors.each_full do |err|
+                # get the actual contents, finding the text multipart segment
+                # if we've got a multipart message (a message with attachment)
+                structure = fetchd.attr["BODYSTRUCTURE"]
+                if structure.multipart?
+                  fp = mail.parts.select { |part| part.content_type == "text/plain" }.first
+                  if fp
+                    message.contents = fp.body.decoded
+                  else
+                    message.contents = mail.parts.first.body.decoded
+                  end
+                else
+                  message.contents = mail.body.decoded
                 end
-            else
-                automatch = EmailController.find_eventids(message.subject);
+                
+                # cyrus returns buggy unicode data in the guise of 8-bit ascii.
+                # just filter out any bytes with a value over 127 and pretend
+                # it never happened.
+                message.contents = message.contents.bytes.select { |c| c < 128 }.pack('c*')
+                message.contents.encode!("UTF-8")
 
-                # if we can find the eventid in the subject, auto match that to
-                # the event, to save some filing work
-                if(automatch and !automatch.empty? and (automatch.length == 1))
-                    message.status = Email::Email_Status_New;
-                    message.event_id = automatch[0];
+                # save our local message
+                if message.valid?
+                    automatch = EmailController.find_eventids(message.subject)
 
-                    # if we sent the message, mark it as read
-                    if(EmailHelper::SMTP_From == message.sender())
-                        message.status = Email::Email_Status_Read;
+                    # if we can find the eventid in the subject, auto match that to
+                    # the event, to save some filing work
+                    if automatch and !automatch.empty? and automatch.length == 1
+                        message.status = Email::Email_Status_New
+                        message.event_id = automatch[0]
+
+                        # if we sent the message, mark it as read
+                        if EmailHelper::SMTP_From == message.sender
+                            message.status = Email::Email_Status_Read
+                        end
                     end
+
+                    message.save!
                 end
-
-                message.save!();
-
-                saved_set << fetchd.seqno;
             end
         end
 
-        if(!saved_set.empty?)
-            # store the flages for pulled messages
-            imap.store(saved_set, "+FLAGS", [:Flagged]);
-        end
-
-        imap.close();
-        redirect_to(:action => "file");
+        imap.close()
+        redirect_to(:action => "file", :next => "continue")
     end
 
     def file
@@ -138,14 +140,17 @@ class EmailController < ApplicationController
             when File_Action_File_Event
                 case(params['fileaction'])
                 when File_Action_New_Event
-                    event = Event.new(params['event']);
-                    event.year_id = Year.active_year.id;
-                    EventsHelper.update_event(event, params);
+                    event = Event.new(params['event'])
+
                     if(!event.save())
-                        flash[:error] = "";
-                        event.errors.each_full() do |err|
-                            flash[:error] += err + "<br />";
-                        end
+                        flash[:error] = "Error saving the event"
+                        @fileaction = File_Action_New_Event
+                        @email = email
+                        @event = event
+                        @skip = params[:skip]
+                        @next = params[:next]
+                        render
+                        return
                     else
                         flash[:notice] = "Event Saved";
                         email.status = Email::Email_Status_New;
@@ -162,7 +167,7 @@ class EmailController < ApplicationController
                     email.status = Email::Email_Status_New;
                     if(!email.save())
                         flash[:error] = "";
-                        email.errors.each_full() do |err|
+                        email.errors.each do |err|
                             flash[:error] += err + "<br />";
                         end
                     end
@@ -171,7 +176,7 @@ class EmailController < ApplicationController
                 email.status = Email::Email_Status_Ignored;
                 if(!email.save())
                     flash[:error] = "";
-                    email.errors.each_full() do |err|
+                    email.errors.each do |err|
                         flash[:error] += err + "<br />";
                     end
                 end
@@ -182,34 +187,26 @@ class EmailController < ApplicationController
             end
         end
 
-        # find the first unfiled email, by date, and file it
-        emails = Email.find(:all, 
-                    :order => "timestamp ASC", 
-                    :conditions => "status = \"#{Email::Email_Status_Unfiled}\"", 
-                    :offset => @skip,
-                    :limit => 1)
+        if params[:next] == "continue"
+          # find the first unfiled email, by date, and file it
+          emails = Email.find(:all, 
+                      :order => "timestamp ASC", 
+                      :conditions => "status = \"#{Email::Email_Status_Unfiled}\"", 
+                      :offset => @skip,
+                      :limit => 1)
 
-        if(emails.size == 0)
-            flash[:notice] = "No unfiled email to resolve.";
-            redirect_to(:action => "list");
-            return;
+          if(emails.size == 0)
+              flash[:notice] = "No unfiled email to resolve.";
+              redirect_to(:action => "list");
+              return;
+          end
+
+          @email = emails.first
+        
+          redirect_to :action => "view", :id => @email.id, :skip => @skip, :next => "continue"
+        else
+          redirect_to view_email_url(params[:id])
         end
-
-        @email = emails.first;
-        # default action:
-        @fileaction = File_Action_Existing_Event;
-
-        @event = EventsHelper.generate_new_event();
-        @event.title = @email.subject;
-        @event.contactemail = @email.sender;
-        if (@email.contents =~ /from:.*\((.*)\)/)
-            @event.contact_name = $1;
-        end
-        if (@email.contents =~ /\s(\(?\d{3}\)?\D\d{3}\D\d{4})\s/)
-            @event.contact_phone = $1;
-        end
-
-        render(:action => "file");
     end
 
     def unfile
@@ -262,7 +259,7 @@ class EmailController < ApplicationController
         @outgoing_destination = @email.sender;
         @outgoing_cc = EmailHelper::SMTP_CC_List.join(", ");
         @outgoing_from = EmailHelper::SMTP_From;
-	@outgoing_inreplyto = @email.message_id;
+        @outgoing_inreplyto = @email.message_id;
 
         # if the old subject didn't have the eventid tag, add it
         if(EmailController.find_eventids(@email.subject).empty?)
@@ -279,7 +276,7 @@ class EmailController < ApplicationController
         end
         @outgoingemail.contents = "\nOn #{@email.timestamp.strftime('%b %d, %Y at %I:%M %p')}, #{@email.sender} wrote:\n\n"
 
-        @email.headerless_contents.each_line do |line|
+        @email.contents.each_line do |line|
             @outgoingemail.contents << "> " + line;
         end
     end
@@ -356,17 +353,37 @@ class EmailController < ApplicationController
 
     def list
         @title = "Email List";
-        size = 20
-        page = params[:page].to_i
-        page = 1 if page < 1
-        @emails = Email.find(:all, :order => 'timestamp DESC', :limit => size, :offset => size*(page-1))
-        @previous = page - 1 if page > 1
-        @next = page + 1 if page*size < Email.find_by_sql('select count(*) as count_all from emails')[0].count_all.to_i
+        @emails = Email.paginate(:per_page => 20, :page => params[:page]).order("timestamp DESC")
+        @file_email = Email.where(status: Email::Email_Status_Unfiled).order("timestamp ASC").first
     end
 
     def view
         @title = "Viewing Message"
 
-        @email = Email.find(params["id"]);
+        @email = Email.find(params["id"])
+        
+        if @email.status == Email::Email_Status_Unfiled
+          @fileaction = File_Action_Existing_Event
+          
+          @event = Event.new
+          @event.title = @email.subject
+          @event.contactemail = @email.sender
+          if (@email.contents =~ /from:.*\((.*)\)/)
+              @event.contact_name = $1
+          end
+          if (@email.contents =~ /\s(\(?\d{3}\)?\D\d{3}\D\d{4})\s/)
+              @event.contact_phone = $1
+          end
+        end
+        
+        if params[:skip]
+          @skip = params[:skip]
+        end
+        
+        if params[:next]
+          @next = params[:next]
+        end
+        
+        render :action => "file"
     end
 end

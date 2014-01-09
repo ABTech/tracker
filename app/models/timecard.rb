@@ -1,9 +1,11 @@
 class Timecard < ActiveRecord::Base
   has_many :timecard_entries
-  has_many :members, :through => :timecard_entries, :order => :namefirst, :uniq => true
+  has_many :members, -> { order("namefirst ASC").distinct }, :through => :timecard_entries
 
   validates_presence_of :billing_date, :due_date, :start_date, :end_date
   validates_uniqueness_of :billing_date
+  
+  attr_accessible :billing_date, :due_date, :start_date, :end_date, :submitted
 
   before_destroy :clear_entries
 
@@ -16,7 +18,7 @@ class Timecard < ActiveRecord::Base
 
   def self.valid_eventdates
     timecards = self.valid_timecards
-    return Eventdate.find(:all) if timecards.size == 0
+    return Eventdate.where(["startdate >= ?", Account::Magic_Date]).sort_by{|ed| ed.event.title} if timecards.size == 0
     start_date, end_date = timecards.inject([nil,nil]) do |pair, timecard|
       [
         ((pair[0].nil? or timecard.start_date < pair[0]) ? timecard.start_date : pair[0]), 
@@ -32,8 +34,16 @@ class Timecard < ActiveRecord::Base
   end
 
   def hours(member=nil)
-    timecard_entries.inject(0) do |sum, entry|
-      sum + ((member.nil? or member == entry.member) ? entry.hours : 0)
+    if member
+      scope = timecard_entries.where(member: member)
+    else
+      scope = timecard_entries
+    end
+    
+    if scope.empty?
+      0
+    else
+      scope.map(&:hours).reduce(&:+).round(1)
     end
   end
 
@@ -42,7 +52,7 @@ class Timecard < ActiveRecord::Base
   end
 
   def self.valid_timecards
-    Timecard.find(:all, :order => 'due_date DESC').select {|timecard| !timecard.submitted }
+    Timecard.where(submitted: false).order("due_date DESC")
   end
 
   DAY = 24*60*60
@@ -66,7 +76,7 @@ class Timecard < ActiveRecord::Base
       # and there's no room)
       unless try_add_entry(timecard_entry, idx, lines)
         new_idx = (idx + 1) % 14
-        while (new_idx != idx and !try_add_entry(timecard_entry, new_idx))
+        while (new_idx != idx and !try_add_entry(timecard_entry, new_idx, lines))
           new_idx = (new_idx + 1) % 14
         end
       end

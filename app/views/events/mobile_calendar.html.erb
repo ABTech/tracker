@@ -20,10 +20,10 @@
         <%= evtdate.event.title %> - <%= evtdate.description %>:<br />
 
         <ul>
-          <li>call: <%= evtdate.valid_call? ? evtdate.calldate.strftime("%I:%M %p") : "unset" %></li>
+          <li>call: <%= !evtdate.calldate.nil? ? evtdate.calldate.strftime("%I:%M %p") : "unset" %></li>
           <li>show: <%= evtdate.startdate.strftime("%I:%M %p") %></li>
           <li>end: <%= evtdate.enddate.strftime("%I:%M %p") %></li>
-          <li>strike: <%= evtdate.valid_strike? ? evtdate.strikedate.strftime("%I:%M %p") : "unset" %></li>
+          <li>strike: <%= !evtdate.strikedate.nil? ? evtdate.strikedate.strftime("%I:%M %p") : "unset" %></li>
           <% if(evtdate.locations.size() > 1) %>
           <li><ul>
           <% end %>

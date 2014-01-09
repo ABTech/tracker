@@ -1,9 +1,13 @@
-<%= form_tag({:action => "create"}, :name => "eventform", :onsubmit => "if (document.getElementById('event_contactemail').value == '' || document.getElementById('event_title').value == '' || !(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/.test(document.getElementById('event_contactemail').value))){alert('You forgot something.');return false;}".html_safe) do %>
-
-<% @event_form_name = "eventform"; %>
-<% @is_view_mode = false; %>
-<%= render(:partial => "quickrecord", :controller => "events") %>
-
-<%= submit_tag("Create") %>
-
-<% end %>
+<div id="event-container">
+  <h2>Create new event</h2>
+  
+  <%= form_for @event do |builder| %>
+    <%= render :partial => "form", :locals => {:f => builder} %>
+    
+    <fieldset id="event-form-submit">
+      <legend>Submit</legend>
+    
+      <input type="submit">
+    </div>
+  <% end %>
+</div>

@@ -1,7 +1,7 @@
 <h2>Organizations</h2>
 <p>These are the organizations we have dealt with (and have been entered into the tracker). <%= link_to "Click here to add another org.", new_organization_path %></p>
 There are <%= @orgs.length %> organizations.
-<table border=1>
+<table class="genericless">
 <% @orgs.each do |org| %>
   <% case cycle('1', '2', '3', :name => :orgs) -%>
     <%- when '1' -%>

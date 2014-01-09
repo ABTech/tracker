@@ -68,6 +68,4 @@
 
   root = EquipmentCategory.find(EquipmentCategory::Root_Category);
 %>
-<%= render_tree(root) %>
-<%= sortable_element("tree", {:tree => true, :url => {:action => "treesave"}, :only => ["tree_list", "tree_item"]}) %>
-    
+<%= render_tree(root).html_safe %>

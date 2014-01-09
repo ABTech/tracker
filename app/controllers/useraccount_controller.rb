@@ -1,5 +1,4 @@
 class UseraccountController < ApplicationController
-#  filter_parameter_logging :password;
 
   def login
     login_member = Member.authenticate(params["login"], params["password"]);
@@ -8,8 +7,7 @@ class UseraccountController < ApplicationController
     end
 
     if(current_member)
-      #Well, of course we are fat!
-      if(params["remember_me"] == "1" or true)
+      if(params["remember_me"] == "1")
           #self.current_member.remember_me();
           cookies[:auth_token] = { :value => self.current_member.remember_token , :expires => self.current_member.remember_token_expires_at }
       end
@@ -29,7 +27,7 @@ class UseraccountController < ApplicationController
 
   def logout
     if(logged_in?)
-      self.current_member.forget_me();
+      #self.current_member.forget_me();
     end
     cookies.delete( :auth_token );
     reset_session();

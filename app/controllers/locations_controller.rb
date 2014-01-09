@@ -1,9 +1,10 @@
 class LocationsController < ApplicationController
-  before_filter :login_required;
+  
+  before_filter :login_required
 
   def index
     @title = "Locations"
-    @locations = Location.find(:all, :order => "building ASC, floor ASC");
+    @locations = Location.find(:all, :order => "building ASC, floor ASC")
   end
 
   def show

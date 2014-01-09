@@ -77,7 +77,7 @@
                 <span class="hide">
                   <b><%= day.strftime("%B %d, %Y")%></b><br/>
                   <% todaydates.each do |evtdate| %>
-                    <%= evtdate.event.title %>
+                    <%= link_to evtdate.event.title + " - " + evtdate.description, evtdate.event %>
                     <span>&rarr; <%= evtdate.startdate.strftime("%I:%M %p") %> - <%= evtdate.enddate.strftime("%I:%M %p") %></span><br />
                   <% end %>
                 </span>

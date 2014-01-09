@@ -114,7 +114,9 @@
   </title>
 </head>
 <body>
-<%= "<div style=\"font-size: 14pt; width: auto; text-align:center; margin: auto; background-color: black; color: red;\">#{ENV["RAILS_ENV"].upcase} ENVIRONMENT</div>" if ENV["RAILS_ENV"] != 'production'-%>
+  <% if ENV["RAILS_ENV"] != "production" %>
+    <div style="font-size: 14pt; width: auto; text-align:center; margin: auto; background-color: black; color: red;"><%= ENV["RAILS_ENV"].upcase%> ENVIRONMENT</div>
+  <% end %>
   
   <div>
     <a href="<%= events_path %>"><img src="/images/header.png" style="width: 95%;" /></a>

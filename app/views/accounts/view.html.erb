@@ -1,7 +1,7 @@
 <h1>Account: <%= @account.name %></h1>
 <h3>Balance: <%= number_to_currency @balance %></h3>
 
-<table>
+<table class="generic">
   <tr class="listheader">
     <th width="225">Date</th>
     <th width="200">Memo</th>
@@ -11,9 +11,8 @@
     <th>Relation Link</th>
   <tr>
 
-  <% tmp = false; %>
   <% for journal in @journals %>
-  <tr class="<%= tmp ? "listentry1" : "listentry2" %>">
+  <tr>
     <td class="list"><%= journal.date.strftime('%A, %B %d %Y') %></td>
     <td class="list"><%= journal.memo %></td>
     <% if(journal.account_credit_id == @account.id) %>
@@ -36,7 +35,6 @@
         unknown JE type: <%= journal.class.name %>
       <% end %>
     </td>
-    <% tmp = !tmp; %>
   <tr>
   <% end %>
 </table>

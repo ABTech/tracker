@@ -1,9 +1,9 @@
 <table class="generic">
-  <tr class="listentry2">
+  <tr>
     <td align="right" class="list"><strong>Event:</strong></td>
     <td class="list"><%= select :timecard_entry, :eventdate_id, @eventdates.collect{|e| [e.event.title + ' - ' + e.description, e.id]} %></td>
   </tr>
-  <tr class="listentry1">
+  <tr>
     <td align="right" class="list"><strong>Hours:</strong></td>
     <td class="list"><%= text_field :timecard_entry, :hours %></td>
   </tr>

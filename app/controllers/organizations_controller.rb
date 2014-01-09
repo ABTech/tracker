@@ -1,11 +1,10 @@
 class OrganizationsController < ApplicationController
-  before_filter :login_required;
+  before_filter :login_required
 
-  layout "application2"
 
   def index
     @title = "Organizations"
-    @orgs = Organization.find(:all)
+    @orgs = Organization.order("name ASC")
   end
 
   def new

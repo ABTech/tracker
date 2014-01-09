@@ -1,7 +1,7 @@
 Abtt::Application.routes.draw do
   resources :accounts do
     collection do
-      get 'confirm_paid'
+      post 'confirm_paid'
       get 'events'
       get 'list'
       get 'unpaid'
@@ -17,10 +17,11 @@ Abtt::Application.routes.draw do
   resources :email, only: [:view] do
     collection do
       get 'file'
+      post 'file'
       get 'list'
       get 'mark_status'
       get 'new_thread'
-      get 'pull_email'
+      post 'pull_email'
       get 'reply_to'
       get 'send_email'
       get 'unfile'
@@ -44,8 +45,8 @@ Abtt::Application.routes.draw do
       get 'edititem'
       get 'newgroup'
       get 'newitem'
-      get 'savegroup'
-      get 'saveitem'
+      post 'savegroup'
+      post 'saveitem'
       get 'tree'
       get 'treesave'
       get 'usage'
@@ -56,11 +57,14 @@ Abtt::Application.routes.draw do
     member do
       get 'delete_conf'
       get 'mobile_email'
+      get 'show_email'
+      get 'finance'
     end
     collection do
       get 'delete_conf'
       get 'calendar'
       get 'iphone'
+      post 'iphone'
       get 'mobile'
       get 'lost'
     end
@@ -87,9 +91,9 @@ Abtt::Application.routes.draw do
   resources :journal, except: [:show, :update] do
     collection do
       get 'list'
+      post 'save'
     end
     member do
-      post 'save'
       get 'view'
     end
   end

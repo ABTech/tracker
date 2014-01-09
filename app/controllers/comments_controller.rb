@@ -2,13 +2,16 @@ class CommentsController < ApplicationController
   before_filter :login_required
 
   def create
-    @comment = Comment.new(params[:comment])
+    @event = Event.find(params[:comment][:event_id])
+    @comment = @event.comments.build(comment_params)
     @comment.member = current_member
     if @comment.save
-      redirect_to event_path(@comment.event)
+      flash[:notice] = "Comment was created successfully!"
     else
-      render :action => 'new'
+      flash[:error] = "Comment could not be created (make sure you actually entered text!)."
     end
+    
+    redirect_to event_path(@comment.event)
   end
 
   def destroy
@@ -22,4 +25,9 @@ class CommentsController < ApplicationController
     end
     redirect_to event_path(event)
   end
+  
+  private
+    def comment_params
+      params.require(:comment).permit(:content)
+    end
 end

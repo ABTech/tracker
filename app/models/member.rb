@@ -3,15 +3,16 @@ class Member < ActiveRecord::Base
   has_many :eventroles;
   has_many :comments;
   has_and_belongs_to_many :roles
-  has_many :filters, :class_name => "MemberFilter", :order => "name ASC"
   has_many :timecard_entries
-  has_many :timecards, :through => :timecard_entries, :uniq => true
+  has_many :timecards, -> { distinct }, :through => :timecard_entries
+  
+  Member_Shirt_Sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
+  attr_accessible :password, :password_confirmation, :kerbid, :namefirst, :namelast, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role_ids
 
   validates_presence_of     :namefirst, :namelast, :kerbid, :payrate
-  validates_associated      :filters;
   #Event::EmailRegex is a generic regex that matches email addresses. It is located in Event for absolutely no fucking reason.
   validates_format_of       :kerbid, :with => Event::EmailRegex, :multiline => true;
   validates_uniqueness_of   :kerbid, :case_sensitive => false
@@ -20,6 +21,8 @@ class Member < ActiveRecord::Base
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
+  validates_inclusion_of    :shirt_size, :in => Member_Shirt_Sizes
+  validates :ssn, :format => { :with => /\A\d{4}\z/, :message => "must be exactly four digits", :allow_nil => true }
 
   validates_format_of :phone, :with => /\A\+?[0-9]*\Z/, :message => "must only use numbers"
   before_validation Proc.new { |m|
@@ -29,6 +32,10 @@ class Member < ActiveRecord::Base
   before_validation Proc.new { |m|
     m.callsign.upcase! if m.callsign.respond_to? "upcase!"
   }
+  
+  before_validation do |m|
+    m.ssn = nil if m.ssn.empty?
+  end
 
   before_save :encrypt_password
 

@@ -47,8 +47,17 @@
           month_links.join(" | ").html_safe
         %>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <%= if (params["selected"] == "future") then "<b>Future" + (page_info ? page_info : "") + "</b>" else link_to("Future", {:action => "index", :selected => "future"}) end %> |
-        <%= if (params["selected"] == "past") then "<b>Past" + (page_info ? page_info : "") + "</b>" else link_to("Past", {:action => "index", :selected => "past"}) end %>
+        <% if (params["selected"] == "future") %>
+         <b>Future <%=(page_info ? page_info : "")%></b>
+        <% else %>
+         <%= link_to("Future", {:action => "index", :selected => "future"}) %>
+        <% end %>
+        |
+        <% if (params["selected"] == "past") %> 
+         <b>Past <%=(page_info ? page_info : "")%></b>
+        <% else %>
+         <%= link_to("Past", {:action => "index", :selected => "past"}) %>
+        <% end %>
         &nbsp;&nbsp;&nbsp;&nbsp;
       </td>
       <td align="right"><%= (forward_link != nil) ? forward_link : "" %></td>
@@ -106,23 +115,23 @@
           <small class="organization"><%= event.organization.name %></small>
         </td>
         <td style="white-space: normal;">
-                                  <%= eventdate.locations.join(raw("<br />")) %>
+                                  <%= eventdate.locations.join("<br />").html_safe %>
                                   <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
                                   <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
         </td>
         <td>
           <small>
-            C: <%= eventdate.valid_call? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
+            C: <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
             E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
-            S: <%= eventdate.valid_strike? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
+            S: <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
           </small>
         </td>
         <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>
-        <td style="background: #F2C7C7; font-weight: bold;">
+        <td class="ticless">
         <% else %>
         <td>
         <% end %>
-          <% event.event_roles.sort!; event.event_roles.each do |role| %>
+          <% event.event_roles.sort.each do |role| %>
             <%= role.to_s() %><br />
           <% end %>
         </td>

@@ -1,18 +1,5 @@
 class EventsController < ApplicationController
-  require 'rmail.rb'
   before_filter :login_required, :except => [:generate, :calendar];
-
-  ### various parameters for editing things
-  # number of empty date rows to show for new and old events
-  New_Event_New_Date_Display_Count = 3;
-  Old_Event_New_Date_Display_Count = 3;
-  # number of empty role rows to show for new and old events
-  New_Event_New_Role_Display_Count = 5;
-  Old_Event_New_Role_Display_Count = 3;
-  # number of empty log to show for events
-  ### flags for organization new/old on event save
-  New_Event_Existing_Organization = "existing";
-  New_Event_New_Organization      = "new";
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -29,107 +16,58 @@ class EventsController < ApplicationController
   helper :members
 
   def show
-    @mode = Mode_View;
-    @title = "Viewing Event";
-
-    @event = Event.find_by_id(params["id"], :include => [:eventdates, :emails, :organization]);
-    @new_comment = @event.comments.build
-
-    if(!@event)
-      flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not, something is very wrong."
-      redirect_to(:action => "index");
-      return;
-    end
-
-    @event_page = "main";
-    render(:action => "record");
+    @title = "Viewing Event"
+    @event = Event.find(params[:id])
+  end
+  
+  def show_email
+    @title = "Viewing Event Emails"
+    @event = Event.find(params[:id])
+  end
+  
+  def finance
+    @title = "Viewing Event Finances"
+    @event = Event.find(params[:id])
   end
 
   def new
-  @title = "Create New Event";
-  @mode = Mode_New;
-  @event = EventsHelper.generate_new_event();
+    @title = "Create New Event"
+    @event = Event.new
   end
 
   def edit
-    @title = "Edit Event";
-    @mode = Mode_Edit;
-    if(!@event)
-      if(!params["id"])
-        flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "index");
-        return;
-      end
-
-      @event = Event.find_by_id(params["id"]);
-      if(!@event)
-        flash[:error] = "Event #{params['id']} not found. Did you enter that ID manually? If not the tracker is f--k'd."
-        redirect_to(:action => "index");
-        return;
-      end
+    @title = "Edit Event"
+    @event = Event.find(params[:id])
+  end
+  
+  def create
+    @title = "Create New Event"
+    params[:event].permit!
+    
+    @event = Event.new(params[:event])
+    
+    if @event.save
+      flash[:notice] = "Event created successfully!"
+      redirect_to @event
+    else
+      render :new
     end
-
-    if (params["page"] != "new")
-      Old_Event_New_Date_Display_Count.times do
-        dt = Eventdate.new()
-        dt.calldate = Time.now();
-        dt.startdate = Time.now();
-        dt.enddate = Time.now();
-        dt.strikedate = Time.now();
-        @event.eventdates << dt;
-      end
-      Old_Event_New_Role_Display_Count.times do
-        rl = EventRole.new();
-        @event.event_roles << rl;
-      end
+  end
+  
+  def update
+    @title = "Edit Event"
+    params[:event].permit!
+    
+    @event = Event.find(params[:id])
+    if @event.update(params[:event])
+      flash[:notice] = "Event updated successfully!"
+      redirect_to @event
+    else
+      render :edit
     end
-
-    @event_page = "main";
-    render(:action => "record");
   end
 
-  def create
-    # --------------------
-    # create new event/find old event
-    if(params["event"]["id"] && (params["event"]["id"] != ""))
-      save_event = Event.update(params["event"]["id"], params['event']);
-    else
-      save_event = Event.new(params['event']);
-      save_event.year_id = Year.active_year.id;
-    end
-
-    nots, errs = EventsHelper.update_event(save_event, params)
-    flash[:notice] = nots;
-    flash[:error] = errs;
-
-    # Add attachment if necessary
-    if params[:attachments]
-      Attachment.create(:attachment => params[:attachments]["1"], :event_id => save_event.id)
-    end
-
-    # -------------------
-    # sort event.event_roles for viewing pleasure
-    save_event.event_roles.sort!
-    # --------------------
-    # save event
-    if(save_event.save())
-      flash[:notice] += "<br/>Event Saved";
-    else
-      save_event.errors.each_full() do |err|
-        flash[:error] += err + "<br />";
-      end
-    end
-
-    if(params["redirect"])
-      redirect_to(params["redirect"])
-    elsif(save_event.new_record?())
-      redirect_to(:action => "new");
-    else
-      redirect_to(:action => "edit", :id => save_event.id);
-    end
-  end #end of update
-
-  def delete
+  def destroy
     if(!@event)
       if(!params["id"])
         flash[:error] = "You must specify an ID.";
@@ -253,13 +191,13 @@ class EventsController < ApplicationController
   end
 
   def index
-    @title = "Event List";
-
+    @title = "Event List"
+    
     # default view mode
     if (not params["selected"])
       params["selected"] = "future";
     end
-
+    
     # set up options
     options = {:limit => 50};
     if (params[:selected] == "future")
@@ -291,8 +229,6 @@ class EventsController < ApplicationController
       firstOfFirstEventsMonth = Date.civil(@eventdates[0].startdate.year, @eventdates[0].startdate.month, 1)
       _, @monthdates = filtered_events({:startdate => firstOfFirstEventsMonth, :enddate => (firstOfFirstEventsMonth >> 1)})
     end
-
-    render(:layout => "application2")
   end
 
   def calendar_full
@@ -358,12 +294,12 @@ class EventsController < ApplicationController
     else
       @public = false;
     end
-
-    if(params["selected"])
-      @selected = DateTime.parse(params["selected"]);
+    
+    if params[:selected]
+      @selected = DateTime.parse(params[:selected])
     else
-			@selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
-		end
+      @selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
+    end
 
     filterStr = "(events.publish OR events.blackout)";
     if(action_name() == "calendar_full")
@@ -389,8 +325,6 @@ class EventsController < ApplicationController
 
     if(@public)
       render(:action => "calendar", :layout => "public");
-    else
-      render(:layout => "application2")
     end
   end
 
@@ -520,8 +454,7 @@ class EventsController < ApplicationController
   end
 
   def lost
-    @events = Event.find(:all, :order => 'updated_on desc').select { |e| e.eventdates.empty? }
-    render :layout => "application2"
+    @events = Event.find(:all, :order => 'updated_at desc').select { |e| e.eventdates.empty? }
   end
 
   private

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  event_id: 
+  sender: MyString
+  timestamp: 2013-11-03 15:55:36
+  contents: MyText
+  status: MyString
+  subject: MyString
+  message_id: MyString
+
+two:
+  event_id: 
+  sender: MyString
+  timestamp: 2013-11-03 15:55:36
+  contents: MyText
+  status: MyString
+  subject: MyString
+  message_id: MyString

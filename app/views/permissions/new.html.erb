@@ -1,8 +1,28 @@
 <h1>New permission</h1>
 
-<%= error_messages_for :permission %>
+  <% if @permission.errors.any? %>
 
-<% form_for(@permission) do |f| %>
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@permission.errors.count, "error") %> prohibited
+
+        this permission from being saved:</h2>
+
+      <ul>
+
+      <% @permission.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
+
+<%= form_for(@permission) do |f| %>
   <p>
     <b>Pattern</b><br />
     <%= f.text_field :pattern %>

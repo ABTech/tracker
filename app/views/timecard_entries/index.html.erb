@@ -1,0 +1,45 @@
+<% @title = 'Timecard entry list' %>
+<h1>Listing timecard entries</h1>
+
+<% if not @pending.empty? %>
+  <h2>Pending timecard entries</h2>
+  <table class="generic" border="1">
+  <tr><th>Event</th><th>Start Date/Time</th><th>Hours</th><th></th></tr>
+  <% @pending.each do |timecard_entry| %>
+    <tr>
+    <%= render :partial => 'timecard_entry', :object => timecard_entry %>
+    <td><%= link_to 'Edit', edit_timecard_entry_path(timecard_entry) %>
+    <%= link_to 'Delete', timecard_entry_path(timecard_entry), :method => 'delete', :confirm => 'Are you sure?' %>
+    </td></tr>
+  <% end %>
+  </table>
+<% end %>
+
+<% @timecards.each do |timecard| %>
+  <div id="<%=timecard.id -%>.div">
+  <h2><%= link_to 'Timecard', timecard_path(timecard) %> due <%= timecard.due_date.strftime("%m/%d") %></h2>
+  <%= render :partial => 'timecards/timecard', :object => timecard, :locals => {:member => current_member, :details => true } %>
+  </div>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li>Create a <%= link_to 'new timecard entry', new_timecard_entry_path %></li>
+  </ul>
+  
+  Note: Once a timecard has been submitted, it can no longer be edited.
+<% end %>
+
+<% if not @past.empty? %>
+  <% content_for :extra do %>
+    <div class="event-box">
+      <h4>Past timecards</h4>
+      
+      <ul class="simple">
+        <% @past.each do |timecard| %>
+          <li><%= link_to timecard.billing_date.strftime("%b %d"), timecard %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>

@@ -1,16 +1,20 @@
 <h1>Listing permissions</h1>
 
-<table>
+<table class="generic">
   <tr>
-    <th>Pattern</th>
+    <th width="25" class="listheader">&nbsp;</th>
+    <th class="listheader" scope="col">Pattern</th>
   </tr>
 
 <% for permission in @permissions %>
   <tr>
+    <td class="list"><div align="right">
+      <span class="listcontrollink">
+        <%= link_to "show", permission %><br />
+        <%= link_to "edit", edit_permission_path(permission) %><br />
+      </span>
+    </div></td>
     <td><%=h permission.pattern %></td>
-    <td><%= link_to 'Show', permission %></td>
-    <td><%= link_to 'Edit', edit_permission_path(permission) %></td>
-    <td><%= link_to 'Destroy', permission, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

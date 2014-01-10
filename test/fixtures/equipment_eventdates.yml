@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  eventdate_id: 
+  equipment_id: 
+
+two:
+  eventdate_id: 
+  equipment_id: 

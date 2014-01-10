@@ -1,0 +1,28 @@
+<div id="event-container">
+  <script>
+  function boxUpdate()
+  {
+    document.forms['delete_conf'].elements['bigredbutton'].disabled = 
+      !(document.forms['delete_conf'].elements['cond1'].checked &&
+      document.forms['delete_conf'].elements['cond2'].checked &&
+      document.forms['delete_conf'].elements['cond3'].checked &&
+      document.forms['delete_conf'].elements['cond4'].checked);
+  }
+  </script>
+
+  <%= form_tag({:action => "destroy", :id => @event.id}, {:name => "delete_conf", :method => :delete}) do %>
+  You have requested deletion of the event <strong><%= @event.title %></strong>.<br/><br/>
+
+  This is not an easy task. This should not be done very often. As such, please read the following:
+  <ul>
+    <li><input type="checkbox" name="cond1" onChange="boxUpdate()"> Deletion should only be done on events that were mistakenly created. Events with actual data should use the "status" field for modifications.</li>
+    <li> Deleted items <strong>CANNOT</strong> be recovered. Seriously, there's no way. <input type="checkbox" name="cond2" onChange="boxUpdate()"> None at all. Don't mess up.</li>
+    <li> Deletion of this record will also delete all associated event_dates, location mappings, equipment mappings, event roles, invoices (and the invoice's associated lines and journal entries.) <input type="checkbox" name="cond3" onChange="boxUpdate()"> Really, don't do this.</li>
+    <li> If you mess up, delete something, and then want it back, don't email Saagar and ask, because he can't do anything for you.<input type="checkbox" name="cond4" onChange="boxUpdate()"></li>
+  </ul>
+
+  Before you can confirm deletion, check the four boxes above to confirm you really understand. In case you couldn't tell, I am not a huge fan of the deletion ability. After you do that, cross your fingers and press the magic button.<br/>
+
+  <%= submit_tag("yeah, whatever. just shut up and do it", {:disabled => true, :name => "bigredbutton"}) %>
+  <% end %>
+</div>

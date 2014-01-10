@@ -1,0 +1,35 @@
+<% @title = 'Edit timecard entry' %>
+<h1>Edit timecard entry</h1>
+<p>
+  <% if @timecard_entry.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@timecard_entry.errors.count, "error") %> prohibited
+
+        this timecard_entry from being saved:</h2>
+
+      <ul>
+
+      <% @timecard_entry.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
+[6:27:34 PM] E
+
+</p>
+<%= form_tag timecard_entry_path(@timecard_entry), :method => 'put' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Update' %>
+  <p>
+    <%= link_to 'Back', timecard_entries_path %>
+    <%= link_to 'Destroy', timecard_entry_path(@timecard_entry), :confirm => 'Are you sure?', :method => :delete %>
+  </p>
+<%- end %>

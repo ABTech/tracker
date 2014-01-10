@@ -2,9 +2,9 @@
 <p><%= @role.info %></p>
 <h3>Permissions:</h3>
 <ul>
-<% @role.permissions.each do |perm| %>
-  <li><%= perm.pattern %></li>
-<% end %>
+  <% @role.permissions.each do |perm| %>
+    <li><%= perm.pattern %></li>
+  <% end %>
 </ul>
 <%= link_to 'edit', edit_role_path(@role) %>
 <%= link_to 'destroy', @role, :method => :delete, :confirm => 'Are you sure?' %>

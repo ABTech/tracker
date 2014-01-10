@@ -1,0 +1,100 @@
+<%= form_for @member do |f| %>
+  <% if @member.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@member.errors.count, "error") %> prohibited
+
+        this member from being saved:</h2>
+
+      <ul>
+
+      <% @member.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
+<table class="generic">
+<tr>
+  <th><%= f.label :kerbid, "Kerbid" %></th>
+  <td><%= f.text_field :kerbid %></td>
+</tr>
+<tr>
+  <th><%= f.label :namefirst, "First name" %></th>
+  <td><%= f.text_field :namefirst %></td>
+</tr>
+<tr>
+  <th><%= f.label :namelast, "Last name" %></th>
+  <td><%= f.text_field :namelast %></td>
+</tr>
+<tr>
+  <th><%= f.label :namenick, "Nickname" %></th>
+  <td><%= f.text_field :namenick %></td>
+</tr>
+<tr>
+  <th><%= f.label :title %></th>
+  <td><%= f.text_field :title %></td>
+</tr>
+<tr>
+  <th><%= f.label :callsign, "Ham radio callsign" %></th>
+  <td><%= f.text_field :callsign %></td>
+</tr>
+<tr>
+  <th><%= f.label :shirt_size, "Shirt size" %></th>
+  <td><%= f.select :shirt_size, sizes_for_select %></td>
+</tr>
+<tr>
+  <th><%= f.label :phone %></th>
+  <td><%= f.text_field :phone %></td>
+</tr>
+<tr>
+  <th><%= f.label :aim, "AIM" %></th>
+  <td><%= f.text_field :aim %></td>
+</tr>
+<tr>
+	<th><%= f.label :ssn, "Last 4 digits of SSN" %></th>
+	<td><%= f.text_field :ssn %></td>
+</tr>
+
+<% if (current_member().authorized?("/accounts/list")) %>
+  <tr>
+  	<th><%= f.label :payrate %></th>
+  	<td>$<%= f.text_field :payrate %> per hour</td>
+  </tr>
+<% end %>
+
+<tr>
+  <th><%= f.label :password %></th>
+  <td><%= f.password_field :password %></td>
+</tr>
+<tr>
+  <th><%= f.label :password_confirmation %></th>
+  <td><%= f.password_field :password_confirmation %></td>
+</tr>
+<tr>
+  <th><%= f.label :role_ids, "Roles" %></th>
+  <td>
+    <% if(@edit_roles) %>
+      <%= f.select :role_ids, options_from_collection_for_select(Role.find(:all, :order => 'name'), "id", "name", @member.roles.collect{|r| r.id}), {}, {multiple: "multiple", size: "5"} %>
+    <% else %>
+      <ul class="simple">
+        <% @member.roles.each do |role| %>
+          <li><%= link_to role.name, role %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </td>
+</tr>
+<tr>
+  <th></th>
+  <td><%= f.submit %></td>
+</tr>
+</table>
+<!--[eoform:member]-->
+<% end %>

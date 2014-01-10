@@ -1,0 +1,36 @@
+  <% if @invoice_items.errors.any? %>
+
+    <div id="errorExplanation">
+
+      <h2><%= pluralize(@invoice_items.errors.count, "error") %> prohibited
+
+        this invoice_items from being saved:</h2>
+
+      <ul>
+
+      <% @invoice_items.errors.full_messages.each do |msg| %>
+
+        <li><%= msg %></li>
+
+      <% end %>
+
+      </ul>
+
+    </div>
+
+  <% end %>
+
+<!--[form:invoice_items]-->
+<p><label for="invoice_items_memo">Memo</label><br/>
+<%= text_field 'invoice_items', 'memo'  %></p>
+
+<p><label for="invoice_items_category">Category</label><br/>
+<%= text_field 'invoice_items', 'category'  %></p>
+
+<p><label for="invoice_items_price_recognized">Price recognized</label><br/>
+<%= text_field 'invoice_items', 'price_recognized'  %></p>
+
+<p><label for="invoice_items_price_unrecognized">Price unrecognized</label><br/>
+<%= text_field 'invoice_items', 'price_unrecognized'  %></p>
+<!--[eoform:invoice_items]-->
+

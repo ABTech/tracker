@@ -1,11 +1,11 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  user: 
+  member_id: 
   content: MyText
-  event: 
+  event_id: 
 
 two:
-  user: 
+  member_id: 
   content: MyText
-  event: 
+  event_id: 

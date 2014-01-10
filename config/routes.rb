@@ -1,39 +1,142 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :permissions
-  map.resources :roles
-  map.resources :locations
-  map.resources :comments
-  map.resources :members, :collection => [:edit_self]
-  map.resources :accounts, :collection => {:list => :get, :unpaid => :get, :unpaid_print => :get, :events => :get}
+Abtt::Application.routes.draw do
+  resources :accounts do
+    collection do
+      post 'confirm_paid'
+      get 'events'
+      get 'list'
+      get 'unpaid'
+      get 'unpaid_print'
+      get 'view'
+    end
+  end
 
-  map.connect "calendar/generate.:format", :controller => "events", :action => "generate"
-  map.connect "calendar", :controller => "events", :action => "calendar";
+  resources :attachments, only: [:destroy, :index]
 
-  map.connect "mobile", :controller => "events", :action => "mobile";
-  map.connect "iphone", :controller => "events", :action => "iphone";
-  map.connect "i", :controller => "events", :action => "iphone";
-  map.connect "invoice/email/:id", :controller =>"invoice", :action=>"email", :conditions => {:method=>:post}
+  resources :comments, only: [:create, :destroy]
 
-  map.resources :organizations
-  map.resources :bugs
-  map.resources :tshirts
-  map.connect "invoice/list", :controller => "invoice", :action => "list"
-  map.resources :invoice
-  map.resources :timecard_entries, :except => ['show']
-	map.resources :timecards, :member => {:view => :get }
-  map.resources :events,
-                :member => [:delete_conf, :mobile_email],
-                :collection => [:calendar, :iphone, :mobile, :lost]
+  resources :email, only: [:view] do
+    collection do
+      get 'file'
+      post 'file'
+      get 'list'
+      get 'mark_status'
+      get 'new_thread'
+      post 'pull_email'
+      get 'reply_to'
+      get 'send_email'
+      get 'unfile'
+    end
+    member do
+      get 'view'
+    end
+  end
 
-  map.resources :attachments, :only => ["index", "destroy"]
+  resources :email_forms, except: [:index] do
+    collection do
+      get 'list'
+    end
+  end
 
-  map.resource :version, :controller => :version, :only => ["show"] 
+  resources :equipment, only: [] do
+    collection do
+      get 'delgroup'
+      get 'delitem'
+      get 'editgroup'
+      get 'edititem'
+      get 'newgroup'
+      get 'newitem'
+      post 'savegroup'
+      post 'saveitem'
+      get 'tree'
+      get 'treesave'
+      get 'usage'
+    end
+  end
 
-  map.connect "login", :controller => "useraccount", :action => "login"
-  map.connect "logout", :controller => "useraccount", :action => "logout"
+  resources :events do
+    member do
+      get 'delete_conf'
+      get 'mobile_email'
+      get 'show_email'
+      get 'finance'
+    end
+    collection do
+      get 'delete_conf'
+      get 'calendar'
+      get 'iphone'
+      post 'iphone'
+      get 'mobile'
+      get 'lost'
+    end
+  end
 
-  map.root :controller => "events", :action => "index" 
+  resources :heartbeat, only: [:index]
 
-  # Install the default route as the lowest priority.
-  map.connect ':controller/:action/:id'
+  resources :invoice, only: [:create, :edit, :new] do
+    collection do
+      get 'email'
+      get 'email_confirm'
+      get 'list'
+      get 'prettyView'
+      get 'view'
+    end
+  end  
+
+  resources :invoice_items, except: [:show] do
+    collection do
+      get 'list'
+    end
+  end
+
+  resources :journal, except: [:show, :update] do
+    collection do
+      get 'list'
+      post 'save'
+    end
+    member do
+      get 'view'
+    end
+  end
+
+  resources :locations
+
+  resources :member_filter, only: [:edit, :new, :save]
+
+  resources :members do
+    collection do
+      get 'edit_self'
+      get 'settings'
+    end
+  end
+
+  resources :organizations
+
+  resources :permissions
+
+  resources :roles
+
+  resources :timecards do
+    member do
+      get 'view'
+    end
+  end
+
+  resources :timecard_entries, except: :show
+
+  resources :tshirts, only: :index
+
+  resources :version, only: :show
+
+  post 'login' => 'useraccount#login'
+  get 'logout' => 'useraccount#logout'
+  get 'useraccount/access_denied'
+
+  get 'calendar/generate.:format' => 'events#generate'
+  get 'calendar' => 'events#calendar'
+  get 'mobile' => 'events#mobile'
+  get 'iphone' => 'events#iphone'
+  get 'i' => 'events#iphone'
+  post 'invoice/email/:id' => 'invoice#email'
+
+  root to: 'events#index'
 end

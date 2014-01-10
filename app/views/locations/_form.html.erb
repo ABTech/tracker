@@ -1,0 +1,23 @@
+<% if @location.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@location.errors.count, "error") %> prohibited
+      this location from being saved:</h2>
+    <ul>
+    <% @location.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<!--[form:location]-->
+<p><%= f.label :building %>:
+  <%= f.text_field :building %></p>
+<p><%= f.label :floor %>:
+  <%= f.text_field :floor %></p>
+<p><%= f.label :room %>:
+  <%= f.text_field :room %></p>
+<p><%= f.label :details %>:
+  <%= f.text_area :details %></p>
+<!--[eoform:location]-->
+

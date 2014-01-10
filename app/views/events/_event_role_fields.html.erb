@@ -1,0 +1,5 @@
+<tr class="event-role-form fields association-<%= f.index %>">
+  <td><%= f.select :role, roles_for_select %></td>
+  <td><%= f.select :member_id, members_for_select(f.object) %></td>
+  <td><%= link_to_remove_fields "delete", f %></td>
+</tr>

@@ -1,0 +1,46 @@
+<% content_for :sidebar do %>
+  <% load_account_totals %>
+<fieldset class="account-totals">
+  <legend>Totals</legend>
+
+  <table><tr><td>
+        <a href="/accounts/list" class="tablelink">
+  <table class="account total">
+    <tr><td>Total</td></tr>
+    <tr><td><%= number_to_currency (@accounts_receivable_total + @accounts_received_total - @accounts_payable_total - @accounts_paid_total) %></td></tr>
+</table></a>
+</td></tr></table>
+  <% @cat_totals.keys.each do |category| %>
+      <table><tr><td>
+
+            <a href="/accounts/list?category=<%=category%>" class="tablelink">
+    <table class="category">
+      <tr><td><%= category.empty? ? "Other" : category%></td></tr>
+      <tr><td><%= number_to_currency @cat_totals[category] %></td></tr>
+    </table>
+  </td></tr></table>
+  <% end %>
+
+  </fieldset>
+  
+  <div id="event-more" class="event-box">
+    <h4>More</h4>
+    
+    <ul>
+      <% if not (params[:controller] == "accounts" and params[:action] == "list") %>
+        <li><%= link_to "Back to finance home", list_accounts_url %></li>
+      <% end %>
+      <li><%= link_to("List Unpaid JEs", :controller => "accounts", :action => "unpaid") %></li>
+      <li><%= link_to("Audit Completed Events", :controller => "accounts", :action => "events") %></li>
+      <li><%= link_to("List Invoices", :controller => "invoice", :action => "list") %></li>
+      <li><%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %></li>
+      <li><%= link_to "View Accounts", accounts_path %></li>
+      <% if content_for?(:more) %>
+        <hr />
+        <%= yield :more %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= render template: "layouts/application" %>

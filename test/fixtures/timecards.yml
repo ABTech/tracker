@@ -1,26 +1,21 @@
-# == Schema Information
-# Schema version: 93
-#
-# Table name: timecards
-#
-#  id           :integer(11)     not null, primary key
-#  billing_date :datetime
-#  due_date     :datetime
-#  submitted    :boolean(1)
-#  start_date   :datetime
-#  end_date     :datetime
-#
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
-  id: 1
-  member_id: 1
-  billing_date: 2010-12-30 19:52:44
-  due_date: 2010-12-30 19:52:44
+  billing_date: 2013-11-03 19:19:22
+  rails: MyString
+  g: MyString
+  model: MyString
+  due_date: 2013-11-03 19:19:22
   submitted: false
+  start_date: 2013-11-03 19:19:22
+  end_date: 2013-11-03 19:19:22
+
 two:
-  id: 2
-  member_id: 1
-  billing_date: 2010-12-30 19:52:44
-  due_date: 2010-12-30 19:52:44
+  billing_date: 2013-11-03 19:19:22
+  rails: MyString
+  g: MyString
+  model: MyString
+  due_date: 2013-11-03 19:19:22
   submitted: false
+  start_date: 2013-11-03 19:19:22
+  end_date: 2013-11-03 19:19:22

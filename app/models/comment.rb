@@ -1,24 +1,15 @@
-# == Schema Information
-#
-# Table name: comments
-#
-#  id         :integer          not null, primary key
-#  member_id  :integer
-#  content    :text
-#  event_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class Comment < ActiveRecord::Base
-  belongs_to :event
   belongs_to :member
-before_destroy :can_destroy?
+  belongs_to :event
+  
+  validates :content, presence: true
 
-attr_accessor :current_member
+  attr_accessor :current_member
+  attr_accessible :content
 
-def can_destroy?
-  current_member==member
-end
+  before_destroy :can_destroy?
 
+  def can_destroy?
+    current_member==member
+  end
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  memo: MyString
+  category: MyString
+  price_recognized: 1
+  price_unrecognized: 1
+
+two:
+  memo: MyString
+  category: MyString
+  price_recognized: 1
+  price_unrecognized: 1

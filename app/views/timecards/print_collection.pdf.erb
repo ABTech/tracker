@@ -1,0 +1,13 @@
+<%
+pdf = Prawn::Document.new(:page_size => 'LETTER')
+pdf.font 'public/CourierStd.ttf', :size => 10
+@timecard.members.each do |member|
+	height = 720
+	string = (render :partial => 'formatted_timecard', :formats => [:text], :locals => {:timecard => @timecard, :member => member})
+	string.split("\n").each do |line|
+		pdf.draw_text line, :at => [36,height]
+		height -= 11
+	end
+	pdf.start_new_page unless member == @timecard.members[-1]
+end
+-%><%= pdf.render.html_safe %>

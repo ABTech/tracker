@@ -1,0 +1,231 @@
+<style>
+#condensed-radio {
+  margin-left: 0;
+  vertical-align: top;
+}
+#full-radio {
+  margin-left: 20px;
+  vertical-align: top;
+}
+label.big {
+  font-size: 13pt;
+  font-weight: bold;
+}
+#condensed-div, #full-div {
+  position: relative;
+  top: 0;
+  width: 500px;
+  height: 600px;
+  padding: 10px;
+  border: 1px solid #bbb;
+  background: #fafafa;
+  overflow: auto;
+}
+.hidden {
+  display: none;
+}
+td input {
+  vertical-align: bottom;
+}
+.buttons input {
+  font-size: 14pt;
+  margin: 8px 16px 8px 0;
+}
+.buttons input.big {
+  font-size: 20pt;
+  font-weight: bold;
+}
+#existing-event-div table {
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+#existing-event-div th {
+  font-size: 9pt;
+  background: #eeeef3;
+  border: 1px solid #ccc;
+}
+#existing-event-div th.subject-match {
+  background: #aaddaa;
+  border: 1px solid #99aa99;
+  color: #020;
+}
+#existing-event-div td {
+  font-size: 10pt;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+#existing-event-div td.subject-match {
+  background: #f3fff3;
+  border: 1px solid #99aa99;
+  color: #fff;
+}
+#existing-event-div td span.date {
+  margin-left: 5px;
+  color: #999;
+}
+#existing-event-div td.spacer {
+  border-left: 0;
+  border-right: 0;
+}
+</style>
+
+<script>
+  var lastshown = null;
+  function divfilter(which) {
+    if (lastshown) {
+      lastshown.className = "hidden";
+    }
+    lastshown = document.getElementById(which);
+    if (lastshown) {
+      lastshown.className = "shown";
+    }
+  }
+  
+  function showEmail(condensed) {
+    document.getElementById("condensed-div").className = condensed ? "shown" : "hidden";
+    document.getElementById("full-div").className = condensed ? "hidden" : "shown";
+  }
+</script>
+
+<table><tr><td style="vertical-align: top">
+<div style="margin: 0 10px">
+  <input id="condensed-radio" type="radio" name="showemail" onChange="showEmail(true);" checked="checked">
+  <label class="big" for="condensed-radio">Condensed</label>
+  <input id="full-radio" type="radio" name="showemail" onChange="showEmail(false);">
+  <label class="big" for="full-radio">Full</label><br/>
+  <div id="condensed-div" class="shown">
+    <b>Date:</b> <%= @email.timestamp.strftime("%A, %B %d at %I:%M %p") %><br/>
+    <b>Sender:</b> <%= @email.sender %><br/>
+    <b>Subject:</b> <%= @email.subject %><br/>
+    <%= simple_format(h @email.quoteless_contents)%>
+  </div>
+  <div id="full-div" class="hidden">
+    <b>Date:</b> <%= @email.timestamp.strftime("%A, %B %d at %I:%M %p") %><br/>
+    <b>Sender:</b> <%= @email.sender %><br/>
+    <b>Subject:</b> <%= @email.subject %><br/>
+    <%= simple_format(h @email.headers) %>
+    <%= simple_format(h @email.contents)%>
+  </div>
+</div>
+</td>
+
+<% if (current_member.authorized? "email/file") and (@email.status == Email::Email_Status_Unfiled) %>
+<td style="vertical-align: top">
+<div style="padding-top: 11px;">
+  <%= form_tag({:action => "file", :id => @email.id}, :name => "fileform") do %>
+  <%= hidden_field_tag("skip", @skip) %>
+  <%= hidden_field_tag("next", @next) %>
+  
+  <div class="buttons">
+    <%= submit_tag(EmailController::File_Action_Trash) %>
+    <%= submit_tag(EmailController::File_Action_Skip) %><br/>
+    <%= submit_tag(EmailController::File_Action_File_Event, :class => "big") %>
+  </div>
+  
+  <%= radio_button_tag("fileaction", EmailController::File_Action_New_Event, (@fileaction == EmailController::File_Action_New_Event), :onClick => "divfilter('new-event-div')", :id => "new-event-radio") %>
+  <label class="big" for="new-event-radio" style="margin-right: 8px;">New Event</label>
+  
+  <%= radio_button_tag("fileaction", EmailController::File_Action_Existing_Event, (@fileaction == EmailController::File_Action_Existing_Event), :onClick => "divfilter('existing-event-div')", :id => "existing-event-radio") %>
+  <label class="big" for="existing-event-radio">Existing Event</label><br />
+  
+  <div id="new-event-div" class="hidden">
+  <% @event_form_name = "fileform"; %>
+  <% @is_view_mode = false; %>
+  <%= fields_for @event do |builder| %>
+    <%= render(:partial => 'events/form', :controller => 'events', :locals => {:f => builder}) %>
+  <% end %>
+  </div>
+
+  <% default_found = false; %>
+  
+  <%
+    def event_date(evt)
+      if (evt.eventdates.length() > 0 && evt.eventdates[0].startdate)
+        "<span class=\"date\">".html_safe + evt.eventdates[0].startdate.strftime('%m/%d/%y') + "</span>".html_safe
+      end
+    end
+  %>
+  
+  <div id="existing-event-div" class="hidden">
+    <table>
+      <% matches = Event.find(:all, :conditions => ["id IN (SELECT DISTINCT event_id FROM emails WHERE subject LIKE (?))", (@email.subject[4,@email.subject.length])], :order => "updated_at DESC") %>
+      <% if(!matches.empty?) %>
+        <tr><th class="subject-match">match by subject<br /></th></tr>
+        <tr><td class="subject-match">
+          <% matches.each do |evt| %>
+            <%= radio_button_tag("email[event_id]", evt.id, !default_found) %> <%= link_to(evt.title, event_path(evt), :popup => true) %>
+            <%= event_date(evt) %><br/>
+            <% default_found = true; %>
+          <% end %>
+        </td></tr>
+        <tr><td class="spacer"></td></tr>
+      <% end %>
+      
+      <% matches = Event.find(:all, :conditions => ["contactemail LIKE (?)", "%#{@email.sender}%"], :order => "updated_at DESC") %>
+      <% if(!matches.empty?) %>
+        <tr><th>match by sender<br /></th></tr>
+        <tr><td>
+            <% matches.each do |evt| %>
+              <%= radio_button_tag("email[event_id]", evt.id, !default_found) %> <%= link_to(evt.title, event_path(evt), :popup => true) %>
+              <%= event_date(evt) %><br/>
+              <% default_found = true; %>
+            <% end %>
+        </td></tr>
+        <tr><td class="spacer"></td></tr>
+      <% end %>
+    
+      <% @email.subject.split().each do |word| %>
+        <% if (word != "Re:") %>
+          <% matches = Event.find(:all, :conditions => ["title LIKE (?)", "%#{word}%"], :limit => 5, :order => "updated_at DESC") %>
+          <% if(!matches.empty?) %>
+            <tr><th>match by subject (<%= word %>)<br /></th></tr>
+            <tr><td>
+              <% matches.each do |evt| %>
+                <%= radio_button_tag("email[event_id]", evt.id, !default_found) %> <%= link_to(evt.title, event_path(evt), :popup => true) %>
+                <%= event_date(evt) %><br/>
+                <% default_found = true; %>
+              <% end %>
+            </td></tr>
+            <tr><td class="spacer"></td></tr>
+          <% end %>
+        <% end %>
+      <% end %>
+      
+      <% matches = Event.find(:all, :limit => 80, :order => "updated_at DESC", :include => :eventdates) %>
+      <tr><th>all events<br /></th></tr>
+      <tr><td>
+        <div style="height: 200px; overflow: auto;">
+          <% matches.each do |evt| %>
+            <%= radio_button_tag("email[event_id]", evt.id, !default_found) %> <%= link_to(evt.title, event_path(evt), :popup => true) %>
+            <%= event_date(evt) %><br/>
+            <% default_found = true; %>
+          <% end %>
+        </div>
+      </td></tr>
+    </table>
+    <div style="margin-top: 3px; font-size: 9pt; color: #aaa; font-family: arial,san-serif;"><i>Hint: use in-browser find to search for events and dates.</i></div>
+  </div>
+  
+  <% end %>
+</div>
+</td>
+<% end %>
+
+</tr>
+</table>
+<script>
+<% 
+case(@fileaction)
+when EmailController::File_Action_New_Event
+%>
+  divfilter('new-event-div');
+<%
+when EmailController::File_Action_Existing_Event
+%>
+  divfilter('existing-event-div');
+<%
+end
+%>
+</script>
+<p></p>
+

@@ -1,64 +1,21 @@
-<style>
-	input.search_empty, input.search_full {
-		width: 173px;
-		margin-left: -1px;
-		padding-left: 1px;
-	}
-	input.search_empty { color: #BBBBBB; border: 1px solid #BBBBBB; }
-	input.search_full { color: #000000; border: 1px solid #666666; }
-</style>
+<%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
 
-<script>
-	function focus_search() {
-		search = document.getElementById("search");
-		if (search.className == "search_empty") {
-			search.className = "search_full";
-			search.value = "";
-		}
-	}
-	function blur_search() {
-		search = document.getElementById("search");
-		if (search.value == "") {
-			search.className = "search_empty";
-			search.value = "Search";
-		}
-	}
-</script>
+<% content_for :calendar do %>
+  <%=
+  if (params[:selected] == "month" && params[:year] && params[:month])
+    selected = Date.civil(params[:year].to_i, params[:month].to_i, 1)
+  elsif (not @eventdates.empty?)
+    selected = Date.parse(@eventdates[0].startdate.to_s)
+  else
+    selected = Date.today
+  end
+  render :partial => "monthview", :locals => {:selected => selected, :dates => @monthdates, :show_arrows => true}
+  %>
+<% end %>
 
-<table class="eventsmain">
-	<tr>
-		<td style="padding: 0 20px">
-			<%=
-			if (params[:selected] == "month" && params[:year] && params[:month])
-				selected = Date.civil(params[:year].to_i, params[:month].to_i, 1)
-			elsif (not @eventdates.empty?)
-				selected = Date.parse(@eventdates[0].startdate.to_s)
-			else
-				selected = Date.today
-			end
-			render :partial => "monthview", :locals => {:selected => selected, :dates => @monthdates, :show_arrows => true}
-			%><br/>
-			<form>
-				<input type="hidden" name="selected" value="search"/>
-				<input id="search" name="q" type="text" value="Search" class="search_empty" onFocus="focus_search()" onBlur="blur_search()"/>
-			</form><br/>
-			Create a <%= link_to("new event", new_event_path) %>.<br/>
-			There are <%= link_to(Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]).to_s + " incomplete events", {:controller => 'events', :action => 'index', :selected => "incomplete"}) %>!
-                        <br />
-                        <br />
-                        <%= link_to "Lost Events", lost_events_path %>
-			<br />
-			<br />
-			Submit a <%= link_to "tracker bug", "https://github.com/ABTech/abtt/issues" %>. <%# this link could be a modal popup %>
-      <!-- Tracker revision -->
-	<div id="version">
-          <!-- Are you reading this?! You should be contributing to the tracker! Contact abtech@andrew.cmu.edu for more info. -->
-          <%= link_to app_version, "http://github.com/ABTech/abtt", :title => "Fork me on Github!", :style => "color: #555a5f; text-decoration: none;" %>
-	</div>
-
-		</td><td style="width: 100%">
-			<%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
-		</td>
-	</tr>
-</table>
-<br />
+<% content_for :more do %>
+  <ul>
+    <li>Create a <%= link_to("new event", new_event_path) %>.</li>
+    <li>View <%= link_to "incomplete events", {:controller => 'events', :action => 'index', :selected => "incomplete"} %>. (<%= Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]) %>)
+  </ul>
+<% end %>

@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  namefirst: MyString
+  namelast: MyString
+  kerbid: MyString
+  namenick: MyString
+  phone: MyString
+  aim: MyString
+  crypted_password: MyString
+  salt: MyString
+  remember_token: MyString
+  remember_token_expires_at: 2013-11-03 19:13:41
+  settingstring: MyString
+  title: MyString
+  callsign: MyString
+  shirt_size: MyString
+  ssn: 1
+  payrate: 1.5
+
+two:
+  namefirst: MyString
+  namelast: MyString
+  kerbid: MyString
+  namenick: MyString
+  phone: MyString
+  aim: MyString
+  crypted_password: MyString
+  salt: MyString
+  remember_token: MyString
+  remember_token_expires_at: 2013-11-03 19:13:41
+  settingstring: MyString
+  title: MyString
+  callsign: MyString
+  shirt_size: MyString
+  ssn: 1
+  payrate: 1.5

@@ -1,0 +1,114 @@
+<div class="event-form">
+  <% if @event.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited
+        this event from being saved:</h2>
+      <ul>
+      <% @event.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div id="event-form-left">
+    <fieldset id="event-form-main">
+      <legend>Main</legend>
+    
+      <table>
+        <tr>
+          <td><%= f.label :title %>:</td>
+          <td><%= f.text_field :title %></td>
+        </tr>
+        <tr>
+          <td>Organization:</td>
+          <td>
+            <%= f.radio_button :org_type, "old", checked: "checked" %>
+            <%= f.select :organization_id, organizations_for_select %>
+            <br/>
+            <%= f.radio_button :org_type, "new" %>
+            <%= f.label :org_type_new, "New" %>:
+            <%= f.text_field :org_new %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= f.label :status %>:</td>
+          <td><%= f.select :status, statuses_for_select %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :blackout %>:</td>
+          <td><%= f.check_box :blackout %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :rental %>:</td>
+          <td><%= f.check_box :rental %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :publish, "Published" %>:</td>
+          <td><%= f.check_box :publish %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :contact_name, "Contact Name" %>:</td>
+          <td><%= f.text_field :contact_name %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :contactemail, "Contact Email" %>:</td>
+          <td><%= f.text_field :contactemail %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :contact_phone, "Contact Phone" %>:</td>
+          <td><%= f.text_field :contact_phone %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :notes, "Notes" %>:</td>
+          <td><%= f.text_area :notes, size: "80x10" %></td>
+        </tr>
+      </table>
+    </fieldset>
+    
+    <fieldset id="event-form-dates">
+      <legend>Dates</legend>
+    
+      <%= f.fields_for :eventdates do |builder| %>
+        <%= render :partial => 'events/eventdate_fields', :locals => {:f => builder} %>
+      <% end %>
+    
+      <p>
+        <%= link_to_add_fields "Add another event date", f, :eventdates %>
+      </p>
+    </fieldset>
+    
+    <fieldset id="event-form-attachments">
+      <legend>Attachments</legend>
+      
+      <table>
+        <%= f.fields_for :attachments do |builder| %>
+          <%= render :partial => 'events/attachment_fields', :locals => {:f => builder} %>
+        <% end %>
+      
+        <tr>
+          <td colspan=3><%= link_to_add_fields "Add an attachment", f, :attachments, "2" %></td>
+        </tr>
+      </table>
+    </fieldset>
+  </div>
+  
+  <fieldset id="event-form-roles">
+    <legend>Roles</legend>
+    
+    <table>
+      <tr>
+        <th>Role</th>
+        <th>Techie</th>
+      </tr>
+      
+      <%= f.fields_for :event_roles do |builder| %>
+        <%= render :partial => 'events/event_role_fields', :locals => {:f => builder} %>
+      <% end %>
+    
+      <tr>
+        <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2" %></td>
+      </tr>
+    </table>
+  </fieldset>
+</div>

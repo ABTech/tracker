@@ -1,0 +1,43 @@
+<h1>Email Filing</h1>
+
+<% content_for :more do %>
+  <%= form_tag(:action => "pull_email") do %>
+    IMAP User: <%= text_field_tag("imapuser", nil) %><br/>
+    IMAP Password: <%= password_field_tag("imappassword", nil) %><br/>
+    <%= submit_tag("pull from inbox") %>
+  <% end %>
+  <% if @file_email %>
+    or <%= link_to "file incoming emails", view_email_url(@file_email, :next => "continue") %>
+  <% end %>
+<% end %>
+
+<table width="100%" class="generic">
+  <tr>
+    <th width="75" class="listheader" scope="col">Date</th>
+    <th width="75" class="listheader" scope="col">Time</th>
+    <th width="75" class="listheader" scope="col"><div align="center">Status</div></th>
+    <th width="200" class="listheader" scope="col"><div align="left">Sender</div></th>
+    <th class="listheader" scope="col">Subject</th>
+    <th width="25" class="listheader" scope="col">Event</th>
+  </tr>
+  
+  <% @emails.each do |email| %>
+    <tr>
+      <td class="list"><div align="left"><%= email.timestamp.strftime("%b %d, %Y") %></div></td>
+      <td class="list"><div align="left"><%= email.timestamp.strftime("%I:%M %p") %></div></td>
+      <td class="list"><div align="left"><%= email.status %> <small>
+        <% if email.status != "Unfiled" %>
+          <%= link_to("unfile", {:action => "unfile", :id => email.id}) %>
+        <% end %></small></div></td>
+      <td class="list"><div align="left"><%= email.sender %></div></td>
+      <td class="list"><div align="left"><%= link_to(email.subject, {:action => "view", :id => email.id}) %></div></td>
+      <td class="list"><div align="right">
+        <% if(email.event) %>
+          <%= link_to "event", event_path(email.event) %>
+        <% end %>
+      </div></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @emails %>

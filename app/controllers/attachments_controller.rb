@@ -1,8 +1,9 @@
 class AttachmentsController < ApplicationController
-  layout "application2"
 
   # GET /attachments/
   def index
+    @title = "Attachments List"
+
     @attachments = Attachment.find(:all)
 
     respond_to do |format|

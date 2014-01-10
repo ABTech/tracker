@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  parent_id: 1
+  description: MyString
+  position: 1
+  shortname: MyString
+
+two:
+  parent_id: 1
+  description: MyString
+  position: 1
+  shortname: MyString

@@ -1,0 +1,14 @@
+<h2><%= @org.id %>: <%= @org.name %></h2>
+<p><b><%= @org.events.length %> Events:</b></p>
+<ul>
+  <% @org.events.each do |e| %>
+    <li><%= link_to e.to_s, e %></li>
+  <% end %>
+</ul>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Edit", edit_organization_path(@org) %></li>
+    <li><%= link_to "Back to list of organizations", organizations_path %></li>
+  </ul>
+<% end %>

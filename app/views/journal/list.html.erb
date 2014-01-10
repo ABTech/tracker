@@ -1,0 +1,41 @@
+<h1>List of Journal Entries</h1>
+<ul>
+<li><%= link_to("Create a new credit JE", :action => "new", :is_credit => 1) %>
+<li><%= link_to("Create a new debit JE", :action => "new", :is_credit => 0) %>
+</ul>
+
+<%= will_paginate @journals %>
+
+<table class="generic" width="100%">
+  <tr>
+    <th class="listheader">Date</th>
+    <th class="listheader">Date Paid</th>
+    <th class="listheader">Memo</th>
+    <th class="listheader">Amount</th>
+    <th class="listheader">Account</th>
+    <th class="listheader">Relation Link</th>
+  </tr>
+  
+  <% @journals.each do |journal| %>
+    <tr>
+      <td class="list"><%= journal.date.strftime("%A, %B %d %Y") %></td>
+      <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %></td>
+      <td class="list"><%= link_to(journal.memo, {:action => "edit", :id => journal.id}) %></td>
+      <td class="list"><%= number_to_currency journal.amount %></td>
+      <td class="list"><%= link_to(journal.account.name, {:action => "view", :id => journal.account_id}) %></td>
+      <td class="list">
+        <% case(journal.class.name) 
+           when "JeInv", "JeInvPaid" %>
+            <%= link_to("invoice", {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %>
+
+        <% when "JeOther", "JePay" %>
+            none
+        <% else %>
+            unknown JE type: <%= journal.class.name %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @journals %>

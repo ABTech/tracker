@@ -1,45 +1,39 @@
-ABTT_SERVER = "abtt.abtech.org"
-set :application, "ABTT"
-set :repository,  "git@github.com:ABTech/abtt.git"
+require "bundler/capistrano"
 
-# deploy_to is /u/apps/ABTT...
+set :application, "abtt"
+set :repository,  "https://github.com/hatkirby/abtt.git"
+set :branch, "rails-4"
+set :deploy_to, "/srv/rails/abtt"
+set :user, 'egarbade'
+set :domain, 'egarbade.org'
+set :default_shell, "sudo su"
+set :rails_env, "production"
 
-set :scm, :git
+set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
+# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-set :branch, fetch(:branch, "production")
+role :web, domain                          # Your HTTP server, Apache/etc
+role :app, domain                          # This may be the same as your `Web` server
+role :db,  domain, :primary => true # This is where Rails migrations will run
 
-role :web, ABTT_SERVER
-role :app, ABTT_SERVER
-role :db,  ABTT_SERVER, :primary => true
+# if you want to clean up old releases on each deploy uncomment this:
+# after "deploy:restart", "deploy:cleanup"
 
-set :use_sudo, false # To deploy, you need to be in the unix group webmaster on the server
+# if you're still using the script/reaper helper you will need
+# these http://github.com/rails/irs_process_scripts
 
-before :deploy, 'deploy:confirm'
-after :deploy, 'postdeploy:verify'
-
+# If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
-  task :confirm do
-    puts "Please review the diff. If everything looks good, confirm deployment. Otherwise, cancel it."
-    deploy.pending.diff
-    print "Continue deployment (y/N)? " 
-    raise "Aborting deployment now!" unless STDIN.gets.strip.downcase == "y"
-  end
-  task :start  do end
-  task :stop do end
+  task :start do ; end
+  task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{release_path}/tmp/restart.txt"
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
-  after "deploy:setup" do
-    run "touch #{deploy_to}/#{shared_dir}/database.yml"
-  end
-  after "deploy:update_code" do
-    run "rm -f #{release_path}/config/database.yml && ln -s #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml"
+  
+  desc "Symlink shared config files"
+  task :symlink_config_files do
+    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secret_token.rb #{ release_path }/config/initializers/secret_token.rb"
   end
 end
 
-namespace :postdeploy do
-  desc "Hit the http endpoints and make sure the server's still alive."
-  task :verify do
-    puts "Something seems to have esplodeded! Check https://#{ABTT_SERVER}/ and make sure it's still alive." unless %x{curl -kI https://#{ABTT_SERVER}/heartbeat|head -n1}.match /200 OK/
-  end
-end
+after "deploy:finalize_update", "deploy:symlink_config_files"

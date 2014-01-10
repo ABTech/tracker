@@ -1,23 +1,11 @@
-# == Schema Information
-#
-# Table name: comments
-#
-#  id         :integer          not null, primary key
-#  member_id  :integer
-#  content    :text
-#  event_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
-#
-
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  user: 
+  member_id: 
   content: MyText
-  event: 
+  event_id: 
 
 two:
-  user: 
+  member_id: 
   content: MyText
-  event: 
+  event_id: 

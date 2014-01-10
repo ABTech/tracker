@@ -1,11 +1,11 @@
 require "bundler/capistrano"
 
 set :application, "abtt"
-set :repository,  "https://github.com/hatkirby/abtt.git"
-set :branch, "rails-4"
+set :repository,  "https://github.com/ABTech/abtt.git"
+set :branch, "production"
 set :deploy_to, "/srv/rails/abtt"
-set :user, 'egarbade'
-set :domain, 'egarbade.org'
+set :user, 'abtech'
+set :domain, 'abtech-tracker-02.andrew.cmu.edu'
 set :default_shell, "sudo su"
 set :rails_env, "production"
 

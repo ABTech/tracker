@@ -20,6 +20,8 @@
   <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New location', :action => 'new' %>
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'New location', :action => 'new' %></li>
+  </ul>
+<% end %>

@@ -18,7 +18,6 @@ Abtt::Application.routes.draw do
     collection do
       get 'file'
       post 'file'
-      get 'list'
       get 'mark_status'
       get 'new_thread'
       post 'pull_email'

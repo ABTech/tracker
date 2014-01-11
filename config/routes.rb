@@ -14,7 +14,7 @@ Abtt::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
-  resources :email, only: [:view] do
+  resources :email, only: [:index, :view] do
     collection do
       get 'file'
       post 'file'

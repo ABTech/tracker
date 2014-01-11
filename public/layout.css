@@ -91,6 +91,12 @@
     color: #FB0700;
 }
 
+.notice {
+    font-weight: bold;
+    font-size: larger;
+    color: green;
+}
+
 .error A:link {
     color: #FB0700;
 }

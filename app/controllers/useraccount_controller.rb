@@ -19,7 +19,7 @@ class UseraccountController < ApplicationController
       end
 
     else
-      flash[:error] = "Username or password incorrect.";
+      flash.now[:error] = "Username or password incorrect.";
 
       render(:action => "login", :layout => false);
     end

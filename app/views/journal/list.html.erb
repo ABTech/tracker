@@ -13,7 +13,7 @@
     <th class="listheader">Memo</th>
     <th class="listheader">Amount</th>
     <th class="listheader">Account</th>
-    <th class="listheader">Relation Link</th>
+    <th class="listheader">Invoice</th>
   </tr>
   
   <% @journals.each do |journal| %>
@@ -24,14 +24,10 @@
       <td class="list"><%= number_to_currency journal.amount %></td>
       <td class="list"><%= journal.account.name %></td>
       <td class="list">
-        <% case(journal.class.name) 
-           when "JeInv", "JeInvPaid" %>
-            <%= link_to("invoice", journal.invoice) %>
-
-        <% when "JeOther", "JePay" %>
-            none
+        <% if journal.invoice %>
+          <%= link_to "invoice", journal.invoice %>
         <% else %>
-            unknown JE type: <%= journal.class.name %>
+          none
         <% end %>
       </td>
     </tr>

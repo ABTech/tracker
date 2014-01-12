@@ -70,6 +70,8 @@ class InvoicesController < ApplicationController
       
       if params[:redirect] == "event"
         redirect_to event_url(@invoice.event)
+      elsif params[:redirect] == "index"
+        redirect_to invoices_url(:page => params[:page])
       else
         redirect_to @invoice
       end
@@ -82,6 +84,12 @@ class InvoicesController < ApplicationController
     @title = "Invoice List"
     
     @invoices = Invoice.includes(:event, :journal_invoice, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
+    
+    if params[:page]
+      @page = params[:page]
+    else
+      @page = 1
+    end
   end
 
   def email_confirm

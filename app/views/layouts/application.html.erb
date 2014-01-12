@@ -6,13 +6,6 @@
   <link href="/main.css" rel="stylesheet" type="text/css" />
   <link href="/stylesheets/icon-font.css" rel="stylesheet" type="text/css" />
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%
-    def better_select_date(startdate, object, field)
-        return select_year(startdate, :prefix => "#{object}[#{field}(1i)]", :discard_type => true) + 
-               select_month(startdate, :prefix => "#{object}[#{field}(2i)]", :discard_type => true) + 
-               select_day(startdate, :prefix => "#{object}[#{field}(3i)]", :discard_type => true)
-    end
-  %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>

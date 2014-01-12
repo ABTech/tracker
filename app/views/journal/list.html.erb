@@ -26,7 +26,7 @@
       <td class="list">
         <% case(journal.class.name) 
            when "JeInv", "JeInvPaid" %>
-            <%= link_to("invoice", {:controller => "invoice", :action => "view", :id => journal.invoice.id}) %>
+            <%= link_to("invoice", journal.invoice) %>
 
         <% when "JeOther", "JePay" %>
             none

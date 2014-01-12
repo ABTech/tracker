@@ -19,8 +19,8 @@
       <td class="list"><%= link_to(event.title, event_path(event)) %></td>
       <td class="list">
 <%= !inv ?
-  link_to("create", {:action => "new", :controller => "invoice", :event_id => event.id}) :
-  link_to(number_to_currency(inv.total), {:controller => "invoice", :action => "view", :id => inv.id}) %>
+  link_to("create", new_invoice_url(:event_id => event.id)) :
+  link_to(number_to_currency(inv.total), inv) %>
       </td>
       <td class="list">
         <% if inv and inv.journal_invoice %>

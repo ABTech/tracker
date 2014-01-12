@@ -71,13 +71,11 @@ Abtt::Application.routes.draw do
 
   resources :heartbeat, only: [:index]
 
-  resources :invoice, only: [:create, :edit, :new] do
+  resources :invoices, :except => [:destroy] do
     collection do
       get 'email'
       get 'email_confirm'
-      get 'list'
       get 'prettyView'
-      get 'view'
     end
   end  
 
@@ -135,7 +133,7 @@ Abtt::Application.routes.draw do
   get 'mobile' => 'events#mobile'
   get 'iphone' => 'events#iphone'
   get 'i' => 'events#iphone'
-  post 'invoice/email/:id' => 'invoice#email'
+  post 'invoices/email/:id' => 'invoices#email'
 
   root to: 'events#index'
 end

@@ -1,110 +1,84 @@
-class InvoiceController < ApplicationController
+class InvoicesController < ApplicationController
   layout "finance"
 
-  before_filter :login_required;
+  before_filter :login_required
+  
+  def show
+    @title = "Viewing Invoice"
 
-  #TODO: is this required?
-  #require 'wicked_pdf'
+    @invoice = Invoice.find(params['id'], :include => [:event, :journal_invoice, :invoice_lines])
 
-  New_Invoice_New_Line_Display_Count = 5;
-  Old_Invoice_New_Line_Display_Count = 5;
-
-  def view
-    @mode = Mode_View;
-    @title = "Viewing Invoice";
-
-    @invoice = Invoice.find(params['id'], :include => [:event, :journal_invoice, :invoice_lines]);
-
-    render :action => 'record', :layout => 'events'
+    render :layout => 'events'
   end
 
   def prettyView
+    @invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
+    @title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
 
-  @invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
-  @title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
-
-  if params[:format] == 'pdf'
-    headers['Content-Type'] = 'application/pdf'
-    headers['Content-Disposition'] = "inline;"
-    render :pdf => @title, :layout => false
-  else
-    render :layout=>false
-  end
+    if params[:format] == 'pdf'
+      headers['Content-Type'] = 'application/pdf'
+      headers['Content-Disposition'] = "inline;"
+      render :pdf => @title, :layout => false
+    else
+      render :layout=>false
+    end
   end
 
   def new
     @title = "Create New Invoice";
-    @mode = Mode_New;
 
-    @invoice = InvoiceHelper.generate_new_invoice();
-    if(params["event_id"])
+    @invoice = Invoice.new
+    @invoice.status = "Quote"
+    
+    5.times do
+      @invoice.invoice_lines.build
+    end
+    
+    if params["event_id"]
       @invoice.event_id = params["event_id"];
     end
-
-    render :action => 'record'
   end
 
   def edit
-    @title = "Edit Invoice";
-    @mode = Mode_Edit;
-
-    if(!@invoice)
-      if(!params["id"])
-        flash[:error] = "You must specify an ID.";
-        render :action => 'list'
-        return;
-      end
-      
-      @invoice = Invoice.find(params["id"]);
-      if(!@invoice)
-        flash[:error] = "Invoice #{params['id']} not found."
-        render :action => 'list'
-        return;
-      end
-    end
-
-    Old_Invoice_New_Line_Display_Count.times do
-      ln = InvoiceLine.new();
-      @invoice.invoice_lines << ln;
-    end
-
-    render :action => 'record', :layout => 'events'
+    @title = "Edit Invoice"
+    @invoice = Invoice.find(params["id"])
+    
+    render :layout => 'events'
   end
 
   def create
-    # --------------------
-    # create new invoice/find old invoice
-    if(params["invoice"]["id"] && (params["invoice"]["id"] != ""))
-      @invoice = Invoice.update(params["invoice"]["id"], params['invoice']);
+    @title = "Create New Invoice"
+    params[:invoice].permit!
+    
+    @invoice = Invoice.new(params[:invoice])
+    
+    if @invoice.save
+      flash[:notice] = "Invoice created successfully!"
+      redirect_to @invoice
     else
-      @invoice = Invoice.create(params['invoice']);
+      render :new
     end
-
-    nots, errs = InvoiceHelper.update_invoice(@invoice, params);
-    flash[:notice] = nots if !nots.empty?
-    flash[:error] = errs if !errs.empty?
-
-    # --------------------
-    # save invoice
-    if(@invoice.save())
-      flash[:notice] ||= ""
-      flash[:notice] += "Invoice Saved";
+  end
+  
+  def update
+    @title = "Edit Invoice"
+    params[:invoice].permit!
+    
+    @invoice = Invoice.find(params[:id])
+    if @invoice.update(params[:invoice])
+      flash[:notice] = "Invoice updated successfully!"
       
       if params[:redirect] == "event"
         redirect_to event_url(@invoice.event)
       else
-        redirect_to view_invoice_index_url(:id => @invoice.id)
+        redirect_to @invoice
       end
     else
-      flash[:error] ||= ""
-      @invoice.errors.each_full() do |err|
-        flash[:error] += err + "<br />";
-      end
-      redirect_to edit_invoice_index_url(@invoice)
+      render :edit
     end
   end
 
-  def list
+  def index
     @title = "Invoice List"
     
     @invoices = Invoice.includes(:event, :journal_invoice, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
@@ -177,7 +151,7 @@ class InvoiceController < ApplicationController
     InvoiceMailer.invoice(@invoice,attachment,params).deliver
     flash[:notice] = "Email Sent"
     respond_to do |format|
-      format.html {redirect_to :action => "view", :id => params['id']}
+      format.html {redirect_to @invoice}
     end
   end
 end

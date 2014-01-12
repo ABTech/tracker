@@ -89,9 +89,7 @@ fieldset { width:40% }
     <th>Invoice:</th>
     <td>
       <%= if @journal.invoice then 
-        link_to @journal.invoice.event.title,
-          :controller=>"invoice",:action=>"view",
-          :id=>@journal.invoice_id
+        link_to @journal.invoice.event.title, @journal.invoice
       else
         "None"
       end %>

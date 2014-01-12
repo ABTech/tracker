@@ -1,0 +1,32 @@
+<tr id="invoice-line-<%= f.index %>" class="fields">
+  <td>
+    <select id="invoice-line-preset-<%= f.index %>" onChange="chooseLinePreset(<%= f.index %>)">
+      <option></option>
+    
+      <% InvoiceItem.all.each do |item| %>
+        <option data-memo="<%= item.memo %>" data-category="<%= item.category %>" data-recprice="<%= item.price_recognized %>" data-unrecprice="<%= item.price_unrecognized %>"><%= item.memo %></option>
+      <% end %>
+    </select>
+  </td>
+  
+  <td><%= f.select :category, InvoiceLine::Invoice_Categories %></td>
+  
+  <td>
+    <%= f.text_field :memo, :size => "35" %>
+    <% if f.object.notes.nil? or f.object.notes.empty? %>
+      <a onclick="toggleNotes(<%= f.index %>)" id="notesToggle<%= f.index %>">V</a>
+      <div id="notes<%= f.index %>" style="display: none">
+    <% else %>
+      <a onclick="toggleNotes(<%= f.index %>)" id="notesToggle<%= f.index %>">^</a>
+      <div id="notes<%= f.index %>">
+    <% end %>
+      <%= f.text_area :notes, :size => "35x3" %>
+    </div>
+  </td>
+  
+  <td><%= f.text_field :price %></td>
+  
+  <td><%= f.text_field :quantity %></td>
+  
+  <td><%= link_to_remove_fields "delete", f %></td>
+</tr>

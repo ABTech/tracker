@@ -1,0 +1,92 @@
+<% if @invoice.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@invoice.errors.count, "error") %> prohibited
+      this invoice from being saved:</h2>
+    <ul>
+    <% @invoice.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table width="50%" border="0" class="generic">
+  <tr>
+    <td class="subheading"><%= f.label :memo, "Memo" %>:</td>
+    <td><%= f.text_field :memo %></td>
+  </tr>
+  
+  <tr>
+    <td class="subheading"><%= f.label :event_id, "Event" %>:</td>
+    <td><%= f.select :event_id, options_from_collection_for_select(Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC"), "id", "title", f.object.event_id) %></td>
+  </tr>
+  
+  <tr>
+    <td class="subheading"><%= f.label :status, "Status" %>:</td>
+    <td><%= f.select :status, Invoice::Invoice_Status_Group_All %></td>
+  </tr>
+  
+  <tr>
+    <td class="subheading"><%= f.label :recognized, "Recognized?" %></td>
+    <td><%= f.check_box :recognized %></td>
+  </tr>
+  
+  <% if not f.object.new_record? %>
+    <tr>
+      <td class="subheading"><%= f.label :journal_invoice, "Invoice JE" %>:</td>
+      <td>
+        <% if @invoice.journal_invoice %>
+          yes
+        <% else %>
+          <div id="createje"><%= link_to_create_invoice_je f %></div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  
+  <% if f.object.journal_invoice %>
+    <tr>
+      <td class="subheading">Invoice Paid JE:</td>
+      <td>
+        <% if @invoice.journal_invoice.date_paid %>
+          yes
+        <% else %>
+          <div id="markje"><%= link_to_mark_invoice_paid f %></div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  
+  <tr>
+    <td class="subheading"><%= f.label :payment_type, "Payment Type" %>:</td>
+    <td><%= f.select :payment_type, Invoice::Payment_Types %></td>
+  </tr>
+  
+  <% if f.object.payment_type == "Oracle" %>
+  <tr id="oracleString">
+  <% else %>
+  <tr id="oracleString" style="display: none">
+  <% end %>
+    <td class="subheading"><%= f.label :oracle_string, "Oracle String" %>:</td>
+    <td><%= f.text_field :oracle_string %></td>
+  </tr>
+</table>
+
+<table class="generic">
+  <tr>
+    <th>Preset</th>
+    <th>Category</th>
+    <th>Memo</th>
+    <th>Unit Price</th>
+    <th>Quantity</th>
+    <th></th>
+  </tr>
+  
+  <%= f.fields_for :invoice_lines do |builder| %>
+    <%= render :partial => 'invoice_line_fields', :locals => {:f => builder} %>
+  <% end %>
+  
+  <tr>
+    <td colspan=6><%= link_to_add_fields "Add another line", f, :invoice_lines, "2", "invoices" %></td>
+  </tr>
+</table>

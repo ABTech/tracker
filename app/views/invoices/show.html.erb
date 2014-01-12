@@ -1,0 +1,89 @@
+<div id="dialog"></div>
+
+<table width="50%" border="0" class="generic">
+  <tr>
+    <th colspan=2 class="invoice-header">Invoice Summary: <%= @invoice.memo %></th>
+  </tr>
+  
+  <% if @invoice.event %>
+    <tr>
+      <td class="subheading">Event:</td>
+      <td><%= link_to @invoice.event.title, @invoice.event %></td>
+    </tr>
+  <% end %>
+  
+  <tr>
+    <td class="subheading">Invoice Creation Date:</td>
+    <td><%= @invoice.created_at.strftime("%A, %B %d %Y, %I:%M %p") %></td>
+  </tr>
+  
+  <tr>
+    <td class="subheading">Status</td>
+    <td><%= @invoice.status %></td>
+  </tr>
+  
+  <tr>
+    <td class="subheading">Recognized?</td>
+    <td><%= @invoice.recognized? ? "yes" : "no" %></td>
+  </tr>
+  
+  <% if @invoice.journal_invoice %>
+    <tr>
+      <td class="subheading">Invoice JE:</td>
+      <td><%= link_to @invoice.journal_invoice.date_s, view_journal_url(@invoice.journal_invoice) %></td>
+    </tr>
+    
+    <% if @invoice.journal_invoice.date_paid %>
+      <tr>
+        <td class="subheading">Invoice Paid JE:</td>
+        <td><%= link_to @invoice.journal_invoice.date_paid_s, view_journal_url(@invoice.journal_invoice) %></td>
+      </tr>
+    <% end %>
+  <% end %>
+  
+  <tr>
+    <td class="subheading">Payment Type:</td>
+    <td><%= @invoice.payment_type %> <%= @invoice.oracle_string %></td>
+  </tr>
+  
+  <tr>
+    <td class="subheading">Invoice Total:</td>
+    <td><%= number_to_currency @invoice.total %></td>
+  </tr>
+</table>
+
+<% if not @invoice.invoice_lines.empty? %>
+  <table class="generic" width="50%">
+    <tr>
+      <th>Category</th>
+      <th>Memo</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Total</th>
+    </tr>
+  
+    <% @invoice.invoice_lines.each do |line| %>
+      <tr>
+        <td><%= line.category %></td>
+        <td>
+          <%= line.memo %>
+          <% if line.notes and not line.notes.empty? %>
+            <%= simple_format line.notes %>
+          <% end %>
+        </td>
+        <td><%= number_to_currency line.price %></td>
+        <td><%= line.quantity %></td>
+        <td><%= number_to_currency line.total %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %></li>
+    <li><%= link_to "Preview", { :action=>"prettyView",:id=>@invoice.id } %></li>
+    <li><%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id} %></li>
+    <li><%= link_to "Email", email_confirm_invoices_url(:id => @invoice.id, :format => :js), :remote => true %></li>
+  </ul>
+<% end %>

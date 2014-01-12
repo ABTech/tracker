@@ -36,7 +36,8 @@
       <td class="subheading"><%= f.label :journal_invoice, "Invoice JE" %>:</td>
       <td>
         <% if @invoice.journal_invoice %>
-          yes
+          <%= f.check_box :update_journal %>
+          <%= f.label :update_journal, "Update JE total?" %>
         <% else %>
           <div id="createje"><%= link_to_create_invoice_je f %></div>
         <% end %>

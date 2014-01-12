@@ -10,18 +10,18 @@ class InvoiceItemsController < ApplicationController
   #       :redirect_to => { :action => :list }
 
   def list
-    @invoice_items = InvoiceItems.all
+    @invoice_items = InvoiceItem.all
     render :action=>'list'
   end
 
   def new
-    @invoice_items = InvoiceItems.new
+    @invoice_item = InvoiceItem.new
   end
 
   def create
-    @invoice_items = InvoiceItems.new(params[:invoice_items])
-    if @invoice_items.save
-      flash[:notice] = 'InvoiceItems was successfully created.'
+    @invoice_item = InvoiceItem.new(params[:invoice_item])
+    if @invoice_item.save
+      flash[:notice] = 'Invoice item was successfully created.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -29,21 +29,22 @@ class InvoiceItemsController < ApplicationController
   end
 
   def edit
-    @invoice_items = InvoiceItems.find(params[:id])
+    @invoice_item = InvoiceItem.find(params[:id])
   end
 
   def update
-    @invoice_items = InvoiceItems.find(params[:id])
-    if @invoice_items.update_attributes(params[:invoice_items])
-      flash[:notice] = 'InvoiceItems was successfully updated.'
-      redirect_to :action => 'show', :id => @invoice_items
+    @invoice_item = InvoiceItem.find(params[:id])
+    if @invoice_item.update(params[:invoice_item])
+      flash[:notice] = 'Invoice item was successfully updated.'
+      redirect_to :action => 'list'
     else
       render :action => 'edit'
     end
   end
 
   def destroy
-    InvoiceItems.find(params[:id]).destroy
+    InvoiceItem.find(params[:id]).destroy
+    flash[:notice] = 'Invoice item was successfully deleted.'
     redirect_to :action => 'list'
   end
 end

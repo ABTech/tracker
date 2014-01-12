@@ -2,20 +2,22 @@
 <p>These prices represent default values for creating new invoices. They should be set appropriately to encourage consistent quoting, but they need not be used in all cases. Each event has its own unique set of circumstances and must be priced out accordingly.</p>
 <table class="generic">
   <tr>
-  <% for column in InvoiceItems.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
+    <th>Memo</th>
+    <th>Category</th>
+    <th>Price recognized</th>
+    <th>Price unrecognized</th>
     <th></th>
     <th></th>
   </tr>
   
-<% for invoice_items in @invoice_items %>
+<% @invoice_items.each do |item| %>
   <tr>
-  <% for column in InvoiceItems.content_columns %>
-    <td><%=h invoice_items.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Edit', :action => 'edit', :id => invoice_items %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => invoice_items }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= item.memo %></td>
+    <td><%= item.category %></td>
+    <td><%= number_to_currency item.price_recognized %></td>
+    <td><%= number_to_currency item.price_unrecognized %></td>
+    <td><%= link_to 'Edit', edit_invoice_item_url(item) %></td>
+    <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

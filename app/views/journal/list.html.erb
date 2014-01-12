@@ -22,7 +22,7 @@
       <td class="list"><%= if journal.date_paid then journal.date_paid.strftime("%A, %B %d %Y") else "none" end %></td>
       <td class="list"><%= link_to(journal.memo, {:action => "edit", :id => journal.id}) %></td>
       <td class="list"><%= number_to_currency journal.amount %></td>
-      <td class="list"><%= link_to(journal.account.name, {:action => "view", :id => journal.account_id}) %></td>
+      <td class="list"><%= journal.account.name %></td>
       <td class="list">
         <% case(journal.class.name) 
            when "JeInv", "JeInvPaid" %>

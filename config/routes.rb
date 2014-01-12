@@ -6,7 +6,6 @@ Abtt::Application.routes.draw do
       get 'list'
       get 'unpaid'
       get 'unpaid_print'
-      get 'view'
     end
   end
 

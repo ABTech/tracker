@@ -21,7 +21,7 @@ class UseraccountController < ApplicationController
     else
       flash.now[:error] = "Username or password incorrect.";
 
-      render(:action => "login", :layout => false);
+      render(:action => "login", :layout => false)
     end
   end
 
@@ -38,6 +38,6 @@ class UseraccountController < ApplicationController
 
   def access_denied
     @title = "Access Denied";
-    render(:action => "login", :layout => false);
+    render(:action => "login", :layout => false)
   end
 end

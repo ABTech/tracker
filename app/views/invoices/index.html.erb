@@ -25,6 +25,7 @@
       <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
       <div id="invoice<%= invoice.id %>-createje" style="display: none">
         <%= form_for invoice do |builder| %>
+          <%= builder.hidden_field :update_journal, value: "1" %>
           <%= builder.fields_for :journal_invoice, Journal.new do |f| %>
             <%= hidden_field_tag "redirect", "index" %>
             <%= hidden_field_tag "page", @page %>

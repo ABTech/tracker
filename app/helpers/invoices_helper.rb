@@ -5,6 +5,7 @@ module InvoicesHelper
     fields = f.fields_for("journal_invoice", new_object, :child_index => "new_journal_invoice") do |builder|
       render("journal_invoice_fields", :f => builder)
     end
+    fields += f.hidden_field :update_journal, value: "1"
     link_to("Create?", "#", class:"replace_field", data: {association: "journal_invoice", content: "#{fields}", repid: "createje"}, onClick: "return false")
   end
   

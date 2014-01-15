@@ -5,8 +5,7 @@ set :repository,  "https://github.com/ABTech/abtt.git"
 set :branch, "production"
 set :deploy_to, "/srv/rails/abtt"
 set :user, 'abtech'
-set :domain, 'abtech-tracker-02.andrew.cmu.edu'
-set :default_shell, "sudo su"
+set :domain, 'tracker.abtech.org'
 set :rails_env, "production"
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names

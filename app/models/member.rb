@@ -34,7 +34,7 @@ class Member < ActiveRecord::Base
   }
   
   before_validation do |m|
-    m.ssn = nil if m.ssn.empty?
+    m.ssn = nil if not m.ssn.nil? and m.ssn.empty?
   end
 
   before_save :encrypt_password

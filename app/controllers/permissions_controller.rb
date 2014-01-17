@@ -86,6 +86,8 @@ class PermissionsController < ApplicationController
   def destroy
     @permission = Permission.find(params[:id])
     @permission.destroy
+    
+    flash[:notice] = "Permission \"#{@permission.pattern}\" was successfully deleted."
 
     respond_to do |format|
       format.html { redirect_to(permissions_url) }

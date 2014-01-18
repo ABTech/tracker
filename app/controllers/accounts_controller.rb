@@ -87,20 +87,6 @@ class AccountsController < ApplicationController
     @debit_JEs = Journal.find(:all, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter], :order => "date DESC")
   end
 
-  def view
-    @title = "View Account"
-
-    if(!params["id"])
-      flash[:error] = "You must specify an ID."
-      render :action => 'list'
-      return
-    end
-
-    @account = Account.find(params["id"], :include => [:journals_credit, :journals_debit])
-    @journals = (@account.journals_credit | @account.journals_debit).sort_by{|p| p.date}
-    @balance = @account.balance
-  end
-
   def events
     @title = "Completed Events Validation"
     @events = Event.includes(:eventdates, :invoices).where(["events.status IN (?)", Event::Event_Status_Event_Completed]).order("representative_date DESC").paginate(:per_page => 50, :page => params[:page])

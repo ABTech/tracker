@@ -1,16 +1,23 @@
 class Invoice < ActiveRecord::Base
   belongs_to :event
-  has_many :invoice_lines, :dependent => :destroy
+  has_many :invoice_lines, :dependent => :destroy, :inverse_of => :invoice
   has_one :journal_invoice, :class_name => "Journal", :foreign_key => "invoice_id", :dependent => :destroy
 
   Payment_Types = ["StuAct", "Check", "Oracle"]
   Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received" ]
+  
+  accepts_nested_attributes_for :invoice_lines, :allow_destroy => true
+  accepts_nested_attributes_for :journal_invoice
 
-  attr_accessible :event_id, :status, :recognized, :payment_type, :oracle_string, :memo
+  attr_accessor :update_journal
+  attr_accessible :event_id, :status, :recognized, :payment_type, :oracle_string, :memo, :invoice_lines_attributes, :journal_invoice_attributes, :update_journal
 
   validates_presence_of :status, :event, :event_id
   validates_inclusion_of :status, :in => Invoice_Status_Group_All
   validates_associated :event
+  
+  before_validation :prune_lines
+  after_save :update_je_total
 
   def total
     return invoice_lines.inject(0) {|sum,line| sum + line.total};
@@ -35,4 +42,18 @@ class Invoice < ActiveRecord::Base
       "Invoice at " + created_at.strftime("%A, %B %d at %I:%M %p")
     end
   end
+  
+  private
+    def prune_lines
+      self.invoice_lines = self.invoice_lines.reject do |line|
+        line.memo.empty? and line.price.nil? and line.quantity.nil?
+      end
+    end
+    
+    def update_je_total
+      if self.update_journal == "1"
+        self.journal_invoice.amount = self.total
+        self.journal_invoice.save
+      end
+    end
 end

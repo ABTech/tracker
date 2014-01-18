@@ -12,16 +12,16 @@ class UseraccountController < ApplicationController
           cookies[:auth_token] = { :value => self.current_member.remember_token , :expires => self.current_member.remember_token_expires_at }
       end
 
-      if(iphone_user_agent?)
+      if iphone_user_agent? and params[:iphone]
         redirect_to(:controller => "events", :action => "iphone")
       else
         redirect_back_or_default(:controller => 'events', :action => 'index')
       end
 
     else
-      flash[:error] = "Username or password incorrect.";
+      flash.now[:error] = "Username or password incorrect.";
 
-      render(:action => "login", :layout => false);
+      render(:action => "login", :layout => false)
     end
   end
 
@@ -38,6 +38,6 @@ class UseraccountController < ApplicationController
 
   def access_denied
     @title = "Access Denied";
-    render(:action => "login", :layout => false);
+    render(:action => "login", :layout => false)
   end
 end

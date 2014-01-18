@@ -1,0 +1,85 @@
+<h1>Invoices</h1>
+
+<%= will_paginate @invoices %>
+
+<table width="100%" border="0" class="generic">
+  <tr>
+    <th class="listheader" scope="col">Creation Date</th>
+    <th class="listheader" scope="col">Event</th>
+    <th class="listheader" scope="col">Amount</th>
+    <th class="listheader" scope="col">Invoice JE</th>
+    <th class="listheader" scope="col">Paid JE</th>
+  </tr>
+  
+  <% @invoices.sort{|x, y| y.created_at <=> x.created_at}.each do |invoice| %>
+    <tr>
+      <td class="list"><%= invoice.created_at.strftime("%B %d %Y") %></td>
+      <td class="list">
+    <%= link_to(invoice.event.title, event_path(invoice.event)) %>
+    </td>
+      <td class="list"><%= number_to_currency invoice.total %></td>
+    <td>
+    <% if(invoice.journal_invoice) %>
+      <%= link_to(invoice.journal_invoice.date.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+    <% else %>
+      <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
+      <div id="invoice<%= invoice.id %>-createje" style="display: none">
+        <%= form_for invoice do |builder| %>
+          <%= builder.hidden_field :update_journal, value: "1" %>
+          <%= builder.fields_for :journal_invoice, Journal.new do |f| %>
+            <%= hidden_field_tag "redirect", "index" %>
+            <%= hidden_field_tag "page", @page %>
+            <table class="generic">
+              <tr><td width="70" align="right"><strong><%= f.label :date %>:</strong></td>
+                <td><%= f.date_select :date %></td></tr>
+              <tr><td width="70" align="right"><strong><%= f.label :memo %>:</strong></td>
+                <td><%= f.text_field :memo, value: invoice.event.organization.name + " - " + invoice.event.title, size: 40 %></td></tr>
+              <tr><td width="70" align="right"><strong><%= f.label :account_id, "Account" %>:</strong></td>
+                <td>
+                  <%= f.radio_button :account_id, Account::Events_Account.id, :checked => true %> Event
+                  <%= f.radio_button :account_id, Account::Rentals_Credit_Account.id %> Rental
+                </td>  
+              </tr>
+              <tr>
+                <td></td>
+                <td><%= submit_tag %></td>
+              </tr>
+            </table>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    </td>
+    <td>
+    <% if invoice.journal_invoice %>
+      <% if invoice.journal_invoice.date_paid %>
+        <%= link_to(invoice.journal_invoice.date_paid.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+      <% else %>
+        <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
+        <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+          <%= form_for invoice do |builder| %>
+            <%= builder.fields_for :journal_invoice, invoice.journal_invoice do |f| %>
+              <%= hidden_field_tag "redirect", "index" %>
+              <%= hidden_field_tag "page", @page %>
+              <table class="generic">
+                <tr><td width="70" align="right"><strong><%= f.label :date_paid, "Date Paid" %>:</strong></td>
+                  <td><%= f.date_select :date_paid %></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><%= submit_tag %></td>
+                </tr>
+              </table>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      none
+    <% end %>
+    </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @invoices %>

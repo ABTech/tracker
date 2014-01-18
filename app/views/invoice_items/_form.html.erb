@@ -1,36 +1,34 @@
-  <% if @invoice_items.errors.any? %>
+<% if @invoice_item.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@invoice_item.errors.count, "error") %> prohibited
+      this invoice item from being saved:</h2>
+    <ul>
+    <% @invoice_item.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
-    <div id="errorExplanation">
-
-      <h2><%= pluralize(@invoice_items.errors.count, "error") %> prohibited
-
-        this invoice_items from being saved:</h2>
-
-      <ul>
-
-      <% @invoice_items.errors.full_messages.each do |msg| %>
-
-        <li><%= msg %></li>
-
-      <% end %>
-
-      </ul>
-
-    </div>
-
-  <% end %>
-
-<!--[form:invoice_items]-->
-<p><label for="invoice_items_memo">Memo</label><br/>
-<%= text_field 'invoice_items', 'memo'  %></p>
-
-<p><label for="invoice_items_category">Category</label><br/>
-<%= text_field 'invoice_items', 'category'  %></p>
-
-<p><label for="invoice_items_price_recognized">Price recognized</label><br/>
-<%= text_field 'invoice_items', 'price_recognized'  %></p>
-
-<p><label for="invoice_items_price_unrecognized">Price unrecognized</label><br/>
-<%= text_field 'invoice_items', 'price_unrecognized'  %></p>
-<!--[eoform:invoice_items]-->
-
+<table class="generic">
+  <tr>
+    <td class="subheading"><%= f.label :memo %>:</td>
+    <td><%= f.text_field :memo, size: 50 %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :category %>:</td>
+    <td><%= f.select :category, InvoiceLine::Invoice_Categories %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :price_recognized %>:</td>
+    <td><%= f.text_field :price_recognized %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :price_unrecognized %>:</td>
+    <td><%= f.text_field :price_unrecognized %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

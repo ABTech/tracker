@@ -32,7 +32,7 @@
       <% end %>
       <li><%= link_to("List Unpaid JEs", :controller => "accounts", :action => "unpaid") %></li>
       <li><%= link_to("Audit Completed Events", :controller => "accounts", :action => "events") %></li>
-      <li><%= link_to("List Invoices", :controller => "invoice", :action => "list") %></li>
+      <li><%= link_to("List Invoices", invoices_url) %></li>
       <li><%= link_to("Edit Preset Invoice Items", :controller=>"invoice_items") %></li>
       <li><%= link_to "View Accounts", accounts_path %></li>
       <% if content_for?(:more) %>

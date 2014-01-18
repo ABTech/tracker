@@ -1,0 +1,13 @@
+<h1>Creating new invoice</h1>
+
+<%= form_for @invoice do |builder| %>
+  <%= render :partial => "form", :locals => {:f => builder} %>
+  
+  <p><%= builder.submit %></p>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Back to invoice list", invoices_url %></li>
+  </ul>
+<% end %>

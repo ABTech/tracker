@@ -25,7 +25,6 @@ fieldset { width:40% }
 <legend>Edit a Journal Entry</legend>
 <%= form_tag save_journal_index_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
 <%= hidden_field("journal", "id") %>
-<%= hidden_field("journal", "type", :value => "JeOther") %>
 <table class=listTable >
   <tr>
     <th>Date:</th>
@@ -89,9 +88,7 @@ fieldset { width:40% }
     <th>Invoice:</th>
     <td>
       <%= if @journal.invoice then 
-        link_to @journal.invoice.event.title,
-          :controller=>"invoice",:action=>"view",
-          :id=>@journal.invoice_id
+        link_to @journal.invoice.event.title, @journal.invoice
       else
         "None"
       end %>

@@ -1,6 +1,8 @@
 class Role < ActiveRecord::Base
   has_and_belongs_to_many :permissions
   has_and_belongs_to_many :members
+  
+  attr_accessible :name, :info, :permission_ids, :active
 
   validate :only_one_active
   

@@ -1,3 +1,27 @@
 // Place all the styles related to the Useraccount controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.login-box {
+  border-collapse: separate;
+  font-size: 13px;
+  width: 100%;
+  height: 100%;
+  margin-top: 2em;
+}
+
+.login-box table {
+  border-collapse: separate;
+}
+
+.login-error {
+    font-weight: bold;
+    font-size: larger;
+    color: #FB0700;
+}
+
+.login-notice {
+    font-weight: bold;
+    font-size: larger;
+    color: green;
+}

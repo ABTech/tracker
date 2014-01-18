@@ -1,5 +1,5 @@
 class InvoiceLine < ActiveRecord::Base
-  belongs_to :invoice
+  belongs_to :invoice, :inverse_of => :invoice_lines
 
   Invoice_Categories = [  "Sound",
                           "Lighting",
@@ -8,11 +8,10 @@ class InvoiceLine < ActiveRecord::Base
                           "Labor",
                           "Event"]
 
-  validates_presence_of :invoice_id, :price, :quantity, :category, :memo;
-  validates_inclusion_of :category, :in => Invoice_Categories;
-  validates_inclusion_of :category, :in => Invoice_Categories;
+  validates_presence_of :invoice, :price, :quantity, :category, :memo
+  validates_inclusion_of :category, :in => Invoice_Categories
 
-  attr_accessible :id, :invoice_id, :memo, :category, :price, :quantity, :notes
+  attr_accessible :id, :invoice, :memo, :category, :price, :quantity, :notes
 
   def total
     if (price and quantity)

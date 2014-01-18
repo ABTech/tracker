@@ -86,59 +86,62 @@
             <% @event.invoices.each do |invoice| %>
               <tr>
                 <td>
-                  <p><%= link_to invoice.display_title, view_invoice_index_url(:id => invoice.id) %></p>
+                  <p><%= link_to invoice.display_title, invoice %></p>
                   <p>
-                    <%= form_tag invoice_index_url, :method => :post do %>
-                      Invoice JE:
-                      <% if invoice.journal_invoice %>
-                        <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-                      <% else %>
-                        <%= hidden_field_tag "invoice[id]", invoice.id %>
-                        <%= hidden_field_tag "redirect", "event" %>
-                        Create? <%= check_box_tag("journal_invoice_create", "1", false, :onChange => "$('#invoice#{invoice.id}-createje').toggle('Blind')") %>
-                        <div id="invoice<%= invoice.id %>-createje" style="display: none">
-                          <table class="generic">
-                            <tr><td width="70" align="right"><strong>Date:</strong></td>
-                              <td><%= better_select_date(DateTime.now(), "journal_invoice", "date") %></td></tr>
-                            <tr><td width="70" align="right"><strong>Memo:</strong></td>
-                              <td><%= text_field_tag("journal_invoice[memo]", invoice.event.organization.name + " - " + invoice.event.title, :size => 40) %></td></tr>
-                            <tr><td width="70" align="right"><strong>Account:</strong></td>
-                              <td>
-                                <%= radio_button("journal_invoice", :account_id, Account::Events_Account.id, :checked => true) %> Event
-                                <%= radio_button("journal_invoice", :account_id, Account::Rentals_Credit_Account.id) %> Rental
-                              </td>  
-                            </tr>
-                            <tr>
-                              <td></td>
-                              <td><%= submit_tag %></td>
-                            </tr>          
-                          </table>
-                        </div>
-                      <% end %>
-                    <% end %>
-                  </p>
-                  <% if invoice.journal_invoice %>
-                    <p>
-                      <%= form_tag invoice_index_url, :method => :post do %>
-                        Invoice Paid JE:
-                        <% if invoice.journal_invoice.date_paid %>
-                          <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-                        <% else %>
-                          <%= hidden_field_tag "invoice[id]", invoice.id %>
-                          <%= hidden_field_tag "redirect", "event" %>
-                          Mark paid?  <%= check_box_tag("journal_invoice_markpaid", "1", false, :onChange => "$('#invoice#{invoice.id}-markpaid').toggle('Blind')") %>
-                          <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+                    Invoice JE:
+                    <% if invoice.journal_invoice %>
+                      <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+                    <% else %>                  
+                      <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
+                      <div id="invoice<%= invoice.id %>-createje" style="display: none">
+                        <%= form_for invoice do |builder| %>
+                          <%= builder.hidden_field :update_journal, value: "1" %>
+                          <%= builder.fields_for :journal_invoice, Journal.new do |f| %>
+                            <%= hidden_field_tag "redirect", "event" %>
                             <table class="generic">
-                              <tr><td width="70" align="right"><strong>Date Paid:</strong></td>
-                                <td><%= better_select_date(DateTime.now(), "journal_invoice", "date_paid") %></td>
+                              <tr><td width="70" align="right"><strong><%= f.label :date %>:</strong></td>
+                                <td><%= f.date_select :date %></td></tr>
+                              <tr><td width="70" align="right"><strong><%= f.label :memo %>:</strong></td>
+                                <td><%= f.text_field :memo, value: invoice.event.organization.name + " - " + invoice.event.title, size: 40 %></td></tr>
+                              <tr><td width="70" align="right"><strong><%= f.label :account_id, "Account" %>:</strong></td>
+                                <td>
+                                  <%= f.radio_button :account_id, Account::Events_Account.id, :checked => true %> Event
+                                  <%= f.radio_button :account_id, Account::Rentals_Credit_Account.id %> Rental
+                                </td>  
                               </tr>
                               <tr>
                                 <td></td>
                                 <td><%= submit_tag %></td>
                               </tr>
                             </table>
-                          </div>
+                          <% end %>
                         <% end %>
+                      </div>
+                    <% end %>
+                  </p>
+                  <% if invoice.journal_invoice %>
+                    <p>
+                      Invoice Paid JE:
+                      <% if invoice.journal_invoice.date_paid %>
+                        <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+                      <% else %>
+                        <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
+                        <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+                          <%= form_for invoice do |builder| %>
+                            <%= builder.fields_for :journal_invoice, invoice.journal_invoice do |f| %>
+                              <%= hidden_field_tag "redirect", "event" %>
+                              <table class="generic">
+                                <tr><td width="70" align="right"><strong><%= f.label :date_paid, "Date Paid" %>:</strong></td>
+                                  <td><%= f.date_select :date_paid %></td>
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                  <td><%= submit_tag %></td>
+                                </tr>
+                              </table>
+                            <% end %>
+                          <% end %>
+                        </div>
                       <% end %>
                     </p>
                   <% end %>
@@ -152,11 +155,11 @@
                 </td>
                 <td>
                   <ul class="simple">
-                    <li><%= link_to "Show full", view_invoice_index_url(:id => invoice.id) %></li>
+                    <li><%= link_to "Show full", invoice %></li>
                     <li><%= link_to "Edit", edit_invoice_url(invoice) %></li>
-                    <li><%= link_to "Preview", prettyView_invoice_index_url(:id => invoice.id) %></li>
-                    <li><%= link_to "Print", prettyView_invoice_index_url(:id => invoice.id, :format => :pdf) %></li>
-                    <li><%= link_to "Email", email_confirm_invoice_index_url(:id => invoice.id, :format => :js), :remote => true %></li>
+                    <li><%= link_to "Preview", prettyView_invoices_url(:id => invoice.id) %></li>
+                    <li><%= link_to "Print", prettyView_invoices_url(:id => invoice.id, :format => :pdf) %></li>
+                    <li><%= link_to "Email", email_confirm_invoices_url(:id => invoice.id, :format => :js), :remote => true %></li>
                   </ul>
                 </td>
               </tr>
@@ -213,7 +216,7 @@
     <% @event.comments.each do |comment| %>
       <fieldset>
         <legend>
-          <%= comment.member %> said on <%= comment.updated_at.strftime("%m/%d/%y at %I:%M%p") %>
+          <%= comment.member %> said on <%= comment.created_at.strftime("%m/%d/%y at %I:%M%p") %>
           <% if comment.member == current_member %>
             (<%= link_to "delete", comment_url(comment), :method => :delete, :confirm => "Are you sure you would like to delete this comment?" %>)
           <% end %>

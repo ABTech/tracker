@@ -29,7 +29,7 @@ class EmailController < ApplicationController
             imap.login(params['imapuser'], params['imappassword']);
         rescue
             flash[:error] = "Error while logging in.";
-            redirect_to(:action => "list");
+            redirect_to :action => "index"
             return;
         end
         imap.select('user.abtech')
@@ -197,7 +197,7 @@ class EmailController < ApplicationController
 
           if(emails.size == 0)
               flash[:notice] = "No unfiled email to resolve.";
-              redirect_to(:action => "list");
+              redirect_to :action => "index"
               return;
           end
 
@@ -219,7 +219,7 @@ class EmailController < ApplicationController
             email.save();
         end
 
-        redirect_to({:action => "list", :id => email.id});
+        redirect_to :action => "index"
     end
 
     def mark_status
@@ -351,10 +351,10 @@ class EmailController < ApplicationController
         render :action => "reply_to"
     end
 
-    def list
-        @title = "Email List";
-        @emails = Email.paginate(:per_page => 20, :page => params[:page]).order("timestamp DESC")
-        @file_email = Email.where(status: Email::Email_Status_Unfiled).order("timestamp ASC").first
+    def index
+      @title = "Email List";
+      @emails = Email.paginate(:per_page => 20, :page => params[:page]).order("timestamp DESC")
+      @file_email = Email.where(status: Email::Email_Status_Unfiled).order("timestamp ASC").first
     end
 
     def view

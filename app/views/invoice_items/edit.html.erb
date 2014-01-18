@@ -1,8 +1,9 @@
-<h1>Editing invoice_items</h1>
+<h1>Editing invoice item</h1>
 
-<%= form_tag :action => 'update', :id => @invoice_items do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+<%= form_for @invoice_item do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
-<%= link_to 'Back', :action => 'list' %>
+<% content_for :more do %>
+  <li><%= link_to 'Back to invoice items list', invoice_items_url %></li>
+<% end %>

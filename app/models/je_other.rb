@@ -1,2 +1,0 @@
-class JeOther < Journal
-end

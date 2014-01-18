@@ -6,7 +6,6 @@ Abtt::Application.routes.draw do
       get 'list'
       get 'unpaid'
       get 'unpaid_print'
-      get 'view'
     end
   end
 
@@ -14,11 +13,10 @@ Abtt::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
-  resources :email, only: [:view] do
+  resources :email, only: [:index, :view] do
     collection do
       get 'file'
       post 'file'
-      get 'list'
       get 'mark_status'
       get 'new_thread'
       post 'pull_email'
@@ -72,21 +70,15 @@ Abtt::Application.routes.draw do
 
   resources :heartbeat, only: [:index]
 
-  resources :invoice, only: [:create, :edit, :new] do
+  resources :invoices, :except => [:destroy] do
     collection do
       get 'email'
       get 'email_confirm'
-      get 'list'
       get 'prettyView'
-      get 'view'
     end
   end  
 
-  resources :invoice_items, except: [:show] do
-    collection do
-      get 'list'
-    end
-  end
+  resources :invoice_items, except: [:show]
 
   resources :journal, except: [:show, :update] do
     collection do
@@ -136,7 +128,7 @@ Abtt::Application.routes.draw do
   get 'mobile' => 'events#mobile'
   get 'iphone' => 'events#iphone'
   get 'i' => 'events#iphone'
-  post 'invoice/email/:id' => 'invoice#email'
+  post 'invoices/email/:id' => 'invoices#email'
 
   root to: 'events#index'
 end

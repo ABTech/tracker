@@ -71,36 +71,6 @@ EOF
     Role.active.members
   end
 
-  def settings
-    sets = {};
-    if(settingstring)
-      settingstring.split(",").each do |key|
-        cur = key.split("=");
-        sets.store(cur.first, cur.last);
-      end
-    end
-
-    sets
-  end
-
-  def settings=(hash)
-    update_attribute("settingstring", settings.update(hash).to_a().collect{|k| k.join("=")}.join(","));
-  end
-
-  def setting(key, default = nil)
-    if(!settingstring)
-      return default;
-    end
-    settingstring.split(",").each do |item|
-      cur = item.split("=");
-      if(key == cur.first)
-        return cur.last;
-      end
-    end
-
-    return default;
-  end
-
   def self.authenticate(login, password)
     default_realm = "@andrew.cmu.edu"
     u = find_by_kerbid(login);

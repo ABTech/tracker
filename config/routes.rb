@@ -29,11 +29,7 @@ Abtt::Application.routes.draw do
     end
   end
 
-  resources :email_forms, except: [:index] do
-    collection do
-      get 'list'
-    end
-  end
+  resources :email_forms
 
   resources :equipment, only: [] do
     collection do

@@ -37,7 +37,7 @@
       <%= conditional_link_to("iPhone View", "events", "iphone") %>
     <% end %>
     <%= conditional_link_to('Timecards', 'timecard_entries', 'index') %>
-    <% admin = current_member.authorized? ["equipment/tree", "roles/index", "permissions/index", "locations/index", "attachments/index", "timecards/index", "invoice_items/index"] %>
+    <% admin = current_member.authorized? ["equipment/tree", "roles/index", "permissions/index", "locations/index", "attachments/index", "timecards/index", "invoice_items/index", "email_forms/index"] %>
       <%  if admin %> 
         <%= link_to_function("Tracker Admin", "$('#submenu').toggle('Blind')", :id => "more_link") %>
       <% end %>
@@ -51,6 +51,7 @@
               <%= conditional_link_to("Attachments", "attachments", "index" ) %>
               <%= conditional_link_to('Timecards', 'timecards', 'index') %>
               <%= conditional_link_to('Invoice Items', 'invoice_items', 'index') %>
+              <%= conditional_link_to('Form Emails', 'email_forms', 'index') %>
           </div>
         <% end %>
 <% end %>

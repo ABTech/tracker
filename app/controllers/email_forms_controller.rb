@@ -1,8 +1,7 @@
 class EmailFormsController < ApplicationController
+  before_filter :login_required
 
-  before_filter :login_required;
-
-  def list
+  def index
     @title = "Email Form Responses"
 
     @emailforms = EmailForm.find(:all);

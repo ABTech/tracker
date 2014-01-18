@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114010016) do
+ActiveRecord::Schema.define(version: 20140118194714) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -223,7 +223,6 @@ ActiveRecord::Schema.define(version: 20140114010016) do
     t.datetime "updated_at"
     t.string   "remember_token"
     t.datetime "remember_token_expires_at"
-    t.string   "settingstring"
     t.string   "title"
     t.string   "callsign"
     t.string   "shirt_size",                limit: 20

@@ -155,7 +155,7 @@ class InvoicesController < ApplicationController
     #You need the template line so it uses the .pdf version not the .html
     #version
 
-    attachment=render_to_string :pdf=>"output", :template => 'invoice/prettyView.pdf.erb', :layout=>false
+    attachment=render_to_string :pdf=>"output", :template => 'invoices/prettyView.pdf.erb', :layout=>false
     InvoiceMailer.invoice(@invoice,attachment,params).deliver
     flash[:notice] = "Email Sent"
     respond_to do |format|

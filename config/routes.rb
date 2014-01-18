@@ -97,7 +97,6 @@ Abtt::Application.routes.draw do
   resources :members do
     collection do
       get 'edit_self'
-      get 'settings'
     end
   end
 

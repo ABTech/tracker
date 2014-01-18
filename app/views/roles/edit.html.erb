@@ -16,7 +16,7 @@
   <tr>
     <td class="list"><%= f.label :permission_ids, "Permissions" %></td>
     <td class="list">
-      <%= f.select :permission_ids, options_from_collection_for_select(Permission.find(:all), "id", "pattern", @role.permissions.collect{|p| p.id}), {}, {size: "5", multiple: "multiple"}%>
+      <%= f.select :permission_ids, options_from_collection_for_select(Permission.find(:all), "id", "pattern", @role.permissions.collect{|p| p.id}), {}, {size: "15", multiple: "multiple"}%>
     </td>
   </tr>
 

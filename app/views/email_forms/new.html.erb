@@ -1,8 +1,11 @@
-<h1>New Email Form</h1>
+<h1>New Form Email</h1>
 
-<%= form_tag :action => 'create' do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag "Create" %>
+<%= form_for @emailform do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
-<%= link_to 'Back', :action => 'list' %>
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Back', email_forms_url %></li>
+  </ul>
+<% end %>

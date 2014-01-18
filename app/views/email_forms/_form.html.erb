@@ -1,30 +1,26 @@
-  <% if @emailform.errors.any? %>
+<% if @emailform.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@emailform.errors.count, "error") %> prohibited
+      this form email from being saved:</h2>
+    <ul>
+    <% @emailform.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
-    <div id="errorExplanation">
-
-      <h2><%= pluralize(@emailform.errors.count, "error") %> prohibited
-
-        this emailform from being saved:</h2>
-
-      <ul>
-
-      <% @emailform.errors.full_messages.each do |msg| %>
-
-        <li><%= msg %></li>
-
-      <% end %>
-
-      </ul>
-
-    </div>
-
-  <% end %>
-
-<!--[form:emailform]-->
-<p><label for="emailform_description">Description</label><br/>
-<%= text_field 'emailform', 'description'  %></p>
-
-<p><label for="emailform_contents">Contents</label><br/>
-<%= text_area 'emailform', 'contents'  %></p>
-<!--[eoform:emailform]-->
-
+<table class="generic" width="50%">
+  <tr>
+    <th class="subheading"><%= f.label :description %>:</td>
+    <td><%= f.text_field :description %></td>
+  </tr>
+  <tr>
+    <th class="subheading"><%= f.label :contents %>:</td>
+    <td><%= f.text_area :contents, :size => "80x15" %></td>
+  </tr>
+  <tr>
+    <th></th>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

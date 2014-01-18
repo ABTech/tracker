@@ -9,17 +9,19 @@
     <tr>
       <td class="list"><div align="right">
         <span class="listcontrollink">
-          <%= link_to "show", emailform %><br />
           <%= link_to "edit", edit_email_form_path(emailform) %><br />
+          <%= link_to "delete", emailform, :method => :delete, :data => { :confirm => "Are you sure you want to delete this form email?" } %>
         </span>
       </div></td>
 
       <td class="list"><div align="left"><%= emailform.description %></div></td>
-      <td class="list"><%= simple_format h  emailform.contents %></div></td> 
+      <td class="list"><%= simple_format emailform.contents %></div></td> 
     </tr>
   <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New Form Response', :action => 'new' %>
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'New Form Email', new_email_form_url %></li>
+  </ul>
+<% end %>

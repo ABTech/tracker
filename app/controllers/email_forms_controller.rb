@@ -2,44 +2,38 @@ class EmailFormsController < ApplicationController
   before_filter :login_required
 
   def index
-    @title = "Email Form Responses"
+    @title = "Form Emails"
 
-    @emailforms = EmailForm.find(:all);
-  end
-
-  def show
-    @title = "Viewing Form Responses"
-
-    @emailform = EmailForm.find(params[:id])
+    @emailforms = EmailForm.find(:all)
   end
 
   def new
-    @title = "New Form Responses"
+    @title = "New Form Email"
 
     @emailform = EmailForm.new
   end
 
   def create
-    @emailform = EmailForm.new(params[:emailform])
+    @emailform = EmailForm.new(params[:email_form])
     if @emailform.save()
-      flash[:notice] = 'Form Response was successfully created.'
-      redirect_to(:action => 'list')
+      flash[:notice] = 'Form Email was successfully created.'
+      redirect_to email_forms_url
     else
       render(:action => 'new')
     end
   end
 
   def edit
-    @title = "Editing Form Response"
+    @title = "Editing Form Email"
 
     @emailform = EmailForm.find(params[:id])
   end
 
   def update
     @emailform = EmailForm.find(params[:id])
-    if @emailform.update_attributes(params[:emailform])
-      flash[:notice] = 'Email Form Response was successfully updated.'
-      redirect_to(:action => 'show', :id => @emailform)
+    if @emailform.update_attributes(params[:email_form])
+      flash[:notice] = 'Form Email was successfully updated.'
+      redirect_to email_forms_url
     else
       render(:action => 'edit')
     end
@@ -47,6 +41,6 @@ class EmailFormsController < ApplicationController
 
   def destroy
     EmailForm.find(params[:id]).destroy()
-    redirect_to(:action => 'list')
+    redirect_to email_forms_url
   end
 end

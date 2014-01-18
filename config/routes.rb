@@ -29,7 +29,7 @@ Abtt::Application.routes.draw do
     end
   end
 
-  resources :email_forms
+  resources :email_forms, except: [:show]
 
   resources :equipment, only: [] do
     collection do

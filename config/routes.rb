@@ -109,8 +109,6 @@ Abtt::Application.routes.draw do
 
   resources :tshirts, only: :index
 
-  resources :version, only: :show
-
   post 'login' => 'useraccount#login'
   get 'logout' => 'useraccount#logout'
   get 'useraccount/access_denied'

@@ -12,7 +12,7 @@
     <% if ENV["RAILS_ENV"] == 'development' %>
       <div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>
     <% end %>
-    <%= link_to image_tag("/images/header.png"), root_url %>
+    <%= link_to image_tag("header.png"), root_url %>
   </div>
   <div class="login">
   <% if logged_in?() %>

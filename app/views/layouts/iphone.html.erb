@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
   <%# <meta name="apple-mobile-web-app-capable" content="yes" /> %>
   <%# <meta name="apple-mobile-web-app-status-bar-style" content="black" /> %>
-  <link rel="apple-touch-icon" href="/images/webclip.png" />
+  <link rel="apple-touch-icon" href="<%= image_url("webclip.png") %>" />
   <style type="text/css">
   body { 
     font-family: "Verdana";
@@ -119,7 +119,7 @@
   <% end %>
   
   <div>
-    <a href="<%= events_path %>"><img src="/images/header.png" style="width: 95%;" /></a>
+    <a href="<%= events_path %>"><%= image_tag("header.png", width: "95%") %></a>
   </div>
 <%= yield %>
 <div style="text-align: center; margin: 1em; "> 

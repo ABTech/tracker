@@ -9,7 +9,7 @@
   <% @event.emails.each do |email| %>
     <li>
     <% if(Email::Email_Status_Group_New.include?(email.status)) %>
-      <img src="/images/emailicon.png" />
+      <%= image_tag "emailicon.png" %>
     <% end %>
 
     <a href="#email<%= email.id %>">

@@ -50,7 +50,6 @@ Abtt::Application.routes.draw do
   resources :events do
     member do
       get 'delete_conf'
-      get 'mobile_email'
       get 'show_email'
       get 'finance'
     end

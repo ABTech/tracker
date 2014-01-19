@@ -277,14 +277,6 @@ class EventsController < ApplicationController
     render(:action => "mobile_calendar", :layout => "mobile");
   end
 
-  def mobile_email
-    @title = "Mobile Email View";
-
-    @event = Event.find(params['id'], :include => [:eventdates, :emails, :organization]);
-
-    render(:action => "mobile_email", :layout => "mobile");
-  end
-
   def calendar
     ### also handles full_calendar and public calendar
     @title = "Calendar";

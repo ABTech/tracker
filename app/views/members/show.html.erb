@@ -1,5 +1,3 @@
-<%= javascript_include_tag 'prototype' %>
-<%= javascript_include_tag 'effects' %>
 <h1>Member details</h1>
 <table class="generic">
 <tr>
@@ -74,7 +72,7 @@
         <% end %>
       </ul>
     </span>
-    <a href="#" onclick="Effect.Fade($('permissions_label'), {duration: 0.2});Effect.Appear($('permissions'));" id="permissions_label">Click to display</a>
+    <%= link_to_function "Click to display", "$('#permissions').show(); $(this).hide()" %>
   </td>
 </tr>
 </table>

@@ -63,8 +63,6 @@ Abtt::Application.routes.draw do
     end
   end
 
-  resources :heartbeat, only: [:index]
-
   resources :invoices, :except => [:destroy] do
     collection do
       get 'email'

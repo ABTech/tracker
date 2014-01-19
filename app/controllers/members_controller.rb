@@ -103,4 +103,10 @@ class MembersController < ApplicationController
     flash[:notice] = 'Member was successfully destroyed.'
     redirect_to members_path
   end
+  
+  def tshirts
+    @title = "T-Shirt Sizes"
+
+    @shirt_sizes = Member.active.group_by(&:shirt_size)
+  end
 end

@@ -90,6 +90,7 @@ Abtt::Application.routes.draw do
   resources :members do
     collection do
       get 'edit_self'
+      get 'tshirts'
     end
   end
 
@@ -106,8 +107,6 @@ Abtt::Application.routes.draw do
   end
 
   resources :timecard_entries, except: :show
-
-  resources :tshirts, only: :index
 
   post 'login' => 'useraccount#login'
   get 'logout' => 'useraccount#logout'

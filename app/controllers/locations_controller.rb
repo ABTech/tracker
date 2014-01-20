@@ -4,12 +4,12 @@ class LocationsController < ApplicationController
 
   def index
     @title = "Locations"
-    @locations = Location.find(:all, :order => "building ASC, floor ASC")
+    @locations = Location.active.order("building ASC, floor ASC")
   end
 
   def show
     @title = "Viewing Location"
-    @location = Location.find(params[:id])
+    @location = Location.active.find(params[:id])
   end
 
   def new
@@ -29,11 +29,11 @@ class LocationsController < ApplicationController
 
   def edit
     @title = "Editing Location"
-    @location = Location.find(params[:id])
+    @location = Location.active.find(params[:id])
   end
 
   def update
-    @location = Location.find(params[:id])
+    @location = Location.active.find(params[:id])
     if @location.update_attributes(params[:location])
       flash[:notice] = 'Location was successfully updated.'
       redirect_to @location
@@ -43,7 +43,14 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    Location.find(params[:id]).destroy()
+    @location = Location.active.find(params[:id])
+    @location.defunct = true
+    if @location.save
+      flash[:notice] = "Location \"#{@location}\" has been marked as defunct."
+    else
+      flash[:error] = "Error marking location \"#{@location}\" as defunct."
+    end
+    
     redirect_to locations_url
   end
 end

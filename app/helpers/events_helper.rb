@@ -4,7 +4,7 @@ module EventsHelper
   end
   
   def organizations_for_select
-    Organization.order("name ASC").all.to_a.map do |org|
+    Organization.active.order("name ASC").all.to_a.map do |org|
       [org.name, org.id]
     end
   end

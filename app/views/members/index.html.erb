@@ -51,10 +51,13 @@
   </tr>
 <% end %>
 </table>
-<% if @edit_others %>
-<br />
 
-<%= link_to 'New member', new_member_path %> <br>
-<%= link_to 'Download as V-Cards', members_path(:format => :vcf) %> <br>
-<%= link_to 'Generate T-Shirt Order', tshirts_members_url %>
+<% content_for :more do %>
+  <ul>
+    <% if @edit_others %>
+      <li><%= link_to "New member", new_member_path %></li>
+    <% end %>
+    <li><%= link_to 'Download as V-Cards', members_path(:format => :vcf) %></li>
+    <li><%= link_to 'Generate T-Shirt Order', tshirts_members_url %></li>
+  </ul>
 <% end %>

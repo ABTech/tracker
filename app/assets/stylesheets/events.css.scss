@@ -31,7 +31,7 @@ table.eventslist > tbody > tr > td {
 table.eventslist tr.list_header, table.eventslist tr.list_footer {
 	color: #555555;
 }
-table.eventslist tr.list_header a, table.eventslist tr.list_footer a {
+table.eventslist tr.list_header a, table.eventslist tr.list_footer a, #event-selector a {
 	color: #9999FF;
 }
 table.eventslist td:first-child {
@@ -278,4 +278,18 @@ table.eventslist .ticless {
 #event-form-submit {
   clear: both;
   width: 100%;
+}
+
+#event-selector {
+  text-align: center;
+  margin-bottom: 3px;
+}
+
+#event-sel-time {
+  margin-left: 2em;
+}
+
+#event-sel-title {
+  margin-right: 2em;
+  font-weight: bold;
 }

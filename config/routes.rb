@@ -54,12 +54,14 @@ Abtt::Application.routes.draw do
       get 'finance'
     end
     collection do
-      get 'delete_conf'
       get 'calendar'
       get 'iphone'
       post 'iphone'
       get 'mobile'
-      get 'lost'
+      get 'months/:year/:month', to: :month, as: :month
+      get 'past'
+      get 'incomplete'
+      get 'search'
     end
   end
 

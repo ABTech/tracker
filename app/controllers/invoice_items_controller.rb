@@ -1,4 +1,6 @@
 class InvoiceItemsController < ApplicationController
+  before_filter :login_required
+  
   layout "finance"
 
   def index

@@ -105,7 +105,7 @@
   
     <% @member.event_roles.each do |er| %>
       <tr>
-        <td><%= link_to er.event %></td>
+        <td><%= link_to er.event.title, er.event %></td>
         <td><%= er.role %></td>
       </tr>
     <% end %>

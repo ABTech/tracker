@@ -2,8 +2,11 @@
 
 <%= form_for @location do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= f.submit 'Edit' %>
 <% end %>
 
-<%= link_to 'Show', @location %> |
-<%= link_to 'Back', locations_path %>
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Show location', @location %></li>
+    <li><%= link_to 'Back to locations list', locations_path %></li>
+  </ul>
+<% end %>

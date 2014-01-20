@@ -1,1 +1,2 @@
 <%= link_to h(organization.name), { :controller => "organizations", :action => "show", :id => organization.id } -%>
+<% if organization.defunct -%> - defunct<% end %>

@@ -1,4 +1,7 @@
 <h2><%= @org.id %>: <%= @org.name %></h2>
+<% if @org.defunct %>
+  <p>This organization is defunct.</p>
+<% end %>
 <p><b><%= @org.events.length %> Events:</b></p>
 <ul>
   <% @org.events.each do |e| %>
@@ -8,7 +11,10 @@
 
 <% content_for :more do %>
   <ul>
-    <li><%= link_to "Edit", edit_organization_path(@org) %></li>
+    <% unless @org.defunct %>
+      <li><%= link_to "Edit", edit_organization_path(@org) %></li>
+      <li><%= link_to "Delete", @org, :method => :delete, :data => {:confirm => "Are you sure you want to mark this organization as defunct?" }%></li>
+    <% end %>
     <li><%= link_to "Back to list of organizations", organizations_path %></li>
   </ul>
 <% end %>

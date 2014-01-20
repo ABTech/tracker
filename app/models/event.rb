@@ -15,7 +15,7 @@ class Event < ActiveRecord::Base
   
   attr_accessor :org_type, :org_new
   
-  before_validation :prune_attachments
+  before_validation :prune_attachments, :prune_roles
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
   
@@ -158,6 +158,10 @@ class Event < ActiveRecord::Base
     
     def prune_attachments
       self.attachments = self.attachments.reject { |a| a.attachment.blank? }
+    end
+    
+    def prune_roles
+      self.event_roles = self.event_roles.reject { |er| er.role.blank? }
     end
     
     def default_values

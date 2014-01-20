@@ -6,13 +6,13 @@ class MembersController < ApplicationController
 
   private
   def set_edit_others
-    @edit_others = current_member.authorized? "member/edit"
+    @edit_others = current_member.authorized? "members/edit"
     #should this really be a before_filter?
     return true
   end
 
   def set_edit_roles
-    @edit_roles = current_member.authorized? "member/edit_roles"
+    @edit_roles = current_member.authorized? "members/edit_roles"
     return true
   end
 
@@ -76,7 +76,7 @@ class MembersController < ApplicationController
   end
 
   def update
-    if(!current_member().authorized?("/member/edit")) #They can only edit themselves
+    if(!current_member().authorized?("/members/edit")) #They can only edit themselves
       @member = current_member();
       params[:member].delete('role_ids')
       if (!current_member().authorized?("/accounts/list"))

@@ -69,24 +69,24 @@ div.error {
 /* =======================  MENU ======================= */
 
 /* .menu kept for posterity */
-div.menu, div#menu, div#submenu {
+div.main-nav {
 	margin: 5px 20px 0 20px;
 }
 
-div.menu a, div#menu a, div#submenu a {
+div.main-nav a {
 	margin-right: 30px;
 	font-size: 18px;
 	color: #9999FF;
 	line-height: 175%;
 }
 
-div.menu a.current, div#menu a.current, div#submenu a.current { background: #FDFDFF; border: 1px solid #EEEEFF; padding: 4px; }
+div.main-nav a.current { background: #FDFDFF; border: 1px solid #EEEEFF; padding: 4px; }
 
-div#submenu {
+div#submenu, div#misc-menu {
   font-size: 14px;
 }
 
-div#submenu a {
+div#submenu a, div#misc-menu a {
   font-size: 14px;
 }
 

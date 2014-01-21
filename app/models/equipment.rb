@@ -5,4 +5,6 @@ class Equipment < ActiveRecord::Base
   validates_presence_of  :description, :position, :parent_id, :shortname
   validates_associated   :parent
   attr_accessible :description, :shortname, :position, :parent_id
+  
+  scope :active, -> { where(defunct: false) }
 end

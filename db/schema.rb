@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140120230639) do
+ActiveRecord::Schema.define(version: 20140121003502) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -67,12 +67,13 @@ ActiveRecord::Schema.define(version: 20140120230639) do
   add_index "emails", ["subject"], name: "emails_subject_index", using: :btree
 
   create_table "equipment", force: true do |t|
-    t.integer  "parent_id",   null: false
-    t.string   "description", null: false
-    t.integer  "position",    null: false
-    t.string   "shortname",   null: false
+    t.integer  "parent_id",                   null: false
+    t.string   "description",                 null: false
+    t.integer  "position",                    null: false
+    t.string   "shortname",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "defunct",     default: false, null: false
   end
 
   add_index "equipment", ["description"], name: "equipment_description_index", using: :btree

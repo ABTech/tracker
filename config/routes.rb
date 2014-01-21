@@ -42,7 +42,6 @@ Abtt::Application.routes.draw do
       post 'savegroup'
       post 'saveitem'
       get 'tree'
-      get 'treesave'
       get 'usage'
     end
   end

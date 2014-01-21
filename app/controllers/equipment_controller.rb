@@ -116,25 +116,4 @@ class EquipmentController < ApplicationController
       render :layout => false
     end
   end
-
-  def usage
-    @title = "Equipment Usage"
-
-    @step_hours  = 4; # must be a factor of 24
-
-    # Determine date period
-    begin
-      @startdate = Time.parse(params['startdate']);
-    rescue
-      flash[:error] = "Start date format not valid.";
-      @startdate   = Time.local(Time.now().year(), Time.now().month(), Time.now().day(), 0, 0, 0);
-    end
-
-    begin
-      @enddate = Time.parse(params['enddate']);
-    rescue
-      flash[:error] = "End date format not valid.";
-      @enddate   = @startdate + 7 * 24 * 60 * 60; # two weeks later
-    end
-  end
 end

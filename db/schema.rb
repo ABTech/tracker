@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140121003502) do
+ActiveRecord::Schema.define(version: 20140121013223) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20140121003502) do
   end
 
   create_table "attachments", force: true do |t|
-    t.string   "name"
+    t.string   "name",                    null: false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"

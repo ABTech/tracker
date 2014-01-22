@@ -55,6 +55,7 @@ gem 'icalendar'
 gem 'mail'
 gem 'devise'
 gem 'devise-encryptable'
+gem 'enumerize'
 
 # This is not a long term solution
 gem "protected_attributes"

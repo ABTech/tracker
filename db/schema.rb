@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140122142423) do
+ActiveRecord::Schema.define(version: 20140122200201) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -236,19 +236,12 @@ ActiveRecord::Schema.define(version: 20140122142423) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "role",                                               null: false
   end
 
   add_index "members", ["email"], name: "members_kerbid_index", using: :btree
   add_index "members", ["namefirst"], name: "members_namefirst_index", using: :btree
   add_index "members", ["namelast"], name: "members_namelast_index", using: :btree
-
-  create_table "members_roles", id: false, force: true do |t|
-    t.integer "member_id", null: false
-    t.integer "role_id",   null: false
-  end
-
-  add_index "members_roles", ["member_id"], name: "roles_users_FKIndex2", using: :btree
-  add_index "members_roles", ["role_id"], name: "roles_users_FKIndex1", using: :btree
 
   create_table "organizations", force: true do |t|
     t.string   "name",       default: "",    null: false
@@ -260,28 +253,6 @@ ActiveRecord::Schema.define(version: 20140122142423) do
   end
 
   add_index "organizations", ["name"], name: "organizations_name_index", using: :btree
-
-  create_table "permissions", force: true do |t|
-    t.string   "pattern"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "permissions_roles", id: false, force: true do |t|
-    t.integer "role_id",       null: false
-    t.integer "permission_id", null: false
-  end
-
-  add_index "permissions_roles", ["permission_id"], name: "permissions_roles_FKIndex1", using: :btree
-  add_index "permissions_roles", ["role_id"], name: "permissions_roles_FKIndex2", using: :btree
-
-  create_table "roles", force: true do |t|
-    t.string   "name",       limit: 40,                 null: false
-    t.string   "info",       limit: 80,                 null: false
-    t.boolean  "active",                default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "timecard_entries", force: true do |t|
     t.integer  "member_id"

@@ -76,6 +76,11 @@ class MembersController < ApplicationController
   end
 
   def update
+    if params[:member][:password].blank?
+      params[:member].delete(:password)
+      params[:member].delete(:password_confirmation)
+    end
+    
     if(!current_member().authorized?("/members/edit")) #They can only edit themselves
       @member = current_member();
       params[:member].delete('role_ids')

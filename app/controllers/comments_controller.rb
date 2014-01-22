@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :login_required
+  before_filter :authenticate_member!
 
   def create
     @event = Event.find(params[:comment][:event_id])

@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_filter :login_required
+  before_filter :authenticate_member!
 
   before_filter :set_edit_others
   before_filter :set_edit_roles

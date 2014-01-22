@@ -1,0 +1,36 @@
+<table width="100%" height="100%" class="login-box" style="padding-right: 40px">
+    <tr><td align="center" valign="middle">
+        <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+            <table>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <strong>ABTT</strong>: please sign in
+                        <% if(flash[:alert]) %>
+                            <div class="login-error"><%= flash[:alert] %></div>
+                        <% end %>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">user:</td>
+                    <td><%= f.text_field :login, :size => 30, :autofocus => true %></td>
+                </tr>
+                <tr>
+                    <td align="right">password:</td>
+                    <td><%= f.password_field :password, :size => 30 %></td>
+                </tr>
+                <tr>
+                    <td align="right">cookies:</td>
+                    <td><%= f.radio_button "remember_me", "1", :checked => true %> Yes, please.<br/>
+                        <%= f.radio_button "remember_me", "0" %> Are you calling me fat?!</td>
+                        </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><%= f.submit "Sign in" %></td>
+                </tr>
+            </table>
+        <% end %>
+    </td></tr>
+</table>

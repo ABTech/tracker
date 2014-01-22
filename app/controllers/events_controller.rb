@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_filter :login_required, :except => [:generate, :calendar];
+  before_filter :authenticate_member!, :except => [:generate, :calendar];
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -189,7 +189,7 @@ class EventsController < ApplicationController
       @eventdates_month[i] = Eventdate.where("(events.publish OR events.blackout) AND enddate >= ? AND startdate <= ?", monthStart.beginning_of_day.utc, monthEnd.beginning_of_day.utc).order("startdate ASC").includes(:event).references(:event)
     end
 
-    if not logged_in?
+    if not member_signed_in?
       render(:action => "calendar", :layout => "public")
     end
   end

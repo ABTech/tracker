@@ -81,4 +81,6 @@ Abtt::Application.configure do
   ActionMailer::Base.smtp_settings = {
     :openssl_verify_mode => 'none'
   }
+  
+  config.action_mailer.default_url_options = { :host => 'tracker.abtech.org' }
 end

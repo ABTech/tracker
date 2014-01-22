@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_filter :login_required
+  before_filter :authenticate_member!
 
   def index
     @title = "Organizations"

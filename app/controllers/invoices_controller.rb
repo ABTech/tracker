@@ -1,7 +1,7 @@
 class InvoicesController < ApplicationController
   layout "finance"
 
-  before_filter :login_required
+  before_filter :authenticate_member!
   
   def show
     @title = "Viewing Invoice"

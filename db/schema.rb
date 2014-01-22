@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140121013223) do
+ActiveRecord::Schema.define(version: 20140122042241) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -213,14 +213,14 @@ ActiveRecord::Schema.define(version: 20140121013223) do
   end
 
   create_table "members", force: true do |t|
-    t.string   "namefirst",                                         null: false
-    t.string   "namelast",                                          null: false
-    t.string   "kerbid",                                            null: false
-    t.string   "namenick",                             default: "", null: false
-    t.string   "phone",                                             null: false
-    t.string   "aim",                                               null: false
-    t.string   "crypted_password",          limit: 40,              null: false
-    t.string   "salt",                      limit: 40,              null: false
+    t.string   "namefirst",                                          null: false
+    t.string   "namelast",                                           null: false
+    t.string   "kerbid",                                             null: false
+    t.string   "namenick",                              default: "", null: false
+    t.string   "phone",                                              null: false
+    t.string   "aim",                                                null: false
+    t.string   "encrypted_password",        limit: 128, default: "", null: false
+    t.string   "password_salt",                         default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
@@ -230,6 +230,12 @@ ActiveRecord::Schema.define(version: 20140121013223) do
     t.string   "shirt_size",                limit: 20
     t.float    "payrate"
     t.string   "ssn"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                         default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
   end
 
   add_index "members", ["kerbid"], name: "members_kerbid_index", using: :btree

@@ -87,6 +87,7 @@ Abtt::Application.routes.draw do
 
   resources :member_filter, only: [:edit, :new, :save]
 
+  devise_for :members
   resources :members do
     collection do
       get 'edit_self'

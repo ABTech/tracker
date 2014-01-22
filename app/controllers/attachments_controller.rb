@@ -1,5 +1,5 @@
 class AttachmentsController < ApplicationController
-  before_filter :login_required
+  before_filter :authenticate_member!
 
   # GET /attachments/
   def index

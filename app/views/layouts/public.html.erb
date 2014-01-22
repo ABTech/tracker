@@ -13,9 +13,9 @@
 <body>
 <div class="header"><%= image_tag("header.png") %></div>
 <div class="login">
-  <% if logged_in?() %>
+  <% if member_signed_in?() %>
     <b><%= current_member().fullname %></b> (<%= current_member().kerbid() %>)<br/>
-    <%= link_to("Profile", :action => "edit_self", :controller => "members") %>&nbsp;&nbsp;<%= link_to("Logout", :action => "logout", :controller => "useraccount") %>
+    <%= link_to("Profile", :action => "edit_self", :controller => "members") %>&nbsp;&nbsp;<%= link_to "Logout", destroy_member_session_url %>
   <% else %>
     <br/>(not logged in)
   <% end %>

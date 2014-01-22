@@ -53,6 +53,8 @@ gem 'rails_autolink'
 gem 'prawn'
 gem 'icalendar'
 gem 'mail'
+gem 'devise'
+gem 'devise-encryptable'
 
 # This is not a long term solution
 gem "protected_attributes"

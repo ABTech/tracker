@@ -1,7 +1,7 @@
 class JournalController < ApplicationController
   layout "finance"
 
-  before_filter :login_required
+  before_filter :authenticate_member!
 
   def list
     @title = "List of Journals"

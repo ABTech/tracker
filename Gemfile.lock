@@ -31,6 +31,7 @@ GEM
     afm (0.2.0)
     arel (4.0.1)
     atomic (1.1.14)
+    bcrypt-ruby (3.1.2)
     builder (3.1.4)
     capistrano (2.15.5)
       highline
@@ -49,6 +50,14 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    devise (3.2.2)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
+    devise-encryptable (0.1.2)
+      devise (>= 2.1.0)
     erubis (2.7.0)
     execjs (2.0.2)
     hashery (2.1.1)
@@ -77,6 +86,7 @@ GEM
     net-ssh (2.7.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    orm_adapter (0.5.0)
     paperclip (3.5.2)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -148,6 +158,8 @@ GEM
     uglifier (2.3.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
     wicked_pdf (0.9.7)
       rails
     will_paginate (3.0.5)
@@ -160,6 +172,8 @@ DEPENDENCIES
   acts_as_tree
   capistrano (~> 2.1)
   coffee-rails (~> 4.0.0)
+  devise
+  devise-encryptable
   icalendar
   jbuilder (~> 1.2)
   jquery-rails

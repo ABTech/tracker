@@ -11,9 +11,9 @@ class Member < ActiveRecord::Base
   Member_Shirt_Sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
   
   attr_accessor :login
-  attr_accessible :login, :password, :password_confirmation, :kerbid, :namefirst, :namelast, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role_ids, :remember_me
+  attr_accessible :login, :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role_ids, :remember_me
 
-  validates_presence_of     :namefirst, :namelast, :kerbid, :payrate
+  validates_presence_of     :namefirst, :namelast, :payrate
   validates_inclusion_of    :shirt_size, :in => Member_Shirt_Sizes
   validates :ssn, :format => { :with => /\A\d{4}\z/, :message => "must be exactly four digits", :allow_nil => true }
 
@@ -71,7 +71,7 @@ class Member < ActiveRecord::Base
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(kerbid) = ? OR lower(kerbid) = ?", login.downcase, login.downcase + "@andrew.cmu.edu"]).first
+      where(conditions).where(["lower(email) = ? OR lower(email) = ?", login.downcase, login.downcase + "@andrew.cmu.edu"]).first
     else
       where(conditions).first
     end

@@ -10,7 +10,7 @@
 
       role_line << roles.collect{ |role|
           role.member ?
-            role.member.kerbid().split("@").first :
+            role.member.email.split("@").first :
             "you?"
         }.join(", ");
 

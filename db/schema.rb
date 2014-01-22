@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140122042241) do
+ActiveRecord::Schema.define(version: 20140122142423) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -215,7 +215,7 @@ ActiveRecord::Schema.define(version: 20140122042241) do
   create_table "members", force: true do |t|
     t.string   "namefirst",                                          null: false
     t.string   "namelast",                                           null: false
-    t.string   "kerbid",                                             null: false
+    t.string   "email",                                              null: false
     t.string   "namenick",                              default: "", null: false
     t.string   "phone",                                              null: false
     t.string   "aim",                                                null: false
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(version: 20140122042241) do
     t.string   "last_sign_in_ip"
   end
 
-  add_index "members", ["kerbid"], name: "members_kerbid_index", using: :btree
+  add_index "members", ["email"], name: "members_kerbid_index", using: :btree
   add_index "members", ["namefirst"], name: "members_namefirst_index", using: :btree
   add_index "members", ["namelast"], name: "members_namelast_index", using: :btree
 

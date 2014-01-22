@@ -106,7 +106,7 @@ class InvoicesController < ApplicationController
     else
       @email_cc = "abtech@andrew.cmu.edu"
       if @invoice.event.tic
-        @email_cc += "," + @invoice.event.tic.kerbid
+        @email_cc += "," + @invoice.event.tic.email
       end
     end
     

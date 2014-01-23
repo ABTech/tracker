@@ -56,6 +56,8 @@ class Ability
       can :manage, EmailForm
       can :manage, Event
       can :manage, Email
+      can :manage, Attachment
+      can :destroy, Comment
     end
     
     if member.is_at_least? :membership_management

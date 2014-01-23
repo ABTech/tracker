@@ -45,6 +45,7 @@ class Ability
     end
     
     if member.is_at_least? :exec
+      can :manage, :finance
       can :manage, Account
       can :manage, Invoice
       can :manage, Journal

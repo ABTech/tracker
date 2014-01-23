@@ -1,32 +1,25 @@
 class AccountsController < ApplicationController
   layout "finance"
+  
+  load_and_authorize_resource :only => [:index, :show, :new, :edit, :create, :update, :destroy]
 
   def index
     @title = "Account List"
-
-    @accounts = Account.find(:all)
   end
 
   def show
     @title = "Account Display"
-
-    @account = Account.find(params[:id])
   end
 
   def new
     @title = "Account List"
-
-    @account = Account.new
   end
 
   def edit
     @title = "Edit Account"
-
-    @account = Account.find(params[:id])
   end
 
   def create
-    @account = Account.new(params[:account])
     if @account.save
       flash[:notice] = 'Account was successfully created'
       redirect_to(:action => 'show')
@@ -36,7 +29,6 @@ class AccountsController < ApplicationController
   end
 
   def update
-    @account = Account.find(params[:id])
     if @account.update_attributes(params[:account])
       flash[:notice] = 'Account was successfully updated'
       redirect_to(:action => 'show')
@@ -46,12 +38,13 @@ class AccountsController < ApplicationController
   end
 
   def destroy
-    @account = Account.find(params[:id])
     @account.destroy
     redirect_to :action => 'index'
   end
 
   def list
+    authorize! :manage, :finance
+    
     @title = "Chart of Accounts"
     begin
       @accstart = Date.parse(params[:start]).to_s
@@ -86,23 +79,31 @@ class AccountsController < ApplicationController
   end
 
   def events
+    authorize! :manage, :finance
+    
     @title = "Completed Events Validation"
     @events = Event.includes(:eventdates, :invoices).where(["events.status IN (?)", Event::Event_Status_Event_Completed]).order("representative_date DESC").paginate(:per_page => 50, :page => params[:page])
   end
 
   def unpaid
+    authorize! :manage, :finance
+    
     @title = "Unpaid JEs"
 
     @journals = Journal.find(:all, :conditions => ["date >= '" + Account::Magic_Date + "' AND date_paid IS NULL"])
   end
 
   def unpaid_print
+    authorize! :manage, :finance
+    
     @title = "Unpaid JEs"
 
     @journals = Journal.find(:all, :conditions => ["date >= '" + Account::Magic_Date + "' AND date_paid IS NULL"])
   end
 
   def confirm_paid
+    authorize! :manage, :finance
+    
     date = params["date"]
     
     completed = 0

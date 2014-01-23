@@ -3,6 +3,8 @@ class CommentsController < ApplicationController
     @event = Event.find(params[:comment][:event_id])
     @comment = @event.comments.build(comment_params)
     @comment.member = current_member
+    authorize! :create, @comment
+    
     if @comment.save
       flash[:notice] = "Comment was created successfully!"
     else
@@ -14,13 +16,15 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    @comment.current_member=current_member
+    authorize! :destroy, @comment
+    
     event = @comment.event
     if @comment.destroy
       flash[:notice] = 'Comment was deleted!'
     else
       flash[:error] = "Comment wasn't deleted!"
     end
+    
     redirect_to event_path(event)
   end
   

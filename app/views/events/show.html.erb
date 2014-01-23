@@ -70,7 +70,7 @@
       </ul>
     </div>
   
-    <% if current_member.authorized? "events/finance" %>
+    <% if can? :manage, :finance %>
       <div id="event-invoices">
         <table class="event-finance">
           <tr>
@@ -217,7 +217,7 @@
       <fieldset>
         <legend>
           <%= comment.member %> said on <%= comment.created_at.strftime("%m/%d/%y at %I:%M%p") %>
-          <% if comment.member == current_member %>
+          <% if can? :destroy, comment %>
             (<%= link_to "delete", comment_url(comment), :method => :delete, :confirm => "Are you sure you would like to delete this comment?" %>)
           <% end %>
         </legend>
@@ -236,7 +236,7 @@
 
 <% content_for :more do %>
   <ul>
-    <% if current_member.authorized? "events/finance" %>
+    <% if can? :manage, :finance %>
       <li><%= link_to "View payroll", finance_event_url(@event) %></li>
     <% end %>
     <% if not @event.emails.empty? %>

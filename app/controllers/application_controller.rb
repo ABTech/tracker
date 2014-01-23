@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   layout "events"
+  
+  alias_method :current_user, :current_member
 
   Application_Name  = "ABTT";
   Application_URL   = "https://abtt.abtech.org"

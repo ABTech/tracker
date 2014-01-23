@@ -7,20 +7,12 @@ module ApplicationHelper
            "</a>";
   end
   
-  def conditional_link_to(title, controller, action)
-    if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to(title, {:controller => controller, :action => action})
-    else
-      ""
-    end
+  def conditional_link_to(title, url, action, model)
+    link_to title, url if can? action, model
   end
-
-  def conditional_link_to_remote(title, controller, action, update, html = {})
-    if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to(title, { :url => {:controller => controller, :action => action}, :update => update }, html, :remote => true)
-    else
-      ""
-    end
+  
+  def show_admin_link
+    can? :manage, Equipment or can? :manage, Location or can? :manage, Timecard or can? :manage, InvoiceItem or can? :manage, EmailForm
   end
 
   Date.class_eval do

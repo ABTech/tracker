@@ -32,6 +32,10 @@ class Member < ActiveRecord::Base
   end
   
   scope :active, -> { where.not(role: ["suspended", "alumni"]) }
+  
+  def is_at_least?(pos)
+    Member.role.values.index(self.role) >= Member.role.values.index(pos.to_s)
+  end
 
   Default_sort_key = "namefirst"
 
@@ -50,5 +54,9 @@ class Member < ActiveRecord::Base
     else
       where(conditions).first
     end
+  end
+  
+  def active_for_authentication?
+    super and not suspended?
   end
 end

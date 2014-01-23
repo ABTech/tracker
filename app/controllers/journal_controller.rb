@@ -1,8 +1,6 @@
 class JournalController < ApplicationController
   layout "finance"
 
-  before_filter :authenticate_member!
-
   def list
     @title = "List of Journals"
     @journals = Journal.order("date DESC").paginate(:per_page => 50, :page => params[:date])

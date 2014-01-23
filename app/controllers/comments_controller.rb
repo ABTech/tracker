@@ -1,6 +1,4 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate_member!
-
   def create
     @event = Event.find(params[:comment][:event_id])
     @comment = @event.comments.build(comment_params)

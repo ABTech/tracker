@@ -1,6 +1,4 @@
 class PermissionsController < ApplicationController
-
-  before_filter :authenticate_member!
   # GET /permissions
   # GET /permissions.xml
   def index

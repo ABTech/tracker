@@ -1,7 +1,4 @@
 class LocationsController < ApplicationController
-  
-  before_filter :authenticate_member!
-
   def index
     @title = "Locations"
     @locations = Location.active.order("building ASC, floor ASC")

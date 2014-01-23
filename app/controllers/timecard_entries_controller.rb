@@ -1,6 +1,4 @@
 class TimecardEntriesController < ApplicationController
-  before_filter :authenticate_member!
-
   def index
     @pending = TimecardEntry.where(member_id: current_member.id, timecard_id: nil)
     @timecards = Timecard.where(submitted: false)

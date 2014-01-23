@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_member!, :except => [:generate, :calendar];
+  skip_before_filter :authenticate_member!, :only => [:generate, :calendar]
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";

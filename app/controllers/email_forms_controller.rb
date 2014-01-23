@@ -1,6 +1,4 @@
 class EmailFormsController < ApplicationController
-  before_filter :authenticate_member!
-
   def index
     @title = "Form Emails"
 

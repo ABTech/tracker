@@ -1,9 +1,6 @@
+require 'net/imap'
+
 class EmailController < ApplicationController
-  
-  require 'net/imap'
-
-  before_filter :authenticate_member!;
-
   File_Action_File_Event        = "File with Event";
   File_Action_New_Event         = "newevent";
   File_Action_Existing_Event    = "oldevent";

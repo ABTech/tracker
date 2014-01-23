@@ -1,6 +1,4 @@
 class TimecardsController < ApplicationController
-  before_filter :authenticate_member!
-
   def index
     @timecards = Timecard.find(:all, :order => 'billing_date DESC')
     @member = current_member

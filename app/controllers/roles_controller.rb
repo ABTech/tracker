@@ -1,7 +1,4 @@
 class RolesController < ApplicationController
-  
-  before_filter :authenticate_member!;
-
   def index
     @title = "Listing Roles"
     @roles = Role.order("id ASC").all

@@ -1,6 +1,4 @@
 class AttachmentsController < ApplicationController
-  before_filter :authenticate_member!
-
   # GET /attachments/
   def index
     @title = "Attachments List"

@@ -1,7 +1,5 @@
 class AccountsController < ApplicationController
   layout "finance"
-  
-  before_filter :authenticate_member!
 
   def index
     @title = "Account List"

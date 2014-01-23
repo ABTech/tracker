@@ -1,7 +1,4 @@
 class EquipmentController < ApplicationController
-
-  before_filter :authenticate_member!;
-
   # we need to represent categories and nodes within the same
   # structure, so arbitrarily pick some large constant to add
   # to node ID values

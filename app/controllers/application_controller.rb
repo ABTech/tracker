@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   layout "events"
   
   alias_method :current_user, :current_member
+  
+  before_filter :authenticate_member!
 
   Application_Name  = "ABTT";
   Application_URL   = "https://abtt.abtech.org"

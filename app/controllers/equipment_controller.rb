@@ -1,4 +1,6 @@
 class EquipmentController < ApplicationController
+  before_filter :authorize_equipment
+  
   # we need to represent categories and nodes within the same
   # structure, so arbitrarily pick some large constant to add
   # to node ID values
@@ -94,8 +96,8 @@ class EquipmentController < ApplicationController
       flash[:error] = "Please select a valid item.";
       render :layout => false
     else
-      record.update_attributes(params['item']);
-      record.save();
+      record.update_attributes(params.require(:item).permit(:description, :shortname, :position, :parent_id))
+      record.save
       render :layout => false
     end
   end
@@ -108,9 +110,14 @@ class EquipmentController < ApplicationController
       flash[:error] = "Please select a valid category.";
       render :layout => false
     else
-      record.update_attributes(params['category']);
-      record.save();
+      record.update_attributes(params.require(:category).permit(:name, :parent_id, :position))
+      record.save
       render :layout => false
     end
   end
+  
+  private
+    def authorize_equipment
+      authorize! :manage, Equipment
+    end
 end

@@ -44,10 +44,8 @@
       <%=line.memo %>
       <% if line.notes.to_s.length > 0 then %>
         <br>
-        <div style="margin-left:10px;"
-        <font size=-1>
-        <%= line.notes.gsub("\n","<br>") %>
-        </font>
+        <div class="pdf-line-notes">
+          <%= simple_format line.notes %>
         </div>
       <% end %>
     </td>

@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   
   layout "events"
   
-  alias_method :current_user, :current_member
-  
   before_filter :authenticate_member!
 
   Application_Name  = "ABTT";
@@ -15,6 +13,10 @@ class ApplicationController < ActionController::Base
   Mode_View = "View";
   Mode_Edit = "Edit";
   Mode_New  = "Create";
+  
+  def current_ability
+    @current_ability ||= Ability.new(current_member)
+  end
 
   def sanitize_params
     walk_hash(params)

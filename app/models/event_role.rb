@@ -63,7 +63,7 @@ class EventRole < ActiveRecord::Base
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All
   
-  attr_accessible :role, :member_id, :event_id, :event
+  #attr_accessible :role, :member_id, :event_id, :event
 
   def assigned?
     return (member != nil);

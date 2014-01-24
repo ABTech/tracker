@@ -57,6 +57,3 @@ gem 'devise'
 gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancan'
-
-# This is not a long term solution
-gem "protected_attributes"

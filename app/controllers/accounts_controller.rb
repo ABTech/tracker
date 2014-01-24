@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
   layout "finance"
   
-  load_and_authorize_resource :only => [:index, :show, :new, :edit, :create, :update, :destroy]
+  load_and_authorize_resource :only => [:index, :show, :new, :edit, :update, :destroy]
 
   def index
     @title = "Account List"
@@ -20,18 +20,21 @@ class AccountsController < ApplicationController
   end
 
   def create
+    @account = Account.new(account_params)
+    authorize! :create, @account
+    
     if @account.save
       flash[:notice] = 'Account was successfully created'
-      redirect_to(:action => 'show')
+      redirect_to(:action => 'index')
     else
       render :action => 'new'
     end
   end
 
   def update
-    if @account.update_attributes(params[:account])
+    if @account.update_attributes(account_params)
       flash[:notice] = 'Account was successfully updated'
-      redirect_to(:action => 'show')
+      redirect_to(:action => 'index')
     else
       render :action => 'edit'
     end
@@ -137,4 +140,9 @@ class AccountsController < ApplicationController
 
     redirect_to :action => "unpaid"
   end
+  
+  private
+    def account_params
+      params.require(:account).permit(:name, :is_credit, :position)
+    end
 end

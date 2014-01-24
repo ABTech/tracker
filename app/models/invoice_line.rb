@@ -11,7 +11,7 @@ class InvoiceLine < ActiveRecord::Base
   validates_presence_of :invoice, :price, :quantity, :category, :memo
   validates_inclusion_of :category, :in => Invoice_Categories
 
-  attr_accessible :id, :invoice, :memo, :category, :price, :quantity, :notes
+  #attr_accessible :id, :invoice, :memo, :category, :price, :quantity, :notes
 
   def total
     if (price and quantity)

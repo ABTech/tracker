@@ -8,7 +8,7 @@ class EquipmentCategory < ActiveRecord::Base
   validates_presence_of :name, :position
   validates_associated :parent
 
-  attr_accessible :name, :parent_id, :position
+  #attr_accessible :name, :parent_id, :position
 
   def self.tree_as_collection(id=Root_Category)
     node = EquipmentCategory.find(id);

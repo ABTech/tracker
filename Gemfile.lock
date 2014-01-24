@@ -106,8 +106,6 @@ GEM
       pdf-reader (~> 1.2)
       ruby-rc4
       ttfunk (~> 1.0.3)
-    protected_attributes (1.0.3)
-      activemodel (>= 4.0.0, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -186,7 +184,6 @@ DEPENDENCIES
   mysql2
   paperclip (~> 3.0)
   prawn
-  protected_attributes
   rails (= 4.0.0)
   rails_autolink
   sass-rails (~> 4.0.0)

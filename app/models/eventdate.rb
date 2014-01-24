@@ -10,7 +10,7 @@ class Eventdate < ActiveRecord::Base
   
   attr_accessor :call_literal, :strike_literal, :call_is_literal, :strike_is_literal
   
-  attr_accessible :event_id, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, :location_ids, :equipment_ids, :call_literal, :strike_literal
+  #attr_accessible :event_id, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, :location_ids, :equipment_ids, :call_literal, :strike_literal
   
   after_save :synchronize_representative_date
 

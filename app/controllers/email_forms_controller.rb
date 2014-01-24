@@ -10,7 +10,7 @@ class EmailFormsController < ApplicationController
   end
 
   def create
-    @email_form = EmailForm.new(params[:email_form])
+    @email_form = EmailForm.new(email_form_params)
     authorize! :create, @email_form
     
     if @email_form.save
@@ -26,7 +26,7 @@ class EmailFormsController < ApplicationController
   end
 
   def update
-    if @email_form.update_attributes(params[:email_form])
+    if @email_form.update_attributes(email_form_params)
       flash[:notice] = 'Form Email was successfully updated.'
       redirect_to email_forms_url
     else
@@ -38,4 +38,9 @@ class EmailFormsController < ApplicationController
     @email_form.destroy
     redirect_to email_forms_url
   end
+  
+  private
+    def email_form_params
+      params.require(:email_form).permit(:description, :contents)
+    end
 end

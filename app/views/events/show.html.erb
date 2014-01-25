@@ -234,15 +234,21 @@
   </div>
 </div>
 
-<% content_for :more do %>
-  <ul>
-    <% if can? :manage, :finance %>
-      <li><%= link_to "View payroll", finance_event_url(@event) %></li>
-    <% end %>
-    <% if not @event.emails.empty? %>
-      <li><%= link_to "View emails", show_email_event_url(@event) %></li>
-    <% end %>
-    <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
-    <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
-  </ul>
+<% if can? :update, @event or can? :destroy, @event or can? :manage, :finance or not @event.emails.empty? %>
+  <% content_for :more do %>
+    <ul>
+      <% if can? :manage, :finance %>
+        <li><%= link_to "View payroll", finance_event_url(@event) %></li>
+      <% end %>
+      <% if not @event.emails.empty? %>
+        <li><%= link_to "View emails", show_email_event_url(@event) %></li>
+      <% end %>
+      <% if can? :update, @event %>
+        <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
+      <% end %>
+      <% if can? :destroy, @event %>
+        <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
+      <% end %>
+    </ul>
+  <% end %>
 <% end %>

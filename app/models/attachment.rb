@@ -6,8 +6,6 @@ class Attachment < ActiveRecord::Base
 
   validates_attachment_presence :attachment
   
-  #attr_accessible :attachment, :name
-  
   before_save :ensure_name
   
   def friendly_size

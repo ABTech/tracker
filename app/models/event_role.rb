@@ -62,8 +62,6 @@ class EventRole < ActiveRecord::Base
 
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All
-  
-  #attr_accessible :role, :member_id, :event_id, :event
 
   def assigned?
     return (member != nil);
@@ -91,5 +89,17 @@ class EventRole < ActiveRecord::Base
     return 1 if sort_index < 0
     return -1 if role.sort_index < 0
     return sort_index <=> role.sort_index   
+  end
+  
+  def assistants
+    return [Role_aTIC] if self.role == Role_TIC
+    return [Role_aFoH] if self.role == Role_FoH
+    return [Role_aMon] if self.role == Role_Mon
+    return [Role_aLD, Role_Lprog] if self.role == Role_LD
+    return [Role_aME] if self.role == Role_ME
+    return [Role_aMR] if self.role == Role_MR
+    return [Role_aSM, Role_bdSM] if self.role == Role_SM
+    return [Role_aHole] if self.role == Role_Hole
+    return []
   end
 end

@@ -42,6 +42,14 @@ class Ability
       can :create, Comment, :member_id => member.id
       can :destroy, Comment, :member_id => member.id
       can :manage, TimecardEntry, :member_id => member.id
+      
+      can :tic, Event do |event|
+        event.tic == member
+      end
+      
+      can :update, Event do |event|
+        event.has_run_position? member
+      end
     end
     
     if member.is_at_least? :exec
@@ -64,6 +72,8 @@ class Ability
     if member.is_at_least? :membership_management
       can :manage, Member
     end
+    
+    cannot :destroy, Event
     
     if member.tracker_dev?
       can :manage, :all

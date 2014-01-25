@@ -1,9 +1,11 @@
-<h1>Editing Email Form Response</h1>
+<h1>Editing Form Email</h1>
 
-<%= form_tag :action => 'update', :id => @emailform do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+<%= form_for @emailform do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @emailform %> |
-<%= link_to 'Back', :action => 'list' %>
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Back', email_forms_url %></li>
+  </ul>
+<% end %>

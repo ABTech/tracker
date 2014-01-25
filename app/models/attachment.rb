@@ -6,7 +6,9 @@ class Attachment < ActiveRecord::Base
 
   validates_attachment_presence :attachment
   
-  attr_accessible :attachment
+  attr_accessible :attachment, :name
+  
+  before_save :ensure_name
   
   def friendly_size
 	  if (attachment.size / 1024) < 1024
@@ -15,4 +17,9 @@ class Attachment < ActiveRecord::Base
       (attachment.size / 1048576.0).to_s[0..3] + " MB"
     end
   end
+  
+  private
+    def ensure_name
+      self.name = self.attachment.original_filename if self.name.blank?
+    end
 end

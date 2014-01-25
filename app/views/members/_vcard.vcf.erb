@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:<%= member.namelast %>;<%= member.namefirst %>
+FN:<%= member.fullname %>
+ORG:AB Tech
+CATEGORIES:AB Tech
+NICKNAME:<%= member.namenick %>
+TEL;type=CELL:<%= member.phone %>
+EMAIL;TYPE=INTERNET:<%= member.kerbid %>
+REV:<%= member.updated_at.strftime('%Y%m%dT%H%M%SZ') %>
+END:VCARD

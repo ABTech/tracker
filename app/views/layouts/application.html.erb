@@ -3,8 +3,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <title>ABTT - <%= @title %></title>
-  <link href="/main.css" rel="stylesheet" type="text/css" />
-  <link href="/stylesheets/icon-font.css" rel="stylesheet" type="text/css" />
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
@@ -14,7 +12,7 @@
     <% if ENV["RAILS_ENV"] == 'development' %>
       <div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>
     <% end %>
-    <%= link_to image_tag("/images/header.png"), root_url %>
+    <%= link_to image_tag("header.png"), root_url %>
   </div>
   <div class="login">
   <% if logged_in?() %>
@@ -26,31 +24,35 @@
 </div>
 
 <% if logged_in?() %>
-  <div id="menu">
+  <div id="menu" class="main-nav">
     <%= conditional_link_to("Events", "events", "index") %>
     <%= conditional_link_to("Email", "email", "index") %>
     <%= conditional_link_to("Calendar", "events", "calendar") %>
     <%= conditional_link_to("Finance", "accounts", "list") %>
-    <%= conditional_link_to("Organizations", "organizations", "index") %>
     <%= conditional_link_to("Phone List", "members", "index") %>
     <% if iphone_user_agent? %>
       <%= conditional_link_to("iPhone View", "events", "iphone") %>
     <% end %>
     <%= conditional_link_to('Timecards', 'timecard_entries', 'index') %>
-    <% admin = current_member.authorized? ["equipment/tree", "roles/index", "permissions/index", "locations/index", "attachments/index", "timecards/index", "invoice_items/index"] %>
+    <%= link_to_function "Miscellaneous", "$('#misc-menu').toggle('Blind')" %>
+    <% admin = current_member.authorized? ["equipment/tree", "roles/index", "permissions/index", "locations/index", "timecards/index", "invoice_items/index", "email_forms/index"] %>
       <%  if admin %> 
         <%= link_to_function("Tracker Admin", "$('#submenu').toggle('Blind')", :id => "more_link") %>
       <% end %>
   </div>
+  <div id="misc-menu" style="display: none" class="main-nav">
+    <%= conditional_link_to("Organizations", "organizations", "index") %>
+    <%= conditional_link_to("Attachments", "attachments", "index" ) %>
+  </div>
       <% if admin %>
-        <div id="submenu" style="display: none;">
+        <div id="submenu" style="display: none;" class="main-nav">
               <%= conditional_link_to "Locations", "locations", "index" %>
               <%= conditional_link_to("Equipment", "equipment", "tree" ) %>
               <%= conditional_link_to("Roles", "roles", "index" ) %>
               <%= conditional_link_to("Permissions", "permissions", "index" ) %>
-              <%= conditional_link_to("Attachments", "attachments", "index" ) %>
               <%= conditional_link_to('Timecards', 'timecards', 'index') %>
               <%= conditional_link_to('Invoice Items', 'invoice_items', 'index') %>
+              <%= conditional_link_to('Form Emails', 'email_forms', 'index') %>
           </div>
         <% end %>
 <% end %>

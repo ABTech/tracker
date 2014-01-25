@@ -1,12 +1,12 @@
 class EquipmentCategory < ActiveRecord::Base
-  acts_as_tree :order => "position";
-  has_many :equipment, :foreign_key => :parent_id;
+  acts_as_tree :order => "position"
+  has_many :equipment, :foreign_key => :parent_id
   belongs_to :parent, :foreign_key => "parent_id", :class_name => "EquipmentCategory"
 
-  Root_Category = 1;
+  Root_Category = 1
 
-  validates_presence_of :name, :position;
-  validates_associated :parent;
+  validates_presence_of :name, :position
+  validates_associated :parent
 
   attr_accessible :name, :parent_id, :position
 
@@ -14,17 +14,17 @@ class EquipmentCategory < ActiveRecord::Base
     node = EquipmentCategory.find(id);
     list = [];
 
-    children = node.children | node.equipment;
-    children = children.sort_by {|i| i.position};
+    children = node.children | node.equipment.active
+    children = children.sort_by {|i| i.position}
 
     children.each do |child|
       if(child.class == Equipment)
         list << child;
       else
-        list = list.concat(tree_as_collection(child.id));
+        list = list.concat(tree_as_collection(child.id))
       end
     end
 
-    return list;
+    return list
   end
 end

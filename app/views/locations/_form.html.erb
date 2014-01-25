@@ -10,14 +10,25 @@
   </div>
 <% end %>
 
-<!--[form:location]-->
-<p><%= f.label :building %>:
-  <%= f.text_field :building %></p>
-<p><%= f.label :floor %>:
-  <%= f.text_field :floor %></p>
-<p><%= f.label :room %>:
-  <%= f.text_field :room %></p>
-<p><%= f.label :details %>:
-  <%= f.text_area :details %></p>
-<!--[eoform:location]-->
-
+<table class="generic" width="50%">
+  <tr>
+    <td class="subheading"><%= f.label :building %>:</th>
+    <td><%= f.text_field :building, size: "100%" %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :floor %>:</th>
+    <td><%= f.text_field :floor, size: "100%" %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :room %>:</th>
+    <td><%= f.text_field :room, size: "100%" %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :details %>:</th>
+    <td><%= f.text_area :details, size: "80x15" %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

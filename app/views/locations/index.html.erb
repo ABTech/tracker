@@ -15,7 +15,10 @@
       <td><%= location.floor %></td>
       <td><%= location.room %></td>
       <td><%= location.details %></td>
-      <td><%= link_to "Edit", edit_location_url(location) %></td>
+      <td>
+        <%= link_to "Edit", edit_location_url(location) %>
+        <%= link_to "Delete", location, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this location as defunct?"} %>
+      </td>
     </tr>
   <% end %>
 </table>

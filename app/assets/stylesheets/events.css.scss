@@ -1,3 +1,295 @@
 // Place all the styles related to the Events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.eventsmain {
+	max-width: 1280px;
+  margin: 0 auto;
+	margin-top: 10px;
+  padding-right: 2em;
+  margin-bottom: 2em;
+}
+
+table.eventsmain > tbody > tr > td {
+	vertical-align: top;
+}
+
+/* generic event list attributes */
+table.eventslist {
+	width: 99%;
+	margin: 0 20px 0 0;
+}
+table.eventslist > tbody > tr > th {
+	border: 1px solid #BBBBBB;
+	background: #F0F0F0;
+}
+table.eventslist > tbody > tr > td {
+	border: 1px solid #BBBBBB;
+	padding: 0px 7px;
+	white-space: nowrap;
+}
+table.eventslist tr.list_header, table.eventslist tr.list_footer {
+	color: #555555;
+}
+table.eventslist tr.list_header a, table.eventslist tr.list_footer a, #event-selector a {
+	color: #9999FF;
+}
+table.eventslist td:first-child {
+	padding: 0;
+}
+
+/* row colors */
+table.eventslist tr.event_confirmed { background: #E2F2E2; }
+table.eventslist tr.event_confirmed > td:first-child { background: #00FF00; font-size: 5px; }
+table.eventslist tr.billing_pending { background: #E1EAEF; }
+table.eventslist tr.billing_pending > td:first-child { background: #FF0000; font-size: 5px; }
+table.eventslist tr.event_completed { background: #E1EAEF; }
+table.eventslist tr.event_completed > td:first-child { background: #00A4FF; font-size: 5px; }
+table.eventslist tr.event_cancelled { background: #F9F9F9; color: #AAAAAA; }
+table.eventslist tr.event_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
+table.eventslist tr.event_cancelled a { color: #9999FF; }
+table.eventslist tr.event_incomplete { background: #F7F7D3; }
+table.eventslist tr.event_incomplete > td:first-child { background: #FFFF00; font-size: 5px; }
+table.eventslist tr.initial_request { background: #F2C7C7; }
+table.eventslist tr.initial_request> td:first-child { background: #FF0000; font-size: 5px; }
+table.eventslist tr.event_blackout { background: #666666; color: #DDDDDD; }
+table.eventslist tr.event_blackout > td:first-child { background: #000000; font-size: 5px; }
+table.eventslist tr.event_blackout a { color: #9999FF; }
+
+/* cell styles */
+table.eventslist small.published {
+	color: #AAAAAA;
+}
+table.eventslist small.organization {
+}
+table.eventslist span.unknown {
+	color: #EE6666;
+}
+
+table.eventslist .ticless {
+  background: #F2C7C7;
+  font-weight: bold;
+}
+
+#event-container {
+  font-size: 11px;
+}
+
+@media (min-width: 1000px) {
+  #event-container-left {
+    width: 49%;
+    float: left;
+  }
+
+  #event-container-right {
+    width: 49%;
+    float: right;
+  }
+}
+
+#event-info {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  padding: .5em 1em;
+  margin-bottom: 1em;
+}
+
+#event-info h2 {
+  font-size: 21pt;
+  font-weight: bold;
+  color: #444;
+  margin: 0;
+}
+
+#event-org {
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #505050;
+  margin-bottom: .5em;
+  padding: 7px 7px 6px 7px;
+}
+
+#event-org h3 {
+  font-size: 11pt;
+  margin: 0 7px 6px 0;
+}
+
+#event-schedule {
+  margin-bottom: 1em;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+#event-schedule table {
+  width: 100%;
+}
+
+#event-schedule table th {
+  font-weight: bold;
+  background-color: #f7f7f7;
+  padding: 6px 12px;
+}
+
+#event-schedule td {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 6px 6px;
+}
+
+#event-schedule td:first-child {
+  border-left: 0;
+}
+
+#event-schedule td.es-date {
+  text-align: right;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#event-schedule td.es-time {
+  color: #222;
+  white-space: nowrap;
+}
+
+#event-schedule td.es-name {
+  white-space: nowrap;
+}
+
+#event-schedule td.es-locequip {
+  border-right: none;
+  width: 100%;
+}
+
+#event-roles ul,
+#event-more ul {
+  padding: 0;
+}
+
+#event-roles ul li,
+#event-more ul li {
+  display: block;
+}
+
+#event-more ul li+li {
+  margin-top: 4px;
+}
+
+#event-invoices,
+#event-journals {
+  margin-bottom: 1em;
+}
+
+#event-comments {
+  clear: both;
+}
+
+#event-comments fieldset+fieldset {
+  margin-top: 1em;
+}
+
+#event-comments form {
+  margin: 1em 0;
+}
+
+#event-comments form textarea {
+  width: 100%;
+  height: 5em;
+}
+
+#event-comments form input[type=submit] {
+  margin-top: 1em;
+}
+
+.event-finance td.money,
+.event-finance th.money {
+  text-align: right;
+}
+
+.event-finance tr+tr {
+  border-top: 1px solid #eee;
+}
+
+.event-finance {
+  width: 100%;
+  margin-top: .5em;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.event-finance th {
+  font-weight: bold;
+  background-color: #f7f7f7;
+  padding: 6px 12px;
+  text-align: left;
+  border-top: 1px solid #ccc;
+}
+
+.event-finance td {
+  background-color: #f9f9f9;
+  padding: 6px 6px;
+  vertical-align: top;
+}
+
+.event-form td:first-child {
+  vertical-align: top;
+  padding-right: 1em;
+}
+
+.event-form tr+tr td {
+  padding-top: 1em;
+}
+
+.event-form input[type=text] {
+  width: 40em;
+}
+
+.event-form legend,
+#event-form-submit legend {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.event-date-form {
+  border-bottom: 1px dashed black;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+
+.event-email-full+.event-email-full {
+  margin-top: 1em;
+  border-top: 1px dashed black;
+  padding-top: 1em;
+}
+
+@media (min-width: 1092px) {
+  #event-container #event-form-left {
+    float: left;
+    width: 70%;
+  }
+
+  #event-container #event-form-roles {
+    width: 25%;
+    float: right;
+  }
+}
+
+#event-form-submit {
+  clear: both;
+  width: 100%;
+}
+
+#event-selector {
+  text-align: center;
+  margin-bottom: 3px;
+}
+
+#event-sel-time {
+  margin-left: 2em;
+}
+
+#event-sel-title {
+  margin-right: 2em;
+  font-weight: bold;
+}

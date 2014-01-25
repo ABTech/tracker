@@ -1,0 +1,9 @@
+<div id="event-selector">
+  <span id="event-sel-title">Searching for "<%= params[:q] %>" (<%= page_entries_info @eventdates, :html => false %>)</span>
+  <span id="event-sel-months"><%= month_links %></span>
+  <span id="event-sel-time"><%= link_to "Future", events_url %> | <%= link_to "Past", past_events_url %></span>
+</div>
+
+<%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
+
+<%= will_paginate @eventdates %>

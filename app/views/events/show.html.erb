@@ -203,7 +203,7 @@
       
         <ul>
           <% @event.attachments.each do |a| %>
-            <li><%= link_to a.attachment.original_filename, a.attachment.url %> - <%= a.friendly_size %></li>
+            <li><%= link_to a.name, a.attachment.url %> - <%= a.friendly_size %></li>
           <% end %>
         </ul>
       </div>

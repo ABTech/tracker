@@ -5,8 +5,7 @@
     <%= render :partial => "events/monthview", :locals => {:selected => Date.today, :dates => get_sidebar_monthdates, :show_arrows => false} %>
   <% end %>
   <br/>
-  <form action="/events/" method="get">
-    <input type="hidden" name="selected" value="search"/>
+  <form action="<%= search_events_url %>" method="get">
     <input id="search" name="q" type="text" value="Search" class="search_empty" onFocus="focus_search()" onBlur="blur_search()"/>
   </form><br/>
   <% if content_for?(:more) %>
@@ -20,7 +19,9 @@
     <%= yield :extra %>
   <% end %>
   
-  Submit a <%= link_to "tracker bug", "https://github.com/ABTech/abtt/issues" %>. <%# this link could be a modal popup %>
+  Found a bug in tracker?<br/>
+  Have a feature request?<br/>
+  Submit a <%= link_to "ticket on GitHub", "https://github.com/ABTech/abtt/issues" %>. <%# this link could be a modal popup %>
   <!-- Tracker revision -->
   <div id="version">
     <!-- Are you reading this?! You should be contributing to the tracker! Contact abtech@andrew.cmu.edu for more info. -->

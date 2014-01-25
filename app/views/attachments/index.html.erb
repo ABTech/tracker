@@ -3,27 +3,27 @@
 <table class="generic">
   <thead>
   <tr>
-    <th>id</th>
-    <th>filename</th>
-    <th>content_type</th>
-    <th>size</th>
-    <th>event</th>
-    <th>&nbsp;</th>
+    <th>Name</th>
+    <th>Event</th>
+    <th>Content Type</th>
+    <th>Size</th>
+    <% if current_member.authorized? "attachments/destroy" %>
+      <th></th>
+    <% end %>
   </tr>
 </thead>
 <tbody>
 <% @attachments.each do |a| %>
   <tr>
-    <td><%= a.id %></td>
-    <td><%= link_to a.attachment.original_filename, a.attachment.url %></td>
+    <td><%= link_to a.name, a.attachment.url %></td>
+    <td><%= link_to a.event, event_path(a.event) %></td>
     <td><%= a.attachment.content_type %></td>
 	  <td><%= a.friendly_size %></td>
-    <td><%= link_to a.event, event_path(a.event) %></td>
-    <td><%= link_to "Destroy", attachment_path(a), :method => "delete",  :confirm => "Are you sure? This is irreversible." %></td>
+    <% if current_member.authorized? "attachments/destroy" %>
+      <td><%= link_to "Destroy", attachment_path(a), :method => "delete", :confirm => "Are you sure? This is irreversible." %></td>
+    <% end %>
   </tr>
   <% end %>
 </tbody>
 </table>
 <p>Go to an event to upload a new attachment.</p>
-
-

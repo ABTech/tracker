@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem "prototype-rails"
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 

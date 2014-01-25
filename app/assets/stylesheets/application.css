@@ -11,4 +11,317 @@
  *= require_self
  *= require_tree .
  *= require jquery-ui
+ *= require icon-font
  */
+
+body, input, textarea, select {
+	margin: 0;
+	font-size:10px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+table { border-collapse: collapse; }
+td, th { padding: 0; }
+a { color: #3333FF; }
+h1 a { text-decoration: none; color: inherit; }
+h1 a:hover { text-decoration: underline; color: #3333FF }
+
+/* =======================  HEADER ======================= */
+
+div.login {
+	float: right;
+	margin-top: -29px;
+	margin-right: 7px;
+	text-align: right;
+	color: #666666;
+}
+
+div.header {
+	background: #F3F3F3;
+}
+
+#version {
+  margin-top: 1em;
+}
+
+
+/* ====================== NOTICE ========================*/
+
+div.notice {
+  color: green;
+  border: 1px solid black;
+  margin: 0 auto;
+  width: 400px;
+  padding: .5em;
+  font-size: 120%;
+  text-align: center;
+}
+
+div.error {
+  color: red;
+  border: 4px solid red;
+  margin: 0 auto;
+  width: 400px;
+  padding: .5em;
+  font-size: 120%;
+  text-align: center;
+}
+/* =======================  MENU ======================= */
+
+/* .menu kept for posterity */
+div.main-nav {
+	margin: 5px 20px 0 20px;
+}
+
+div.main-nav a {
+	margin-right: 30px;
+	font-size: 18px;
+	color: #9999FF;
+	line-height: 175%;
+}
+
+div.main-nav a.current { background: #FDFDFF; border: 1px solid #EEEEFF; padding: 4px; }
+
+div#submenu, div#misc-menu {
+  font-size: 14px;
+}
+
+div#submenu a, div#misc-menu a {
+  font-size: 14px;
+}
+
+
+
+/* ======================= GENERIC ======================= */
+
+table.generic th {
+	background: #F0F0F0;
+	border: 1px solid #BBBBBB;
+        padding: 2px;
+}
+
+table.generic td {
+	padding: 5px;
+	background: #FCFCFC;
+	border: 1px solid #BBBBBB;
+	vertical-align: top;
+}
+
+table.generic th > a {
+ color: black;
+ text-decoration: none;
+}
+
+table.generic th > a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+table.generic tr:hover td {
+  background-color: #A6FFA6 !important;
+}
+
+th img.order {
+  border-width: 0;
+  margin: 0 0 -2px 0; 
+  padding: 0;
+}
+
+
+div#container {
+  margin: 20px;
+}
+
+.bug:hover td {
+  background-color: #A6FFA6 !important;
+}
+
+table.genericless td {
+	padding: 5px;
+	background: #FCFCFC;
+	border: 1px solid #BBBBBB;
+	vertical-align: top;
+}
+
+/* ======================= CALENDAR ======================= */
+
+table.calendarmain {
+	margin-top: 10px;
+}
+
+table.calendarmain > tbody > tr > td {
+	vertical-align: top;
+	padding: 5px;
+}
+
+/* generic calendar attributes */
+table.calendar {
+	width: 175px;
+}
+table.calendar table {
+	width: 100%;
+}
+table.calendar td.header_month {
+	padding-bottom: 3px
+}
+table.calendar td.header_month a {
+	color: #9999FF;
+}
+table.calendar td.header_days table {
+	border: 1px solid #CCCCCC;
+	background: #F0F0F0;
+}
+table.calendar td.header_days table tr td {
+	width: 24px;
+	text-align: center;
+}
+table.calendar td.body {
+	background: #F9F9F9;
+}
+table.calendar td.body table tr td {
+	border: 1px solid #CCCCCC;
+	width: 25px;
+	height: 25px;
+	text-align: center;
+}
+
+table.calendar span.hide {
+	display: none;
+}
+table.calendar span.show {
+	display: block;
+	position: absolute;
+	border: 1px solid #BBBBBB;
+	text-align: left;
+	padding: 5px;
+	z-index: 100;
+}
+table.calendar span.show span {
+	color: #777777;
+}
+
+/* calendar colors for specific days */
+td.not_on_calendar { color: #BBBBBB; }
+td.one_event, td.one_event span { background: #A6FFA6; }
+td.two_events, td.two_events span { background: #DFFFA6; }
+td.three_events, td.three_events span { background: #FFFDA6; }
+td.four_events, td.four_events span { background: #FFD9A6; }
+td.more_events, td.more_events span { background: #FFA6A6; }
+td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD }
+
+#main-left {
+  float: left;
+}
+
+#main-right {
+  float: right;
+}
+
+.event-box {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  padding: .5em 1em;
+  margin-bottom: 1em;
+}
+
+.event-box h4 {
+  margin: 0;
+  text-align: center;
+}
+
+ul.simple {
+  margin: 0;
+  padding-left: 0;
+}
+
+ul.simple li {
+  display: block;
+}
+
+h4 + ul.simple {
+  margin-top: 1em;
+}
+
+ul.simple li+li {
+  margin-top: 4px;
+}
+
+.field_with_errors {
+  color: red;
+  font-weight: bold;
+  display: inline;
+}
+
+.pagination {
+  text-align: center;
+  padding: 0.3em;
+  cursor: default;
+  margin-top: 1em;
+  margin-bottom: 1em; }
+  .pagination a, .pagination span, .pagination em {
+    padding: 0.2em 0.5em; }
+  .pagination .disabled {
+    color: #aaaaaa; }
+  .pagination .current {
+    font-style: normal;
+    font-weight: bold;
+    color: #ff0084; }
+  .pagination a {
+    border: 1px solid #dddddd;
+    color: #0063dc;
+    text-decoration: none; }
+    .pagination a:hover, .pagination a:focus {
+      border-color: #003366;
+      background: #0063dc;
+      color: white; }
+  .pagination .page_info {
+    color: #aaaaaa;
+    padding-top: 0.8em; }
+  .pagination .previous_page, .pagination .next_page {
+    border-width: 2px; }
+  .pagination .previous_page {
+    margin-right: 1em; }
+  .pagination .next_page {
+    margin-left: 1em; }
+
+table.accounts { margin-top: 10px; }
+
+table.category {width:230px;margin-top:10px;}
+
+table.account { width: 110px; margin-top: 10px; }
+table.account,table.category td { border: 1px solid #BBBBBB; background: #FAFAFA; text-align: center; font-size: 18px; padding: 0 4px; }
+table.account tr:first-child td, table.category tr:first-child td {background: #F0F0F0; font-size: 10px; font-weight: bold; }
+
+table.total { width: 230px; margin-top: 0; }
+table.total td { border: 1px solid #BBBBDD; background: #F9F9FF; font-size: 24px; }
+table.total tr:first-child td { background: #E9E9FF; }
+td:first-child > table.total { margin-left: 0; }
+
+table.journals { }
+table.journals td { text-align: right; padding-left: 5px; white-space: nowrap; }
+table.journals td:first-child { text-align: left; padding-left: 0; color: #444444; }
+a.tablelink {color: black; text-decoration:none;}
+a.tablelink:hover {color:#99F;}
+
+td.unpaid { font-weight: normal; }
+td.paid { font-weight: bold; }
+
+fieldset.account-totals {
+  border: 1px solid #BBBBBB;
+  margin-bottom: 1em;
+}
+fieldset.account-totals legend { font-size: 16px; }
+
+td.subheading {
+  text-align: right;
+  font-weight: bold;
+}
+
+.invoice-header {
+  font-weight: bold;
+  text-align: left;
+}
+
+.generic + .generic {
+  margin-top: 1em;
+}

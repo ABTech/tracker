@@ -3,8 +3,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <title>ABTT - <%= @title %></title>
-  <link href="/main.css" rel="stylesheet" type="text/css" />
-  <link href="/stylesheets/icon-font.css" rel="stylesheet" type="text/css" />
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
@@ -14,7 +12,7 @@
     <% if ENV["RAILS_ENV"] == 'development' %>
       <div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>
     <% end %>
-    <%= link_to image_tag("/images/header.png"), root_url %>
+    <%= link_to image_tag("header.png"), root_url %>
   </div>
   <div class="login">
     <br/>(not logged in)

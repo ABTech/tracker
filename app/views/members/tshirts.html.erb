@@ -1,0 +1,23 @@
+<h1>Shirt Sizes for Active Members</h1>
+<table class="generic" width="50%">
+  <thead>
+    <tr>
+      <th>Size</th>
+      <th>Count</th>
+      <th>Members</th>
+    </tr>
+  </thead>
+  <% @shirt_sizes.each do |size, members| %>
+    <tr>
+      <td><%= size %></td>
+      <td><%= members.length %></td>
+      <td>
+        <ul>
+          <% members.collect do |m| %>
+            <li><%=m%></li>
+          <% end %> 
+        </ul>
+      </td>
+    </tr>
+  <% end %>
+</table>

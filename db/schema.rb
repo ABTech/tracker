@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140118194714) do
+ActiveRecord::Schema.define(version: 20140121013223) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20140118194714) do
   end
 
   create_table "attachments", force: true do |t|
-    t.string   "name"
+    t.string   "name",                    null: false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
@@ -67,12 +67,13 @@ ActiveRecord::Schema.define(version: 20140118194714) do
   add_index "emails", ["subject"], name: "emails_subject_index", using: :btree
 
   create_table "equipment", force: true do |t|
-    t.integer  "parent_id",   null: false
-    t.string   "description", null: false
-    t.integer  "position",    null: false
-    t.string   "shortname",   null: false
+    t.integer  "parent_id",                   null: false
+    t.string   "description",                 null: false
+    t.integer  "position",                    null: false
+    t.string   "shortname",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "defunct",     default: false, null: false
   end
 
   add_index "equipment", ["description"], name: "equipment_description_index", using: :btree
@@ -202,12 +203,13 @@ ActiveRecord::Schema.define(version: 20140118194714) do
   add_index "journals", ["invoice_id"], name: "journals_link_id_index", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "building",   null: false
-    t.string   "floor",      null: false
-    t.string   "room",       null: false
+    t.string   "building",                   null: false
+    t.string   "floor",                      null: false
+    t.string   "room",                       null: false
     t.text     "details"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "defunct",    default: false, null: false
   end
 
   create_table "members", force: true do |t|
@@ -243,11 +245,12 @@ ActiveRecord::Schema.define(version: 20140118194714) do
   add_index "members_roles", ["role_id"], name: "roles_users_FKIndex1", using: :btree
 
   create_table "organizations", force: true do |t|
-    t.string   "name",       default: "", null: false
+    t.string   "name",       default: "",    null: false
     t.integer  "parent_id"
     t.string   "org_email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "defunct",    default: false, null: false
   end
 
   add_index "organizations", ["name"], name: "organizations_name_index", using: :btree

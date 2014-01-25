@@ -1,7 +1,7 @@
 require 'digest/sha1'
 class Member < ActiveRecord::Base
-  has_many :eventroles;
-  has_many :comments;
+  has_many :event_roles
+  has_many :comments
   has_and_belongs_to_many :roles
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
@@ -48,24 +48,6 @@ class Member < ActiveRecord::Base
   def to_s
     "#{fullname}"
   end
-
-
-  def to_vcf
-<<EOF
-BEGIN:VCARD
-VERSION:3.0
-N:#{namelast};#{namefirst}
-FN:#{fullname}
-ORG:AB Tech
-CATEGORIES:AB Tech
-NICKNAME:#{namenick}
-TEL;type=CELL:#{phone}
-EMAIL;TYPE=INTERNET:#{kerbid}
-REV:#{updated_at.strftime('%Y%m%dT%H%M%SZ')}
-END:VCARD
-EOF
-  end
-
 
   def self.active
     Role.active.members

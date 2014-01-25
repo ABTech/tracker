@@ -1,7 +1,6 @@
 class OrganizationsController < ApplicationController
   before_filter :login_required
 
-
   def index
     @title = "Organizations"
     @orgs = Organization.order("name ASC")
@@ -15,11 +14,11 @@ class OrganizationsController < ApplicationController
   def create 
     @org = Organization.new(params[:organization])
     if @org.save
-	flash[:notice] = "Organization (#{@org.name}) was successfully created."
-	redirect_to('/organizations')
+    	flash[:notice] = "Organization (#{@org.name}) was successfully created."
+    	redirect_to organizations_url
     else
-	flash[:error] = "Organization could not be created."
-	render :action => "new"
+    	flash[:error] = "Organization could not be created."
+    	render :action => "new"
     end
   end
 
@@ -30,11 +29,11 @@ class OrganizationsController < ApplicationController
 
   def edit
     @title = "Edit an Organization"
-    @org = Organization.find(params[:id])
+    @org = Organization.active.find(params[:id])
   end
 
   def update
-    @org = Organization.find(params[:id])
+    @org = Organization.active.find(params[:id])
     if @org.update_attributes(params[:organization])
       flash[:notice] = "Organization (#{@org.name}) was successfully updated."
 	redirect_to(organizations_path)
@@ -44,8 +43,14 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy 
-    @org = Organization.find(params[:id])
-    @org.destroy
+    @org = Organization.active.find(params[:id])
+    @org.defunct = true
+    if @org.save
+      flash[:notice] = "Organization \"#{@org.name}\" has been marked as defunct."
+    else
+      flash[:error] = "Error marking organization \"#{@org.name}\" as defunct."
+    end
+    
     redirect_to organizations_path
   end
 end

@@ -1,0 +1,27 @@
+<table class="generic" width="100%">
+  <tr>
+    <th width="25" class="listheader">&nbsp;</th>
+    <th width="175" class="listheader" scope="col">Description</th>
+    <th class="listheader" scope="col">Contents</th>
+  </tr>
+  
+  <% for emailform in @emailforms %>
+    <tr>
+      <td class="list"><div align="right">
+        <span class="listcontrollink">
+          <%= link_to "edit", edit_email_form_path(emailform) %><br />
+          <%= link_to "delete", emailform, :method => :delete, :data => { :confirm => "Are you sure you want to delete this form email?" } %>
+        </span>
+      </div></td>
+
+      <td class="list"><div align="left"><%= emailform.description %></div></td>
+      <td class="list"><%= simple_format emailform.contents %></div></td> 
+    </tr>
+  <% end %>
+</table>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'New Form Email', new_email_form_url %></li>
+  </ul>
+<% end %>

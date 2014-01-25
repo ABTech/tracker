@@ -1,5 +1,3 @@
-<%= link_to "calendar", {:action => "usage"} %>
-
 <%
   def render_item(item)
     ret = "";
@@ -42,7 +40,7 @@
     end
 
     # do it this way so position is maintained between equipment AND chilren
-    subnodes = node.children | node.equipment;
+    subnodes = node.children | node.equipment.active;
     subnodes = subnodes.sort_by { |i| i.position };
 
     subnodes.each do |n|

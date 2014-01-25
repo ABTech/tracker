@@ -108,133 +108,36 @@ class EventsController < ApplicationController
     end
   end
 
-  helper_method :filtered_events;
-  def filtered_events(options = {})
-    default_options = {
-      :search_terms => nil,
-      :startdate => nil, # Time or DateTime
-      :enddate => nil, # Time or DateTime
-      :order => "eventdates.startdate ASC",
-      :condquery => "TRUE",
-      :condargs => [],
-      :limit => nil # nil = no limit
-    }
-
-    options = default_options.merge(options);
-
-    if (options[:startdate] && (options[:startdate].class == DateTime || options[:startdate].class == Date))
-      options[:startdate] = Time.parse(options[:startdate].strftime("%c"));
-    end
-    if(options[:enddate] && (options[:enddate].class == DateTime || options[:enddate].class == Date))
-      options[:enddate] = Time.parse(options[:enddate].strftime("%c"));
-    end
-
-    order = options[:order];
-    joins = "";
-    limit = options[:limit];
-
-    condquery = options[:condquery];
-    condargs = options[:condargs];
-
-    # here's where we handle searches
-    if(options[:search_terms])
-      options[:search_terms].split().each do |word|
-        condquery += " AND (events.title LIKE (?))";
-        condquery += " OR (eventdates.description LIKE (?))";
-        condargs << "%" + word + "%";
-        condargs << "%" + word + "%";
-      end
-    end
-
-    if(options[:startdate])
-      condquery += " AND (UNIX_TIMESTAMP(eventdates.enddate) > (?))";
-      condargs << options[:startdate].to_i();
-    end
-
-    if(options[:enddate])
-      condquery += " AND (UNIX_TIMESTAMP(eventdates.startdate) < (?))";
-      condargs << options[:enddate].to_i();
-    end
-
-    if limit != nil
-      count = Eventdate.count(:all,
-                             :include => [:event],
-                             :joins => joins,
-                             :conditions => [condquery] + condargs,
-                             :order => order)
-      page = params[:page].to_i
-      page = 1 if page < 1 or (page-1)*limit + 1 > count
-      pages = { :count => count,
-                :page => page,
-                :first => (page-1)*limit + 1,
-                :last => (page*limit > count) ? count : page*limit,
-                :page_count => (count/limit.to_f).ceil }
-      pages[:next] = page + 1 if page*limit < count
-      pages[:prev] = page - 1 if page > 1
-      eventdates = Eventdate.find(:all,
-        :include => [:event],
-        :joins => joins,
-        :conditions => [condquery] + condargs,
-        :order => order,
-        :limit => limit,
-        :offset => (page-1)*limit)
-        
-      return pages, eventdates
-    else
-      eventdates = Eventdate.find(:all,
-        :include => [:event],
-        :joins => joins,
-        :conditions => [condquery] + condargs,
-        :order => order)
-      return nil, eventdates
-    end
-  end
-
   def index
     @title = "Event List"
-    
-    # default view mode
-    if (not params["selected"])
-      params["selected"] = "future";
-    end
-    
-    # set up options
-    options = {:limit => 50};
-    if (params[:selected] == "future")
-      options[:startdate] = Time.now;
-    elsif (params[:selected] == "past")
-      options[:enddate] = Time.now;
-      options[:order] = "eventdates.startdate DESC";
-    elsif (params[:selected] == "incomplete")
-      options[:condquery] = "NOT events.status IN (?)";
-      options[:condargs] = [Event::Event_Status_Group_Completed];
-    elsif (params[:selected] == "month")
-      options[:startdate] = Date.civil(params["year"].to_i, params["month"].to_i, 1)
-      options[:enddate] = options[:startdate] >> 1;
-    elsif (params[:selected] == "search")
-      options[:search_terms] = params["q"];
-      options[:order] = "eventdates.startdate DESC";
-    end
 
-    # grab the events for the list
-    @event_pages, @eventdates = filtered_events(options);
-
-    # grab the events for the calendar
-    if params["selected"] == "month"
-      @monthdates = Array.new(@eventdates)
-    elsif @eventdates.empty?
-      firstOfThisMonth = Date.civil(Date.today.year, Date.today.month, 1)
-      _, @monthdates = filtered_events({:startdate => firstOfThisMonth, :enddate => (firstOfThisMonth >> 1)})
-    else
-      firstOfFirstEventsMonth = Date.civil(@eventdates[0].startdate.year, @eventdates[0].startdate.month, 1)
-      _, @monthdates = filtered_events({:startdate => firstOfFirstEventsMonth, :enddate => (firstOfFirstEventsMonth >> 1)})
-    end
+    @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).references(:event)
   end
-
-  def calendar_full
-    # this exists only to check permissions on the action, so don't merge into calendar
-    calendar();
-    render :action => 'calendar'
+  
+  def month
+    @title = "Event List for " + Date::MONTHNAMES[params[:month].to_i] + " " + params[:year]
+    
+    @startdate = Date.civil(params["year"].to_i, params["month"].to_i, 1)
+    enddate = @startdate >> 1
+    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.beginning_of_day.utc, enddate.beginning_of_day.utc).order("startdate ASC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment)
+  end
+  
+  def incomplete
+    @title = "Incomplete Event List"
+    
+    @eventdates = Eventdate.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).order("startdate ASC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).references(:event)
+  end
+  
+  def past
+    @title = "Past Event List"
+    
+    @eventdates = Eventdate.where("startdate <= ?", Time.now.utc).order("startdate DESC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).paginate(:per_page => 50, :page => params[:page])
+  end
+  
+  def search
+    @title = "Event List - Search for " + params[:q]
+    
+    @eventdates = Eventdate.where("events.title LIKE (?) OR eventdates.description LIKE (?)", "%" + params[:q] + "%", "%" + params[:q] + "%").order("startdate DESC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).references(:event).paginate(:per_page => 50, :page => params[:page])
   end
 
   def iphone
@@ -265,35 +168,8 @@ class EventsController < ApplicationController
     render :layout => "iphone"
   end
 
-  def mobile
-    @selected = DateTime.now();
-
-    weekStart = @selected - (@selected.cwday() - 1);
-    weekEnd   = weekStart + 7;
-    @eventdates_week, count = filtered_events({:startdate => weekStart, :enddate => weekEnd, :custom_condition => "(events.publish OR events.blackout)"});
-
-    @title = "Mobile View";
-
-    render(:action => "mobile_calendar", :layout => "mobile");
-  end
-
-  def mobile_email
-    @title = "Mobile Email View";
-
-    @event = Event.find(params['id'], :include => [:eventdates, :emails, :organization]);
-
-    render(:action => "mobile_email", :layout => "mobile");
-  end
-
   def calendar
-    ### also handles full_calendar and public calendar
-    @title = "Calendar";
-
-    if(!current_member || !current_member.authorized?("/#{controller_name()}/#{action_name()}"))
-      @public = true;
-    else
-      @public = false;
-    end
+    @title = "Calendar"
     
     if params[:selected]
       @selected = DateTime.parse(params[:selected])
@@ -301,30 +177,20 @@ class EventsController < ApplicationController
       @selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
     end
 
-    filterStr = "(events.publish OR events.blackout)";
-    if(action_name() == "calendar_full")
-      filterStr = "(events.publish OR events.blackout OR (events.status IN ('#{Event::Event_Status_Group_Not_Cancelled.join("','")}')))";
-    end
+    filterStr = "(events.publish OR events.blackout)"
 
-    @selected_month = [];
-    @eventdates_month = [];
+    @selected_month = []
+    @eventdates_month = []
     12.times do |i|
-    month = @selected >> (i-3);
+      month = @selected >> (i-3);
       @selected_month[i] = @selected >> (i-3);
       monthStart = month - (month.day-1);
       monthEnd   = monthStart >> 1;
-      _, @eventdates_month[i] = filtered_events({:startdate => monthStart, :enddate => monthEnd, :custom_condition => filterStr});
-      if @eventdates_month[i] == nil
-        asdasdas # wtf???
-      end
+      @eventdates_month[i] = Eventdate.where("(events.publish OR events.blackout) AND enddate >= ? AND startdate <= ?", monthStart.beginning_of_day.utc, monthEnd.beginning_of_day.utc).order("startdate ASC").includes(:event).references(:event)
     end
 
-    weekStart = @selected - (@selected.cwday() - 1);
-    weekEnd   = weekStart + 7;
-    _, @eventdates_week = filtered_events({:startdate => weekStart, :enddate => weekEnd, :custom_condition => filterStr});
-
-    if(@public)
-      render(:action => "calendar", :layout => "public");
+    if not logged_in?
+      render(:action => "calendar", :layout => "public")
     end
   end
 
@@ -451,31 +317,5 @@ class EventsController < ApplicationController
       redirect_to(:action => "index");
       return;
     end
-  end
-
-  def lost
-    @events = Event.find(:all, :order => 'updated_at desc').select { |e| e.eventdates.empty? }
-  end
-
-  private
-  # special authentication method which does the standard
-  # "are you authorized" check, but also checks to see if the user
-  # has a role related to the current event. if so, the user is
-  # allowed access such that a TIC (or someone else having an
-  # event runcrew position) may be allowed access to their own
-  # event.
-  def login_or_role_required
-    if(logged_in?)
-      searchID = params["event"] ? params["event"]["id"] : params["id"];
-      perms = EventRole.find(:all,
-                             :conditions => ["member_id = (?) AND event_id = (?)", 
-                                             current_member().id, 
-                                             searchID]);
-      if(!perms.empty?)
-        return true;
-      end
-    end
-
-    return login_required();
   end
 end

@@ -29,11 +29,7 @@ Abtt::Application.routes.draw do
     end
   end
 
-  resources :email_forms, except: [:index] do
-    collection do
-      get 'list'
-    end
-  end
+  resources :email_forms, except: [:show]
 
   resources :equipment, only: [] do
     collection do
@@ -46,29 +42,26 @@ Abtt::Application.routes.draw do
       post 'savegroup'
       post 'saveitem'
       get 'tree'
-      get 'treesave'
-      get 'usage'
     end
   end
 
   resources :events do
     member do
       get 'delete_conf'
-      get 'mobile_email'
       get 'show_email'
       get 'finance'
     end
     collection do
-      get 'delete_conf'
       get 'calendar'
       get 'iphone'
       post 'iphone'
       get 'mobile'
-      get 'lost'
+      get 'months/:year/:month', to: :month, as: :month
+      get 'past'
+      get 'incomplete'
+      get 'search'
     end
   end
-
-  resources :heartbeat, only: [:index]
 
   resources :invoices, :except => [:destroy] do
     collection do
@@ -97,6 +90,7 @@ Abtt::Application.routes.draw do
   resources :members do
     collection do
       get 'edit_self'
+      get 'tshirts'
     end
   end
 
@@ -113,10 +107,6 @@ Abtt::Application.routes.draw do
   end
 
   resources :timecard_entries, except: :show
-
-  resources :tshirts, only: :index
-
-  resources :version, only: :show
 
   post 'login' => 'useraccount#login'
   get 'logout' => 'useraccount#logout'

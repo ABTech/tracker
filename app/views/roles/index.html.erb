@@ -28,4 +28,8 @@
   <% end %>
 </table>
 
-<%= button_to("new role", new_role_url) %>
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "New role", new_role_url %></li>
+  </ul>
+<% end %>

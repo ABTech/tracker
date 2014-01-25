@@ -20,4 +20,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  will_paginate:
+    page_entries_info:
+      single_page:
+        zero:  "0"
+        one:   "1"
+        other: "1-%{count} of %{count}"
+      single_page_html:
+        zero:  "0"
+        one:   "1"
+        other: "1-%{count} of %{count}"
+      multi_page: "%{from}-%{to} of %{count}"
+      multi_page_html: "<b>%{from}-%{to}</b> of <b>%{count}</b>"

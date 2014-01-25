@@ -28,7 +28,7 @@
     <%= conditional_link_to "Events", events_url, :read, Event %>
     <%= conditional_link_to "Email", email_index_url, :read, Email %>
     <%= conditional_link_to "Calendar", calendar_events_url, :read, Event %>
-    <%= conditional_link_to "Finance", list_accounts_url, :read, Account %>
+    <%= conditional_link_to "Finance", list_accounts_url, :read, :finance %>
     <%= conditional_link_to "Phone List", members_url, :index, Member %>
     <% if iphone_user_agent? %>
       <%= conditional_link_to "iPhone View", iphone_events_url, :read, Event %>

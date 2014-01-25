@@ -46,7 +46,7 @@ class AccountsController < ApplicationController
   end
 
   def list
-    authorize! :manage, :finance
+    authorize! :read, :finance
     
     @title = "Chart of Accounts"
     begin

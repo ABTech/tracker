@@ -111,7 +111,7 @@ class EventsController < ApplicationController
   def index
     @title = "Event List"
 
-    @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).references(:event)
+    @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
   end
   
   def month
@@ -119,25 +119,25 @@ class EventsController < ApplicationController
     
     @startdate = Date.civil(params["year"].to_i, params["month"].to_i, 1)
     enddate = @startdate >> 1
-    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.beginning_of_day.utc, enddate.beginning_of_day.utc).order("startdate ASC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment)
+    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.beginning_of_day.utc, enddate.beginning_of_day.utc).order("startdate ASC")
   end
   
   def incomplete
     @title = "Incomplete Event List"
     
-    @eventdates = Eventdate.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).order("startdate ASC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).references(:event)
+    @eventdates = Eventdate.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
   end
   
   def past
     @title = "Past Event List"
     
-    @eventdates = Eventdate.where("startdate <= ?", Time.now.utc).order("startdate DESC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).paginate(:per_page => 50, :page => params[:page])
+    @eventdates = Eventdate.where("startdate <= ?", Time.now.utc).order("startdate DESC").paginate(:per_page => 50, :page => params[:page])
   end
   
   def search
     @title = "Event List - Search for " + params[:q]
     
-    @eventdates = Eventdate.where("events.title LIKE (?) OR eventdates.description LIKE (?)", "%" + params[:q] + "%", "%" + params[:q] + "%").order("startdate DESC").includes({event: [{event_roles: :member}, :organization]}, :locations, :equipment).references(:event).paginate(:per_page => 50, :page => params[:page])
+    @eventdates = Eventdate.where("events.title LIKE (?) OR eventdates.description LIKE (?)", "%" + params[:q] + "%", "%" + params[:q] + "%").order("startdate DESC").includes(:event).references(:event).paginate(:per_page => 50, :page => params[:page])
   end
 
   def iphone

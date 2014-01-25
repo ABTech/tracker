@@ -64,8 +64,8 @@ Abtt::Application.routes.draw do
   end
 
   resources :invoices, :except => [:destroy] do
-    collection do
-      get 'email'
+    member do
+      post 'email'
       get 'email_confirm'
       get 'prettyView'
     end
@@ -118,7 +118,6 @@ Abtt::Application.routes.draw do
   get 'mobile' => 'events#mobile'
   get 'iphone' => 'events#iphone'
   get 'i' => 'events#iphone'
-  post 'invoices/email/:id' => 'invoices#email'
 
   root to: 'events#index'
 end

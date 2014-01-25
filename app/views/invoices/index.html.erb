@@ -21,7 +21,7 @@
     <td>
     <% if(invoice.journal_invoice) %>
       <%= link_to(invoice.journal_invoice.date.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-    <% else %>
+    <% elsif can? :create, Journal %>
       <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
       <div id="invoice<%= invoice.id %>-createje" style="display: none">
         <%= form_for invoice do |builder| %>
@@ -48,13 +48,15 @@
           <% end %>
         <% end %>
       </div>
+    <% else %>
+      none
     <% end %>
     </td>
     <td>
     <% if invoice.journal_invoice %>
       <% if invoice.journal_invoice.date_paid %>
         <%= link_to(invoice.journal_invoice.date_paid.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-      <% else %>
+      <% elsif can? :update, invoice.journal_invoice %>
         <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
         <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
           <%= form_for invoice do |builder| %>
@@ -73,6 +75,8 @@
             <% end %>
           <% end %>
         </div>
+      <% else %>
+        none
       <% end %>
     <% else %>
       none

@@ -1,18 +1,22 @@
 class InvoicesController < ApplicationController
   layout "finance"
   
+  load_and_authorize_resource :only => [:index, :new, :edit, :update]
+  
   def show
     @title = "Viewing Invoice"
 
-    @invoice = Invoice.find(params['id'], :include => [:event, :journal_invoice, :invoice_lines])
+    @invoice = Invoice.includes(:event, :journal_invoice, :invoice_lines).find(params[:id])
+    authorize! :show, @invoice
 
     render :layout => 'events'
   end
 
   def prettyView
-    @invoice = Invoice.find(params['id'], :include=>[:event,:journal_invoice,:invoice_lines]);
+    @invoice = Invoice.includes(:event, :journal_invoice, :invoice_lines).find(params[:id])
+    authorize! :show, @invoice
+    
     @title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
-
     if params[:format] == 'pdf'
       headers['Content-Type'] = 'application/pdf'
       headers['Content-Disposition'] = "inline;"
@@ -23,9 +27,8 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @title = "Create New Invoice";
+    @title = "Create New Invoice"
 
-    @invoice = Invoice.new
     @invoice.status = "Quote"
     
     5.times do
@@ -39,16 +42,15 @@ class InvoicesController < ApplicationController
 
   def edit
     @title = "Edit Invoice"
-    @invoice = Invoice.find(params["id"])
     
     render :layout => 'events'
   end
 
   def create
     @title = "Create New Invoice"
-    params[:invoice].permit!
     
-    @invoice = Invoice.new(params[:invoice])
+    @invoice = Invoice.new(invoice_params)
+    authorize! :create, @invoice
     
     if @invoice.save
       flash[:notice] = "Invoice created successfully!"
@@ -60,10 +62,8 @@ class InvoicesController < ApplicationController
   
   def update
     @title = "Edit Invoice"
-    params[:invoice].permit!
     
-    @invoice = Invoice.find(params[:id])
-    if @invoice.update(params[:invoice])
+    if @invoice.update(invoice_params(@invoice))
       flash[:notice] = "Invoice updated successfully!"
       
       if params[:redirect] == "event"
@@ -81,7 +81,7 @@ class InvoicesController < ApplicationController
   def index
     @title = "Invoice List"
     
-    @invoices = Invoice.includes(:event, :journal_invoice, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
+    @invoices = @invoices.includes(:event, :journal_invoice, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
     
     if params[:page]
       @page = params[:page]
@@ -92,6 +92,8 @@ class InvoicesController < ApplicationController
 
   def email_confirm
     @invoice = Invoice.find(params['id'], :include => [:event]);
+    authorize! :email, @invoice
+    
     @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
     if(@invoice.event.organization.org_email.nil?)
       @email_to=  @invoice.event.contactemail
@@ -136,8 +138,11 @@ class InvoicesController < ApplicationController
       format.js
     end
   end
+  
   def email
     @invoice = Invoice.find(params['id'], :include => [:event]);
+    authorize! :email, @invoice
+    
     if(params['mark_completed'])
       journal = Journal.new
       journal.date = DateTime.now
@@ -160,4 +165,17 @@ class InvoicesController < ApplicationController
       format.html {redirect_to @invoice}
     end
   end
+  
+  private
+    def invoice_params(invoice=Invoice)
+      if can? :manage, invoice
+        params.require(:invoice).permit(:event_id, :status, :recognized, :payment_type, :oracle_string, :memo, :update_journal, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy], :journal_invoice_attributes => [:date, :memo, :amount, :date_paid, :notes, :account_id, :event_id, :paymeth_category, :id])
+      else
+        if not Invoice::Invoice_Status_Group_Exec.include? params[:invoice][:status]
+          params[:invoice].delete :status
+        end
+        
+        params.require(:invoice).permit(:event_id, :status, :recognized, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
+      end
+    end
 end

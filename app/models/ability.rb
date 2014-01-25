@@ -53,12 +53,15 @@ class Ability
     end
     
     if member.is_at_least? :exec
-      can :manage, :finance
-      can :manage, Account
-      can :manage, Invoice
-      can :manage, Journal
-      can :manage, Timecard
-      can :manage, InvoiceItem
+      # Read only finance
+      can :read, :finance
+      can :read, Account
+      can :read, Invoice
+      can :read, Journal
+      can :read, Timecard
+      can :read, InvoiceItem
+      
+      # Tracker Management
       can :manage, Equipment
       can :manage, Location
       can :manage, Organization
@@ -71,6 +74,15 @@ class Ability
     
     if member.is_at_least? :membership_management
       can :manage, Member
+    end
+    
+    if member.is_at_least? :treasurer
+      can :manage, :finance
+      can :manage, Account
+      can :manage, Invoice
+      can :manage, Journal
+      can :manage, Timecard
+      can :manage, InvoiceItem
     end
     
     cannot :destroy, Event

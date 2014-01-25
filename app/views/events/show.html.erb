@@ -70,11 +70,15 @@
       </ul>
     </div>
   
-    <% if can? :manage, :finance %>
+    <% if can? :read, :finance %>
       <div id="event-invoices">
         <table class="event-finance">
           <tr>
-            <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
+            <% if can? :create, Invoice %>
+              <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
+            <% else %>
+              <th>Invoices</th>
+            <% end %>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -91,7 +95,7 @@
                     Invoice JE:
                     <% if invoice.journal_invoice %>
                       <%= link_to(invoice.journal_invoice.date_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-                    <% else %>                  
+                    <% elsif can? :create, Journal %>                  
                       <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
                       <div id="invoice<%= invoice.id %>-createje" style="display: none">
                         <%= form_for invoice do |builder| %>
@@ -117,6 +121,8 @@
                           <% end %>
                         <% end %>
                       </div>
+                    <% else %>
+                      none
                     <% end %>
                   </p>
                   <% if invoice.journal_invoice %>
@@ -124,7 +130,7 @@
                       Invoice Paid JE:
                       <% if invoice.journal_invoice.date_paid %>
                         <%= link_to(invoice.journal_invoice.date_paid_s(), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
-                      <% else %>
+                      <% elsif can? :update, invoice.journal_invoice %>
                         <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
                         <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
                           <%= form_for invoice do |builder| %>
@@ -142,24 +148,30 @@
                             <% end %>
                           <% end %>
                         </div>
+                      <% else %>
+                        none
                       <% end %>
                     </p>
                   <% end %>
                 </td>
                 <td>
-                  <%= form_for @event, html: {:id => "invoice-status-#{invoice.id}"} do |f| %>
-                    <%= f.fields_for :invoices, invoice do |ff| %>
-                      <%= ff.select :status, Invoice::Invoice_Status_Group_All, {}, :onChange => "$('#invoice-status-#{invoice.id}').submit()" %>
+                  <% if can? :status, invoice %>
+                    <%= form_for @event, html: {:id => "invoice-status-#{invoice.id}"} do |f| %>
+                      <%= f.fields_for :invoices, invoice do |ff| %>
+                        <%= ff.select :status, Invoice::Invoice_Status_Group_All, {}, :onChange => "$('#invoice-status-#{invoice.id}').submit()" %>
+                      <% end %>
                     <% end %>
+                  <% else %>
+                    <%= invoice.status %>
                   <% end %>
                 </td>
                 <td>
                   <ul class="simple">
-                    <li><%= link_to "Show full", invoice %></li>
-                    <li><%= link_to "Edit", edit_invoice_url(invoice) %></li>
-                    <li><%= link_to "Preview", prettyView_invoices_url(:id => invoice.id) %></li>
-                    <li><%= link_to "Print", prettyView_invoices_url(:id => invoice.id, :format => :pdf) %></li>
-                    <li><%= link_to "Email", email_confirm_invoices_url(:id => invoice.id, :format => :js), :remote => true %></li>
+                    <li><%= conditional_link_to "Show full", invoice, :read, invoice %></li>
+                    <li><%= conditional_link_to "Edit", edit_invoice_url(invoice), :update, invoice %></li>
+                    <li><%= conditional_link_to "Preview", prettyView_invoices_url(:id => invoice.id), :read, invoice %></li>
+                    <li><%= conditional_link_to "Print", prettyView_invoices_url(:id => invoice.id, :format => :pdf), :read, invoice %></li>
+                    <li><%= conditional_link_to_remote "Email", email_confirm_invoices_url(:id => invoice.id, :format => :js), :email, invoice %></li>
                   </ul>
                 </td>
               </tr>
@@ -171,7 +183,11 @@
       <div id="event-journals">
         <table class="event-finance">
           <tr>
-            <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true, :event_id => @event.id) %>, <%= link_to "Debit", new_journal_url(:is_credit => false, :event_id => @event.id) %>)</th>
+            <% if can? :create, Journal %>
+              <th>Journal Entries (Add <%= link_to "Credit", new_journal_url(:is_credit => true, :event_id => @event.id) %>, <%= link_to "Debit", new_journal_url(:is_credit => false, :event_id => @event.id) %>)</th>
+            <% else %>
+              <th>Journal Entries</th>
+            <% end %>
             <th class="money">Credit</th>
             <th class="money">Debit</th>
           </tr>
@@ -234,10 +250,10 @@
   </div>
 </div>
 
-<% if can? :update, @event or can? :destroy, @event or can? :manage, :finance or not @event.emails.empty? %>
+<% if can? :update, @event or can? :destroy, @event or can? :read, :finance or not @event.emails.empty? %>
   <% content_for :more do %>
     <ul>
-      <% if can? :manage, :finance %>
+      <% if can? :read, :finance %>
         <li><%= link_to "View payroll", finance_event_url(@event) %></li>
       <% end %>
       <% if not @event.emails.empty? %>

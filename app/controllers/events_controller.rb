@@ -30,7 +30,7 @@ class EventsController < ApplicationController
   def finance
     @title = "Viewing Event Finances"
     @event = Event.find(params[:id])
-    authorize! :manage, :finance
+    authorize! :read, :finance
   end
 
   def new

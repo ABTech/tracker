@@ -11,6 +11,10 @@ module ApplicationHelper
     link_to title, url if can? action, model
   end
   
+  def conditional_link_to_remote(title, url, action, model)
+    link_to title, url, :remote => true if can? action, model
+  end
+  
   def show_admin_link
     can? :manage, Equipment or can? :manage, Location or can? :manage, Timecard or can? :manage, InvoiceItem or can? :manage, EmailForm
   end

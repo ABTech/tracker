@@ -53,10 +53,13 @@ class Ability
     end
     
     if member.is_at_least? :exec
-      # Read only finance
+      # Almost read only finance
       can :read, :finance
       can :read, Account
       can :read, Invoice
+      can :create, Invoice
+      can :update, Invoice, :status => Invoice::Invoice_Status_Group_Exec
+      can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :read, Journal
       can :read, Timecard
       can :read, InvoiceItem

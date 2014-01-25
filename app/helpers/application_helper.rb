@@ -16,7 +16,7 @@ module ApplicationHelper
   end
   
   def show_admin_link
-    can? :manage, Equipment or can? :manage, Location or can? :manage, Timecard or can? :manage, InvoiceItem or can? :manage, EmailForm
+    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm
   end
 
   Date.class_eval do

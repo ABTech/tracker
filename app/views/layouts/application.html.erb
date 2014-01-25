@@ -45,11 +45,11 @@
   </div>
   <% if show_admin_link %>
     <div id="submenu" style="display: none;" class="main-nav">
-      <%= conditional_link_to "Locations", locations_url, :manage, Location %>
-      <%= conditional_link_to "Equipment", tree_equipment_index_url, :manage, Equipment %>
-      <%= conditional_link_to "Timecards", timecards_url, :manage, Timecard %>
-      <%= conditional_link_to "Invoice Items", invoice_items_url, :manage, InvoiceItem %>
-      <%= conditional_link_to "Form Email", email_forms_url, :manage, EmailForm %>
+      <%= conditional_link_to "Locations", locations_url, :read, Location %>
+      <%= conditional_link_to "Equipment", tree_equipment_index_url, :read, Equipment %>
+      <%= conditional_link_to "Timecards", timecards_url, :read, Timecard %>
+      <%= conditional_link_to "Invoice Items", invoice_items_url, :read, InvoiceItem %>
+      <%= conditional_link_to "Form Email", email_forms_url, :read, EmailForm %>
       </div>
     <% end %>
 <% end %>

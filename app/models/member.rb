@@ -24,7 +24,7 @@ class Member < ActiveRecord::Base
   end
   
   extend Enumerize
-  enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :membership_management, :treasurer, :tracker_dev], predicates: true
+  enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :tracker_management, :admin], predicates: true
   validates_presence_of :role
   
   def active?

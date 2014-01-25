@@ -61,36 +61,40 @@ class Ability
       can :update, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :read, Journal
-      can :read, Timecard
       can :read, InvoiceItem
       
-      # Tracker Management
-      can :manage, Equipment
-      can :manage, Location
-      can :manage, Organization
-      can :manage, EmailForm
+      # Event Management
       can :manage, Event
       can :manage, Email
-      can :manage, Attachment
       can :destroy, Comment
+      
+      # Read only tracker management
+      can :read, Account
+      can :read, Invoice
+      can :read, InvoiceItem
+      can :read, Journal
+      can :read, Equipment
+      can :read, Location
+      can :read, EmailForm
     end
     
-    if member.is_at_least? :membership_management
+    if member.is_at_least? :tracker_management
       can :manage, Member
-    end
-    
-    if member.is_at_least? :treasurer
       can :manage, :finance
       can :manage, Account
       can :manage, Invoice
       can :manage, Journal
-      can :manage, Timecard
       can :manage, InvoiceItem
+      can :manage, Equipment
+      can :manage, Location
+      can :manage, Organization
+      can :manage, EmailForm
+      can :manage, Attachment
     end
     
     cannot :destroy, Event
     
-    if member.tracker_dev?
+    if member.admin?
       can :manage, :all
     end
   end

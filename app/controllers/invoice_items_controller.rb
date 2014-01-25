@@ -1,16 +1,21 @@
 class InvoiceItemsController < ApplicationController
   layout "finance"
+  
+  load_and_authorize_resource :except => [:create]
 
   def index
-    @invoice_items = InvoiceItem.all
+    @title = "Invoice Line Presets"
   end
 
   def new
-    @invoice_item = InvoiceItem.new
+    @title = "Create a new Invoice Line Preset"
   end
 
   def create
-    @invoice_item = InvoiceItem.new(params[:invoice_item])
+    @title = "Create a new Invoice Line Preset"
+    @invoice_item = InvoiceItem.new(ii_params)
+    authorize! :create, @invoice_item
+    
     if @invoice_item.save
       flash[:notice] = 'Invoice item was successfully created.'
       redirect_to :action => 'index'
@@ -20,12 +25,13 @@ class InvoiceItemsController < ApplicationController
   end
 
   def edit
-    @invoice_item = InvoiceItem.find(params[:id])
+    @title = "Edit Invoice Line Preset"
   end
 
   def update
-    @invoice_item = InvoiceItem.find(params[:id])
-    if @invoice_item.update(params[:invoice_item])
+    @title = "Edit Invoice Line Preset"
+    
+    if @invoice_item.update(ii_params)
       flash[:notice] = 'Invoice item was successfully updated.'
       redirect_to :action => 'index'
     else
@@ -34,8 +40,13 @@ class InvoiceItemsController < ApplicationController
   end
 
   def destroy
-    InvoiceItem.find(params[:id]).destroy
+    @invoice_item.destroy
     flash[:notice] = 'Invoice item was successfully deleted.'
     redirect_to :action => 'index'
   end
+  
+  private
+    def ii_params
+      params.require(:invoice_item).permit(:memo, :category, :price_recognized, :price_unrecognized)
+    end
 end

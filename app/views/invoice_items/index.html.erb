@@ -6,8 +6,12 @@
     <th>Category</th>
     <th>Price recognized</th>
     <th>Price unrecognized</th>
-    <th></th>
-    <th></th>
+    <% if can? :update, InvoiceItem %>
+      <th></th>
+    <% end %>
+    <% if can? :destroy, InvoiceItem %>
+      <th></th>
+    <% end %>
   </tr>
   
 <% @invoice_items.each do |item| %>
@@ -16,14 +20,20 @@
     <td><%= item.category %></td>
     <td><%= number_to_currency item.price_recognized %></td>
     <td><%= number_to_currency item.price_unrecognized %></td>
-    <td><%= link_to 'Edit', edit_invoice_item_url(item) %></td>
-    <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% if can? :update, item %>
+      <td><%= link_to 'Edit', edit_invoice_item_url(item) %></td>
+    <% end %>
+    <% if can? :destroy, item %>
+      <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<% content_for :more do %>
-  <li><%= link_to 'New invoice item', :action => 'new' %></li>
+<% if can? :create, InvoiceItem %>
+  <% content_for :more do %>
+    <li><%= link_to 'New invoice item', :action => 'new' %></li>
+  <% end %>
 <% end %>

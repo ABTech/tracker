@@ -15,6 +15,10 @@ module ApplicationHelper
     link_to title, url, :remote => true if can? action, model
   end
   
+  def conditional_link_to_delete(title, url, action, model)
+    link_to title, url, :method => :delete, :data => { :confirm => "Are you sure you want to delete this? This action is irreversible." } if can? action, model
+  end
+  
   def show_admin_link
     can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm
   end

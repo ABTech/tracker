@@ -84,7 +84,7 @@ class EventsController < ApplicationController
           if rer.member_id == current_member.id
             er[:_destroy] == '1'
           else
-            assistants.include? er[:role]
+            assistants.include? er[:role] and assistants.include? rer.role
           end
         else
           er[:member_id] != current_member.id and assistants.include? er[:role]

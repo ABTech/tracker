@@ -1,13 +1,13 @@
 class EquipmentController < ApplicationController
-  before_filter :authorize_equipment
-  
   # we need to represent categories and nodes within the same
   # structure, so arbitrarily pick some large constant to add
   # to node ID values
   TreeNodeIDOffset = 100000;
 
   def tree
-    @title = "Equipment Tree";
+    authorize! :read, Equipment
+    
+    @title = "Equipment Tree"
   end
 
   # creates a new group under a given group
@@ -23,6 +23,8 @@ class EquipmentController < ApplicationController
     group.name = "New Group";
     group.parent = EquipmentCategory.find(id);
     group.position = 0;
+    
+    authorize! :create, group
     group.save();
   end
 
@@ -40,6 +42,8 @@ class EquipmentController < ApplicationController
     item.parent = EquipmentCategory.find(id);
     item.position = 0;
     item.shortname = "New Shortname"
+    
+    authorize! :create, item
     item.save();
   end
 
@@ -51,6 +55,7 @@ class EquipmentController < ApplicationController
     if(id && (id.to_i() != EquipmentCategory::Root_Category))
       # move all remaining items in the group to the parent group
       category = EquipmentCategory.find(id);
+      authorize! :destroy, category
 
       category.equipment.each do |item|
         item.parent = category.parent;
@@ -64,6 +69,8 @@ class EquipmentController < ApplicationController
   # (meant to be used through Jscript)
   def delitem
     @eq = Equipment.active.find(params[:id])
+    authorize! :destroy, @eq
+    
     @eq.defunct = true
     @eq.save
   end
@@ -72,6 +79,8 @@ class EquipmentController < ApplicationController
     @title = "Editing Item"
 
     @item = Equipment.active.find(params['id']);
+    authorize :update, @item
+    
     if(!@item)
       flash[:error] = "Please select a valid item.";
     end
@@ -82,6 +91,8 @@ class EquipmentController < ApplicationController
     @title = "Editing Group"
 
     @category = EquipmentCategory.find(params['id']);
+    authorize! :update, @category
+    
     if(!@category)
       flash[:error] = "Please select a valid category.";
     end
@@ -92,6 +103,8 @@ class EquipmentController < ApplicationController
     @title = "Saved Item";
 
     record = Equipment.active.find(params['id']);
+    authorize! :update, record
+    
     if(!record)
       flash[:error] = "Please select a valid item.";
       render :layout => false
@@ -106,6 +119,7 @@ class EquipmentController < ApplicationController
     @title = "Saved Group";
 
     record = EquipmentCategory.find(params['id']);
+    authorize! :update, record
     if(!record)
       flash[:error] = "Please select a valid category.";
       render :layout => false
@@ -115,9 +129,4 @@ class EquipmentController < ApplicationController
       render :layout => false
     end
   end
-  
-  private
-    def authorize_equipment
-      authorize! :manage, Equipment
-    end
 end

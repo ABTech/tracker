@@ -74,6 +74,7 @@ class Ability
       can :read, InvoiceItem
       can :read, Journal
       can :read, Equipment
+      can :read, EquipmentCategory
       can :read, Location
       can :read, EmailForm
     end
@@ -86,6 +87,7 @@ class Ability
       can :manage, Journal
       can :manage, InvoiceItem
       can :manage, Equipment
+      can :manage, EquipmentCategory
       can :manage, Location
       can :manage, Organization
       can :manage, EmailForm

@@ -73,7 +73,7 @@ Abtt::Application.routes.draw do
 
   resources :invoice_items, except: [:show]
 
-  resources :journal, except: [:show, :update] do
+  resources :journals, except: [:show, :update] do
     collection do
       get 'list'
       post 'save'

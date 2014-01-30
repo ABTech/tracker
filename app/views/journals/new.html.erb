@@ -16,7 +16,7 @@ function toggle_notes(id) {
 <div style="margin-left: 20px">
   <h1>Add <%= params[:is_credit] == "true" ? "Credit" : "Debit" %> JEs</h1>
 
-  <%= form_tag save_journal_index_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
+  <%= form_tag save_journals_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
   <% if @event_id %>
     <%= hidden_field_tag "event_id", @event_id %>
   <% end %>

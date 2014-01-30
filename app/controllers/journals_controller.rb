@@ -1,4 +1,4 @@
-class JournalController < ApplicationController
+class JournalsController < ApplicationController
   layout "finance"
 
   def list

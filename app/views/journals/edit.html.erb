@@ -23,7 +23,7 @@ fieldset { width:40% }
 
 <fieldset >
 <legend>Edit a Journal Entry</legend>
-<%= form_tag save_journal_index_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
+<%= form_tag save_journals_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
 <%= hidden_field("journal", "id") %>
 <table class=listTable >
   <tr>

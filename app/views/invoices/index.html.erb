@@ -20,7 +20,7 @@
       <td class="list"><%= number_to_currency invoice.total %></td>
     <td>
     <% if(invoice.journal_invoice) %>
-      <%= link_to(invoice.journal_invoice.date.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+      <%= link_to invoice.journal_invoice.date.strftime("%B %d %Y"), view_journal_url(invoice.journal_invoice) %>
     <% elsif can? :create, Journal %>
       <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
       <div id="invoice<%= invoice.id %>-createje" style="display: none">
@@ -55,7 +55,7 @@
     <td>
     <% if invoice.journal_invoice %>
       <% if invoice.journal_invoice.date_paid %>
-        <%= link_to(invoice.journal_invoice.date_paid.strftime("%B %d %Y"), {:action => "view", :controller => "journal", :id => invoice.journal_invoice.id}) %>
+        <%= link_to invoice.journal_invoice.date_paid.strftime("%B %d %Y"), view_journal_url(invoice.journal_invoice) %>
       <% elsif can? :update, invoice.journal_invoice %>
         <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
         <div id="invoice<%= invoice.id %>-markpaid" style="display: none">

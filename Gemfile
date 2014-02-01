@@ -53,6 +53,7 @@ gem 'rails_autolink'
 gem 'prawn'
 gem 'icalendar'
 gem 'mail'
+gem 'sanitize'
 
 # This is not a long term solution
 gem "protected_attributes"

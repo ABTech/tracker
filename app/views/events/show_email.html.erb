@@ -15,7 +15,7 @@
     <div class="event-email-full" id="email<%= email.id %>">
       <strong><%= email.display_title %></strong><br />
       
-      <%= simple_format email.quoteless_contents %>
+      <%= simple_format strip_tags email.quoteless_contents %>
     </div>
   <% end %>
 </div>

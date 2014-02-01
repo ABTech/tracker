@@ -81,18 +81,19 @@ class EmailController < ApplicationController
 
                 # get the actual contents, finding the text multipart segment
                 # if we've got a multipart message (a message with attachment)
-                structure = fetchd.attr["BODYSTRUCTURE"]
-                if structure.multipart?
-                  fp = mail.parts.select { |part| part.content_type == "text/plain" }.first
-                  if fp
-                    message.contents = fp.body.decoded
-                  else
-                    message.contents = mail.parts.first.body.decoded
-                  end
-                else
-                  message.contents = mail.body.decoded
-                end
+                parts = collapse_multipart_tree(mail)
+                textpart = parts.find { |p| p.content_type.starts_with? "text/plain" }
+                htmlpart = parts.find { |p| p.content_type.starts_with? "text/html" }
                 
+                if textpart
+                  message.contents = textpart.body.decoded
+                elsif htmlpart
+                  message.contents = Sanitize.clean(htmlpart.body.decoded)
+                else
+                  flash[:error] = "The email \"" + message.subject + "\" has no text part or html part. Please check it out in the webmail and deal with it accordingly."
+                  break
+                end
+                                
                 # cyrus returns buggy unicode data in the guise of 8-bit ascii.
                 # just filter out any bytes with a value over 127 and pretend
                 # it never happened.
@@ -385,5 +386,14 @@ class EmailController < ApplicationController
         end
         
         render :action => "file"
+    end
+    
+  private
+    def collapse_multipart_tree(part)
+      if part.multipart?
+        part.parts.flat_map { |p| collapse_multipart_tree(p) }
+      else
+        [part]
+      end
     end
 end

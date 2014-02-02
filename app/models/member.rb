@@ -9,7 +9,6 @@ class Member < ActiveRecord::Base
   Member_Shirt_Sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
   
   attr_accessor :login
-  #attr_accessible :login, :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role_ids, :remember_me
 
   validates_presence_of     :namefirst, :namelast, :payrate
   validates_inclusion_of    :shirt_size, :in => Member_Shirt_Sizes

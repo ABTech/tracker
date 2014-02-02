@@ -10,12 +10,12 @@
     <th><%= table_order_link( "Aim",      "aim",        @order) %></th>
     <th><%= table_order_link( "Callsign",    "callsign",      @order) %></th>
     <th><%= table_order_link( "Shirt Size",    "shirt_size",      @order) %></th>
-  <%- if @edit_others -%>
-    <th>Roles</th>
-    <th><%= table_order_link( "Created",  "created_at", @order) %></th>
-    <th><%= table_order_link( "Updated",  "updated_at", @order) %></th>
-    <th colspan=3>&nbsp;</th>
-  <%- end -%>
+    <%- if can? :show, Member -%>
+      <th>Role</th>
+      <th><%= table_order_link( "Created",  "created_at", @order) %></th>
+      <th><%= table_order_link( "Updated",  "updated_at", @order) %></th>
+      <th colspan=3>&nbsp;</th>
+    <%- end -%>
   </tr>
   
 <% for member in @members %>
@@ -28,33 +28,29 @@
     <td><%= link_to h(member.aim), "aim:goim?screenname=#{h(member.aim)}" unless member.aim.nil? %></td>
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%= member.shirt_size %></td>
-  <%- if @edit_others -%>
-    <td>
-      <% member.roles.each do |role| %>
-        <span title="<%= role.permissions.join("\n") %>"><%=role.name%></span><br/>
+    <%- if can? :show, member -%>
+      <td><%= member.role_text %></td>
+      <% if member.created_at.nil? %>
+        <td></td>
+      <% else %>
+        <td title="<%= member.created_at.strftime('%c') %>"><%= member.created_at.strftime("%m/%d/%Y") %></td>
       <% end %>
-    </td>
-    <% if member.created_at.nil? %>
-      <td></td>
-    <% else %>
-      <td title="<%= member.created_at.strftime('%c') %>"><%= member.created_at.strftime("%m/%d/%Y") %></td>
-    <% end %>
-    <% if member.updated_at.nil? %>
-      <td></td>
-    <% else %>
-      <td title="<%= member.updated_at.strftime('%c') %>"><%= member.updated_at.strftime("%m/%d/%Y") %></td>
-    <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => member %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => member %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => member }, :confirm => 'Are you sure?', :post => true %></td>
-  <%- end -%>
+      <% if member.updated_at.nil? %>
+        <td></td>
+      <% else %>
+        <td title="<%= member.updated_at.strftime('%c') %>"><%= member.updated_at.strftime("%m/%d/%Y") %></td>
+      <% end %>
+      <td><%= link_to 'Show', :action => 'show', :id => member %></td>
+      <td><%= link_to 'Edit', :action => 'edit', :id => member %></td>
+      <td><%= link_to 'Destroy', { :action => 'destroy', :id => member }, :confirm => 'Are you sure?', :post => true %></td>
+    <%- end -%>
   </tr>
 <% end %>
 </table>
 
 <% content_for :more do %>
   <ul>
-    <% if @edit_others %>
+    <% if can? :create, Member %>
       <li><%= link_to "New member", new_member_path %></li>
     <% end %>
     <li><%= link_to 'Download as V-Cards', members_path(:format => :vcf) %></li>

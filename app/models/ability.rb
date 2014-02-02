@@ -36,6 +36,7 @@ class Ability
       can :update, Member, :id => member.id
       can :read, Organization
       can :read, Attachment
+      can :tshirts, Member
     end
     
     if member.is_at_least? :general_member

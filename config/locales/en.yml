@@ -32,3 +32,8 @@ en:
         other: "1-%{count} of %{count}"
       multi_page: "%{from}-%{to} of %{count}"
       multi_page_html: "<b>%{from}-%{to}</b> of <b>%{count}</b>"
+  enumerize:
+    member:
+      role:
+        tracker_management: "Tracker Management"
+        general_member: "General Member"

@@ -2,5 +2,7 @@
 
 <%= render :partial => 'form', :locals => { :submit => 'Edit'} %>
 
-<%= link_to 'Show', @member %> |
-<%= link_to 'Back', members_path %>
+<% if can? :show, @member %>
+  <%= link_to 'Show', @member %> |
+  <%= link_to 'Back', members_path %>
+<% end %>

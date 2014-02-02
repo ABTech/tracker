@@ -90,7 +90,6 @@ Abtt::Application.routes.draw do
   devise_for :members
   resources :members do
     collection do
-      get 'edit_self'
       get 'tshirts'
     end
   end

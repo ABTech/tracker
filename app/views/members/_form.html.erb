@@ -62,7 +62,7 @@
 	<td><%= f.text_field :ssn %></td>
 </tr>
 
-<% if (current_member().authorized?("/accounts/list")) %>
+<% if can? :manage, :finance %>
   <tr>
   	<th><%= f.label :payrate %></th>
   	<td>$<%= f.text_field :payrate %> per hour</td>
@@ -77,20 +77,14 @@
   <th><%= f.label :password_confirmation %></th>
   <td><%= f.password_field :password_confirmation %></td>
 </tr>
-<tr>
-  <th><%= f.label :role_ids, "Roles" %></th>
-  <td>
-    <% if(@edit_roles) %>
-      <%= f.select :role_ids, options_from_collection_for_select(Role.find(:all, :order => 'name'), "id", "name", @member.roles.collect{|r| r.id}), {}, {multiple: "multiple", size: "5"} %>
-    <% else %>
-      <ul class="simple">
-        <% @member.roles.each do |role| %>
-          <li><%= link_to role.name, role %></li>
-        <% end %>
-      </ul>
-    <% end %>
-  </td>
-</tr>
+
+<% if can? :manage, @member %>
+  <tr>
+    <th><%= f.label :role, "Role" %></th>
+    <td><%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %></td>
+  </tr>
+<% end %>
+
 <tr>
   <th></th>
   <td><%= f.submit %></td>

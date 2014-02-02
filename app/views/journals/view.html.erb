@@ -70,7 +70,9 @@ fieldset { width:40% }
     </td>
   </tr>
 </table>
-<%= link_to "Edit Journal", edit_journal_url(@journal) %> -- 
+<% if can? :update, @journal %>
+  <%= link_to "Edit Journal", edit_journal_url(@journal) %> -- 
+<% end %>
 <%= link_to 'Back to Finance Home', :action=>"list", :controller=>"accounts" %>
 </fieldset>
 

@@ -198,7 +198,13 @@
           <% else %>
             <% @event.journals.each do |journal| %>
               <tr>
-                <td><%= link_to journal.memo, edit_journal_url(journal) %></td>
+                <td>
+                  <% if can? :update, journal %>
+                    <%= link_to journal.memo, edit_journal_url(journal) %>
+                  <% else %>
+                    <%= link_to journal.memo, view_journal_url(journal) %>
+                  <% end %>
+                </td>
                 <td class="money"><%= number_to_currency journal.amount if journal.account.is_credit? %></td>
                 <td class="money"><%= number_to_currency journal.amount if !journal.account.is_credit? %></td>
               </tr>

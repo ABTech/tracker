@@ -2,8 +2,10 @@ class JournalsController < ApplicationController
   layout "finance"
 
   def list
+    authorize! :read, Journal
+    
     @title = "List of Journals"
-    @journals = Journal.order("date DESC").paginate(:per_page => 50, :page => params[:date])
+    @journals = Journal.order("date DESC").accessible_by(current_ability).paginate(:per_page => 50, :page => params[:date])
   end
 
   def view
@@ -11,6 +13,7 @@ class JournalsController < ApplicationController
     @mode = Mode_View
 
     @journal = Journal.find(params['id'])
+    authorize! :read, @journal
   end
 
   def new
@@ -18,6 +21,8 @@ class JournalsController < ApplicationController
     
     @journal = Journal.new()
     @journal.date = DateTime.now()
+    authorize! :create, @journal
+    
     @start = (Time.parse Account::Magic_Date)-1.year
     @end = (Time.parse Account::Future_Magic_Date)
     @events = Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC")
@@ -31,6 +36,8 @@ class JournalsController < ApplicationController
     @mode = Mode_Edit
     @events = Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC")
     @journal = Journal.find(params['id'])
+    authorize! :update, @journal
+    
     if(@journal.date>(Time.parse Account::Magic_Date) and @journal.date < (Time.parse Account::Future_Magic_Date))
       @start = (Time.parse Account::Magic_Date)-1.year
       @end = (Time.parse Account::Future_Magic_Date)
@@ -39,6 +46,8 @@ class JournalsController < ApplicationController
 
   def destroy
     @journal = Journal.find(params['id'])
+    authorize! :destroy, @journal
+    
     @journal.destroy
 
     flash[:notice] = "Successfully deleted #{@journal.memo} journal entry"
@@ -48,14 +57,18 @@ class JournalsController < ApplicationController
   def save
     errors = ""
     successfully_saved = 0
+    params.permit!
     
     num_times = params["njournals"] ? params["njournals"].to_i : 1
     num_times.times do |i|
       key = params["njournals"] ? ("journal" + i.to_s()) : "journal"
       if(params[key]["id"] && ("" != params[key]["id"]))
         journal = Journal.update(params[key]["id"], params[key])
+        authorize! :update, journal
       else
         journal = Journal.new(params[key])
+        authorize! :create, journal
+        
         if (journal.memo == "" || journal.amount == 0)
           journal = nil
         end

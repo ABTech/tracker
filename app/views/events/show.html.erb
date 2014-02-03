@@ -256,10 +256,10 @@
   </div>
 </div>
 
-<% if can? :update, @event or can? :destroy, @event or can? :read, :finance or not @event.emails.empty? %>
+<% if can? [:update, :destroy], @event or can? :read, Timecard or not @event.emails.empty? %>
   <% content_for :more do %>
     <ul>
-      <% if can? :read, :finance %>
+      <% if can? :read, Timecard %>
         <li><%= link_to "View payroll", finance_event_url(@event) %></li>
       <% end %>
       <% if not @event.emails.empty? %>

@@ -96,10 +96,6 @@ Abtt::Application.routes.draw do
 
   resources :organizations
 
-  resources :permissions
-
-  resources :roles
-
   resources :timecards do
     member do
       get 'view'

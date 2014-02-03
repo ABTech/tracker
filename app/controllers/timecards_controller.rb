@@ -1,11 +1,11 @@
 class TimecardsController < ApplicationController
+  load_and_authorize_resource :except => :create
+  
   def index
-    @timecards = Timecard.find(:all, :order => 'billing_date DESC')
-    @member = current_member
+    @timecards = @timecards.order("billing_date DESC")
   end
 
   def show
-    @timecard = Timecard.find(params[:id])
     @member = current_member
     if params[:format] == 'txt'
       headers['Content-Type'] = 'text/plain'
@@ -19,7 +19,6 @@ class TimecardsController < ApplicationController
   end
 
   def view
-    @timecard = Timecard.find(params[:id])
     if params[:format] == 'pdf'
       headers['Content-Type'] = 'application/pdf'
       headers['Content-Disposition'] = "inline; filename=\"timecards-#{@timecard.billing_date.strftime("%Y-%m-%d")}.pdf\""
@@ -30,7 +29,6 @@ class TimecardsController < ApplicationController
   DAY = 24*60*60
   WEEK = 7*DAY
   def new
-    @timecard = Timecard.new
     @timecard.billing_date = Timecard.latest_dates.billing_date + 2*WEEK
     @timecard.due_date = Timecard.latest_dates.billing_date + 2*WEEK - 2*DAY
     @timecard.start_date = Timecard.latest_dates.due_date
@@ -38,7 +36,9 @@ class TimecardsController < ApplicationController
   end
 
   def create
-    @timecard = Timecard.new(params[:timecard])
+    @timecard = Timecard.new(timecard_params)
+    authorize! :create, @timecard
+    
     if @timecard.save
       redirect_to :action => 'index'
     else
@@ -47,12 +47,10 @@ class TimecardsController < ApplicationController
   end
 
   def edit
-    @timecard = Timecard.find(params[:id])
   end
 
   def update
-    @timecard = Timecard.find(params[:id])
-    if @timecard.update_attributes(params[:timecard])
+    if @timecard.update_attributes(timecard_params)
       flash[:notice] = 'Timecard updated successfully'
       redirect_to :action => 'view'
     else
@@ -61,8 +59,12 @@ class TimecardsController < ApplicationController
   end
 
   def destroy
-    @timecard = Timecard.find(params[:id])
     @timecard.destroy
     redirect_to :action => 'index'
   end
+  
+  private
+    def timecard_params
+      params.require(:timecard).permit(:billing_date, :due_date, :start_date, :end_date, :submitted)
+    end
 end

@@ -43,6 +43,7 @@ class Ability
       can :create, Comment, :member_id => member.id
       can :destroy, Comment, :member_id => member.id
       can :manage, TimecardEntry, :member_id => member.id
+      can :show, Timecard
       
       can :tic, Event do |event|
         event.tic == member

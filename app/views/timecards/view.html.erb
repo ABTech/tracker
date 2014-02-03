@@ -7,3 +7,9 @@
   <h2>Timecard for <%= link_to member.fullname, member %> (<%= number_to_currency member.payrate %>/hr)</h2>
 <%= render :partial => 'timecard', :object => @timecard, :locals => {:member => member, :details => false} %>
 <% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Back to list of timecards", timecards_path %></li>
+  </ul>
+<% end %>

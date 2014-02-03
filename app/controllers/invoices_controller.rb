@@ -95,12 +95,7 @@ class InvoicesController < ApplicationController
     authorize! :email, @invoice
     
     @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
-    if(@invoice.event.organization.org_email.nil?)
-      @email_to=  @invoice.event.contactemail
-    else
-      @email_to=  @invoice.event.contactemail + ","+@invoice.event.organization.org_email
-    end
-    
+    @email_to =  @invoice.event.contactemail    
     if @invoice.status == "Invoice"
       @email_cc= "ritac@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
     else

@@ -43,7 +43,7 @@ class Ability
       can :create, Comment, :member_id => member.id
       can :destroy, Comment, :member_id => member.id
       can :manage, TimecardEntry, :member_id => member.id
-      can :show, Timecard
+      can :show, Timecard 
       
       can :tic, Event do |event|
         event.tic == member
@@ -71,10 +71,6 @@ class Ability
       can :destroy, Comment
       
       # Read only tracker management
-      can :read, Account
-      can :read, Invoice
-      can :read, InvoiceItem
-      can :read, Journal
       can :read, Equipment
       can :read, EquipmentCategory
       can :read, Location

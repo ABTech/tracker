@@ -98,7 +98,8 @@ class Ability
     cannot :destroy, Event
     
     if member.admin?
-      can :manage, :all
+      can :manage, Timecard
+      can :destroy, Event
     end
   end
 end

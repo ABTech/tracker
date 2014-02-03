@@ -12,8 +12,8 @@
 <% content_for :more do %>
   <ul>
     <% unless @org.defunct %>
-      <li><%= link_to "Edit", edit_organization_path(@org) %></li>
-      <li><%= link_to "Delete", @org, :method => :delete, :data => {:confirm => "Are you sure you want to mark this organization as defunct?" }%></li>
+      <li><%= conditional_link_to "Edit", edit_organization_path(@org), :update, @org %></li>
+      <li><%= link_to "Delete", @org, :method => :delete, :data => {:confirm => "Are you sure you want to mark this organization as defunct?" } if can? :destroy, @org %></li>
     <% end %>
     <li><%= link_to "Back to list of organizations", organizations_path %></li>
   </ul>

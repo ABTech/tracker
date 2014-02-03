@@ -23,14 +23,18 @@
           </tr>
           <tr>
             <td>Organization:</td>
-            <td>
-              <%= f.radio_button :org_type, "old", checked: "checked" %>
-              <%= f.select :organization_id, organizations_for_select %>
-              <br/>
-              <%= f.radio_button :org_type, "new" %>
-              <%= f.label :org_type_new, "New" %>:
-              <%= f.text_field :org_new %>
-            </td>
+            <% if can? :create, Organization %>
+              <td>
+                <%= f.radio_button :org_type, "old", checked: "checked" %>
+                <%= f.select :organization_id, organizations_for_select %>
+                <br/>
+                <%= f.radio_button :org_type, "new" %>
+                <%= f.label :org_type_new, "New" %>:
+                <%= f.text_field :org_new %>
+              </td>
+            <% else %>
+              <td><%= f.select :organization_id, organizations_for_select %></td>
+            <% end %>
           </tr>
           <tr>
             <td><%= f.label :status %>:</td>

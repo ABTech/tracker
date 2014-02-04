@@ -6,12 +6,9 @@ class Member < ActiveRecord::Base
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
   
-  Member_Shirt_Sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
-  
   attr_accessor :login
 
   validates_presence_of     :namefirst, :namelast, :payrate
-  validates_inclusion_of    :shirt_size, :in => Member_Shirt_Sizes
   validates :ssn, :format => { :with => /\A\d{4}\z/, :message => "must be exactly four digits", :allow_nil => true }
 
   validates_format_of :phone, :with => /\A\+?[0-9]*\Z/, :message => "must only use numbers"
@@ -23,6 +20,7 @@ class Member < ActiveRecord::Base
   end
   
   extend Enumerize
+  enumerize :shirt_size, in: ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
   enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :tracker_management, :admin], predicates: true
   validates_presence_of :role
   

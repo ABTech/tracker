@@ -37,7 +37,7 @@
 </tr>
 <tr>
   <th><%= f.label :shirt_size, "Shirt size" %></th>
-  <td><%= f.select :shirt_size, sizes_for_select %></td>
+  <td><%= f.select :shirt_size, Member.shirt_size.values %></td>
 </tr>
 <tr>
   <th><%= f.label :phone %></th>

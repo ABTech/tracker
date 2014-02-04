@@ -54,6 +54,7 @@ gem 'prawn'
 gem 'icalendar'
 gem 'mail'
 gem 'sanitize'
+gem 'rvm-capistrano'
 
 # This is not a long term solution
 gem "protected_attributes"

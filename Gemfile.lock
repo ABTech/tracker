@@ -79,6 +79,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25)
+    mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.2)
     mysql2 (0.3.13)
@@ -89,6 +90,8 @@ GEM
     net-ssh (2.7.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
     orm_adapter (0.5.0)
     paperclip (3.5.2)
       activemodel (>= 3.0.0)
@@ -128,6 +131,10 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ruby-rc4 (0.1.5)
+    rvm-capistrano (1.5.1)
+      capistrano (~> 2.15.4)
+    sanitize (2.1.0)
+      nokogiri (>= 1.4.4)
     sass (3.2.12)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -186,6 +193,8 @@ DEPENDENCIES
   prawn
   rails (= 4.0.0)
   rails_autolink
+  rvm-capistrano
+  sanitize
   sass-rails (~> 4.0.0)
   sdoc
   turbolinks

@@ -1,4 +1,5 @@
 require "bundler/capistrano"
+require "rvm/capistrano"
 
 set :application, "abtt"
 set :repository,  "https://github.com/hatkirby/abtt.git"
@@ -8,6 +9,7 @@ set :user, 'egarbade'
 set :domain, 'egarbade.org'
 set :default_shell, "sudo su"
 set :rails_env, "production"
+set :rvm_type, :system
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`

@@ -69,7 +69,7 @@ class MembersController < ApplicationController
   def tshirts
     @title = "T-Shirt Sizes"
 
-    @shirt_sizes = @members.active.sort_by {|m| Member.shirt_size.values.index(m.shirt_size) || 0}.group_by(&:shirt_size)
+    @shirt_sizes = @members.active.where.not(shirt_size: nil).sort_by {|m| Member.shirt_size.values.index(m.shirt_size)}.group_by(&:shirt_size)
   end
   
   private

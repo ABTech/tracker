@@ -64,6 +64,7 @@ class Ability
       can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :read, Journal
       can :read, InvoiceItem
+      can [:read, :view], Timecard
       
       # Event Management
       can :manage, Event

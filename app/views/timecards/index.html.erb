@@ -11,7 +11,7 @@ allows you to see the entries that everyone has submitted.</p>
 <th>Due date</th>
 <th>Total hours billed</th>
 <th>Submitted</th>
-<% if can? [:view, :update, :destroy], Timecard %>
+<% if can? :view, Timecard or can? :update, Timecard or can? :destroy, Timecard %>
   <th>&nbsp;</th>
 <% end %>
 </tr>
@@ -21,7 +21,7 @@ allows you to see the entries that everyone has submitted.</p>
 <td><%= timecard.due_date.strftime "%b %d, %Y" %></td>
 <td><%= timecard.hours %></td>
 <td><%= timecard.submitted ? 'yes' : 'no' %></td>
-<% if can? [:view, :update, :destroy], Timecard %>
+<% if can? :view, Timecard or can? :update, Timecard or can? :destroy, Timecard %>
 <td>
 	<%= conditional_link_to 'View all details', view_timecard_url(timecard), :view, timecard %>
 	<%= conditional_link_to 'Edit', edit_timecard_url(timecard), :update, timecard %>

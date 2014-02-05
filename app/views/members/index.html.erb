@@ -29,7 +29,12 @@
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%= member.shirt_size %></td>
     <%- if can? :show, member -%>
-      <td><%= member.role_text %></td>
+      <td>
+        <%= member.role_text %>
+        <% if member.tracker_dev? %>
+          <br/>(Tracker Dev)
+        <% end %>
+      </td>
       <% if member.created_at.nil? %>
         <td></td>
       <% else %>

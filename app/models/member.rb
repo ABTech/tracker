@@ -21,7 +21,7 @@ class Member < ActiveRecord::Base
   
   extend Enumerize
   enumerize :shirt_size, in: ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
-  enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :tracker_management, :admin], predicates: true
+  enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :tracker_management, :head_of_tech], predicates: true
   validates_presence_of :role
   
   def active?

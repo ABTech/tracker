@@ -95,9 +95,12 @@ class Ability
     
     cannot :destroy, Event
     
-    if member.admin?
+    if member.head_of_tech?
       can :manage, Timecard
-      can :destroy, Event
+    end
+    
+    if member.tracker_dev?
+      can :manage, :all
     end
   end
 end

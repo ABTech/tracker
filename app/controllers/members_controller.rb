@@ -87,6 +87,10 @@ class MembersController < ApplicationController
         params[:member].delete(:payrate)
       end
       
-      params.require(:member).permit(:password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role)
+      if not current_member.tracker_dev?
+        params[:member].delete(:tracker_dev)
+      end
+      
+      params.require(:member).permit(:password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev)
     end
 end

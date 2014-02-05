@@ -69,10 +69,21 @@
 </tr>
 
 <% if can? :manage, @member %>
-  <tr>
-    <th><%= f.label :role, "Role" %></th>
-    <td><%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %></td>
-  </tr>
+  <% if current_member.tracker_dev? %>
+    <tr>
+      <th><%= f.label :role, "Role" %></th>
+      <td><%= f.select :role, Member.role.values.map { |c| [Member.new(:role => c).role_text, c] } %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :tracker_dev, "Tracker Dev" %></th>
+      <td><%= f.check_box :tracker_dev %></td>
+    </tr>
+  <% else %>
+    <tr>
+      <th><%= f.label :role, "Role" %></th>
+      <td><%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %></td>
+    </tr>
+  <% end %>
 <% end %>
 
 <tr>

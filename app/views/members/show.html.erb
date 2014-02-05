@@ -60,7 +60,12 @@
       </tr>
       <tr>
         <th>Role</th>
-        <td><%= @member.role_text %></td>
+        <td>
+          <%= @member.role_text %>
+          <% if @member.tracker_dev? %>
+            (Tracker Dev)
+          <% end %>
+        </td>
       </tr>
       </table>
     </td>

@@ -2,12 +2,11 @@ require "bundler/capistrano"
 require "rvm/capistrano"
 
 set :application, "abtt"
-set :repository,  "https://github.com/hatkirby/abtt.git"
-set :branch, "rails-4"
+set :repository,  "https://github.com/ABTech/abtt.git"
+set :branch, "rbac"
 set :deploy_to, "/srv/rails/abtt"
-set :user, 'egarbade'
-set :domain, 'egarbade.org'
-set :default_shell, "sudo su"
+set :user, ''
+set :domain, 'abtech-tracker-d02.andrew.cmu.edu'
 set :rails_env, "production"
 set :rvm_type, :system
 

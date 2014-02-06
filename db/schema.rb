@@ -277,10 +277,6 @@ ActiveRecord::Schema.define(version: 20140206154755) do
     t.datetime "updated_at"
   end
 
-  create_table "schema_info", id: false, force: true do |t|
-    t.integer "version", null: false
-  end
-
   create_table "timecard_entries", force: true do |t|
     t.integer  "member_id"
     t.float    "hours"

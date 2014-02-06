@@ -19,7 +19,7 @@ class AddTrackerDevFlagToMember < ActiveRecord::Migration
     mreiss.update_column(:tracker_dev, true)
     
     abtech = Member.find(5)
-    abtech.update_column(:role, "suspended")
+    abtech.update_column(:role, "general_member")
     abtech.update_column(:tracker_dev, true)
     
     treid = Member.find(83)

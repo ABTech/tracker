@@ -47,8 +47,8 @@ module ApplicationHelper
   
   def get_sidebar_monthdates
     startdate = DateTime.new(Time.now.year, Time.now.month, 1)
-    enddate = DateTime.new(Time.now.year, Time.now.month, Time.days_in_month(Time.now.month))
-    Eventdate.where(["UNIX_TIMESTAMP(enddate) > ? AND UNIX_TIMESTAMP(startdate) < ?", startdate.to_i, enddate.to_i]).order("startdate ASC").includes(:event).to_a
+    enddate = startdate >> 1
+    Eventdate.where(["enddate > ? AND startdate < ?", startdate, enddate]).order("startdate ASC").includes(:event).to_a
   end
   
   def load_account_totals

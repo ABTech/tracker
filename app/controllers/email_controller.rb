@@ -60,7 +60,7 @@ class EmailController < ApplicationController
                 end
 
                 message.timestamp   = DateTime.parse(envelope.date)
-                message.subject = envelope.subject
+                message.subject = Mail::Encodings.value_decode(envelope.subject).encode("US-ASCII", {:invalid => :replace, :undef => :replace, :replace => ''})
                 message.message_id  = envelope.message_id
 
                 message.headers = "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n"

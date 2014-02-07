@@ -13,5 +13,5 @@
 <% end %>
 
 <% content_for :calendar do %>
-  <%= render :partial => "events/monthview", :locals => {:selected => Date.today, :dates => get_sidebar_monthdates, :show_arrows => true} %>
+  <%= render :partial => "events/monthview", :locals => {:selected => Date.today, :dates => get_sidebar_monthdates, :show_arrows => true, :full_month => true} %>
 <% end %>

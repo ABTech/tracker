@@ -4,7 +4,7 @@
   <% num_rows.times do |i| %>
     <tr>
       <% num_cols.times do |j| %>
-        <td><%= @eventdates_month[i*num_cols+j] == nil ? "nil!" : "" %><%= render :partial => 'monthview', :locals => {:selected => @selected_month[i*num_cols+j], :dates => @eventdates_month[i*num_cols+j], :show_arrows => false} %></td>
+        <td><%= @eventdates_month[i*num_cols+j] == nil ? "nil!" : "" %><%= render :partial => 'monthview', :locals => {:selected => @selected_month[i*num_cols+j], :dates => @eventdates_month[i*num_cols+j], :show_arrows => false, :full_month => false} %></td>
         <% end %>
       </tr>
     <% end %>

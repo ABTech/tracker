@@ -43,14 +43,31 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy 
-    @org = Organization.active.find(params[:id])
-    @org.defunct = true
-    if @org.save
-      flash[:notice] = "Organization \"#{@org.name}\" has been marked as defunct."
-    else
-      flash[:error] = "Error marking organization \"#{@org.name}\" as defunct."
-    end
+    @org = Organization.find(params[:id])
     
-    redirect_to organizations_path
+    if not @org.defunct
+      @org.defunct = true
+      
+      if @org.save
+        flash[:notice] = "Organization \"#{@org.name}\" has been marked as defunct."
+      else
+        flash[:error] = "Error marking organization \"#{@org.name}\" as defunct."
+      end
+      
+      redirect_to @org
+    elsif @org.events.empty?
+      @org.destroy
+      
+      if @org.save
+        flash[:notice] = "Organization \"#{@org.name}\" has been deleted."
+      else
+        flash[:error] = "Error deleting organization \"#{@org.name}\"."
+      end
+      
+      redirect_to organizations_path
+    else
+      flash[:error] = "You cannot delete an organization that has events."
+      redirect_to @org
+    end
   end
 end

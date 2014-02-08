@@ -4,11 +4,17 @@
     ret << item.description;
     ret << " [";
     ret << item.shortname;
-    ret << "] <small>";
-    ret << link_to_function("edit", "popupAndReload('" + url_for({:action => "edititem", :id => item.id}) + "')");
-    ret << " ";
-    ret << ajax_link_to("-item", {:action => "delitem", :id => item.id});
-    ret << "</small>\n";
+    ret << "]"
+    if can? :update, item
+      ret << " <small>"
+      ret << link_to_function("edit", "popupAndReload('" + url_for({:action => "edititem", :id => item.id}) + "')")
+      ret << "</small>"
+    end
+    if can? :destroy, item
+      ret << " <small>"
+      ret << ajax_link_to("-item", {:action => "delitem", :id => item.id});
+      ret << "</small>";
+    end
     return ret;
   end
 
@@ -19,19 +25,29 @@
       ret << "<strong>";
       ret << node.name;
       ret << "</strong><br/>\n";
-      ret << "<small>";
-      ret << link_to_function("edit", "popupAndReload('" + url_for({:action => "editgroup", :id => node.id}) + "')");
-      ret << " ";
-      ret << ajax_link_to("-group", {:action => "delgroup", :id => node.id});
-      ret << " ";
+      if can? :update, node
+        ret << " <small>"
+        ret << link_to_function("edit", "popupAndReload('" + url_for({:action => "editgroup", :id => node.id}) + "')");
+        ret << "</small>"
+      end
+      if can? :destroy, node
+        ret << " <small>"
+        ret << ajax_link_to("-group", {:action => "delgroup", :id => node.id})
+        ret << "</small>"
+      end
     else
-      ret << "<strong>[root]</strong> ";
-      ret << "<small>";
+      ret << "<strong>[root]</strong>"
     end
-    ret << ajax_link_to("+group", {:action => "newgroup", :id => node.id});
-    ret << " ";
-    ret << ajax_link_to("+item", {:action => "newitem", :id => node.id});
-    ret << "</small>\n";
+    if can? :create, EquipmentCategory
+      ret << " <small>"
+      ret << ajax_link_to("+group", {:action => "newgroup", :id => node.id})
+      ret << "</small>"
+    end
+    if can? :create, Equipment
+      ret << " <small>"
+      ret << ajax_link_to("+item", {:action => "newitem", :id => node.id})
+      ret << "</small>"  
+    end
 
     if(node.id != EquipmentCategory::Root_Category)
       ret << "<ul>\n";

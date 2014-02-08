@@ -4,12 +4,5 @@ class Comment < ActiveRecord::Base
   
   validates :content, presence: true
 
-  attr_accessor :current_member
-  attr_accessible :content
-
-  before_destroy :can_destroy?
-
-  def can_destroy?
-    current_member==member
-  end
+  #attr_accessible :content
 end

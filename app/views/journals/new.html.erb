@@ -1,0 +1,60 @@
+<style>.hidden { display: none }</style>
+
+<script>
+function toggle_notes(id) {
+  document.getElementById("journal" + id + "_notes").className = "";
+  document.getElementById("toggle_" + id).className = "hidden";
+}
+
+  function switch_pay_meth_field(id) {
+    document.getElementById("paymeth"+id).innerHTML="<%= escape_javascript(text_field("journal", "paymeth_category")) %>";
+    document.getElementById("journal_paymeth_category").id="journal"+id+"_paymeth_category"
+    document.getElementById("journal"+id+"_paymeth_category").name="journal"+id+"[paymeth_category]"
+  }
+</script>
+
+<div style="margin-left: 20px">
+  <h1>Add <%= params[:is_credit] == "true" ? "Credit" : "Debit" %> JEs</h1>
+
+  <%= form_tag save_journals_path, :method => :post, :enctype => "multipart/form-data", :name => "jeform" do %>
+  <% if @event_id %>
+    <%= hidden_field_tag "event_id", @event_id %>
+  <% end %>
+  <table class="generic">
+          <tr><th>Date</th><th>Account</th><th>Event</th><th>Memo</th><th>Amount</th><th>Category</th><th>Notes</th><th>Attachment</th></tr>
+    <% num_journals = 10 %>
+    <input type="hidden" name="njournals" value="<%= num_journals %>"/>
+    
+    <% num_journals.times do |i| %>
+    <%= hidden_field("journal#{i}", "id") %>
+      <tr>
+        <td><%= better_select_date(@journal.date, "journal#{i}", "date") %>
+        <td>
+          <% accounts = Account.find(:all, :conditions => "is_credit = " + params[:is_credit], :order => "position") %>
+          <%= select "journal#{i}", "account_id", accounts.collect { |a| [a.name, a.id] } %>
+        </td>
+        <td><%= select_tag "journal#{i}[event_id]", options_from_collection_for_select(@events, 'id', 'title', @event_id), :include_blank => true, :style => "width: 150px" %></td>
+        <td><%= text_field("journal#{i}", "memo", :size => 40) %></td>
+        <td style="white-space: nowrap">$<%= text_field("journal#{i}", "amount", :size => 6) %></td>
+        <td>
+          <div id="paymeth<%=i%>">
+          <a href="javascript:switch_pay_meth_field('<%=i%>')"><i class="icon-pencil"></i></a>
+          <%= select("journal#{i}", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect{|j|j.paymeth_category}, :include_blank => true)%>
+          </div>
+        </td>
+
+        <td>
+          <%= text_area("journal#{i}", "notes", :rows => 6, :class => "hidden") %>
+          <input id="toggle_<%= i %>" type="button" value="Add Notes" onclick="toggle_notes(<%= i %>)"/>
+        </td>
+        <td>
+          <%= file_field "attachments", "#{i}" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <br/>
+  
+  <input type="submit" value="Edit Journal">
+  <% end %>
+</div>

@@ -24,7 +24,7 @@
       </td>
       <td class="list">
         <% if inv and inv.journal_invoice %>
-          <%= link_to(inv.journal_invoice.date.strftime('%D'), {:action => "view", :controller => "journal", :id => inv.journal_invoice.id}) %>
+          <%= link_to(inv.journal_invoice.date.strftime('%D'), view_journal_url(inv.journal_invoice)) %>
         <% end %>
       </td>
     </tr>

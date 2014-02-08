@@ -1,12 +1,11 @@
 class ApplicationController < ActionController::Base
-include AuthenticatedSystem
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
   layout "events"
-
-  before_filter :login_from_cookie
+  
+  before_filter :authenticate_member!
 
   Application_Name  = "ABTT";
   Application_URL   = "https://abtt.abtech.org"
@@ -14,6 +13,10 @@ include AuthenticatedSystem
   Mode_View = "View";
   Mode_Edit = "Edit";
   Mode_New  = "Create";
+  
+  def current_ability
+    @current_ability ||= Ability.new(current_member)
+  end
 
   def sanitize_params
     walk_hash(params)
@@ -51,5 +54,9 @@ include AuthenticatedSystem
 
   def iphone_user_agent?
     request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iphone|ipod|android|blackberry)/i]
+  end
+  
+  def after_sign_out_path_for(resource_or_scope)
+    new_member_session_url
   end
 end

@@ -1,11 +1,9 @@
 class AttachmentsController < ApplicationController
-  before_filter :login_required
-
+  load_and_authorize_resource
+  
   # GET /attachments/
   def index
     @title = "Attachments List"
-
-    @attachments = Attachment.find(:all)
 
     respond_to do |format|
       format.html
@@ -14,8 +12,6 @@ class AttachmentsController < ApplicationController
 
   # DELETE /attachments/
   def destroy
-    @attachment = Attachment.find(params[:id])
-
     @attachment.destroy
 
     respond_to do |format|

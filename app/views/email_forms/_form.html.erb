@@ -1,9 +1,9 @@
-<% if @emailform.errors.any? %>
+<% if @email_form.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@emailform.errors.count, "error") %> prohibited
+    <h2><%= pluralize(@email_form.errors.count, "error") %> prohibited
       this form email from being saved:</h2>
     <ul>
-    <% @emailform.errors.full_messages.each do |msg| %>
+    <% @email_form.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
     </ul>

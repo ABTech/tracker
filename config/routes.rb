@@ -64,8 +64,8 @@ Abtt::Application.routes.draw do
   end
 
   resources :invoices, :except => [:destroy] do
-    collection do
-      get 'email'
+    member do
+      post 'email'
       get 'email_confirm'
       get 'prettyView'
     end
@@ -73,7 +73,7 @@ Abtt::Application.routes.draw do
 
   resources :invoice_items, except: [:show]
 
-  resources :journal, except: [:show, :update] do
+  resources :journals, except: [:show, :update] do
     collection do
       get 'list'
       post 'save'
@@ -87,18 +87,14 @@ Abtt::Application.routes.draw do
 
   resources :member_filter, only: [:edit, :new, :save]
 
+  devise_for :members
   resources :members do
     collection do
-      get 'edit_self'
       get 'tshirts'
     end
   end
 
   resources :organizations
-
-  resources :permissions
-
-  resources :roles
 
   resources :timecards do
     member do
@@ -117,7 +113,6 @@ Abtt::Application.routes.draw do
   get 'mobile' => 'events#mobile'
   get 'iphone' => 'events#iphone'
   get 'i' => 'events#iphone'
-  post 'invoices/email/:id' => 'invoices#email'
 
   root to: 'events#index'
 end

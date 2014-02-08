@@ -23,7 +23,13 @@
   
   <tr>
     <td class="subheading"><%= f.label :status, "Status" %>:</td>
-    <td><%= f.select :status, Invoice::Invoice_Status_Group_All %></td>
+    <% if can? :status, f.object %>
+      <td><%= f.select :status, Invoice::Invoice_Status_Group_All %></td>
+    <% elsif f.object.new_record? %>
+      <td><%= f.select :status, Invoice::Invoice_Status_Group_Exec %></td>
+    <% else %>
+      <td><%= f.object.status %></td>
+    <% end %>
   </tr>
   
   <tr>
@@ -31,7 +37,7 @@
     <td><%= f.check_box :recognized %></td>
   </tr>
   
-  <% if not f.object.new_record? %>
+  <% if not f.object.new_record? and can? :create, Journal %>
     <tr>
       <td class="subheading"><%= f.label :journal_invoice, "Invoice JE" %>:</td>
       <td>
@@ -45,7 +51,7 @@
     </tr>
   <% end %>
   
-  <% if f.object.journal_invoice %>
+  <% if f.object.journal_invoice and can? :update, f.object.journal_invoice %>
     <tr>
       <td class="subheading">Invoice Paid JE:</td>
       <td>

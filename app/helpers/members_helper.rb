@@ -16,10 +16,4 @@ module MembersHelper
       return link_to(text.html_safe, { :order => order_key, :desc => (order.include?("DESC") ? "1" : "0") })
     end
   end
-  
-  def sizes_for_select
-    Member::Member_Shirt_Sizes.each do |size|
-      [size, size]
-    end
-  end
 end

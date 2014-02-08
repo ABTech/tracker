@@ -1,21 +1,19 @@
 class EmailFormsController < ApplicationController
-  before_filter :login_required
-
+  load_and_authorize_resource :except => [:create]
+  
   def index
     @title = "Form Emails"
-
-    @emailforms = EmailForm.find(:all)
   end
 
   def new
     @title = "New Form Email"
-
-    @emailform = EmailForm.new
   end
 
   def create
-    @emailform = EmailForm.new(params[:email_form])
-    if @emailform.save()
+    @email_form = EmailForm.new(email_form_params)
+    authorize! :create, @email_form
+    
+    if @email_form.save
       flash[:notice] = 'Form Email was successfully created.'
       redirect_to email_forms_url
     else
@@ -25,13 +23,10 @@ class EmailFormsController < ApplicationController
 
   def edit
     @title = "Editing Form Email"
-
-    @emailform = EmailForm.find(params[:id])
   end
 
   def update
-    @emailform = EmailForm.find(params[:id])
-    if @emailform.update_attributes(params[:email_form])
+    if @email_form.update_attributes(email_form_params)
       flash[:notice] = 'Form Email was successfully updated.'
       redirect_to email_forms_url
     else
@@ -40,7 +35,12 @@ class EmailFormsController < ApplicationController
   end
 
   def destroy
-    EmailForm.find(params[:id]).destroy()
+    @email_form.destroy
     redirect_to email_forms_url
   end
+  
+  private
+    def email_form_params
+      params.require(:email_form).permit(:description, :contents)
+    end
 end

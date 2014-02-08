@@ -109,7 +109,7 @@ td input {
 </div>
 </td>
 
-<% if (current_member.authorized? "email/file") and (@email.status == Email::Email_Status_Unfiled) %>
+<% if (can? :update, @email) and (@email.status == Email::Email_Status_Unfiled) %>
 <td style="vertical-align: top">
 <div style="padding-top: 11px;">
   <%= form_tag({:action => "file", :id => @email.id}, :name => "fileform") do %>

@@ -4,8 +4,6 @@ class Timecard < ActiveRecord::Base
 
   validates_presence_of :billing_date, :due_date, :start_date, :end_date
   validates_uniqueness_of :billing_date
-  
-  attr_accessible :billing_date, :due_date, :start_date, :end_date, :submitted
 
   before_destroy :clear_entries
 

@@ -1,26 +1,16 @@
 <h1>New account</h1>
 
-  <% if @account.errors.any? %>
-
-    <div id="errorExplanation">
-
-      <h2><%= pluralize(@account.errors.count, "error") %> prohibited
-
-        this account from being saved:</h2>
-
-      <ul>
-
-      <% @account.errors.full_messages.each do |msg| %>
-
-        <li><%= msg %></li>
-
-      <% end %>
-
-      </ul>
-
-    </div>
-
-  <% end %>
+<% if @account.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@account.errors.count, "error") %> prohibited
+      this account from being saved:</h2>
+    <ul>
+    <% @account.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <%= form_for(@account) do |f| %>
   <p>

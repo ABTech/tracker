@@ -1,113 +1,117 @@
 <h1>Member details</h1>
-<table class="generic">
-<tr>
-  <th>ID</th>
-  <td><%= @member.id %></td>
-</tr>
-<tr>
-  <th>First name</td>
-  <td><%= @member.namefirst %></td>
-</tr>
-<tr>
-  <th>Last name</td>
-  <td><%= @member.namelast %></td>
-</tr>
-<tr>
-  <th>Kerbid</td>
-  <td><%= @member.kerbid %></td>
-</tr>
-<tr>
-  <th>Nickname</td>
-  <td><%= @member.namenick %></td>
-</tr>
-<tr>
-  <th>Phone</td>
-  <td><%= @member.phone %></td>
-</tr>
-<tr>
-  <th>Aim</td>
-  <td><%= @member.aim %></td>
-</tr>
-<tr>
-  <th>Joined at</td>
-  <td><%= @member.created_at %></td>
-</tr>
-<tr>
-  <th>Title</td>
-  <td><%= @member.title %></td>
-</tr>
-<tr>
-  <th>Callsign</td>
-  <td><%= @member.callsign %></td>
-</tr>
-<tr>
-  <th>Shirt size</td>
-  <td><%= @member.shirt_size %></td>
-</tr>
-<tr>
-  <th>SSN</td>
-  <td><%= @member.ssn %></td>
-</tr>
-<tr>
-  <th>Payrate</td>
-  <td>$<%= @member.payrate %>/hr</td>
-</tr>
-<tr>
-  <th>Role</th>
-  <td>
-    <ul class="simple">
-      <% @member.roles.each do |role| %>
-        <li><%= link_to role.name, role %></li>
-      <% end %>
-    </ul>
-  </td>
-</tr>
-<tr>
-  <th>Permissions</th>
-  <td>
-    <span style="display: none;" id="permissions">
-      <ul class="simple">
-        <% @member.permission_strings.sort.uniq.each do |p| %>
-          <li><%= p %></li>
-        <% end %>
-      </ul>
-    </span>
-    <%= link_to_function "Click to display", "$('#permissions').show(); $(this).hide()" %>
-  </td>
-</tr>
-</table>
 
-<% if @edit_others or @current_member == @member %> <%= link_to 'Edit', edit_member_path(@member) %> | <% end %>
-<%= link_to 'Back', members_path %>
-
-<h2>Billing</h2>
-<table class="generic">
-<% @member.timecards.each do |timecard| %>
+<table class="member-info">
   <tr>
-    <th>Timecard for <%= timecard.billing_date.strftime("%D") %></th>
-    <td> <%= pluralize timecard.hours(@member), "hour" %>
-   </td>
+    <td>
+      <h2>Information</h2>
+      
+      <table class="generic">
+      <tr>
+        <th>ID</th>
+        <td><%= @member.id %></td>
+      </tr>
+      <tr>
+        <th>First name</td>
+        <td><%= @member.namefirst %></td>
+      </tr>
+      <tr>
+        <th>Last name</td>
+        <td><%= @member.namelast %></td>
+      </tr>
+      <tr>
+        <th>Kerbid</td>
+        <td><%= @member.email %></td>
+      </tr>
+      <tr>
+        <th>Nickname</td>
+        <td><%= @member.namenick %></td>
+      </tr>
+      <tr>
+        <th>Phone</td>
+        <td><%= @member.phone %></td>
+      </tr>
+      <tr>
+        <th>Aim</td>
+        <td><%= @member.aim %></td>
+      </tr>
+      <tr>
+        <th>Joined at</td>
+        <td><%= @member.created_at %></td>
+      </tr>
+      <tr>
+        <th>Title</td>
+        <td><%= @member.title %></td>
+      </tr>
+      <tr>
+        <th>Callsign</td>
+        <td><%= @member.callsign %></td>
+      </tr>
+      <tr>
+        <th>Shirt size</td>
+        <td><%= @member.shirt_size %></td>
+      </tr>
+      <tr>
+        <th>SSN</td>
+        <td><%= @member.ssn %></td>
+      </tr>
+      <tr>
+        <th>Payrate</td>
+        <td>$<%= @member.payrate %>/hr</td>
+      </tr>
+      <tr>
+        <th>Role</th>
+        <td>
+          <%= @member.role_text %>
+          <% if @member.tracker_dev? %>
+            (Tracker Dev)
+          <% end %>
+        </td>
+      </tr>
+      </table>
+    </td>
+    <% if can? :read, Timecard %>
+      <td>
+        <h2>Billing</h2>
+        <table class="generic">
+        <% @member.timecards.each do |timecard| %>
+          <tr>
+            <th>Timecard for <%= timecard.billing_date.strftime("%D") %></th>
+            <td> <%= pluralize timecard.hours(@member), "hour" %>
+           </td>
+          </tr>
+        <% end %>
+        <tr style="border-top-style: double;">
+          <th>Total</th>
+          <td><%= pluralize @member.timecard_entries.map(&:hours).sum, "hour" %> / <%= number_to_currency @member.timecard_entries.map(&:gross_amount).sum %></td>
+        </tr>
+        </table>
+      </td>
+    <% end %>
+    <% if not @member.event_roles.empty? %>
+      <td>
+        <h2>Run Positions</h2>
+        <table class="generic">
+          <tr>
+            <th>Event</th>
+            <th>Role</th>
+          </tr>
+
+          <% @member.event_roles.each do |er| %>
+            <tr>
+              <td><%= link_to er.event.title, er.event %></td>
+              <td><%= er.role %></td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    <% end %>
   </tr>
-<% end %>
-<tr style="border-top-style: double;">
-  <th>Total</th>
-  <td><%= pluralize @member.timecard_entries.map(&:hours).sum, "hour" %> / <%= number_to_currency @member.timecard_entries.map(&:gross_amount).sum %></td>
-</tr>
 </table>
 
-<% if not @member.event_roles.empty? %>
-  <h2>Run Positions</h2>
-  <table class="generic">
-    <tr>
-      <th>Event</th>
-      <th>Role</th>
-    </tr>
-  
-    <% @member.event_roles.each do |er| %>
-      <tr>
-        <td><%= link_to er.event.title, er.event %></td>
-        <td><%= er.role %></td>
-      </tr>
-    <% end %>
-  </table>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= conditional_link_to "Edit member", edit_member_url(@member), :update, @member %></li>
+    <li><%= link_to "Back to member list", members_url %></li>
+  </ul>
 <% end %>

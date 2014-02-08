@@ -6,8 +6,10 @@
     <th>Is credit</th>
     <th>Position</th>
     <th>&nbsp;</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
+    <% if can? :update, Account or can? :destroy, Account %>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+    <% end %>
  </tr>
 
 <% for account in @accounts %>
@@ -16,14 +18,16 @@
     <td><%=h account.is_credit %></td>
     <td><%=h account.position %></td>
     <td><%= link_to 'Show', account %></td>
-    <td><%= link_to 'Edit', edit_account_path(account) %></td>
-    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% if can? :update, Journal or can? :destroy, Journal %>
+      <td><%= conditional_link_to 'Edit', edit_account_path(account), :update, account %></td>
+      <td><%= conditional_link_to_delete 'Destroy', account, :destroy, account %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
-<br />
-
-<% content_for :more do %>
-  <li><%= link_to 'New account', new_account_path %></li>
+<% if can? :create, Account %>
+  <% content_for :more do %>
+    <li><%= link_to 'New account', new_account_path %></li>
+  <% end %>
 <% end %>

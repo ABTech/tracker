@@ -7,20 +7,20 @@ module ApplicationHelper
            "</a>";
   end
   
-  def conditional_link_to(title, controller, action)
-    if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to(title, {:controller => controller, :action => action})
-    else
-      ""
-    end
+  def conditional_link_to(title, url, action, model)
+    link_to title, url if can? action, model
   end
-
-  def conditional_link_to_remote(title, controller, action, update, html = {})
-    if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to(title, { :url => {:controller => controller, :action => action}, :update => update }, html, :remote => true)
-    else
-      ""
-    end
+  
+  def conditional_link_to_remote(title, url, action, model)
+    link_to title, url, :remote => true if can? action, model
+  end
+  
+  def conditional_link_to_delete(title, url, action, model)
+    link_to title, url, :method => :delete, :data => { :confirm => "Are you sure you want to delete this? This action is irreversible." } if can? action, model
+  end
+  
+  def show_admin_link
+    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm
   end
 
   Date.class_eval do

@@ -7,7 +7,7 @@
     <th>Event</th>
     <th>Content Type</th>
     <th>Size</th>
-    <% if current_member.authorized? "attachments/destroy" %>
+    <% if can? :manage, Attachment %>
       <th></th>
     <% end %>
   </tr>
@@ -19,7 +19,7 @@
     <td><%= link_to a.event, event_path(a.event) %></td>
     <td><%= a.attachment.content_type %></td>
 	  <td><%= a.friendly_size %></td>
-    <% if current_member.authorized? "attachments/destroy" %>
+    <% if can? :manage, Attachment %>
       <td><%= link_to "Destroy", attachment_path(a), :method => "delete", :confirm => "Are you sure? This is irreversible." %></td>
     <% end %>
   </tr>

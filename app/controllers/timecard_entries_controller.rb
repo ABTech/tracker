@@ -1,7 +1,7 @@
 class TimecardEntriesController < ApplicationController
-  before_filter :login_required
-
   def index
+    authorize! :index, TimecardEntry
+    
     @pending = TimecardEntry.where(member_id: current_member.id, timecard_id: nil)
     @timecards = Timecard.where(submitted: false)
     @past = TimecardEntry.where(["member_id = ? AND timecard_id IS NOT NULL", current_member.id]).flat_map(&:timecard).uniq.select(&:submitted)
@@ -9,15 +9,20 @@ class TimecardEntriesController < ApplicationController
 
   def new
     @timecard_entry = TimecardEntry.new
+    @timecard_entry.member = current_member
+    authorize! :create, @timecard_entry
+    
     @timecard_entry.eventdate_id = params[:eventdate_id]
     @eventdates = Timecard.valid_eventdates
     @timecards = Timecard.valid_timecards
   end
 
   def create
-    @timecard_entry = TimecardEntry.new(params[:timecard_entry])
+    @timecard_entry = TimecardEntry.new(timecard_entry_params)
     @timecard_entry.member = current_member
     @timecard_entry.payrate = current_member.payrate
+    authorize! :create, @timecard_entry
+    
     if @timecard_entry.save
       flash[:notice] = "Timecard entry saved"
       redirect_to :action => :index
@@ -31,21 +36,27 @@ class TimecardEntriesController < ApplicationController
 
   def edit
     @timecard_entry = TimecardEntry.find(params[:id])
-    if @timecard_entry.member != current_member
-      flash[:notice] = 'You cannot edit someone else\'s timecard!'
+    authorize! :update, @timecard_entry
+    
+    if not @timecard_entry.timecard.nil? and @timecard_entry.timecard.submitted
+      flash[:error] = "You cannot edit submitted timecards."
       redirect_to :action => :index and return
     end
+
     @eventdates = Timecard.valid_eventdates
     @timecards = Timecard.valid_timecards
   end
 
   def update
     @timecard_entry = TimecardEntry.find(params[:id])
-    if @timecard_entry.member != current_member
-      flash[:notice] = 'You cannot edit someone else\'s timecard!'
-      redirect_to :action => :index and return
+    authorize! :update, TimecardEntry
+    
+    if not @timecard_entry.timecard.nil? and @timecard_entry.timecard.submitted
+      flash[:error] = "You cannot edit submitted timecards."
+      redirect_to :action => :index
     end
-    if (@timecard_entry.timecard.nil? or !@timecard_entry.timecard.submitted) and @timecard_entry.update_attributes(params[:timecard_entry])
+    
+    if @timecard_entry.update_attributes(timecard_entry_params)
       flash[:notice] = 'Timecard entry successfully updated.'
       redirect_to :action => :index and return
     else
@@ -57,7 +68,14 @@ class TimecardEntriesController < ApplicationController
 
   def destroy
     @timecard_entry = TimecardEntry.find(params[:id])
+    authorize! :destroy, @timecard_entry
+    
     @timecard_entry.destroy
     redirect_to :action => :index
   end
+  
+  private
+    def timecard_entry_params
+      params.require(:timecard_entry).permit(:hours, :eventdate_id, :timecard_id)
+    end
 end

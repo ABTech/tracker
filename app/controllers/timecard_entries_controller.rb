@@ -4,7 +4,7 @@ class TimecardEntriesController < ApplicationController
     
     @pending = TimecardEntry.where(member_id: current_member.id, timecard_id: nil)
     @timecards = Timecard.where(submitted: false)
-    @past = TimecardEntry.where(["member_id = ? AND timecard_id IS NOT NULL", current_member.id]).flat_map(&:timecard).uniq.select(&:submitted)
+    @past = current_member.timecards.where(submitted: true)
   end
 
   def new

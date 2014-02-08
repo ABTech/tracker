@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_filter :login_required, :except => [:generate, :calendar];
+  skip_before_filter :authenticate_member!, :only => [:generate, :calendar]
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -18,33 +18,45 @@ class EventsController < ApplicationController
   def show
     @title = "Viewing Event"
     @event = Event.find(params[:id])
+    authorize! :read, @event
   end
   
   def show_email
     @title = "Viewing Event Emails"
     @event = Event.find(params[:id])
+    authorize! :read, @event
   end
   
   def finance
     @title = "Viewing Event Finances"
     @event = Event.find(params[:id])
+    authorize! :read, Timecard
   end
 
   def new
     @title = "Create New Event"
     @event = Event.new
+    authorize! :create, @event
   end
 
   def edit
     @title = "Edit Event"
     @event = Event.find(params[:id])
+    authorize! :update, @event
   end
   
   def create
     @title = "Create New Event"
-    params[:event].permit!
     
-    @event = Event.new(params[:event])
+    if cannot? :create, Organization
+      params[:event].delete(:org_type)
+      params[:event].delete(:org_new)
+    end
+    
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name])
+    
+    @event = Event.new(p)
+    authorize! :create, @event
     
     if @event.save
       flash[:notice] = "Event created successfully!"
@@ -53,13 +65,44 @@ class EventsController < ApplicationController
       render :new
     end
   end
-  
+
   def update
     @title = "Edit Event"
-    params[:event].permit!
-    
     @event = Event.find(params[:id])
-    if @event.update(params[:event])
+    authorize! :update, @event
+    
+    if cannot? :create, Organization
+      params[:event].delete(:org_type)
+      params[:event].delete(:org_new)
+    end
+    
+    if can? :manage, :finance
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id])
+    elsif can? :tic, @event
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
+    else
+      p = params.require(:event).permit(:notes, :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
+      
+      # If you are not TIC for the event, with regards to run positions, you
+      # can only delete yourself from a run position, assign a member who isn't
+      # you to be one of your assistants, or modify a run position which is one
+      # of your assistants
+      assistants = @event.run_positions(current_member).flat_map(&:assistants)
+      p[:event_roles_attributes].select! do |bleh,er|
+        if er[:id]
+          rer = EventRole.find(er[:id])
+          if rer.member_id == current_member.id
+            er[:_destroy] == '1'
+          else
+            assistants.include? er[:role] and assistants.include? rer.role
+          end
+        else
+          er[:member_id] != current_member.id and assistants.include? er[:role]
+        end
+      end
+    end
+    
+    if @event.update(p)
       flash[:notice] = "Event updated successfully!"
       redirect_to @event
     else
@@ -68,54 +111,30 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    if(!@event)
-      if(!params["id"])
-        flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "index");
-        return;
-      end
+    @event = Event.find(params["id"]);
+    authorize! :destroy, @event
+    
+    flash[:notice] = "Deleted event " + @event.title + "."
+    @event.destroy()
 
-      @event = Event.find(params["id"]);
-      if(!@event)
-        flash[:error] = "Event #{params['id']} not found."
-        redirect_to(:action => "index");
-        return;
-      end
-    end
-
-    flash[:notice] = "Deleted event " + @event.title + ".";
-    @event.destroy();
-
-    redirect_to(:action => "index");
+    redirect_to(:action => "index")
   end
 
   def delete_conf
-    @title = "Delete Event Confirmation";
-
-    if(!@event)
-      if(!params["id"])
-        flash[:error] = "You must specify an ID.";
-        redirect_to(:action=> "index");
-        return;
-      end
-
-      @event = Event.find(params["id"]);
-      if(!@event)
-        flash[:error] = "Event #{params['id']} not found."
-        redirect_to(:action => "index");
-        return;
-      end
-    end
+    @title = "Delete Event Confirmation"
+    authorize! :destroy, @event
   end
 
   def index
     @title = "Event List"
+    authorize! :read, Event
 
     @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
   end
   
   def month
     @title = "Event List for " + Date::MONTHNAMES[params[:month].to_i] + " " + params[:year]
+    authorize! :read, Event
     
     @startdate = Date.civil(params["year"].to_i, params["month"].to_i, 1)
     enddate = @startdate >> 1
@@ -124,23 +143,28 @@ class EventsController < ApplicationController
   
   def incomplete
     @title = "Incomplete Event List"
+    authorize! :read, Event
     
     @eventdates = Eventdate.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
   end
   
   def past
     @title = "Past Event List"
+    authorize! :read, Event
     
     @eventdates = Eventdate.where("startdate <= ?", Time.now.utc).order("startdate DESC").paginate(:per_page => 50, :page => params[:page])
   end
   
   def search
     @title = "Event List - Search for " + params[:q]
+    authorize! :read, Event
     
     @eventdates = Eventdate.where("events.title LIKE (?) OR eventdates.description LIKE (?)", "%" + params[:q] + "%", "%" + params[:q] + "%").order("startdate DESC").includes(:event).references(:event).paginate(:per_page => 50, :page => params[:page])
   end
 
   def iphone
+    authorize! :read, Event
+    
     @startdate = params["startdate"] ? Date.parse(params["startdate"]) : Date.today 
     @enddate   = @startdate+7
 
@@ -189,7 +213,7 @@ class EventsController < ApplicationController
       @eventdates_month[i] = Eventdate.where("(events.publish OR events.blackout) AND enddate >= ? AND startdate <= ?", monthStart.beginning_of_day.utc, monthEnd.beginning_of_day.utc).order("startdate ASC").includes(:event).references(:event)
     end
 
-    if not logged_in?
+    if not member_signed_in?
       render(:action => "calendar", :layout => "public")
     end
   end

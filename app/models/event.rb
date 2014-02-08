@@ -19,8 +19,6 @@ class Event < ActiveRecord::Base
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
   
-  attr_accessible :title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes, :event_roles_attributes, :attachments_attributes, :invoices_attributes
-  
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
   
@@ -139,6 +137,14 @@ class Event < ActiveRecord::Base
   
   def synchronize_representative_date
     self.representative_date = self.eventdates[0].startdate
+  end
+  
+  def has_run_position?(member)
+    self.event_roles.where(member: member).count > 0
+  end
+  
+  def run_positions(member)
+    self.event_roles.where(member: member)
   end
   
   private

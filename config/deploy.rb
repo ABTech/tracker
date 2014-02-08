@@ -1,12 +1,14 @@
 require "bundler/capistrano"
+require "rvm/capistrano"
 
 set :application, "abtt"
 set :repository,  "https://github.com/ABTech/abtt.git"
 set :branch, "production"
 set :deploy_to, "/srv/rails/abtt"
-set :user, 'abtech'
+set :user, ''
 set :domain, 'tracker.abtech.org'
 set :rails_env, "production"
+set :rvm_type, :system
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`

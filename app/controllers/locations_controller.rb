@@ -1,25 +1,27 @@
 class LocationsController < ApplicationController
-  
-  before_filter :login_required
-
   def index
+    authorize! :read, Location
+    
     @title = "Locations"
-    @locations = Location.active.order("building ASC, floor ASC")
+    @locations = Location.active.accessible_by(current_ability).order("building ASC, floor ASC")
   end
 
   def show
     @title = "Viewing Location"
     @location = Location.active.find(params[:id])
+    authorize! :read, @location
   end
 
   def new
     @title = "New Location"
     @location = Location.new
+    authorize! :create, @location
   end
 
   def create
-    @location = Location.new(params[:location])
-    if @location.save()
+    @location = Location.new(location_params)
+    authorize! :create, @location
+    if @location.save
       flash[:notice] = 'Location was successfully created.'
       redirect_to locations_url
     else
@@ -30,11 +32,13 @@ class LocationsController < ApplicationController
   def edit
     @title = "Editing Location"
     @location = Location.active.find(params[:id])
+    authorize! :update, @location
   end
 
   def update
     @location = Location.active.find(params[:id])
-    if @location.update_attributes(params[:location])
+    authorize! :update, @location
+    if @location.update_attributes(location_params)
       flash[:notice] = 'Location was successfully updated.'
       redirect_to @location
     else
@@ -44,6 +48,8 @@ class LocationsController < ApplicationController
 
   def destroy
     @location = Location.active.find(params[:id])
+    authorize! :destroy, @location
+    
     @location.defunct = true
     if @location.save
       flash[:notice] = "Location \"#{@location}\" has been marked as defunct."
@@ -53,4 +59,9 @@ class LocationsController < ApplicationController
     
     redirect_to locations_url
   end
+  
+  private
+    def location_params
+      params.require(:location).permit(:building, :floor, :room, :details)
+    end
 end

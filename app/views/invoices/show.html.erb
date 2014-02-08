@@ -81,9 +81,9 @@
 
 <% content_for :more do %>
   <ul>
-    <li><%= link_to "Edit", { :action => "edit", :id => @invoice.id } %></li>
-    <li><%= link_to "Preview", { :action=>"prettyView",:id=>@invoice.id } %></li>
-    <li><%= link_to "Print", {:action => "prettyView",:params=>{:format=>"pdf"}, :id=>@invoice.id} %></li>
-    <li><%= link_to "Email", email_confirm_invoices_url(:id => @invoice.id, :format => :js), :remote => true %></li>
+    <li><%= conditional_link_to "Edit", edit_invoice_url(@invoice), :edit, @invoice %></li>
+    <li><%= conditional_link_to "Preview", prettyView_invoice_url(@invoice), :show, @invoice %></li>
+    <li><%= conditional_link_to "Print", prettyView_invoice_url(@invoice, :format => "pdf"), :show, @invoice %></li>
+    <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(@invoice, :format => :js), :email, @invoice %></li>
   </ul>
 <% end %>

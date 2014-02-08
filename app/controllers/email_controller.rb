@@ -1,9 +1,6 @@
+require 'net/imap'
+
 class EmailController < ApplicationController
-  
-  require 'net/imap'
-
-  before_filter :login_required;
-
   File_Action_File_Event        = "File with Event";
   File_Action_New_Event         = "newevent";
   File_Action_Existing_Event    = "oldevent";
@@ -23,6 +20,8 @@ class EmailController < ApplicationController
     end
 
     def pull_email
+        authorize! :create, Email
+        
         # first, connect to the IMAP server
         imap = Net::IMAP.new(EmailHelper::IMAP_Server, EmailHelper::IMAP_Port, true); # last is to use SSL
         begin
@@ -60,7 +59,7 @@ class EmailController < ApplicationController
                 end
 
                 message.timestamp   = DateTime.parse(envelope.date)
-                message.subject = envelope.subject
+                message.subject = Mail::Encodings.value_decode(envelope.subject).encode("US-ASCII", {:invalid => :replace, :undef => :replace, :replace => ''})
                 message.message_id  = envelope.message_id
 
                 message.headers = "Email received at #{envelope.date} from ABTT at #{DateTime.now()}.\n"
@@ -135,13 +134,14 @@ class EmailController < ApplicationController
         end
 
         if(params['id'] && Email.find(params['id']))
-            email = Email.find(params['id']);
+            email = Email.find(params['id'])
+            authorize! :update, email
 
             case(params['commit'])
             when File_Action_File_Event
                 case(params['fileaction'])
                 when File_Action_New_Event
-                    event = Event.new(params['event'])
+                    event = Event.new(params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name]))
 
                     if(!event.save())
                         flash[:error] = "Error saving the event"
@@ -211,7 +211,9 @@ class EmailController < ApplicationController
     end
 
     def unfile
-        email = Email.find(params['id']);
+        email = Email.find(params['id'])
+        authorize! :update, email
+        
         if(!email)
             flash[:error] = "No valid email specified.";
         else
@@ -223,137 +225,11 @@ class EmailController < ApplicationController
         redirect_to :action => "index"
     end
 
-    def mark_status
-        emails = Email.find(params['id'].split("."));
-        if(!emails)
-            flash[:error] = "Invalid ID.";
-            return;
-        end
-
-        flash[:error] = "";
-
-        emails.each do |rec|
-            rec.status = params['status'];
-            if(!rec.save())
-                rec.errors.each_full() do |err|
-                    flash[:error] += err + "<br />";
-                end
-            end
-        end
-
-        render(:text => "<html>Done.</html>");
-    end
-
-    def reply_to
-        @title = "Send Reply"
-
-        @email = Email.find(params['id']);
-        if(!@email)
-            flash[:error] = "Invalid ID.";
-            return;
-        end
-
-        @title = "Re: #{@email.subject}"
-
-        @outgoingemail = Email.new();
-        @outgoingemail.timestamp = DateTime.now();
-        @outgoing_destination = @email.sender;
-        @outgoing_cc = EmailHelper::SMTP_CC_List.join(", ");
-        @outgoing_from = EmailHelper::SMTP_From;
-        @outgoing_inreplyto = @email.message_id;
-
-        # if the old subject didn't have the eventid tag, add it
-        if(EmailController.find_eventids(@email.subject).empty?)
-            @outgoingemail.subject = "Re: [event #{EmailController.generate_eventid(@email.event)}] #{@email.subject}";
-        else
-            # if the old subject had eventid tag, and a leading "Re: "
-            if(@email.subject[0,3] == "Re:")
-                # use the old subject
-                @outgoingemail.subject = @email.subject;
-            else
-                # if the old subject had eventid tag, and no leading "Re: ", add one
-                @outgoingemail.subject = "Re: #{@email.subject}";
-            end
-        end
-        @outgoingemail.contents = "\nOn #{@email.timestamp.strftime('%b %d, %Y at %I:%M %p')}, #{@email.sender} wrote:\n\n"
-
-        @email.contents.each_line do |line|
-            @outgoingemail.contents << "> " + line;
-        end
-    end
-
-    def send_email
-        @title = "Email sent";
-
-        srcmsg = nil;
-        if(params['id'])
-            srcmsg = Email.find(params['id']);
-            if(!srcmsg)
-                flash[:error] = "Invalid ID.";
-                return;
-            end
-        end
-
-        # build the outgoing message
-        msg = RMail::Message.new();
-        hdr = msg.header;
-        hdr.from = params['outgoingfrom'];
-        hdr.to = params['outgoingto'].split(",");
-        hdr.cc = params['outgoingcc'].split(",");
-        #hdr.reply_to = params['outgoingreplyto'];
-        hdr.subject = params['outgoingsubject'];
-        hdr.date = Time.now();
-
-        if (params['outgoinginreplyto'])
-            hdr.add('In-Reply-To', params['outgoinginreplyto']);
-        end
-
-        msg.body = params['outgoingcontents'];
-
-        toaddrs = hdr.to.addresses() | hdr.cc.addresses();
-
-        Net::SMTP.start(EmailHelper::SMTP_Server, EmailHelper::SMTP_Port, EmailHelper::SMTP_Domain) do |smtp|
-            smtp.send_message(msg.to_s(), hdr.from.first.address(), toaddrs);
-            smtp.finish();
-        end
-
-        if(srcmsg)
-            srcmsg.status = Email::Email_Status_Read;
-            srcmsg.save();
-        end
-
-        # we don't save it locally because we expect all the messages to
-        # be received on the typical pull schedule; otherwise we end
-        # up pulling messages twice. (this method has the advantage that
-        # messages sent from abtech@ by people not using the tracker can
-        # still be imported to the db)
-    end
-
-    def new_thread
-        @title = "New Email"
-
-        @event = Event.find(params['id']);
-        if(!@event)
-            flash[:error] = "Invalid ID.";
-            return;
-        end
-
-        @title = "New Email"
-
-        @outgoingemail = Email.new();
-        @outgoingemail.timestamp = DateTime.now();
-        @outgoing_destination = @event.contactemail;
-        @outgoing_cc = EmailHelper::SMTP_CC_List.join(", ");
-        @outgoing_from = EmailHelper::SMTP_From;
-
-        # if the old subject didn't have the eventid tag, add it
-        @outgoingemail.subject = "[event #{EmailController.generate_eventid(@event)}]: #{@event.title}";
-
-        render :action => "reply_to"
-    end
-
     def index
       @title = "Email List";
+
+      authorize! :read, Email
+      
       @emails = Email.paginate(:per_page => 20, :page => params[:page]).order("timestamp DESC")
       @file_email = Email.where(status: Email::Email_Status_Unfiled).order("timestamp ASC").first
     end
@@ -362,6 +238,7 @@ class EmailController < ApplicationController
         @title = "Viewing Message"
 
         @email = Email.find(params["id"])
+        authorize! :read, @email
         
         if @email.status == Email::Email_Status_Unfiled
           @fileaction = File_Action_Existing_Event

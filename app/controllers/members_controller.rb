@@ -1,23 +1,6 @@
 class MembersController < ApplicationController
-  before_filter :login_required
-
-  before_filter :set_edit_others
-  before_filter :set_edit_roles
-
-  private
-  def set_edit_others
-    @edit_others = current_member.authorized? "members/edit"
-    #should this really be a before_filter?
-    return true
-  end
-
-  def set_edit_roles
-    @edit_roles = current_member.authorized? "members/edit_roles"
-    return true
-  end
-
-
-  public 
+  load_and_authorize_resource :except => :create
+  
   def index
     @title = "Member List"
     @order = Member.new.has_attribute?(params[:order]) ? params[:order] : Member::Default_sort_key
@@ -26,7 +9,7 @@ class MembersController < ApplicationController
       @order_desc = true 
     end
 
-    @members = Member.find(:all, :select => 'aim, kerbid, namefirst, namelast, namenick, title, phone, callsign, shirt_size, created_at, updated_at, id', :order => @order);
+    @members = @members.order(@order)
 
     respond_to do |format|
       format.html
@@ -37,8 +20,6 @@ class MembersController < ApplicationController
   def show
     @title = "Member Display"
 
-    @member = Member.find(params[:id])
-
     respond_to do |format|
       format.html
       format.vcf { render :layout => false }
@@ -47,12 +28,12 @@ class MembersController < ApplicationController
 
   def new
     @title = "New Member"
-
-    @member = Member.new
   end
 
   def create
-    @member = Member.new(params[:member])
+    @member = Member.new(member_params)
+    authorize! :create, @member
+    
     if @member.save
       flash[:notice] = 'Member was successfully created.'
       redirect_to members_path
@@ -61,32 +42,13 @@ class MembersController < ApplicationController
     end
   end
 
-  def edit_self
-    # being used for ACLs
-
-    @title = "Editing Self"
-    @member = current_member
-
-    render :action => 'edit'
-  end
-
   def edit
     @title = "Editing Member"
-    @member = Member.find(params[:id])
   end
 
   def update
-    if(!current_member().authorized?("/members/edit")) #They can only edit themselves
-      @member = current_member();
-      params[:member].delete('role_ids')
-      if (!current_member().authorized?("/accounts/list"))
-        params[:member].delete('payrate')
-      end
-    else #They can edit any member
-      @member = Member.find(params[:id])
-    end
-    if @member.update_attributes(params[:member])
-      if @edit_others
+    if @member.update_attributes(member_params)
+      if can? :show, Member
         flash[:notice] = 'Member was successfully updated.'
         redirect_to(:action => 'show', :id => @member)
       else
@@ -99,7 +61,7 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    Member.find(params[:id]).destroy
+    @member.destroy
     flash[:notice] = 'Member was successfully destroyed.'
     redirect_to members_path
   end
@@ -107,6 +69,28 @@ class MembersController < ApplicationController
   def tshirts
     @title = "T-Shirt Sizes"
 
-    @shirt_sizes = Member.active.group_by(&:shirt_size)
+    @shirt_sizes = @members.active.where.not(shirt_size: nil).sort_by {|m| Member.shirt_size.values.index(m.shirt_size)}.group_by(&:shirt_size)
   end
+  
+  private
+    def member_params
+      if params[:member][:password].blank?
+        params[:member].delete(:password)
+        params[:member].delete(:password_confirmation)
+      end
+      
+      if params[:member][:role] and (not current_member.is_at_least? params[:member][:role] or cannot? :manage, Member)
+        params[:member].delete(:role)
+      end
+      
+      if cannot? :manage, Timecard
+        params[:member].delete(:payrate)
+      end
+      
+      if not current_member.tracker_dev?
+        params[:member].delete(:tracker_dev)
+      end
+      
+      params.require(:member).permit(:password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev)
+    end
 end

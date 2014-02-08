@@ -7,11 +7,13 @@
 
 <% content_for :more do %>
   <ul>
-    <li>Create a <%= link_to("new event", new_event_path) %>.</li>
+    <% if can? :create, Event %>
+      <li>Create a <%= link_to("new event", new_event_path) %>.</li>
+    <% end %>
     <li>View <%= link_to "incomplete events", incomplete_events_url %>. (<%= Event.count(:conditions => ["status NOT IN (?)", Event::Event_Status_Group_Completed]) %>)
   </ul>
 <% end %>
 
 <% content_for :calendar do %>
-  <%= render :partial => "events/monthview", :locals => {:selected => Date.today, :dates => get_sidebar_monthdates, :show_arrows => true} %>
+  <%= render :partial => "events/monthview", :locals => {:selected => Date.today, :dates => get_sidebar_monthdates, :show_arrows => true, :full_month => true} %>
 <% end %>

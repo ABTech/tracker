@@ -37,9 +37,12 @@
 
     <table>
       <% day = startDisplay %>
-      <% while dates != nil and dates.size > 0 and dates[0].startdate.mon != firstOfMonth.mon
-        dates.shift
-      end %>
+      <% if not full_month
+          while dates != nil and dates.size > 0 and dates[0].startdate.mon != firstOfMonth.mon
+            dates.shift
+          end
+        end
+      %>
       <% until day > endOfMonth %>
         <tr>
           <% 7.times do %>
@@ -54,7 +57,7 @@
 
               # determine class of cell
               day_class = nil
-              if (day < firstOfMonth || day > endOfMonth)
+              if not full_month and (day < firstOfMonth || day > endOfMonth)
                 day_class = "not_on_calendar"
               elsif (!todaydates.reject {|date| !date.event.blackout} .empty?)
                 day_class = "blackout_event"

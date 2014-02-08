@@ -30,7 +30,7 @@ calendar.custom_property("X-WR-TIMEZONE", "America/New_York");
 
       description << roles.collect{ |role|
           role.member ?
-            role.member.kerbid().split("@").first :
+            role.member.email.split("@").first :
             "SAM"
         }.join(", ");
 

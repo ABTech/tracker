@@ -7,20 +7,20 @@ module ApplicationHelper
            "</a>";
   end
   
-  def conditional_link_to(title, controller, action)
-    if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to(title, {:controller => controller, :action => action})
-    else
-      ""
-    end
+  def conditional_link_to(title, url, action, model)
+    link_to title, url if can? action, model
   end
-
-  def conditional_link_to_remote(title, controller, action, update, html = {})
-    if (current_member().authorized?("%s/%s" % [controller, action]))
-      link_to(title, { :url => {:controller => controller, :action => action}, :update => update }, html, :remote => true)
-    else
-      ""
-    end
+  
+  def conditional_link_to_remote(title, url, action, model)
+    link_to title, url, :remote => true if can? action, model
+  end
+  
+  def conditional_link_to_delete(title, url, action, model)
+    link_to title, url, :method => :delete, :data => { :confirm => "Are you sure you want to delete this? This action is irreversible." } if can? action, model
+  end
+  
+  def show_admin_link
+    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm
   end
 
   Date.class_eval do
@@ -46,9 +46,9 @@ module ApplicationHelper
   end
   
   def get_sidebar_monthdates
-    startdate = DateTime.new(Time.now.year, Time.now.month, 1)
-    enddate = DateTime.new(Time.now.year, Time.now.month, Time.days_in_month(Time.now.month))
-    Eventdate.where(["UNIX_TIMESTAMP(enddate) > ? AND UNIX_TIMESTAMP(startdate) < ?", startdate.to_i, enddate.to_i]).order("startdate ASC").includes(:event).to_a
+    startdate = DateTime.now.beginning_of_month.beginning_of_week
+    enddate = DateTime.now.end_of_month.end_of_week
+    Eventdate.where(["enddate > ? AND startdate < ?", startdate, enddate]).order("startdate ASC").includes(:event).to_a
   end
   
   def load_account_totals

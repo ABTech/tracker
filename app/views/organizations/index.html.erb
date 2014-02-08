@@ -1,6 +1,6 @@
 <h2>Organizations</h2>
-<p>These are the organizations we have dealt with (and have been entered into the tracker). <%= link_to "Click here to add another org.", new_organization_path %></p>
-There are <%= @orgs.length %> organizations.
+<p>These are the organizations we have dealt with (and have been entered into the tracker).</p>
+<p>There are <%= @orgs.length %> organizations.</p>
 
 <table class="genericless">
   <% @orgs.each_slice(3) do |slice| %>
@@ -18,3 +18,11 @@ There are <%= @orgs.length %> organizations.
     </tr>
   <% end %>
 </table>
+
+<% if can? :create, Organization %>
+  <% content_for :more do %>
+    <ul>
+      <li><%= link_to "Add organization", new_organization_path %></li>
+    </ul>
+  <% end %>
+<% end %>

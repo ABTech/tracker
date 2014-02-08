@@ -6,7 +6,9 @@
     <th>Floor</th>
     <th>Room</th>
     <th>Details</th>
-    <th />
+    <% if can? :update, Location or can? :destroy, Location %>
+      <th />
+    <% end %>
   </tr>
   
   <% for location in @locations %>
@@ -15,16 +17,20 @@
       <td><%= location.floor %></td>
       <td><%= location.room %></td>
       <td><%= location.details %></td>
-      <td>
-        <%= link_to "Edit", edit_location_url(location) %>
-        <%= link_to "Delete", location, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this location as defunct?"} %>
-      </td>
+      <% if can? :update, Location or can? :destroy, Location %>
+        <td>
+          <%= conditional_link_to "Edit", edit_location_url(location), :update, location %>
+          <%= link_to("Delete", location, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this location as defunct?"}) if can? :destroy, location %>
+        </td>
+      <% end %>
     </tr>
   <% end %>
 </table>
 
-<% content_for :more do %>
-  <ul>
-    <li><%= link_to 'New location', :action => 'new' %></li>
-  </ul>
+<% if can? :create, Location %>
+  <% content_for :more do %>
+    <ul>
+      <li><%= link_to 'New location', :action => 'new' %></li>
+    </ul>
+  <% end %>
 <% end %>

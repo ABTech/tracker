@@ -28,7 +28,11 @@
             <tr>
               <td width="250"><%= i = i-1 %>.&nbsp;&nbsp;
               <% je_memo = (je.memo.length > 35 ? je.memo[0,je.memo.rindex(" ", 35)] + "<font color='#AAAAAA'>...</font>".html_safe : je.memo) %>
-              <%= link_to je_memo.html_safe, {:controller => "journal", :action => "edit", :id => je.id} %>
+              <% if can? :update, je %>
+                <%= link_to je_memo.html_safe, edit_journal_url(je) %>
+              <% else %>
+                <%= link_to je_memo.html_safe, view_journal_url(je) %>
+              <% end %>
               </td>
               
               <td class="<%= je.date_paid ? "paid" : "unpaid" %>"><%= number_to_currency je.amount %></td>
@@ -39,7 +43,10 @@
     </td></tr>
   </table>
 </fieldset>
-<%= form_tag({ :controller => "journal", :action => "new" }, :method => "get") do %>
-  <input type="submit" value="Add <%= is_credit ? "Credit" : "Debit" %>" style="width: 100%"/>
-  <input type="hidden" name="is_credit" value="<%= is_credit ? "true" : "false" %>"/>
+
+<% if can? :create, Journal %>
+  <%= form_tag(new_journal_url, :method => "get") do %>
+    <input type="submit" value="Add <%= is_credit ? "Credit" : "Debit" %>" style="width: 100%"/>
+    <input type="hidden" name="is_credit" value="<%= is_credit ? "true" : "false" %>"/>
+  <% end %>
 <% end %>

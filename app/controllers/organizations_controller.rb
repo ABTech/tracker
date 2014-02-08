@@ -1,18 +1,20 @@
 class OrganizationsController < ApplicationController
-  before_filter :login_required
-
   def index
     @title = "Organizations"
-    @orgs = Organization.order("name ASC")
+    authorize! :read, Organization
+    @orgs = Organization.accessible_by(current_ability).order("name ASC")
   end
 
   def new
     @title = "New Organization"
     @org = Organization.new
+    authorize! :create, @org
   end
 
   def create 
-    @org = Organization.new(params[:organization])
+    @org = Organization.new(org_params)
+    authorize! :create, @org
+    
     if @org.save
     	flash[:notice] = "Organization (#{@org.name}) was successfully created."
     	redirect_to organizations_url
@@ -24,33 +26,62 @@ class OrganizationsController < ApplicationController
 
   def show
     @org = Organization.find(params[:id])
+    authorize! :read, @org
+    
     @title = "Organizations - #{@org.id}"
   end
 
   def edit
     @title = "Edit an Organization"
+    
     @org = Organization.active.find(params[:id])
+    authorize! :update, @org
   end
 
   def update
     @org = Organization.active.find(params[:id])
-    if @org.update_attributes(params[:organization])
+    authorize! :update, @org
+    
+    if @org.update_attributes(org_params)
       flash[:notice] = "Organization (#{@org.name}) was successfully updated."
-	redirect_to(organizations_path)
+      redirect_to(organizations_path)
     else
       render :action => "edit"
     end
   end
 
   def destroy 
-    @org = Organization.active.find(params[:id])
-    @org.defunct = true
-    if @org.save
-      flash[:notice] = "Organization \"#{@org.name}\" has been marked as defunct."
-    else
-      flash[:error] = "Error marking organization \"#{@org.name}\" as defunct."
-    end
+    @org = Organization.find(params[:id])
+    authorize! :destroy, @org
     
-    redirect_to organizations_path
+    if not @org.defunct
+      @org.defunct = true
+      
+      if @org.save
+        flash[:notice] = "Organization \"#{@org.name}\" has been marked as defunct."
+      else
+        flash[:error] = "Error marking organization \"#{@org.name}\" as defunct."
+      end
+      
+      redirect_to @org
+    elsif @org.events.empty?
+      @org.destroy
+      
+      if @org.save
+        flash[:notice] = "Organization \"#{@org.name}\" has been deleted."
+      else
+        flash[:error] = "Error deleting organization \"#{@org.name}\"."
+      end
+      
+      redirect_to organizations_path
+    else
+      flash[:error] = "You cannot delete an organization that has events."
+      redirect_to @org
+    end
   end
+  
+  private
+    def org_params
+      params.require(:organization).permit(:name)
+    end
 end

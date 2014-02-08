@@ -10,8 +10,6 @@ class TimecardEntry < ActiveRecord::Base
   validate :eventdate_in_range, :check_submitted
   before_destroy :check_submitted
 
-  attr_protected :member_id
-
   private
     def eventdate_in_range
       errors.add(:eventdate, 'is invalid') unless timecard.nil? or timecard.valid_eventdates.include? eventdate

@@ -53,7 +53,10 @@ gem 'rails_autolink'
 gem 'prawn'
 gem 'icalendar'
 gem 'mail'
+gem 'devise'
+gem 'devise-encryptable'
+gem 'enumerize'
+gem 'cancan'
 gem 'sanitize'
-
-# This is not a long term solution
-gem "protected_attributes"
+gem 'rvm-capistrano'
+gem 'net-ssh', '~> 2.7.0'

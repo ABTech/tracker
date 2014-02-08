@@ -3,8 +3,6 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :building, :floor, :room
   
-  attr_accessible :building, :floor, :room, :details
-  
   scope :active, -> { where(defunct: false) }
 
   def to_s

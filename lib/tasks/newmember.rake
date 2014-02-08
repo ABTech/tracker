@@ -4,11 +4,12 @@ namespace :member do
     puts "This script will add a new user to the ABTech tracker in the #{ENV["RAILS_ENV"]} environment."
     puts "Please give the following information about the new user."
     m = Member.new
+    m.role = :general_member
     begin
-      if m.kerbid.nil? or m.kerbid.empty? or m.errors.on(:kerbid)
-        puts "kerbid "+m.errors[:kerbid].to_a.join(" & ") if m.errors[:kerbid]
-        print "kerbid: "
-        m.kerbid = STDIN.gets
+      if m.email.nil? or m.email.empty? or m.errors.on(:email)
+        puts "email "+m.errors[:email].to_a.join(" & ") if m.errors[:email]
+        print "email: "
+        m.email = STDIN.gets
       end
       if m.password.nil? or m.errors.on(:password) or m.errors.on(:password_confirmation)
         puts "Password "+m.errors[:password].to_a.join(" & ") if m.errors[:password]

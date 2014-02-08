@@ -5,12 +5,12 @@ class Invoice < ActiveRecord::Base
 
   Payment_Types = ["StuAct", "Check", "Oracle"]
   Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received" ]
+  Invoice_Status_Group_Exec = ["New", "Quote"]
   
   accepts_nested_attributes_for :invoice_lines, :allow_destroy => true
   accepts_nested_attributes_for :journal_invoice
 
   attr_accessor :update_journal
-  attr_accessible :event_id, :status, :recognized, :payment_type, :oracle_string, :memo, :invoice_lines_attributes, :journal_invoice_attributes, :update_journal
 
   validates_presence_of :status, :event, :event_id
   validates_inclusion_of :status, :in => Invoice_Status_Group_All

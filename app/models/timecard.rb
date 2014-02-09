@@ -16,7 +16,7 @@ class Timecard < ActiveRecord::Base
 
   def self.valid_eventdates
     timecards = self.valid_timecards
-    return Eventdate.where(["startdate >= ?", Account::Magic_Date]).sort_by{|ed| ed.event.title} if timecards.size == 0
+    return Eventdate.where(["startdate >= ? AND events.billable = ?", Account::Magic_Date, true]).includes(:event).references(:event).sort_by{|ed| ed.event.title} if timecards.size == 0
     start_date, end_date = timecards.inject([nil,nil]) do |pair, timecard|
       [
         ((pair[0].nil? or timecard.start_date < pair[0]) ? timecard.start_date : pair[0]), 
@@ -24,7 +24,7 @@ class Timecard < ActiveRecord::Base
       ]
     end
 
-    Eventdate.find(:all, :joins => :event, :conditions => ["startdate >= ? and startdate <= ? and status in (?)", start_date, end_date, Event::Event_Status_Group_Not_Cancelled], :order => 'startdate DESC')
+    Eventdate.where("startdate >= ? AND startdate <= ? AND events.status IN (?) AND events.billable = ?", start_date, end_date, Event::Event_Status_Group_Not_Cancelled, true).order("startdate DESC").includes(:event).references(:event)
   end
 
   def entries(member=nil)
@@ -132,6 +132,6 @@ class Timecard < ActiveRecord::Base
   end
 
   def valid_eventdates
-    Eventdate.find(:all, :conditions => ["startdate >= ? and startdate <= ?", start_date, end_date])	
+    Eventdate.where("startdate >= ? AND startdate <= ? AND events.billable = ?", start_date, end_date, true).includes(:event).references(:event)
   end
 end

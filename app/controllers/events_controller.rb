@@ -53,7 +53,7 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name])
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -77,9 +77,9 @@ class EventsController < ApplicationController
     end
     
     if can? :manage, :finance
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id])
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id])
     elsif can? :tic, @event
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
     else
       p = params.require(:event).permit(:notes, :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
       

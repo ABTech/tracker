@@ -1,6 +1,6 @@
 module MembersHelper
   def pretty_phone(number)
-    number_to_phone number, :delimiter => "."
+    link_to (number_to_phone number, :delimiter => "."), "tel:+1" + number
   end
 
   def table_order_link(text, order_key, order)

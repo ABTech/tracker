@@ -57,9 +57,9 @@
         </td>
         <td>
           <small>
-            C: <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %><br/>
+            C: <%= render_eventdate_call eventdate %><br/>
             E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
-            S: <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "<span class='unknown'>unknown</span>".html_safe %>
+            S: <%= render_eventdate_strike eventdate %>
           </small>
         </td>
         <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>

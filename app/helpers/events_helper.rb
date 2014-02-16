@@ -49,4 +49,22 @@ module EventsHelper
     end
     month_links.join(" | ").html_safe
   end
+  
+  def render_eventdate_call(ed)
+    if ed.has_call?
+      ed.effective_call.strftime("%H:%M")
+    elsif ed.calltype == "blank"
+      "<span class='unknown'>unknown</span>".html_safe
+    end
+  end
+  
+  def render_eventdate_strike(ed)
+    if ed.has_strike?
+      ed.effective_strike.strftime("%H:%M")
+    elsif ed.striketype == "blank"
+      "<span class='unknown'>unknown</span>".html_safe
+    elsif ed.striketype == "none"
+      "none"
+    end
+  end
 end

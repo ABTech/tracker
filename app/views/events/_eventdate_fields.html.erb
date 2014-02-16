@@ -7,12 +7,12 @@
     <tr>
       <td><%= f.label :calldate, "Call" %>:</td>
       <td>
-        <%= f.radio_button :call_type, "blank" %>
+        <%= f.radio_button :calltype, "blank" %>
         <%= f.label :call_type_blank, "blank" %>
         <br />
-        <%= f.radio_button :call_type, "literal" %>
+        <%= f.radio_button :calltype, "literal" %>
         <%= f.label :call_type_literal, "literal" %>
-        <%= f.text_field :call_literal, value: (f.object.calldate ? f.object.calldate.strftime('%Y/%m/%d %H:%M') : ""), placeholder: "yyyy/mm/dd hh:mm" %>
+        <%= f.text_field :calldate, value: (f.object.calldate ? f.object.calldate.strftime('%Y/%m/%d %H:%M') : ""), placeholder: "yyyy/mm/dd hh:mm" %>
       </td>
     </tr>
     <tr>
@@ -26,15 +26,18 @@
     <tr>
       <td><%= f.label :strikedate, "Strike" %>:</td>
       <td>
-        <%= f.radio_button :strike_type, "blank" %>
+        <%= f.radio_button :striketype, "blank" %>
         <%= f.label :strike_type_blank, "blank" %>
         <br />
-        <%= f.radio_button :strike_type, "enddate" %>
+        <%= f.radio_button :striketype, "none" %>
+        <%= f.label :strike_type_none, "none "%>
+        <br />
+        <%= f.radio_button :striketype, "enddate" %>
         <%= f.label :strike_type_enddate, "enddate" %>
         <br />
-        <%= f.radio_button :strike_type, "literal" %>
+        <%= f.radio_button :striketype, "literal" %>
         <%= f.label :strike_type_literal, "literal" %>
-        <%= f.text_field :strike_literal, value: (f.object.strikedate ? f.object.strikedate.strftime('%Y/%m/%d %H:%M') : ""), placeholder: "yyyy/mm/dd hh:mm" %>
+        <%= f.text_field :strikedate, value: (f.object.strikedate ? f.object.strikedate.strftime('%Y/%m/%d %H:%M') : ""), placeholder: "yyyy/mm/dd hh:mm" %>
       </td>
     </tr>
     <tr>

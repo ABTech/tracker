@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140209044142) do
+ActiveRecord::Schema.define(version: 20140216000943) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -116,6 +116,8 @@ ActiveRecord::Schema.define(version: 20140209044142) do
     t.string   "description", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "calltype",    null: false
+    t.string   "striketype",  null: false
   end
 
   add_index "eventdates", ["description"], name: "eventdates_description_index", using: :btree

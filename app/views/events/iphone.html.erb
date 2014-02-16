@@ -44,9 +44,9 @@ end
             <span class="type"><%= eventdate.description  %></span></td>
           <td><%= eventdate.event.title %><br /><span class="location"><%= (eventdate.locations.join "<br />").html_safe %></span><br />
             <span class="times">
-              <%= !eventdate.calldate.nil? ? eventdate.calldate.strftime("%H:%M") : "????" %> Call ::
+              <%= eventdate.has_call? ? eventdate.effective_call.strftime("%H:%M") : "????" %> Call ::
               <%= eventdate.startdate.strftime("%H:%M") %> Show ::
-              <%= !eventdate.strikedate.nil? ? eventdate.strikedate.strftime("%H:%M") : "????" %> Strike
+              <%= eventdate.has_strike? ? eventdate.effective_strike.strftime("%H:%M") : "????" %> Strike
             </span>
           </td>
 	</tr>

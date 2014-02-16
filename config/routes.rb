@@ -63,7 +63,7 @@ Abtt::Application.routes.draw do
     end
   end
 
-  resources :invoices, :except => [:destroy] do
+  resources :invoices do
     member do
       post 'email'
       get 'email_confirm'

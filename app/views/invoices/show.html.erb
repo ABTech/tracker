@@ -85,5 +85,6 @@
     <li><%= conditional_link_to "Preview", prettyView_invoice_url(@invoice), :show, @invoice %></li>
     <li><%= conditional_link_to "Print", prettyView_invoice_url(@invoice, :format => "pdf"), :show, @invoice %></li>
     <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(@invoice, :format => :js), :email, @invoice %></li>
+    <li><%= conditional_link_to_delete "Delete", @invoice, :destroy, @invoice %></li>
   </ul>
 <% end %>

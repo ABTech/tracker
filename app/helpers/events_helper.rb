@@ -10,7 +10,7 @@ module EventsHelper
     show_arrows = options[:show_arrows] || false
     published = options[:published] || false
     
-    eventdates = Eventdate.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc).includes(:event)
+    eventdates = Eventdate.order("startdate ASC").where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc).includes(:event)
     blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc)
     if published
       eventdates = eventdates.where("events.publish = TRUE").references(:event)

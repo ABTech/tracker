@@ -3,13 +3,13 @@
     <table><tr>
       <td style="text-align: left;">
         <% if show_arrows %>
-          <%= link_to("<<", month_events_url((selected << 1).year, (selected << 1).mon)) %>
+          <%= link_to("<<", month_events_url((selected - 1.month).year, (selected - 1.month).mon)) %>
         <% end %>
       </td>
       <td style="text-align: center;"><strong><%= selected.strftime("%B %Y") %></strong></td>
       <td style="text-align: right;">
         <% if show_arrows %>
-          <%= link_to(">>", month_events_url((selected >> 1).year, (selected >> 1).mon)) %>
+          <%= link_to(">>", month_events_url((selected + 1.month).year, (selected + 1.month).mon)) %>
         <% end %>
       </td>
     </tr></table>

@@ -32,8 +32,8 @@
             Jump to:
             <select name="selected" onchange="document.forms['jumpform'].submit()">
               <% (-5..5).each do |i| %>
-                <option value="<%= (@selected >> i).strftime("%Y%m%d") %>" <%= (i == 0) ? "selected" : "" %>>
-                   <%= (@selected >> i).strftime("%Y %B") %>
+                <option value="<%= (@selected + i.month).strftime("%Y%m%d") %>" <%= (i == 0) ? "selected" : "" %>>
+                   <%= (@selected + i.month).strftime("%Y %B") %>
                 </option>
               <% end %>
             </select>

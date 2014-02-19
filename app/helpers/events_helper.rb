@@ -15,8 +15,16 @@ module EventsHelper
     if published
       eventdates = eventdates.where("events.publish = TRUE").references(:event)
     end
+    
+    # Ruby has difficulty with Time ranges so we have do use this kludge
+    monthdates = []
+    curdate = startDisplay
+    while curdate <= endDisplay
+      monthdates << curdate
+      curdate += 1.day
+    end
 
-    monthdates = (startDisplay..endDisplay).map do |date|
+    monthdates.map! do |date|
       if date < startdate or date > enddate
         { :date => date, :included => false, :events => [] }
       else

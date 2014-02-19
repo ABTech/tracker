@@ -197,9 +197,9 @@ class EventsController < ApplicationController
     @title = "Calendar"
     
     if params[:selected]
-      @selected = Time.zone.parse(params[:selected]).to_datetime
+      @selected = Time.zone.parse(params[:selected])
     else
-      @selected = Time.zone.now.to_datetime
+      @selected = Time.zone.now
     end
     
     @selected_month = []

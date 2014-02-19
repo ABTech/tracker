@@ -15,5 +15,5 @@
 <% end %>
 
 <% content_for :calendar do %>
-  <%= monthview DateTime.now, :show_arrows => true, :full_month => true %>
+  <%= monthview Time.zone.now, :show_arrows => true, :full_month => true %>
 <% end %>

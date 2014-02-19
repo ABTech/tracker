@@ -260,7 +260,7 @@
   </div>
 </div>
 
-<% if can? [:update, :destroy], @event or can? :read, Timecard or not @event.emails.empty? %>
+<% if can? :update, @event or can? :destroy, @event or can? :read, Timecard or not @event.emails.empty? %>
   <% content_for :more do %>
     <ul>
       <% if can? :read, Timecard %>

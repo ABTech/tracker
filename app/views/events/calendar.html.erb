@@ -13,7 +13,7 @@
       <form name="jumpform" method="get">
       <table border="0" cellpadding="3" cellspacing="0">
         <tr>
-          <% if(!@public) %>
+          <% if not current_member %>
             <% EventsController::Generate_Formats.each do |fmt| %>
               <td>
                 <a href="/calendar/generate.<%= fmt %>?matchdate=<%= @selected.strftime("%Y%m%d") %>">as <%= fmt %></a>
@@ -45,7 +45,7 @@
   </tr>
 </table></center>
 
-<% if(!@public) %>
+<% if not current_member %>
   <br/>
 
   <br/>

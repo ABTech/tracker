@@ -28,7 +28,7 @@ module EventsHelper
       end
     end
     
-    render :partial => "events/monthview", :locals => {monthdates: monthdates, show_arrows: show_arrows, selected: month, published: published}
+    render :partial => "events/monthview", :locals => {monthdates: monthdates, show_arrows: show_arrows, selected: month}
   end
   
   def organizations_for_select

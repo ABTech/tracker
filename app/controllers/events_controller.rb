@@ -197,18 +197,14 @@ class EventsController < ApplicationController
     @title = "Calendar"
     
     if params[:selected]
-      @selected = DateTime.parse(params[:selected])
+      @selected = Time.zone.parse(params[:selected]).to_datetime
     else
-      @selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
+      @selected = Time.zone.now.to_datetime
     end
-
+    
     @selected_month = []
-    @eventdates_month = []
     12.times do |i|
-      month = @selected >> (i-3);
-      @selected_month[i] = @selected >> (i-3);
-      monthStart = month - (month.day-1);
-      monthEnd   = monthStart >> 1;
+      @selected_month[i] = @selected + (i-3).months
     end
 
     if not member_signed_in?

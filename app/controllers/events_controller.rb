@@ -111,7 +111,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find(params["id"]);
+    @event = Event.find(params["id"])
     authorize! :destroy, @event
     
     flash[:notice] = "Deleted event " + @event.title + "."
@@ -122,6 +122,7 @@ class EventsController < ApplicationController
 
   def delete_conf
     @title = "Delete Event Confirmation"
+    @event = Event.find(params["id"])
     authorize! :destroy, @event
   end
 

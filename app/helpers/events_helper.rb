@@ -1,6 +1,5 @@
 module EventsHelper
   def monthview(month, options={})
-    month = month.to_date
     firstOfMonth = month.beginning_of_month
     startDisplay = firstOfMonth.beginning_of_week
     endOfMonth = month.end_of_month
@@ -11,20 +10,20 @@ module EventsHelper
     show_arrows = options[:show_arrows] || false
     published = options[:published] || false
     
-    eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", startDisplay, endDisplay).includes(:event)
-    blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate, startdate)
+    eventdates = Eventdate.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc).includes(:event)
+    blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc)
     if published
       eventdates = eventdates.where("events.publish = TRUE").references(:event)
     end
-    
+
     monthdates = (startDisplay..endDisplay).map do |date|
       if date < startdate or date > enddate
         { :date => date, :included => false, :events => [] }
       else
         { :date => date,
           :included => true,
-          :events => eventdates.select {|ed| date >= ed.startdate and date <= ed.enddate },
-          :blackout => blackouts.find {|b| date >= b.startdate and date <= b.enddate }
+          :events => eventdates.select {|ed| date.end_of_day >= ed.startdate and date.beginning_of_day <= ed.enddate },
+          :blackout => blackouts.find {|b| date.end_of_day >= b.startdate and date.beginning_of_day <= b.enddate }
         }
       end
     end

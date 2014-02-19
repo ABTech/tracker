@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20140218140754) do
   create_table "blackouts", force: true do |t|
     t.string   "title"
     t.integer  "event_id"
-    t.date     "startdate",  null: false
-    t.date     "enddate",    null: false
+    t.datetime "startdate",  null: false
+    t.datetime "enddate",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

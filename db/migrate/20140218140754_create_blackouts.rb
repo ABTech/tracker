@@ -3,8 +3,8 @@ class CreateBlackouts < ActiveRecord::Migration
     create_table :blackouts do |t|
       t.string :title
       t.references :event, index: true
-      t.date :startdate, null: false
-      t.date :enddate, null: false
+      t.datetime :startdate, null: false
+      t.datetime :enddate, null: false
 
       t.timestamps
     end
@@ -13,8 +13,8 @@ class CreateBlackouts < ActiveRecord::Migration
       b = Blackout.new
       b.title = ed.description
       b.event = ed.event
-      b.startdate = ed.startdate
-      b.enddate = ed.enddate
+      b.startdate = ed.startdate.beginning_of_day
+      b.enddate = ed.enddate.end_of_day
       b.save
     end
     

@@ -136,9 +136,9 @@ class EventsController < ApplicationController
     @title = "Event List for " + Date::MONTHNAMES[params[:month].to_i] + " " + params[:year]
     authorize! :read, Event
     
-    @startdate = Date.civil(params["year"].to_i, params["month"].to_i, 1)
-    enddate = @startdate >> 1
-    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.beginning_of_day.utc, enddate.beginning_of_day.utc).order("startdate ASC")
+    @startdate = Time.zone.parse(params["year"] + "-" + params["month"] + "-1").to_datetime.beginning_of_month
+    enddate = @startdate.end_of_month
+    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.utc, enddate.utc).order("startdate ASC")
   end
   
   def incomplete

@@ -6,7 +6,7 @@ set :repository,  "https://github.com/ABTech/abtt.git"
 set :branch, "master"
 set :deploy_to, "/srv/rails/abtt"
 set :user, ''
-set :domain, 'abtech-tracker-d02.andrew.cmu.edu'
+set :domain, 'tracker-dev.abtech.org'
 set :rails_env, "production"
 set :rvm_type, :system
 

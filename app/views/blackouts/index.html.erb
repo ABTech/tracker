@@ -1,0 +1,42 @@
+<h2>Blackouts</h2>
+<p>These are the defined blackout periods--the periods which show up as black on minicalendars to indicate that we will not accept any new events on these dates.</p>
+<table class="generic">
+  <tr>
+    <th>Title</th>
+    <th>Period Start</th>
+    <th>Period End</th>
+    <% if can? :update, Blackout or can? :destroy, Blackout %>
+      <th></th>
+    <% end %>
+  </tr>
+
+  <% @blackouts.each do |blackout| %>
+    <tr>
+      <td>
+        <% if not blackout.title.blank? and not blackout.event.blank? %>
+          <%= link_to blackout.event.title, blackout.event %> - <%= blackout.title %>
+        <% elsif not blackout.event.blank? %>
+          <%= link_to blackout.event.title, blackout.event %>
+        <% else %>
+          <%= blackout.title %>
+        <% end %>
+      </td>
+      <td><%= blackout.startdate.strftime("%b %d, %Y") %></td>
+      <td><%= blackout.enddate.strftime("%b %d, %Y") %></td>
+      <% if can? :update, Blackout or can? :destroy, Blackout %>
+        <td>
+          <%= conditional_link_to "edit", edit_blackout_url(blackout), :update, blackout %>
+          <%= conditional_link_to_delete "delete", blackout, :destroy, blackout %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<% if can? :create, Blackout %>
+  <% content_for :more do %>
+    <ul>
+      <li><%= link_to "Create blackout period", new_blackout_url %></li>
+    </ul>
+  <% end %>
+<% end %>

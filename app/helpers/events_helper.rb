@@ -1,4 +1,37 @@
 module EventsHelper
+  def monthview(month, options={})
+    month = month.to_date
+    firstOfMonth = month.beginning_of_month
+    startDisplay = firstOfMonth.beginning_of_week
+    endOfMonth = month.end_of_month
+    endDisplay = endOfMonth.end_of_week
+    startdate = options[:full_month] ? startDisplay : firstOfMonth
+    enddate = options[:full_month] ? endDisplay : endOfMonth
+    
+    show_arrows = options[:show_arrows] || false
+    published = options[:published] || false
+    
+    eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", startDisplay, endDisplay).includes(:event)
+    blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate, startdate)
+    if published
+      eventdates = eventdates.where("events.publish = TRUE").references(:event)
+    end
+    
+    monthdates = (startDisplay..endDisplay).map do |date|
+      if date < startdate or date > enddate
+        { :date => date, :included => false, :events => [] }
+      else
+        { :date => date,
+          :included => true,
+          :events => eventdates.select {|ed| date >= ed.startdate and date <= ed.enddate },
+          :blackout => blackouts.find {|b| date >= b.startdate and date <= b.enddate }
+        }
+      end
+    end
+    
+    render :partial => "events/monthview", :locals => {monthdates: monthdates, show_arrows: show_arrows, selected: month, published: published}
+  end
+  
   def my_comment?(member)   
     member==current_member
   end
@@ -66,5 +99,17 @@ module EventsHelper
     elsif ed.striketype == "none"
       "none"
     end
+  end
+  
+  def link_to_add_blackout(f)
+    new_object = Blackout.new
+    fields = f.fields_for(:blackout, new_object, :child_index => "new_blackout") do |builder|
+      render("events/blackout_fields", :f => builder)
+    end
+    link_to("Create blackout period", "#", class:"add_blackout_fields", data: {content: "#{fields}"}, onClick: "return false")
+  end
+  
+  def link_to_remove_blackout(f)
+    f.hidden_field(:_destroy) + link_to("Remove blackout period?", "#", class: "delete_blackout_fields", onClick: "return false")
   end
 end

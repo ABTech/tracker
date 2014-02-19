@@ -42,7 +42,15 @@
           </tr>
           <tr>
             <td><%= f.label :blackout %>:</td>
-            <td><%= f.check_box :blackout %></td>
+            <td>
+              <% if f.object.blackout %>
+                <%= f.fields_for :blackout do |builder| %>
+                  <%= render :partial => "events/blackout_fields", locals: {f: builder} %>
+                <% end %>
+              <% else %>
+                <%= link_to_add_blackout f %>
+              <% end %>
+            </td>
           </tr>
           <tr>
             <td><%= f.label :billable %>:</td>

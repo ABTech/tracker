@@ -1,0 +1,7 @@
+<h1>Create a new blackout period</h1>
+
+<p>Note that this form is only for creating generic blackouts. To create a blackout that is associated with an event, edit that event and click "Create blackout period."</p>
+
+<%= form_for @blackout do |f| %>
+  <%= render :partial => "form", :locals => {f: f} %>
+<% end %>

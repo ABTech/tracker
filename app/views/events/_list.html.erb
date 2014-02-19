@@ -14,9 +14,7 @@
       <% eventdate = eventdates[i] %>
       <% event = eventdate.event %>
       <% event_class = nil
-        if eventdate.event.blackout
-          event_class = "event_blackout"
-        elsif event.status == "Event Cancelled"
+        if event.status == "Event Cancelled"
           event_class = "event_cancelled"
         elsif event.status == "Event Declined"
           event_class = "event_cancelled"
@@ -44,7 +42,7 @@
           <% else %>
             <%= eventdate.startdate.strftime("%B %d, %Y") %>
           <% end %><br />
-          <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= eventdate.event.blackout ? ", blackout" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
+          <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
         </td>
         <td>
           <%= link_to(("#{event.title} - #{eventdate.description}"),event_path(event)) %><br />
@@ -62,7 +60,7 @@
             S: <%= render_eventdate_strike eventdate %>
           </small>
         </td>
-        <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? and not event.blackout %>
+        <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? %>
         <td class="ticless">
         <% else %>
         <td>

@@ -2,7 +2,7 @@
   <% if content_for?(:calendar) %>
     <%= yield :calendar %>
   <% else %>
-    <%= render :partial => "events/monthview", :locals => {:selected => Date.today, :dates => get_sidebar_monthdates, :show_arrows => false, :full_month => true} %>
+    <%= monthview DateTime.now, :full_month => true %>
   <% end %>
   <br/>
   <form action="<%= search_events_url %>" method="get">

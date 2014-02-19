@@ -70,6 +70,7 @@ class Ability
       can :manage, Event
       can :manage, Email
       can :destroy, Comment
+      can :manage, Blackout
       
       # Read only tracker management
       can :read, Equipment

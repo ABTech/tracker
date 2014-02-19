@@ -4,10 +4,10 @@
   <% num_rows.times do |i| %>
     <tr>
       <% num_cols.times do |j| %>
-        <td><%= @eventdates_month[i*num_cols+j] == nil ? "nil!" : "" %><%= render :partial => 'monthview', :locals => {:selected => @selected_month[i*num_cols+j], :dates => @eventdates_month[i*num_cols+j], :show_arrows => false, :full_month => false} %></td>
-        <% end %>
-      </tr>
-    <% end %>
+        <td><%= monthview @selected_month[i*num_cols+j], :published => true %></td>
+      <% end %>
+    </tr>
+  <% end %>
   <tr>
     <td colspan="3" align="center">
       <form name="jumpform" method="get">

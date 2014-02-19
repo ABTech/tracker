@@ -20,7 +20,7 @@ module ApplicationHelper
   end
   
   def show_admin_link
-    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm
+    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm or can? :read, Blackout
   end
 
   Date.class_eval do
@@ -43,12 +43,6 @@ module ApplicationHelper
     rescue
       "?"
     end
-  end
-  
-  def get_sidebar_monthdates
-    startdate = DateTime.now.beginning_of_month.beginning_of_week
-    enddate = DateTime.now.end_of_month.end_of_week
-    Eventdate.where(["enddate > ? AND startdate < ?", startdate, enddate]).order("startdate ASC").includes(:event).to_a
   end
   
   def load_account_totals

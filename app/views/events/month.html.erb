@@ -6,5 +6,5 @@
 <%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
 
 <% content_for :calendar do %>
-  <%= render :partial => "events/monthview", :locals => {:selected => @startdate, :dates => @eventdates, :show_arrows => true, :full_month => false} %>
+  <%= monthview @startdate, :show_arrows => true %>
 <% end %>

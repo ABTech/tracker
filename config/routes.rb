@@ -10,6 +10,8 @@ Abtt::Application.routes.draw do
   end
 
   resources :attachments, only: [:destroy, :index]
+  
+  resources :blackouts, except: [:show]
 
   resources :comments, only: [:create, :destroy]
 

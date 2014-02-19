@@ -1,0 +1,15 @@
+<table id="event_blackout_form">
+  <tr>
+    <td><%= f.label :startdate, "Period Start" %>:</td>
+    <td><%= f.date_select :startdate %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :enddate, "Period End" %>:</td>
+    <td><%= f.date_select :enddate %></td>
+  </tr>
+  <% if not f.object.new_record? %>
+    <tr>
+      <td colspan=2><%= link_to_remove_blackout f %></td>
+    </tr>
+  <% end %>
+</table>

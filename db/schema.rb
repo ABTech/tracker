@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140217035854) do
+ActiveRecord::Schema.define(version: 20140218140754) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20140217035854) do
     t.datetime "created_at"
     t.integer  "journal_id"
   end
+
+  create_table "blackouts", force: true do |t|
+    t.string   "title"
+    t.integer  "event_id"
+    t.date     "startdate",  null: false
+    t.date     "enddate",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "blackouts", ["event_id"], name: "index_blackouts_on_event_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "member_id"
@@ -135,7 +146,6 @@ ActiveRecord::Schema.define(version: 20140217035854) do
     t.integer  "organization_id",     default: 0,                 null: false
     t.string   "status",              default: "Initial Request", null: false
     t.string   "contactemail"
-    t.boolean  "blackout",            default: false,             null: false
     t.datetime "updated_at"
     t.boolean  "publish",             default: false
     t.boolean  "rental",                                          null: false

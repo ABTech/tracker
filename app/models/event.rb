@@ -7,11 +7,13 @@ class Event < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :journals
   has_many :attachments
+  has_one :blackout, :dependent => :destroy
   
   accepts_nested_attributes_for :eventdates, :allow_destroy => true
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
   accepts_nested_attributes_for :attachments, :allow_destroy => true
   accepts_nested_attributes_for :invoices
+  accepts_nested_attributes_for :blackout, :allow_destroy => true
   
   attr_accessor :org_type, :org_new
   

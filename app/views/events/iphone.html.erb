@@ -17,9 +17,7 @@
 
 <%# STUPID hardcoded shit transposed straight from ./_list.rhtml %>
 <%# also helps skip unecessary categories %> 
-<% if eventdate.event.blackout
-	event_class = "event_blackout"
-elsif eventdate.event.status == "Event Cancelled"
+<% if eventdate.event.status == "Event Cancelled"
 	event_class = "event_cancelled"
 elsif eventdate.event.status == "Event Declined"
 	event_class = "event_cancelled"

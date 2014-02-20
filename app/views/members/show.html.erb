@@ -96,7 +96,7 @@
             <th>Role</th>
           </tr>
 
-          <% @member.event_roles.each do |er| %>
+          <% @member.event_roles.order("events.representative_date ASC").includes(:event).references(:event).each do |er| %>
             <tr>
               <td><%= link_to er.event.title, er.event %></td>
               <td><%= er.role %></td>

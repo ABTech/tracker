@@ -18,7 +18,11 @@
   
   <tr>
     <td class="subheading"><%= f.label :event_id, "Event" %>:</td>
-    <td><%= f.select :event_id, options_from_collection_for_select(Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC"), "id", "title", f.object.event_id) %></td>
+    <% if not (f.object.event.nil? or f.object.event.representative_date < Account::Magic_Date) %>
+      <td><%= f.select :event_id, options_from_collection_for_select(Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC"), "id", "title", f.object.event_id) %></td>
+    <% else %>
+      <td><%= f.object.event.title %></td>
+    <% end %>
   </tr>
   
   <tr>

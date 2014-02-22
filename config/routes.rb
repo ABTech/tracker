@@ -10,6 +10,8 @@ Abtt::Application.routes.draw do
   end
 
   resources :attachments, only: [:destroy, :index]
+  
+  resources :blackouts, except: [:show]
 
   resources :comments, only: [:create, :destroy]
 
@@ -63,7 +65,7 @@ Abtt::Application.routes.draw do
     end
   end
 
-  resources :invoices, :except => [:destroy] do
+  resources :invoices do
     member do
       post 'email'
       get 'email_confirm'

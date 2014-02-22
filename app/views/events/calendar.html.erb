@@ -4,16 +4,16 @@
   <% num_rows.times do |i| %>
     <tr>
       <% num_cols.times do |j| %>
-        <td><%= @eventdates_month[i*num_cols+j] == nil ? "nil!" : "" %><%= render :partial => 'monthview', :locals => {:selected => @selected_month[i*num_cols+j], :dates => @eventdates_month[i*num_cols+j], :show_arrows => false, :full_month => false} %></td>
-        <% end %>
-      </tr>
-    <% end %>
+        <td><%= monthview @selected_month[i*num_cols+j], :published => true %></td>
+      <% end %>
+    </tr>
+  <% end %>
   <tr>
     <td colspan="3" align="center">
       <form name="jumpform" method="get">
       <table border="0" cellpadding="3" cellspacing="0">
         <tr>
-          <% if(!@public) %>
+          <% if current_member %>
             <% EventsController::Generate_Formats.each do |fmt| %>
               <td>
                 <a href="/calendar/generate.<%= fmt %>?matchdate=<%= @selected.strftime("%Y%m%d") %>">as <%= fmt %></a>
@@ -32,8 +32,8 @@
             Jump to:
             <select name="selected" onchange="document.forms['jumpform'].submit()">
               <% (-5..5).each do |i| %>
-                <option value="<%= (@selected >> i).strftime("%Y%m%d") %>" <%= (i == 0) ? "selected" : "" %>>
-                   <%= (@selected >> i).strftime("%Y %B") %>
+                <option value="<%= (@selected + i.month).strftime("%Y%m%d") %>" <%= (i == 0) ? "selected" : "" %>>
+                   <%= (@selected + i.month).strftime("%Y %B") %>
                 </option>
               <% end %>
             </select>
@@ -45,7 +45,7 @@
   </tr>
 </table></center>
 
-<% if(!@public) %>
+<% if current_member %>
   <br/>
 
   <br/>

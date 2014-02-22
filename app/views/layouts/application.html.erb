@@ -50,8 +50,9 @@
       <%= conditional_link_to "Timecards", timecards_url, :read, Timecard %>
       <%= conditional_link_to "Invoice Items", invoice_items_url, :read, InvoiceItem %>
       <%= conditional_link_to "Form Emails", email_forms_url, :read, EmailForm %>
-      </div>
-    <% end %>
+      <%= conditional_link_to "Blackouts", blackouts_url, :read, Blackout %>
+    </div>
+  <% end %>
 <% end %>
 
 <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>

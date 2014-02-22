@@ -1,7 +1,7 @@
 class InvoicesController < ApplicationController
   layout "finance"
   
-  load_and_authorize_resource :only => [:index, :new, :edit, :update]
+  load_and_authorize_resource :only => [:index, :new, :edit, :update, :destroy]
   
   def show
     @title = "Viewing Invoice"
@@ -75,6 +75,16 @@ class InvoicesController < ApplicationController
       end
     else
       render :edit
+    end
+  end
+  
+  def destroy
+    @invoice.destroy
+    
+    if !@invoice.event.nil?
+      redirect_to @invoice.event
+    else
+      redirect_to invoices_url
     end
   end
 

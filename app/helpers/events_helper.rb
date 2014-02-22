@@ -1,23 +1,47 @@
 module EventsHelper
-  def my_comment?(member)   
-    member==current_member
+  def monthview(month, options={})
+    firstOfMonth = month.beginning_of_month
+    startDisplay = firstOfMonth.beginning_of_week
+    endOfMonth = month.end_of_month
+    endDisplay = endOfMonth.end_of_week
+    startdate = options[:full_month] ? startDisplay : firstOfMonth
+    enddate = options[:full_month] ? endDisplay : endOfMonth
+    
+    show_arrows = options[:show_arrows] || false
+    published = options[:published] || false
+    
+    eventdates = Eventdate.order("startdate ASC").where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc).includes(:event)
+    blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc)
+    if published
+      eventdates = eventdates.where("events.publish = TRUE").references(:event)
+    end
+    
+    # Ruby has difficulty with Time ranges so we have do use this kludge
+    monthdates = []
+    curdate = startDisplay
+    while curdate <= endDisplay
+      monthdates << curdate
+      curdate += 1.day
+    end
+
+    monthdates.map! do |date|
+      if date < startdate or date > enddate
+        { :date => date, :included => false, :events => [] }
+      else
+        { :date => date,
+          :included => true,
+          :events => eventdates.select {|ed| date.end_of_day >= ed.startdate and date.beginning_of_day <= ed.enddate },
+          :blackout => blackouts.find {|b| date.end_of_day >= b.startdate and date.beginning_of_day <= b.enddate }
+        }
+      end
+    end
+    
+    render :partial => "events/monthview", :locals => {monthdates: monthdates, show_arrows: show_arrows, selected: month}
   end
   
   def organizations_for_select
     Organization.active.order("name ASC").all.to_a.map do |org|
       [org.name, org.id]
-    end
-  end
-  
-  def statuses_for_select
-    Event::Event_Status_Group_All.map do |status|
-      [status, status]
-    end
-  end
-  
-  def roles_for_select
-    ([""] | EventRole::Roles_All).map do |role|
-      [role, role]
     end
   end
   
@@ -48,5 +72,35 @@ module EventsHelper
       now_year += 1
     end
     month_links.join(" | ").html_safe
+  end
+  
+  def render_eventdate_call(ed)
+    if ed.has_call?
+      ed.effective_call.strftime("%H:%M")
+    elsif ed.calltype == "blank"
+      "<span class='unknown'>unknown</span>".html_safe
+    end
+  end
+  
+  def render_eventdate_strike(ed)
+    if ed.has_strike?
+      ed.effective_strike.strftime("%H:%M")
+    elsif ed.striketype == "blank"
+      "<span class='unknown'>unknown</span>".html_safe
+    elsif ed.striketype == "none"
+      "none"
+    end
+  end
+  
+  def link_to_add_blackout(f)
+    new_object = Blackout.new
+    fields = f.fields_for(:blackout, new_object, :child_index => "new_blackout") do |builder|
+      render("events/blackout_fields", :f => builder)
+    end
+    link_to("Create blackout period", "#", class:"add_blackout_fields", data: {content: "#{fields}"}, onClick: "return false")
+  end
+  
+  def link_to_remove_blackout(f)
+    f.hidden_field(:_destroy) + link_to("Remove blackout period?", "#", class: "delete_blackout_fields", onClick: "return false")
   end
 end

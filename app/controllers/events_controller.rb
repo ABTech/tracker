@@ -53,7 +53,7 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name])
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -77,9 +77,9 @@ class EventsController < ApplicationController
     end
     
     if can? :manage, :finance
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id])
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     elsif can? :tic, @event
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :blackout, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :call_type, :strike_type, {:location_ids => []}, {:equipment_ids => []}, :call_literal, :strike_literal], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     else
       p = params.require(:event).permit(:notes, :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
       
@@ -111,7 +111,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find(params["id"]);
+    @event = Event.find(params["id"])
     authorize! :destroy, @event
     
     flash[:notice] = "Deleted event " + @event.title + "."
@@ -122,6 +122,7 @@ class EventsController < ApplicationController
 
   def delete_conf
     @title = "Delete Event Confirmation"
+    @event = Event.find(params["id"])
     authorize! :destroy, @event
   end
 
@@ -136,9 +137,9 @@ class EventsController < ApplicationController
     @title = "Event List for " + Date::MONTHNAMES[params[:month].to_i] + " " + params[:year]
     authorize! :read, Event
     
-    @startdate = Date.civil(params["year"].to_i, params["month"].to_i, 1)
-    enddate = @startdate >> 1
-    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.beginning_of_day.utc, enddate.beginning_of_day.utc).order("startdate ASC")
+    @startdate = Time.zone.parse(params["year"] + "-" + params["month"] + "-1").to_datetime.beginning_of_month
+    enddate = @startdate.end_of_month
+    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.utc, enddate.utc).order("startdate ASC")
   end
   
   def incomplete
@@ -196,21 +197,14 @@ class EventsController < ApplicationController
     @title = "Calendar"
     
     if params[:selected]
-      @selected = DateTime.parse(params[:selected])
+      @selected = Time.zone.parse(params[:selected])
     else
-      @selected = DateTime.new(Time.now.year, Time.now.month, Time.now.day)
+      @selected = Time.zone.now
     end
-
-    filterStr = "(events.publish OR events.blackout)"
-
+    
     @selected_month = []
-    @eventdates_month = []
     12.times do |i|
-      month = @selected >> (i-3);
-      @selected_month[i] = @selected >> (i-3);
-      monthStart = month - (month.day-1);
-      monthEnd   = monthStart >> 1;
-      @eventdates_month[i] = Eventdate.where("(events.publish OR events.blackout) AND enddate >= ? AND startdate <= ?", monthStart.beginning_of_day.utc, monthEnd.beginning_of_day.utc).order("startdate ASC").includes(:event).references(:event)
+      @selected_month[i] = @selected + (i-3).months
     end
 
     if not member_signed_in?

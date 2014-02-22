@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  event_id: 
+  startdate: 2014-02-18
+  enddate: 2014-02-18
+
+two:
+  title: MyString
+  event_id: 
+  startdate: 2014-02-18
+  enddate: 2014-02-18

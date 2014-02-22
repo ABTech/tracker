@@ -4,16 +4,18 @@ class Eventdate < ActiveRecord::Base
   has_and_belongs_to_many :locations
   has_and_belongs_to_many :equipment
 
-  validates_presence_of :startdate, :enddate, :description, :locations
+  validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
   validates_associated :locations, :equipment
   validate :dates, :validate_call, :validate_strike
-  
-  attr_accessor :call_literal, :strike_literal, :call_is_literal, :strike_is_literal
   
   after_save :synchronize_representative_date
 
   Event_Span_Days       = 2;
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
+  
+  include Enumerize
+  enumerize :calltype, in: ["literal", "blank"]
+  enumerize :striketype, in: ["literal", "enddate", "none", "blank"]
 
   def dates
     if startdate and enddate
@@ -30,61 +32,40 @@ class Eventdate < ActiveRecord::Base
   end
   
   def valid_call?
-    calldate.nil? || (
+    (calltype != "literal") || (
           (calldate.to_i < startdate.to_i) &&
           ((startdate.to_i - calldate.to_i) < Event_Span_Seconds))
   end
 
   def valid_strike?
-    strikedate.nil? || (
+    (striketype != "literal") || (
           (strikedate.to_i >= enddate.to_i) &&
           ((strikedate.to_i - enddate.to_i) < Event_Span_Seconds))
   end
   
-  def call_type=(type)
-    if type == "blank"
-      self.calldate = nil
-    elsif type == "literal"
-      self.call_is_literal = true
-    end
+  def has_call?
+    self.calltype == "literal"
   end
   
-  def call_type
-    return "blank" if self.calldate.nil?
-    return "literal"
+  def has_strike?
+    self.striketype == "literal" or self.striketype == "enddate"
   end
   
-  def strike_type=(type)
-    if type == "blank"
-      self.strikedate = nil
-    elsif type == "enddate"
-      self.strikedate = self.enddate
-    elsif type == "literal"
-      self.strike_is_literal = true
-      self.strikedate = self.strike_literal
-    end
+  def effective_call
+    return nil unless self.has_call?
+    self.calldate
   end
   
-  def strike_type
-    return "blank" if self.strikedate.nil?
-    return "enddate" if self.strikedate == self.enddate
-    return "literal"
-  end
-  
-  def call_literal=(literal)
-    @call_literal = literal
-    self.calldate = literal if self.call_is_literal
-  end
-  
-  def strike_literal=(literal)
-    @strike_literal = literal
-    self.strikedate = literal if self.strike_is_literal
+  def effective_strike
+    return nil unless self.has_strike?
+    return self.enddate if self.striketype == "enddate"
+    self.strikedate
   end
   
   def times
     times = []
     
-    if !self.calldate.nil?
+    if self.calltype == "literal"
       times << { :date => self.calldate, :name => "Call", :same => false }
       times << { :date => self.startdate, :name => "Event Starts", :same => (self.startdate.day == self.calldate.day)}
     else
@@ -93,8 +74,10 @@ class Eventdate < ActiveRecord::Base
     
     times << { :date => self.enddate, :name => "Event Ends", :same => (self.enddate.day == self.startdate.day)}
     
-    if !self.strikedate.nil?
+    if self.striketype == "literal"
       times << { :date => self.strikedate, :name => "Strike", :same => (self.strikedate.day == self.enddate.day)}
+    elsif self.striketype == "enddate"
+      times << { :date => self.enddate, :name => "Strike", :same => true}
     end
     
     times

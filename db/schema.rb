@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140209044142) do
+ActiveRecord::Schema.define(version: 20140218140754) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20140209044142) do
     t.datetime "created_at"
     t.integer  "journal_id"
   end
+
+  create_table "blackouts", force: true do |t|
+    t.string   "title"
+    t.integer  "event_id"
+    t.datetime "startdate",  null: false
+    t.datetime "enddate",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "blackouts", ["event_id"], name: "index_blackouts_on_event_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "member_id"
@@ -116,6 +127,8 @@ ActiveRecord::Schema.define(version: 20140209044142) do
     t.string   "description", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "calltype",    null: false
+    t.string   "striketype",  null: false
   end
 
   add_index "eventdates", ["description"], name: "eventdates_description_index", using: :btree
@@ -133,7 +146,6 @@ ActiveRecord::Schema.define(version: 20140209044142) do
     t.integer  "organization_id",     default: 0,                 null: false
     t.string   "status",              default: "Initial Request", null: false
     t.string   "contactemail"
-    t.boolean  "blackout",            default: false,             null: false
     t.datetime "updated_at"
     t.boolean  "publish",             default: false
     t.boolean  "rental",                                          null: false
@@ -214,14 +226,14 @@ ActiveRecord::Schema.define(version: 20140209044142) do
   end
 
   create_table "members", force: true do |t|
-    t.string   "namefirst",                                             null: false
-    t.string   "namelast",                                              null: false
-    t.string   "email",                                                 null: false
-    t.string   "namenick",                              default: "",    null: false
-    t.string   "phone",                                                 null: false
-    t.string   "aim",                                                   null: false
-    t.string   "encrypted_password",        limit: 128, default: "",    null: false
-    t.string   "password_salt",                         default: "",    null: false
+    t.string   "namefirst",                                                        null: false
+    t.string   "namelast",                                                         null: false
+    t.string   "email",                                                            null: false
+    t.string   "namenick",                              default: "",               null: false
+    t.string   "phone",                                                            null: false
+    t.string   "aim",                                                              null: false
+    t.string   "encrypted_password",        limit: 128, default: "",               null: false
+    t.string   "password_salt",                         default: "",               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
@@ -232,13 +244,13 @@ ActiveRecord::Schema.define(version: 20140209044142) do
     t.float    "payrate"
     t.string   "ssn"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         default: 0,     null: false
+    t.integer  "sign_in_count",                         default: 0,                null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "role",                                                  null: false
-    t.boolean  "tracker_dev",                           default: false, null: false
+    t.string   "role",                                  default: "general_member", null: false
+    t.boolean  "tracker_dev",                           default: false,            null: false
   end
 
   add_index "members", ["email"], name: "members_kerbid_index", using: :btree

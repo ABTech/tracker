@@ -14,9 +14,13 @@
         <% end %>
       </div>
   
-      <b><%= @event.status %></b>,
+      <p><b><%= @event.status %></b>,
       <%= @event.rental ? "Rental" : "Full Event" %>,
-      <%= @event.publish ? "Published" : "Not Published" %>
+      <%= @event.publish ? "Published" : "Not Published" %></p>
+      
+      <% if @event.blackout %>
+        <p>Blackout from <b><%= @event.blackout.startdate.strftime("%b %d, %Y") %></b> to <b><%= @event.blackout.enddate.strftime("%b %d, %Y") %></b>.</p>
+      <% end %>
     </div>
   
     <div id="event-schedule">
@@ -256,7 +260,7 @@
   </div>
 </div>
 
-<% if can? [:update, :destroy], @event or can? :read, Timecard or not @event.emails.empty? %>
+<% if can? :update, @event or can? :destroy, @event or can? :read, Timecard or not @event.emails.empty? %>
   <% content_for :more do %>
     <ul>
       <% if can? :read, Timecard %>

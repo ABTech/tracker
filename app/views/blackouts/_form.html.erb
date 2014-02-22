@@ -1,0 +1,36 @@
+<% if @blackout.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@blackout.errors.count, "error") %> prohibited
+      this blackout from being saved:</h2>
+    <ul>
+    <% @blackout.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table class="generic">
+  <tr>
+    <th class="subheading"><%= f.label :title %>:</th>
+    <td><%= f.text_field :title %></td>
+  </tr>
+  <% if f.object.event %>
+    <tr>
+      <th class="subheading">Event:</th>
+      <td><%= f.object.event.title %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <th class="subheading"><%= f.label :startdate, "Period Start" %>:</th>
+    <td><%= f.date_select :startdate %></td>
+  </tr>
+  <tr>
+    <th class="subheading"><%= f.label :enddate, "Period End" %>:</th>
+    <td><%= f.date_select :enddate %></td>
+  </tr>
+  <tr>
+    <th class="subheading"></th>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

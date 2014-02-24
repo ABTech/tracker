@@ -10,10 +10,10 @@ module EventsHelper
     show_arrows = options[:show_arrows] || false
     published = options[:published] || false
     
-    eventdates = Eventdate.order("startdate ASC").where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc).includes(:event)
+    eventdates = Eventdate.order("startdate ASC").where("startdate <= ? AND enddate >= ? AND events.status IN (?)", enddate.utc, startdate.utc, Event::Event_Status_Group_Not_Cancelled).includes(:event).references(:event)
     blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc)
     if published
-      eventdates = eventdates.where("events.publish = TRUE").references(:event)
+      eventdates = eventdates.where("events.publish = TRUE")
     end
     
     # Ruby has difficulty with Time ranges so we have do use this kludge

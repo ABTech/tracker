@@ -14,7 +14,7 @@ class Eventdate < ActiveRecord::Base
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
   
   include Enumerize
-  enumerize :calltype, in: ["literal", "blank"]
+  enumerize :calltype, in: ["literal", "blank", "startdate"]
   enumerize :striketype, in: ["literal", "enddate", "none", "blank"]
 
   def dates
@@ -33,7 +33,7 @@ class Eventdate < ActiveRecord::Base
   
   def valid_call?
     (calltype != "literal") || (
-          (calldate.to_i < startdate.to_i) &&
+          (calldate.to_i <= startdate.to_i) &&
           ((startdate.to_i - calldate.to_i) < Event_Span_Seconds))
   end
 
@@ -44,7 +44,7 @@ class Eventdate < ActiveRecord::Base
   end
   
   def has_call?
-    self.calltype == "literal"
+    self.calltype == "literal" or self.calltype == "startdate"
   end
   
   def has_strike?
@@ -53,6 +53,7 @@ class Eventdate < ActiveRecord::Base
   
   def effective_call
     return nil unless self.has_call?
+    return self.startdate if self.calltype == "startdate"
     self.calldate
   end
   
@@ -65,19 +66,17 @@ class Eventdate < ActiveRecord::Base
   def times
     times = []
     
-    if self.calltype == "literal"
-      times << { :date => self.calldate, :name => "Call", :same => false }
-      times << { :date => self.startdate, :name => "Event Starts", :same => (self.startdate.day == self.calldate.day)}
+    if self.has_call?
+      times << { :date => self.effective_call, :name => "Call", :same => false }
+      times << { :date => self.startdate, :name => "Event Starts", :same => (self.startdate.day == self.effective_call.day)}
     else
       times << { :date => self.startdate, :name => "Event Starts", :same => false }
     end
     
     times << { :date => self.enddate, :name => "Event Ends", :same => (self.enddate.day == self.startdate.day)}
     
-    if self.striketype == "literal"
-      times << { :date => self.strikedate, :name => "Strike", :same => (self.strikedate.day == self.enddate.day)}
-    elsif self.striketype == "enddate"
-      times << { :date => self.enddate, :name => "Strike", :same => true}
+    if self.has_strike?
+      times << { :date => self.effective_strike, :name => "Strike", :same => (self.effective_strike.day == self.enddate.day)}
     end
     
     times

@@ -10,6 +10,9 @@
         <%= f.radio_button :calltype, "blank" %>
         <%= f.label :call_type_blank, "blank" %>
         <br />
+        <%= f.radio_button :calltype, "startdate" %>
+        <%= f.label :call_type_startdate, "startdate" %>
+        <br />
         <%= f.radio_button :calltype, "literal" %>
         <%= f.label :call_type_literal, "literal" %>
         <%= f.text_field :calldate, value: (f.object.calldate ? f.object.calldate.strftime('%Y/%m/%d %H:%M') : ""), placeholder: "yyyy/mm/dd hh:mm" %>

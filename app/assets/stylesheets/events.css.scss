@@ -19,6 +19,12 @@ table.eventslist {
 	width: 99%;
 	margin: 0 20px 0 0;
 }
+
+.eventslist td:first-child
+{
+  width: 3px;
+}
+
 table.eventslist > tbody > tr > th {
 	border: 1px solid #BBBBBB;
 	background: #F0F0F0;

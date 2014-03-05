@@ -9,9 +9,16 @@ module EventsHelper
     
     show_arrows = options[:show_arrows] || false
     published = options[:published] || false
+    show_blackouts = options[:blackouts] || false
     
     eventdates = Eventdate.order("startdate ASC").where("startdate <= ? AND enddate >= ? AND events.status IN (?)", enddate.utc, startdate.utc, Event::Event_Status_Group_Not_Cancelled).includes(:event).references(:event)
-    blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc)
+    
+    if show_blackouts
+      blackouts = Blackout.where("startdate <= ? AND enddate >= ?", enddate.utc, startdate.utc)
+    else
+      blackouts = []
+    end
+    
     if published
       eventdates = eventdates.where("events.publish = TRUE")
     end
@@ -40,6 +47,9 @@ module EventsHelper
   end
   
   def eventslist(eventdates)
+    # The following code establishes "runs" of eventdates with the same event
+    # because we want such runs to share a roles field instead of displaying
+    # the same, potentially large, roles field multiple times.
     eventdates = eventdates.to_a
     eventruns = [0]
     er = eventdates.reverse

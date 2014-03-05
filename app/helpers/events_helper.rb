@@ -39,6 +39,39 @@ module EventsHelper
     render :partial => "events/monthview", :locals => {monthdates: monthdates, show_arrows: show_arrows, selected: month}
   end
   
+  def eventslist(eventdates)
+    eventdates = eventdates.to_a
+    eventruns = [0]
+    er = eventdates.reverse
+    er.each_with_index do |ed,i|
+      if i > 0
+        if er[i-1].event == ed.event
+          eventruns[i] = eventruns[i-1] + 1
+        else
+          eventruns[i] = 0
+        end
+      end
+    end
+    eventruns.reverse!
+    eventdates.map!.with_index do |ed,i|
+      if eventruns[i] > 0
+        if i == 0 or eventruns[i-1] == 0
+          { :eventdate => ed, :roles => :show, :run => eventruns[i] + 1 }
+        else
+          { :eventdate => ed, :roles => :hide, :run => 1 }
+        end
+      else
+        if i > 0 and eventruns[i-1] > 0
+          { :eventdate => ed, :roles => :hide, :run => 1 }
+        else
+          { :eventdate => ed, :roles => :show, :run => 1 }
+        end
+      end
+    end
+    
+    render :partial => "events/list", :locals => { :eventdates => eventdates }
+  end
+  
   def organizations_for_select
     Organization.active.order("name ASC").all.to_a.map do |org|
       [org.name, org.id]

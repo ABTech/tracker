@@ -3,7 +3,7 @@
   <span id="event-sel-time"><b>Future (<%= @eventdates.count %>)</b> | <%= link_to "Past", past_events_url %></span>
 </div>
 
-<%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
+<%= eventslist @eventdates %>
 
 <% content_for :more do %>
   <ul>

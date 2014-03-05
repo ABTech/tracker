@@ -54,8 +54,12 @@ table.eventslist tr.event_completed > td:first-child { background: #00A4FF; font
 table.eventslist tr.event_cancelled { background: #F9F9F9; color: #AAAAAA; }
 table.eventslist tr.event_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
 table.eventslist tr.event_cancelled a { color: #9999FF; }
-table.eventslist tr.event_incomplete { background: #F7F7D3; }
-table.eventslist tr.event_incomplete > td:first-child { background: #FFFF00; font-size: 5px; }
+table.eventslist tr.quote_sent,
+table.eventslist tr.tentative_date,
+table.eventslist tr.details_requested { background: #F7F7D3; }
+table.eventslist tr.quote_sent > td:first-child,
+table.eventslist tr.tentative_date > td:first-child,
+table.eventslist tr.details_requested > td:first-child { background: #FFFF00; font-size: 5px; }
 table.eventslist tr.initial_request { background: #F2C7C7; }
 table.eventslist tr.initial_request> td:first-child { background: #FF0000; font-size: 5px; }
 table.eventslist tr.event_blackout { background: #666666; color: #DDDDDD; }

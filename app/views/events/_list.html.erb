@@ -9,31 +9,10 @@
   <% if eventdates.empty? %>
     <tr><td colspan="6" style="text-align: center; padding: 10px 0">No events found!</td></tr>
   <% else %>
-    <% (0..(eventdates.size-1)).each do |i| %>
-      <% eventdate = eventdates[i] %>
+    <% eventdates.each do |ed| %>
+      <% eventdate = ed[:eventdate] %>
       <% event = eventdate.event %>
-      <% event_class = nil
-        if event.status == "Event Cancelled"
-          event_class = "event_cancelled"
-        elsif event.status == "Event Declined"
-          event_class = "event_cancelled"
-        elsif event.status == "Event Completed"
-          event_class = "event_completed"
-        elsif event.status == "Event Confirmed"
-          event_class = "event_confirmed"
-        elsif event.status == "Initial Request"
-          event_class = "initial_request"
-        elsif event.status == "Tentative Date"
-          event_class = "initial_request"
-        elsif event.status == "Quote Sent"
-          event_class = "event_confirmed"
-        elsif event.status == "Billing Pending"
-          event_class = "billing_pending"
-        else
-          event_class = "event_incomplete"
-        end
-      %>
-      <tr <%= "class='".html_safe + event_class + "'".html_safe if event_class %>>
+      <tr class="<%= event.status.delete(' ').underscore %>">
         <td>&nbsp;</td>
         <td>
           <% if eventdate.startdate.year == Date.today.year %>
@@ -48,9 +27,9 @@
           <small class="organization"><%= event.organization.name %></small>
         </td>
         <td style="white-space: normal;">
-                                  <%= eventdate.locations.join("<br />").html_safe %>
-                                  <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
-                                  <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+          <%= eventdate.locations.join("<br />").html_safe %>
+          <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
+          <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
         </td>
         <td>
           <small>
@@ -59,15 +38,17 @@
             S: <%= render_eventdate_strike eventdate %>
           </small>
         </td>
-        <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? %>
-        <td class="ticless">
-        <% else %>
-        <td>
-        <% end %>
-          <% event.event_roles.sort.each do |role| %>
-            <%= role.to_s() %><br />
+        <% if ed[:roles] == :show %>
+          <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? %>
+          <td class="ticless" rowspan="<%= ed[:run] %>">
+          <% else %>
+          <td rowspan="<%= ed[:run] %>">
           <% end %>
-        </td>
+            <% event.event_roles.sort.each do |role| %>
+              <%= role.to_s() %><br />
+            <% end %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   <% end %>

@@ -1,0 +1,37 @@
+<h1>Members Sorted by Run Positions</h1>
+
+<ul id="rp-anchors">
+  <% EventRole::Roles_All.each do |role| %>
+    <li><%= link_to role, "#" + role.downcase %></li>
+  <% end %>
+</ul>
+
+<table id="rp-lists">
+  <% @roles.each_slice(5) do |slice| %>
+    <tr>
+      <% slice.each do |role| %>
+        <td>
+          <h2 id="<%= role[:role].downcase %>"><%= role[:role] %></h2>
+  
+          <table class="generic">
+            <tr>
+              <th>Member</th>
+              <th>Events</th>
+            </tr>
+    
+            <% role[:members].each do |member| %>
+              <tr>
+                <% if can? :show, member %>
+                  <td><%= link_to member[:member].to_s, member[:member] %></td>
+                <% else %>
+                  <td><%= member[:member].to_s %></td>
+                <% end %>
+                <td><%= member[:count] %></td>
+              </tr>
+            <% end %>
+          </table>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

@@ -72,6 +72,21 @@ class MembersController < ApplicationController
     @shirt_sizes = @members.active.where.not(shirt_size: nil).sort_by {|m| Member.shirt_size.values.index(m.shirt_size)}.group_by(&:shirt_size)
   end
   
+  def roles
+    @roles = EventRole::Roles_All.map do |role|
+      counts = EventRole.where(role: role).group(:member_id).count
+      { :role => role, :members =>
+        Member.all.reject do |m|
+          not counts.has_key? m.id or counts[m.id] == 0
+        end.sort_by do |m|
+          counts[m.id]
+        end.reverse.map do |m|
+          { :member => m, :count => counts[m.id] }
+        end
+      }
+    end
+  end
+  
   private
     def member_params
       if params[:member][:password].blank?

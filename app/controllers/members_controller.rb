@@ -73,10 +73,16 @@ class MembersController < ApplicationController
   end
   
   def roles
+    if params[:show] == "all"
+      members = Member.all
+    else
+      members = Member.active
+    end
+    
     @roles = EventRole::Roles_All.map do |role|
       counts = EventRole.where(role: role).group(:member_id).count
       { :role => role, :members =>
-        Member.all.reject do |m|
+        members.reject do |m|
           not counts.has_key? m.id or counts[m.id] == 0
         end.sort_by do |m|
           counts[m.id]

@@ -21,7 +21,7 @@
     
             <% role[:members].each do |member| %>
               <tr>
-                <% if can? :show, member %>
+                <% if can? :show, member[:member] %>
                   <td><%= link_to member[:member].to_s, member[:member] %></td>
                 <% else %>
                   <td><%= member[:member].to_s %></td>

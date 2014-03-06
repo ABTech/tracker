@@ -145,8 +145,12 @@ class Event < ActiveRecord::Base
     self.event_roles.where(member: member).count > 0
   end
   
-  def run_positions(member)
+  def run_positions_for(member)
     self.event_roles.where(member: member)
+  end
+  
+  def techies
+    self.event_roles.includes(:member).map(&:member).uniq.compact
   end
   
   private

@@ -65,7 +65,11 @@
   
   <div id="event-container-right">
     <div id="event-roles" class="event-box">
-      <h4>Roles</h4>
+      <% if @event.techies.empty? %>
+        <h4>Roles</h4>
+      <% else %>
+        <h4>Roles (<%= mail_to @event.techies.map(&:email).join(","), "email" %>)</h4>
+      <% end %>
 
       <ul>
         <% @event.event_roles.sort.each do |role| %>

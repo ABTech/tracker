@@ -36,7 +36,13 @@
   <% end %>
 </table>
 
-<% if not params[:show] == "all" %>
+<% if params[:show] == "all" %>
+  <% content_for :more do %>
+    <ul>
+      <li><%= link_to "Show only active members", roles_members_url %></li>
+    </ul>
+  <% end %>
+<% else %>
   <% content_for :more do %>
     <ul>
       <li><%= link_to "Show inactive members", roles_members_url(:show => "all") %></li>

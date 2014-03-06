@@ -79,7 +79,8 @@ class MembersController < ApplicationController
       members = Member.active
     end
     
-    @roles = EventRole::Roles_All.map do |role|
+    @visible_roles = EventRole::Roles_All - [EventRole::Role_HoT, EventRole::Role_exec]
+    @roles = @visible_roles.map do |role|
       counts = EventRole.where(role: role).group(:member_id).count
       { :role => role, :members =>
         members.reject do |m|

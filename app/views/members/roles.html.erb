@@ -1,7 +1,7 @@
 <h1>Members Sorted by Run Positions</h1>
 
 <ul id="rp-anchors">
-  <% EventRole::Roles_All.each do |role| %>
+  <% @visible_roles.each do |role| %>
     <li><%= link_to role, "#" + role.downcase %></li>
   <% end %>
 </ul>

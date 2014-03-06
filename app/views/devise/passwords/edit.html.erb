@@ -1,16 +1,35 @@
-<h2>Change your password</h2>
+<% @title = "Reset Password" %>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div><%= f.label :password, "New password" %><br />
-  <%= f.password_field :password, :autofocus => true %></div>
-
-  <div><%= f.label :password_confirmation, "Confirm new password" %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.submit "Change my password" %></div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<table width="100%" height="100%" class="login-box" style="padding-right: 40px">
+    <tr><td align="center" valign="middle">
+      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+        <%= f.hidden_field :reset_password_token %>
+        <table>
+          <tr>
+            <td></td>
+            <td><strong>Change your password</strong></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= devise_error_messages! %></td>
+          </tr>
+          <tr>
+            <td align="right"><%= f.label :password, "New password:" %></td>
+            <td><%= f.password_field :password, :autofocus => true, size: 32 %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :password_confirmation, "Confirm new password:" %></td>
+            <td><%= f.password_field :password_confirmation, size: 32 %></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= f.submit "Change my password" %></td>
+          </tr>
+        </table>
+      <% end %>
+    </tr>
+  </td>
+</table>

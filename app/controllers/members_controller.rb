@@ -84,7 +84,8 @@ class MembersController < ApplicationController
       counts = EventRole.where(role: role).group(:member_id).count
       { :role => role, :members =>
         members.reject do |m|
-          not counts.has_key? m.id or counts[m.id] == 0
+          # m.id == 5 test is so that Sam Abtek doesn't show up in results
+          not counts.has_key? m.id or counts[m.id] == 0 or m.id == 5
         end.sort_by do |m|
           counts[m.id]
         end.reverse.map do |m|

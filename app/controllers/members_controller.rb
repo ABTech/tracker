@@ -73,6 +73,8 @@ class MembersController < ApplicationController
   end
   
   def roles
+    @title = "Members by Role"
+
     if params[:show] == "all"
       members = Member.all
     else

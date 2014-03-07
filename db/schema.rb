@@ -11,12 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306180705) do
+ActiveRecord::Schema.define(version: 20140307214301) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
     t.boolean  "is_credit",  null: false
     t.integer  "position",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "allocations", force: true do |t|
+    t.string   "category",                             null: false
+    t.string   "object_code",                          null: false
+    t.string   "line_item",                            null: false
+    t.decimal  "budget",      precision: 10, scale: 0, null: false
+    t.integer  "year",                                 null: false
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -37,6 +37,7 @@ class Ability
       can :read, Organization
       can :read, Attachment
       can :tshirts, Member
+      can :roles, Member
     end
     
     if member.is_at_least? :general_member

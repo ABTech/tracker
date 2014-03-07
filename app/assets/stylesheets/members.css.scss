@@ -8,3 +8,19 @@
     padding-right: 2em;
   }
 }
+
+#rp-anchors li {
+  display: inline;
+  
+  &+li:before {
+    content: " - ";
+  }
+}
+
+#rp-lists td {
+  vertical-align: top;
+  
+  &+td {
+    padding-left: 1em;
+  }
+}

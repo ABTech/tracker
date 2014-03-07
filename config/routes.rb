@@ -93,6 +93,7 @@ Abtt::Application.routes.draw do
   resources :members do
     collection do
       get 'tshirts'
+      get 'roles'
     end
   end
 

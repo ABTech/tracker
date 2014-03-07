@@ -87,7 +87,7 @@ class EventsController < ApplicationController
       # can only delete yourself from a run position, assign a member who isn't
       # you to be one of your assistants, or modify a run position which is one
       # of your assistants
-      assistants = @event.run_positions(current_member).flat_map(&:assistants)
+      assistants = @event.run_positions_for(current_member).flat_map(&:assistants)
       p[:event_roles_attributes].select! do |bleh,er|
         if er[:id]
           rer = EventRole.find(er[:id])

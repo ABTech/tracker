@@ -126,7 +126,7 @@
         <%= render :partial => 'events/event_role_fields', :locals => {:f => builder} %>
       <% end %>
     
-      <% if can? :tic, @event or not @event.run_positions(current_member).flat_map(&:assistants).empty? %>
+      <% if can? :tic, @event or not @event.run_positions_for(current_member).flat_map(&:assistants).empty? %>
         <tr>
           <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2", "events" %></td>
         </tr>

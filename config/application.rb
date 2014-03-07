@@ -25,6 +25,7 @@ module Abtt
     
     config.to_prepare do
       Devise::SessionsController.layout "application"
+      Devise::PasswordsController.layout "application"
     end
   end
 end

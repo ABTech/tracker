@@ -4,4 +4,4 @@
   <span id="event-sel-time"><%= link_to "Future", events_url %> | <%= link_to "Past", past_events_url %></span>
 </div>
 
-<%= render :partial => "list", :locals => {:eventdates => @eventdates} %>
+<%= eventslist @eventdates %>

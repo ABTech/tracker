@@ -64,7 +64,7 @@
               <th>Techie</th>
             </tr>
       
-            <%= f.fields_for :event_roles do |builder| %>
+            <%= f.fields_for :eventdate_roles do |builder| %>
               <%= render :partial => 'events/eventdate_role_fields', :locals => {:f => builder} %>
             <% end %>
 

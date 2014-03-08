@@ -5,6 +5,8 @@ class Eventdate < ActiveRecord::Base
   has_and_belongs_to_many :locations
   has_and_belongs_to_many :equipment
 
+  accepts_nested_attributes_for :eventdate_roles, :allow_destroy => true
+
   validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
   validates_associated :locations, :equipment
   validate :dates, :validate_call, :validate_strike

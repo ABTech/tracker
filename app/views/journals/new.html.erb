@@ -21,7 +21,7 @@ function toggle_notes(id) {
     <%= hidden_field_tag "event_id", @event_id %>
   <% end %>
   <table class="generic">
-          <tr><th>Date</th><th>Account</th><th>Event</th><th>Memo</th><th>Amount</th><th>Category</th><th>Notes</th><th>Attachment</th></tr>
+          <tr><th>Date</th><th>Account</th><th>Event</th><th>Memo</th><th>Amount</th><th>Category</th><th>Line Item</th><th>Notes</th><th>Attachment</th></tr>
     <% num_journals = 10 %>
     <input type="hidden" name="njournals" value="<%= num_journals %>"/>
     
@@ -42,7 +42,9 @@ function toggle_notes(id) {
           <%= select("journal#{i}", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect{|j|j.paymeth_category}, :include_blank => true)%>
           </div>
         </td>
-
+        <td>
+          <%= select("journal#{i}", "allocation_id", Allocation.where(year: Date.today.fiscal_year).collect{|a| [a.line_item, a.id]}, include_blank: true) %>
+        </td>
         <td>
           <%= text_area("journal#{i}", "notes", :rows => 6, :class => "hidden") %>
           <input id="toggle_<%= i %>" type="button" value="Add Notes" onclick="toggle_notes(<%= i %>)"/>

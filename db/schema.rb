@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140307214301) do
+ActiveRecord::Schema.define(version: 20140307233642) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -222,6 +222,7 @@ ActiveRecord::Schema.define(version: 20140307214301) do
     t.integer  "event_id"
     t.string   "paymeth_category",                         default: ""
     t.datetime "updated_at"
+    t.integer  "allocation_id"
   end
 
   add_index "journals", ["invoice_id"], name: "journals_link_id_index", using: :btree

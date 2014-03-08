@@ -62,7 +62,17 @@ fieldset { width:40% }
         "None"
       end%>
     </td>
-  </tr> 
+  </tr>
+  <tr>
+    <th>Line Item:</th>
+    <td>
+      <% if @journal.allocation %>
+        <%= @journal.allocation.line_item %>
+      <% else %>
+        None
+      <% end %>
+    </td>
+  </tr>
   <tr>
     <th>Notes:</th>
     <td>

@@ -101,7 +101,12 @@ fieldset { width:40% }
       <%= select("journal", "event_id", options_from_collection_for_select(@events, 'id', 'title'), {:include_blank=>true}) %>
     </td>
   </tr>
-    
+  <tr>
+    <th>Line Item:</th>
+    <td>
+      <%= select("journal", "allocation_id", Allocation.where(year: Date.today.fiscal_year).collect{|a| [a.line_item, a.id]}, include_blank: true)%>
+    </td>
+  </tr>
   <tr>
     <th>Notes:</th>
     <td>

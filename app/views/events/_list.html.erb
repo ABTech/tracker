@@ -39,15 +39,27 @@
           </small>
         </td>
         <% if ed[:roles] == :show %>
-          <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? %>
-          <td class="ticless" rowspan="<%= ed[:run] %>">
-          <% else %>
-          <td rowspan="<%= ed[:run] %>">
-          <% end %>
+          <% if not eventdate.override_roles %>
+            <% if event.event_roles.find_by_role("TIC") and event.event_roles.find_by_role("TIC").member.nil? %>
+              <td class="ticless" rowspan="<%= ed[:run] %>">
+            <% else %>
+              <td rowspan="<%= ed[:run] %>">
+            <% end %>
             <% event.event_roles.sort.each do |role| %>
               <%= role.to_s() %><br />
             <% end %>
-          </td>
+            </td>
+          <% else %>
+            <% if eventdate.eventdate_roles.find_by_role("TIC") and eventdate.eventdate_roles.find_by_role("TIC").member.nil? %>
+              <td class="ticless" rowspan="<%= ed[:run] %>">
+            <% else %>
+              <td rowspan="<%= ed[:run] %>">
+            <% end %>
+              <% eventdate.eventdate_roles.sort.each do |role| %>
+                <%= role.to_s() %><br />
+              <% end %>
+            </td>
+          <% end %>        
         <% end %>
       </tr>
     <% end %>

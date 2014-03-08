@@ -39,7 +39,7 @@
               <td class="es-time"><%= time[:date].strftime("%H:%M") %></td>
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
-                <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
+                <td rowspan="<%= eventdate.times.size %>" class="es-locequip" <%= "colspan=2" unless eventdate.override_roles %>>
                   <b>Location:</b><br />
                   <%= eventdate.locations.join("<br />").html_safe %><br />
                   <% if !eventdate.equipment.empty? %>

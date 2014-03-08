@@ -10,6 +10,9 @@ class MembersController < ApplicationController
     end
 
     @members = @members.order(@order)
+    if params[:active_only] == "1"
+      @members = @members.active
+    end
 
     respond_to do |format|
       format.html

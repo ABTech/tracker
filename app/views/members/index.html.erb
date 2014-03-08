@@ -58,7 +58,13 @@
     <% if can? :create, Member %>
       <li><%= link_to "New member", new_member_path %></li>
     <% end %>
-    <li><%= link_to 'Download as V-Cards', members_path(:format => :vcf) %></li>
+    <% if params[:active_only] == "1" %>
+      <li><%= link_to 'Show all members', members_path() %></li>
+      <li><%= link_to 'Download as V-Cards', {:format => :vcf, :active_only => "1"}  %></li>
+    <% else %>
+      <li><%= link_to 'Show active members only', {:active_only => "1"} %></li>
+      <li><%= link_to 'Download as V-Cards', members_path(:format => :vcf) %></li>
+    <% end %>
     <li><%= link_to 'Generate T-Shirt Order', tshirts_members_url %></li>
     <li><%= link_to 'List Members by Run Position', roles_members_url %></li>
   </ul>

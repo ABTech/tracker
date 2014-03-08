@@ -48,6 +48,7 @@
                     <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
                   <% end %>
                 </td>
+                <% if eventdate.override_roles %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-roles">
                   <b>Roles:</b><br>
                   <ul>
@@ -56,6 +57,7 @@
                     <% end %>
                   </ul>
                 </td>
+                <% end %>
               <% end %>
             </tr>
           <% end %>

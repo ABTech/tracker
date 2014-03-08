@@ -173,14 +173,15 @@ table.eventslist .ticless {
 
 #event-schedule td.es-locequip {
   border-right: none;
-  width: 100%;
 }
 
+.es-roles ul,
 #event-roles ul,
 #event-more ul {
   padding: 0;
 }
 
+.es-roles ul li,
 #event-roles ul li,
 #event-more ul li {
   display: block;

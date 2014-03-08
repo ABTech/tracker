@@ -48,6 +48,14 @@
                     <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
                   <% end %>
                 </td>
+                <td rowspan="<%= eventdate.times.size %>" class="es-roles">
+                  <b>Roles:</b><br>
+                  <ul>
+                    <% eventdate.eventdate_roles.each do |role| %>
+                      <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+                    <% end %>
+                  </ul>
+                </td>
               <% end %>
             </tr>
           <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306180705) do
+ActiveRecord::Schema.define(version: 20140308190232) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -117,6 +117,17 @@ ActiveRecord::Schema.define(version: 20140306180705) do
   add_index "event_roles", ["event_id"], name: "event_roles_event_id_index", using: :btree
   add_index "event_roles", ["member_id"], name: "event_roles_member_id_index", using: :btree
   add_index "event_roles", ["role"], name: "event_roles_role_index", using: :btree
+
+  create_table "eventdate_roles", force: true do |t|
+    t.integer  "eventdate_id"
+    t.integer  "member_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "eventdate_roles", ["eventdate_id"], name: "index_eventdate_roles_on_eventdate_id", using: :btree
+  add_index "eventdate_roles", ["member_id"], name: "index_eventdate_roles_on_member_id", using: :btree
 
   create_table "eventdates", force: true do |t|
     t.integer  "event_id",    null: false

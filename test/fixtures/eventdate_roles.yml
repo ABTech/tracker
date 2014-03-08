@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  eventdate_id: 
+  member_id: 
+  role: MyString
+
+two:
+  eventdate_id: 
+  member_id: 
+  role: MyString

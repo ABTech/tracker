@@ -1,0 +1,19 @@
+<tr class="eventdate-role-form fields association-<%= f.index %>">
+  <% if can? :tic, @event %>
+    <td><%= f.select :role, EventRole::Roles_All, :include_blank => true %></td>
+    <td><%= f.select :member_id, members_for_select(f.object) %></td>
+    <td><%= link_to_remove_fields "delete", f %></td>
+  <% elsif f.object.new_record? or @event.run_positions_for(current_member).flat_map(&:assistants).include? f.object.role %>
+    <td><%= f.select :role, @event.run_positions_for(current_member).flat_map(&:assistants) %></td>
+    <td><%= f.select :member_id, members_for_select(f.object) %></td>
+    <td><%= link_to_remove_fields "delete", f %></td>
+  <% elsif f.object.member == current_member %>
+    <td><%= f.object.role %></td>
+    <td><%= f.object.member %></td>
+    <td><%= link_to_remove_fields "delete", f %></td>
+  <% else %>
+    <td><%= f.object.role %></td>
+    <td><%= f.object.member %></td>
+    <td></td>
+  <% end %>
+</tr>

@@ -51,10 +51,30 @@
       <td><%= f.label :equipment_ids, "Equipment" %>:</td>
       <td><%= f.select :equipment_ids, options_from_collection_for_select(EquipmentCategory::tree_as_collection, "id", "description", f.object.equipment.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
     </tr>
-      <td><%= f.label :override_roles, "Override Roles" %></td>
+      <td><%= f.label :override_roles, "Override Roles" %>:</td>
       <td><%= f.check_box :override_roles %></td>
-    <tr>
     </tr>
+    <% if f.object.override_roles %>
+      <tr>
+        <td>Roles:</td>
+        <td>
+          <table>
+            <tr>
+              <th>Role</th>
+              <th>Techie</th>
+            </tr>
+      
+            <%= f.fields_for :event_roles do |builder| %>
+              <%= render :partial => 'events/eventdate_role_fields', :locals => {:f => builder} %>
+            <% end %>
+
+            <tr>
+              <td colspan=2><%= link_to_add_fields "Add another role", f, :eventdate_roles, "2", "events" %></td>
+            </tr>
+          </table> 
+        </td>
+      </tr>
+    <% end %>
     <tr>
       <td></td>
       <td><%= link_to_remove_fields "Delete this event date", f %></td>

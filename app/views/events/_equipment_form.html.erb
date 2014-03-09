@@ -16,11 +16,11 @@
       <legend>Equipment</legend>
 
         <%= f.fields_for :equipment_events do |builder| %>
-          <%= render :partial => 'events/equipment_event_fields', :locals => {:f => builder} %>
+          <%= render :partial => 'events/equipment_event_fields', :locals => {:f => builder, :e => @event} %>
         <% end %>
     
         <p>
-          <%= link_to_add_fields "Add another piece of equipment", f, :equipment_events, "", "events" %>
+          <%= link_to_add_eqev_fields "Add another piece of equipment", f, :equipment_events, @event, "events" %>
         </p>
     </fieldset>
   </div>

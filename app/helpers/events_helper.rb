@@ -146,4 +146,12 @@ module EventsHelper
   def link_to_remove_blackout(f)
     f.hidden_field(:_destroy) + link_to("Remove blackout period?", "#", class: "delete_blackout_fields", onClick: "return false")
   end
+
+  def link_to_add_eqev_fields(name, f, association, event, controller="")
+    new_object = f.object.class.reflect_on_association(association).klass.new
+    fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+      render(controller + "/" + association.to_s.singularize + "_fields", :f => builder, :e => event)
+    end
+    link_to(name, "#", class:"add_field", data: {association: "#{association}", content: "#{fields}"}, onClick: "return false")
+  end
 end

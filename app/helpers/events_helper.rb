@@ -55,7 +55,7 @@ module EventsHelper
     er = eventdates.reverse
     er.each_with_index do |ed,i|
       if i > 0
-        if er[i-1].event == ed.event and not (er[i-1].override_roles or ed.override_roles)
+        if er[i-1].event == ed.event and er[i-1].event_roles.empty? and ed.event_roles.empty?
           eventruns[i] = eventruns[i-1] + 1
         else
           eventruns[i] = 0

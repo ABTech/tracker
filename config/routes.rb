@@ -52,6 +52,9 @@ Abtt::Application.routes.draw do
       get 'delete_conf'
       get 'show_email'
       get 'finance'
+      get 'edit_equipment'
+      patch 'edit_equipment', to: 'events#update_equipment'
+      put 'edit_equipment', to: 'events#update_equipment'
     end
     collection do
       get 'calendar'

@@ -285,7 +285,7 @@
       <% end %>
       <% if can? :update, @event %>
         <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
-        <li><%= link_to "Edit Equipment", edit_equipment_event_url(@event) %></li>
+        <li><%= link_to "Edit equipment", edit_equipment_event_url(@event) %></li>
       <% end %>
       <% if can? :destroy, @event %>
         <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>

@@ -39,11 +39,11 @@
               <td class="es-time"><%= time[:date].strftime("%H:%M") %></td>
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
-                <td rowspan="<%= eventdate.times.size %>" class="es-locequip" <%= "colspan=2" unless eventdate.override_roles %>>
-                  <% if eventdate.override_roles %>
+                <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
+                  <% if not eventdate.event_roles.empty? %>
                     <b>Roles:</b><br>
                     <ul class="edp-roles">
-                      <% eventdate.eventdate_roles.each do |role| %>
+                      <% eventdate.event_roles.each do |role| %>
                         <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
                       <% end %>
                     </ul>

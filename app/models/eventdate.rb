@@ -1,11 +1,11 @@
 class Eventdate < ActiveRecord::Base
   belongs_to :event
-  has_many :eventdate_roles, :dependent => :destroy
+  has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :timecard_entries
   has_and_belongs_to_many :locations
   has_and_belongs_to_many :equipment
 
-  accepts_nested_attributes_for :eventdate_roles, :allow_destroy => true
+  accepts_nested_attributes_for :event_roles, :allow_destroy => true
 
   validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
   validates_associated :locations, :equipment
@@ -95,5 +95,27 @@ class Eventdate < ActiveRecord::Base
   
   def synchronize_representative_date
     self.event.synchronize_representative_date
+  end
+  
+  def full_roles
+    if self.event_roles.empty?
+      self.event.event_roles
+    else
+      roles = self.event_roles
+      
+      if not roles.any? { |r| r.role == EventRole::Role_HoT }
+        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_HoT }
+      end
+      
+      if not roles.any? { |r| r.role == EventRole::Role_exec }
+        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_exec }
+      end
+      
+      if not roles.any? { |r| r.role == EventRole::Role_TIC }
+        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_TIC }
+      end
+      
+      roles
+    end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140309193252) do
+ActiveRecord::Schema.define(version: 20140309232438) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -121,40 +121,29 @@ ActiveRecord::Schema.define(version: 20140309193252) do
   add_index "equipment_events", ["event_id"], name: "index_equipment_events_on_event_id", using: :btree
 
   create_table "event_roles", force: true do |t|
-    t.integer  "event_id",   null: false
+    t.integer  "roleable_id",   null: false
     t.integer  "member_id"
-    t.string   "role",       null: false
+    t.string   "role",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "roleable_type", null: false
   end
 
-  add_index "event_roles", ["event_id"], name: "event_roles_event_id_index", using: :btree
   add_index "event_roles", ["member_id"], name: "event_roles_member_id_index", using: :btree
   add_index "event_roles", ["role"], name: "event_roles_role_index", using: :btree
-
-  create_table "eventdate_roles", force: true do |t|
-    t.integer  "eventdate_id"
-    t.integer  "member_id"
-    t.string   "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "eventdate_roles", ["eventdate_id"], name: "index_eventdate_roles_on_eventdate_id", using: :btree
-  add_index "eventdate_roles", ["member_id"], name: "index_eventdate_roles_on_member_id", using: :btree
+  add_index "event_roles", ["roleable_id"], name: "event_roles_event_id_index", using: :btree
 
   create_table "eventdates", force: true do |t|
-    t.integer  "event_id",       null: false
-    t.datetime "startdate",      null: false
-    t.datetime "enddate",        null: false
+    t.integer  "event_id",    null: false
+    t.datetime "startdate",   null: false
+    t.datetime "enddate",     null: false
     t.datetime "calldate"
     t.datetime "strikedate"
-    t.string   "description",    null: false
+    t.string   "description", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "calltype",       null: false
-    t.string   "striketype",     null: false
-    t.boolean  "override_roles"
+    t.string   "calltype",    null: false
+    t.string   "striketype",  null: false
   end
 
   add_index "eventdates", ["description"], name: "eventdates_description_index", using: :btree

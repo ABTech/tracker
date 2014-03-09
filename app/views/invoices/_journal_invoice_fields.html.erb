@@ -9,4 +9,9 @@
       <%= f.radio_button :account_id, Account::Rentals_Credit_Account.id %> Rental
     </td>  
   </tr>
+  <tr><td width="70" align="right"><strong><%= f.label :allocation_id, "Line Item" %>:</strong></td>
+    <td>
+      <%= f.select :allocation_id, options_from_collection_for_select(Allocation.where(year: Date.today.fiscal_year), "id", "line_item", Proc.new {|a| a.line_item == "Revenue"}), include_blank: true %>
+    </td>
+  </tr>
 </table>

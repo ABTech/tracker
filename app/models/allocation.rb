@@ -5,7 +5,7 @@ class Allocation < ActiveRecord::Base
   
   def spent
     scope = self.journals.includes(:account).references(:account)
-    scope.where("accounts.is_credit = TRUE").sum(:amount) - scope.where("accounts.is_credit = FALSE").sum(:amount)
+    scope.where("accounts.is_credit = FALSE").sum(:amount) - scope.where("accounts.is_credit = TRUE").sum(:amount)
   end
   
   def remaining

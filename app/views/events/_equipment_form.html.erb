@@ -14,11 +14,18 @@
   <div id="event-form">
     <fieldset id="event-form-equipment">
       <legend>Equipment</legend>
+        <table>
+          <tr>
+            <th>Equipment</th>
+            <th>Quantity</th>
+            <th>Start Eventdate</th>
+            <th>End Eventdate</th>
+          </tr>
+          <%= f.fields_for :equipment_events do |builder| %>
+            <%= render :partial => 'events/equipment_event_fields', :locals => {:f => builder, :e => @event} %>
+          <% end %>
+        </table>
 
-        <%= f.fields_for :equipment_events do |builder| %>
-          <%= render :partial => 'events/equipment_event_fields', :locals => {:f => builder, :e => @event} %>
-        <% end %>
-    
         <p>
           <%= link_to_add_eqev_fields "Add another piece of equipment", f, :equipment_events, @event, "events" %>
         </p>

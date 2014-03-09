@@ -11,7 +11,7 @@
     <th><%= table_order_link( "Callsign",    "callsign",      @order) %></th>
     <th><%= table_order_link( "Shirt Size",    "shirt_size",      @order) %></th>
     <%- if can? :show, Member -%>
-      <th><%= table_order_link( "Role",  "role", @order) %></th>
+      <th><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></th>
       <th><%= table_order_link( "Created",  "created_at", @order) %></th>
       <th><%= table_order_link( "Updated",  "updated_at", @order) %></th>
       <th colspan=3>&nbsp;</th>
@@ -52,9 +52,10 @@
   </tr>
 <% end %>
 </table>
-
+<%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %>
 <% content_for :more do %>
   <ul>
+      <li><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></li>
     <% if can? :create, Member %>
       <li><%= link_to "New member", new_member_path %></li>
     <% end %>

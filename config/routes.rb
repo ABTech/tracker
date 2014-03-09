@@ -97,6 +97,7 @@ Abtt::Application.routes.draw do
     collection do
       get 'tshirts'
       get 'roles'
+      get 'choose_filter'
     end
   end
 

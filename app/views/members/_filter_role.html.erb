@@ -1,0 +1,14 @@
+<%= form_tag(:action=>"index",:id=>"filter_role")  do%>
+  <%= label_tag(:suspended, "Suspended") %>:
+  <%= check_box_tag(:suspended) %>
+  <%= label_tag(:alumni, "Alumni") %>:
+  <%= check_box_tag(:alumni) %>
+  <%= label_tag(:general_member, "General Member") %>:
+  <%= check_box_tag(:general_member) %>
+  <%= label_tag(:exec, "Exec") %>:
+  <%= check_box_tag(:exec) %>
+  <%= label_tag(:tracker_management, "Tracker Management") %>:
+  <%= check_box_tag(:tracker_management) %>
+  <%= label_tag(:head_of_tech, "HoT") %>:
+  <%= check_box_tag(:head_of_tech) %>
+<% end %>

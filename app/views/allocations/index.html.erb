@@ -1,0 +1,37 @@
+<h1>Allocations</h1>
+
+<table class="generic">
+  <tr>
+    <th>Category</th>
+    <th>Object Code</th>
+    <th>Line Item</th>
+    <th>FY<%= @year %> Budget</th>
+    <th>Spent</th>
+    <th>Remaining</th>
+    <th>Notes</th>
+    <th></th>
+  </tr>
+  
+  <% @allocations.each do |allocation| %>
+    <tr>
+      <td><%= allocation.category %></td>
+      <td><%= allocation.object_code %></td>
+      <td><%= allocation.line_item %></td>
+      <td><%= number_to_currency allocation.budget %></td>
+      <td><%= number_to_currency allocation.spent %></td>
+      <td><%= number_to_currency allocation.remaining %></td>
+      <td><%= allocation.notes %></td>
+      <td>
+        <%= conditional_link_to "edit", edit_allocation_url(allocation), :update, allocation %>
+        <%= conditional_link_to_delete "delete", allocation, :destroy, allocation %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<% content_for :more do %>
+  <li><%= conditional_link_to "Create new allocation", new_allocation_url, :create, Allocation %></li>
+  <% Allocation.select(:year).distinct.order(year: :asc).pluck(:year).reject{|y| y == @year}.each do |year| %>
+    <li><%= link_to "View allocations for FY#{year}", allocations_url(year: year) %></li>
+  <% end %>
+<% end %>

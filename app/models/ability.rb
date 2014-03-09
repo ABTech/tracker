@@ -93,6 +93,7 @@ class Ability
       can :manage, Organization
       can :manage, EmailForm
       can :manage, Attachment
+      can :manage, Allocation
     end
     
     cannot :destroy, Event

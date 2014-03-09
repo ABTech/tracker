@@ -1,4 +1,5 @@
 class Allocation < ActiveRecord::Base
+  validates_presence_of :category, :object_code, :line_item, :budget, :year
   validates_uniqueness_of :line_item
   has_many :journals
   

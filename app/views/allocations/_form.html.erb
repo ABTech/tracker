@@ -1,0 +1,38 @@
+<% if @allocation.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@allocation.errors.count, "error") %> prohibited
+      this allocation from being saved:</h2>
+    <ul>
+    <% @allocation.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table width="50%" border="0" class="generic">
+  <tr>
+    <td class="subheading"><%= f.label :category %></td>
+    <td><%= replaceable_select :category, f, Allocation.select(:category).order(:category => :asc).distinct.pluck(:category) %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :object_code %></td>
+    <td><%= replaceable_select :object_code, f, Allocation.select(:object_code).order(:object_code => :asc).distinct.pluck(:object_code) %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :line_item %></td>
+    <td><%= f.text_field :line_item %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :budget %></td>
+    <td><%= f.text_field :budget %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :notes %></td>
+    <td><%= f.text_area :notes %></td>
+  </tr>
+  <tr>
+    <td class="subheading"></td>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

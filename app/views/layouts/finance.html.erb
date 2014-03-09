@@ -31,6 +31,7 @@
         <li><%= link_to "Back to finance home", list_accounts_url %></li>
       <% end %>
       <% if can? :manage, :finance %>
+        <li><%= link_to "View Allocations", allocations_url %></li>
         <li><%= link_to "List Unpaid JEs", unpaid_accounts_url %></li>
         <li><%= link_to "Audit Completed Events", events_accounts_url %></li>
       <% end %>

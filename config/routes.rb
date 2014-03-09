@@ -1,4 +1,6 @@
 Abtt::Application.routes.draw do
+  resources :allocations, except: [:show]
+  
   resources :accounts do
     collection do
       post 'confirm_paid'

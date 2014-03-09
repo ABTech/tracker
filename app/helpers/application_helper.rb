@@ -91,4 +91,11 @@ module ApplicationHelper
     end
     link_to(name, "#", class:"add_field"+extra, data: {association: "#{association}", content: "#{fields}"}, onClick: "return false")
   end
+  
+  def replaceable_select(name, f, set)
+    text = f.text_field name
+    pencil = link_to "<i class=\"icon-pencil\"></i>".html_safe, "#", :class => "replaceable_select", :data => {:replace => "#{text}"}
+    select = f.select name, set, include_blank: true
+    pencil + select
+  end
 end

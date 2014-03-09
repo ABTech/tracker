@@ -45,7 +45,7 @@
                   <% if !eventdate.equipment.empty? %>
                     <br />
                     <b>Equipment:</b><br />
-                    <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+                    <%= @event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |equipment| equipment.equipment.shortname }.join(", ") %>
                   <% end %>
                 </td>
                 <% if eventdate.override_roles %>
@@ -285,6 +285,7 @@
       <% end %>
       <% if can? :update, @event %>
         <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
+        <li><%= link_to "Edit Equipment", edit_equipment_event_url(@event) %></li>
       <% end %>
       <% if can? :destroy, @event %>
         <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>

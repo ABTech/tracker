@@ -1,11 +1,11 @@
 class Eventdate < ActiveRecord::Base
   belongs_to :event
-  has_many :eventdate_roles, :dependent => :destroy
+  has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :timecard_entries
   has_and_belongs_to_many :locations
   has_and_belongs_to_many :equipment
 
-  accepts_nested_attributes_for :eventdate_roles, :allow_destroy => true
+  accepts_nested_attributes_for :event_roles, :allow_destroy => true
 
   validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
   validates_associated :locations, :equipment

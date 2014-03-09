@@ -50,12 +50,12 @@
             <% end %>
             </td>
           <% else %>
-            <% if eventdate.eventdate_roles.find_by_role("TIC") and eventdate.eventdate_roles.find_by_role("TIC").member.nil? %>
+            <% if eventdate.event_roles.find_by_role("TIC") and eventdate.event_roles.find_by_role("TIC").member.nil? %>
               <td class="ticless" rowspan="<%= ed[:run] %>">
             <% else %>
               <td rowspan="<%= ed[:run] %>">
             <% end %>
-              <% eventdate.eventdate_roles.sort.each do |role| %>
+              <% eventdate.event_roles.sort.each do |role| %>
                 <%= role.to_s() %><br />
               <% end %>
             </td>

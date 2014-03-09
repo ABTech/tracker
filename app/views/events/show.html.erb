@@ -43,7 +43,7 @@
                   <% if eventdate.override_roles %>
                     <b>Roles:</b><br>
                     <ul class="edp-roles">
-                      <% eventdate.eventdate_roles.each do |role| %>
+                      <% eventdate.event_roles.each do |role| %>
                         <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
                       <% end %>
                     </ul>

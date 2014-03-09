@@ -40,6 +40,14 @@
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-locequip" <%= "colspan=2" unless eventdate.override_roles %>>
+                  <% if eventdate.override_roles %>
+                    <b>Roles:</b><br>
+                    <ul class="edp-roles">
+                      <% eventdate.eventdate_roles.each do |role| %>
+                        <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+                      <% end %>
+                    </ul>
+                  <% end %>
                   <b>Location:</b><br />
                   <%= eventdate.locations.join("<br />").html_safe %><br />
                   <% if !eventdate.equipment.empty? %>
@@ -48,16 +56,6 @@
                     <%= @event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |equipment| equipment.equipment.shortname }.join(", ") %>
                   <% end %>
                 </td>
-                <% if eventdate.override_roles %>
-                <td rowspan="<%= eventdate.times.size %>" class="es-roles">
-                  <b>Roles:</b><br>
-                  <ul>
-                    <% eventdate.eventdate_roles.each do |role| %>
-                      <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
-                    <% end %>
-                  </ul>
-                </td>
-                <% end %>
               <% end %>
             </tr>
           <% end %>

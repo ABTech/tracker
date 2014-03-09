@@ -2,7 +2,7 @@
   <table>
     <tr>
       <td><%= f.label :equipment_id, "Equipment" %>:</td>
-      <td><%= f.select :equipment_id, options_from_collection_for_select(Equipment.all, :id, :description) %></td>
+      <td><%= f.select :equipment_id, options_from_collection_for_select(Equipment.all, :id, :description, f.object.equipment_id) %></td>
     </tr>
     <tr>
       <td><%= f.label :quantity %>:</td>
@@ -10,11 +10,11 @@
     </tr>
     <tr>
       <td><%= f.label :eventdate_start_id, "Start Eventdate" %>:</td>
-      <td><%= f.select :eventdate_start_id, options_from_collection_for_select(e.eventdates, :id, :description) %></td>
+      <td><%= f.select :eventdate_start_id, options_from_collection_for_select(e.eventdates, :id, :description, f.object.eventdate_start_id) %></td>
     </tr>
     <tr>
       <td><%= f.label :eventdate_end_id, "End Eventdate" %>:</td>
-      <td><%= f.select :eventdate_end_id, options_from_collection_for_select(e.eventdates, :id, :description) %></td>
+      <td><%= f.select :eventdate_end_id, options_from_collection_for_select(e.eventdates, :id, :description, f.object.eventdate_end_id) %></td>
     </tr>
     <tr>
       <td></td>

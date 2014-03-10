@@ -1,11 +1,12 @@
 require "bundler/capistrano"
 require "rvm/capistrano"
+require 'thinking_sphinx/capistrano'
 
 set :application, "abtt"
 set :repository,  "https://github.com/ABTech/abtt.git"
 set :branch, "master"
 set :deploy_to, "/srv/rails/abtt"
-set :user, ''
+set :user, 'egarbade'
 set :domain, 'tracker-dev.abtech.org'
 set :rails_env, "production"
 set :rvm_type, :system

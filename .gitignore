@@ -19,3 +19,7 @@ rerun.txt
 pickle-email-*.html
 .DS_Store
 public/system
+config/development.sphinx.conf
+config/thinking_sphinx.yml
+db/sphinx/*
+log/development.sphinx.pid

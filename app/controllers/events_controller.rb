@@ -180,7 +180,7 @@ class EventsController < ApplicationController
     @title = "Event List - Search for " + params[:q]
     authorize! :read, Event
     
-    @eventdates = Eventdate.where("events.title LIKE (?) OR eventdates.description LIKE (?)", "%" + params[:q] + "%", "%" + params[:q] + "%").order("startdate DESC").includes(:event).references(:event).paginate(:per_page => 50, :page => params[:page])
+    @eventdates = Eventdate.search params[:q], :page => params[:page], :per_page => 50, :order => "startdate DESC"
   end
 
   def iphone

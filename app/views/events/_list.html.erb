@@ -29,7 +29,7 @@
         <td style="white-space: normal;">
           <%= eventdate.locations.join("<br />").html_safe %>
           <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
-          <%= event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |equipment| equipment.equipment.shortname }.join(", ") %>
+          <%= event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |eq_ev| eq_ev.equipment.shortname unless equipment.equipment.nil? }.join(", ") %>
         </td>
         <td>
           <small>

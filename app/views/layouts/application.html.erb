@@ -34,9 +34,9 @@
       <%= conditional_link_to "iPhone View", iphone_events_url, :read, Event %>
     <% end %>
     <%= conditional_link_to "Timecards", timecard_entries_url, :read, TimecardEntry %>
-    <%= link_to_function "Miscellaneous", "$('#misc-menu').toggle('Blind')" %>
+    <%= link_to "Miscellaneous", "#", class: "toggle-div", data: {div: "misc-menu"} %>
     <% if show_admin_link %> 
-      <%= link_to_function("Tracker Admin", "$('#submenu').toggle('Blind')", :id => "more_link") %>
+      <%= link_to "Tracker Admin", "#", class: "toggle-div", data: {div: "submenu"} %>
     <% end %>
   </div>
   <div id="misc-menu" style="display: none" class="main-nav">

@@ -14,7 +14,7 @@ class MembersController < ApplicationController
       @members = @members.active
     end
 
-    if params[:filter] = "1"
+    if params[:filter] == "1"
       roles_array = []
       if params[:suspended] == "1"
         roles_array << "suspended"

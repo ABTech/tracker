@@ -1,9 +1,7 @@
-<div class="equipment_event-form fields association-<%= f.index %>">
-    <tr>
-      <td><%= f.select :equipment_id, options_from_collection_for_select(Equipment.all, :id, :description, f.object.equipment_id) %></td>
-      <td><%= f.text_field :quantity %></td>
-      <td><%= f.select :eventdate_start_id, options_from_collection_for_select(e.eventdates, :id, :description, f.object.eventdate_start_id) %></td>
-      <td><%= f.select :eventdate_end_id, options_from_collection_for_select(e.eventdates, :id, :description, f.object.eventdate_end_id) %></td>
-      <td><%= link_to_remove_fields "Delete this equipment", f %></td>
-    </tr>
-</div>
+<tr class="equipment_event-form fields association-<%= f.index %>">
+  <td><%= f.select :equipment_id, options_from_collection_for_select(Equipment.all, :id, :description, f.object.equipment_id) %></td>
+  <td><%= f.text_field :quantity %></td>
+  <td><%= f.select :eventdate_start_id, options_from_collection_for_select(e.eventdates, :id, :description, f.object.eventdate_start_id) %></td>
+  <td><%= f.select :eventdate_end_id, options_from_collection_for_select(e.eventdates, :id, :description, f.object.eventdate_end_id) %></td>
+  <td><%= link_to_remove_fields "Delete this equipment", f %></td>
+</tr>

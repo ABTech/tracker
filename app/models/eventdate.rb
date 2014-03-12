@@ -118,4 +118,8 @@ class Eventdate < ActiveRecord::Base
       roles
     end
   end
+  
+  def equipment_pulled
+    EquipmentEvent.where(eventdate_start: self).includes(:equipment).map(&:equipment).compact
+  end
 end

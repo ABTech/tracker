@@ -102,4 +102,20 @@ class EventRole < ActiveRecord::Base
     return [Role_aHole] if self.role == Role_Hole
     return []
   end
+  
+  def event
+    if self.roleable_type == "Event"
+      self.roleable
+    elsif self.roleable_type == "Eventdate"
+      self.roleable.event
+    end
+  end
+  
+  def date
+    if self.roleable_type == "Event"
+      self.roleable.representative_date
+    elsif self.roleable_type == "Eventdate"
+      self.roleable.startdate
+    end
+  end
 end

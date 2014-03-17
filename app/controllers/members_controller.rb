@@ -10,6 +10,33 @@ class MembersController < ApplicationController
     end
 
     @members = @members.order(@order)
+    if params[:active_only] == "1"
+      @members = @members.active
+    end
+
+    if params[:filter] == "1"
+      roles_array = []
+      if params[:suspended] == "1"
+        roles_array << "suspended"
+      end
+      if params[:alumni] == "1"
+        roles_array << "alumni"
+      end
+      if params[:general_member] == "1"
+        roles_array << "general_member"
+      end
+      if params[:exec] == "1"
+        roles_array << "exec"
+      end
+      if params[:tracker_management] == "1"
+        roles_array << "tracker_management"
+      end
+      if params[:head_of_tech] == "1"
+        roles_array << "head_of_tech"
+      end
+
+      @members = @members.where(role: roles_array)
+    end
 
     respond_to do |format|
       format.html
@@ -94,6 +121,12 @@ class MembersController < ApplicationController
           { :member => m, :count => counts[m.id] }
         end
       }
+    end
+  end
+
+  def choose_filter
+    respond_to do |format|
+      format.js
     end
   end
   

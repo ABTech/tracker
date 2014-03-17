@@ -40,12 +40,20 @@
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
+                  <% if not eventdate.event_roles.empty? %>
+                    <b>Roles:</b><br>
+                    <ul class="edp-roles">
+                      <% eventdate.event_roles.each do |role| %>
+                        <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+                      <% end %>
+                    </ul>
+                  <% end %>
                   <b>Location:</b><br />
                   <%= eventdate.locations.join("<br />").html_safe %><br />
-                  <% if !eventdate.equipment.empty? %>
+                  <% if !eventdate.equipment_pulled.empty? %>
                     <br />
                     <b>Equipment:</b><br />
-                    <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+                    <%= eventdate.equipment_pulled.map(&:shortname).join(", ") %>
                   <% end %>
                 </td>
               <% end %>
@@ -275,6 +283,7 @@
       <% end %>
       <% if can? :update, @event %>
         <li><%= link_to "Edit this event", edit_event_url(@event) %></li>
+        <li><%= link_to "Edit equipment", edit_equipment_event_url(@event) %></li>
       <% end %>
       <% if can? :destroy, @event %>
         <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>

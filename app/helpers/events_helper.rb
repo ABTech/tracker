@@ -55,7 +55,7 @@ module EventsHelper
     er = eventdates.reverse
     er.each_with_index do |ed,i|
       if i > 0
-        if er[i-1].event == ed.event
+        if er[i-1].event == ed.event and er[i-1].event_roles.empty? and ed.event_roles.empty?
           eventruns[i] = eventruns[i-1] + 1
         else
           eventruns[i] = 0
@@ -83,7 +83,7 @@ module EventsHelper
   end
   
   def organizations_for_select
-    Organization.active.order("name ASC").all.to_a.map do |org|
+    Organization.active.order("name ASC").to_a.map do |org|
       [org.name, org.id]
     end
   end
@@ -145,5 +145,13 @@ module EventsHelper
   
   def link_to_remove_blackout(f)
     f.hidden_field(:_destroy) + link_to("Remove blackout period?", "#", class: "delete_blackout_fields", onClick: "return false")
+  end
+
+  def link_to_add_eqev_fields(name, f, association, event, controller="")
+    new_object = f.object.class.reflect_on_association(association).klass.new
+    fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+      render(controller + "/" + association.to_s.singularize + "_fields", :f => builder, :e => event)
+    end
+    link_to(name, "#", class:"add_field", data: {association: "#{association}", content: "#{fields}"}, onClick: "return false")
   end
 end

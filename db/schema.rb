@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306180705) do
+ActiveRecord::Schema.define(version: 20140309232438) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20140306180705) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "defunct",     default: false, null: false
+    t.integer  "quantity"
   end
 
   add_index "equipment", ["description"], name: "equipment_description_index", using: :btree
@@ -106,17 +107,31 @@ ActiveRecord::Schema.define(version: 20140306180705) do
     t.integer "equipment_id", null: false
   end
 
-  create_table "event_roles", force: true do |t|
-    t.integer  "event_id",   null: false
-    t.integer  "member_id"
-    t.string   "role",       null: false
+  create_table "equipment_events", force: true do |t|
+    t.integer  "equipment_id"
+    t.integer  "event_id"
+    t.integer  "quantity"
+    t.integer  "eventdate_start_id"
+    t.integer  "eventdate_end_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "event_roles", ["event_id"], name: "event_roles_event_id_index", using: :btree
+  add_index "equipment_events", ["equipment_id"], name: "index_equipment_events_on_equipment_id", using: :btree
+  add_index "equipment_events", ["event_id"], name: "index_equipment_events_on_event_id", using: :btree
+
+  create_table "event_roles", force: true do |t|
+    t.integer  "roleable_id",   null: false
+    t.integer  "member_id"
+    t.string   "role",          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "roleable_type", null: false
+  end
+
   add_index "event_roles", ["member_id"], name: "event_roles_member_id_index", using: :btree
   add_index "event_roles", ["role"], name: "event_roles_role_index", using: :btree
+  add_index "event_roles", ["roleable_id"], name: "event_roles_event_id_index", using: :btree
 
   create_table "eventdates", force: true do |t|
     t.integer  "event_id",    null: false

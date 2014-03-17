@@ -141,7 +141,7 @@ class EmailController < ApplicationController
             when File_Action_File_Event
                 case(params['fileaction'])
                 when File_Action_New_Event
-                    event = Event.new(params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate]))
+                    event = Event.new(params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate]))
 
                     if(!event.save())
                         flash[:error] = "Error saving the event"

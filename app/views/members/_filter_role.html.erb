@@ -1,0 +1,28 @@
+<%= form_tag({:action=>"index"}, :method => "get", :id=>"filter_role")  do %>
+  <table>
+    <tr>
+      <td><%= label_tag(:suspended, "Suspended") %>:</td>
+      <td><%= check_box_tag(:suspended, 1, :checked => true) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:alumni, "Alumni") %>:</td>
+      <td><%= check_box_tag(:alumni, 1, :checked => true) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:general_member, "General Member") %>:</td>
+      <td><%= check_box_tag(:general_member, 1, :checked => true) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:exec, "Exec") %>:</td>
+      <td><%= check_box_tag(:exec, 1, :checked => true) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:tracker_management, "Tracker Management") %>:</td>
+      <td><%= check_box_tag(:tracker_management, 1, :checked => true) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:head_of_tech, "HoT") %>:</td>
+      <td><%= check_box_tag(:head_of_tech, 1, :checked => true) %></td>
+    </tr>
+    <%= hidden_field_tag 'filter', 1 %>
+<% end %>

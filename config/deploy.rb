@@ -1,5 +1,9 @@
 require "bundler/capistrano"
 require "rvm/capistrano"
+require 'thinking_sphinx/capistrano'
+
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 set :application, "abtt"
 set :repository,  "https://github.com/ABTech/abtt.git"

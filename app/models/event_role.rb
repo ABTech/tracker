@@ -1,5 +1,5 @@
 class EventRole < ActiveRecord::Base
-  belongs_to :event
+  belongs_to :roleable, polymorphic: true
   belongs_to :member
 
   Role_HoT        = "HoT"

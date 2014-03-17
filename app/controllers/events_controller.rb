@@ -44,6 +44,12 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     authorize! :update, @event
   end
+ 
+  def edit_equipment
+    @title = "Edit Event Equipment"
+    @event = Event.find(params[:id])
+    authorize! :update, @event
+  end
   
   def create
     @title = "Create New Event"
@@ -53,7 +59,7 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate])
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -77,9 +83,9 @@ class EventsController < ApplicationController
     end
     
     if can? :manage, :finance
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     elsif can? :tic, @event
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
+      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     else
       p = params.require(:event).permit(:notes, :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
       
@@ -107,6 +113,20 @@ class EventsController < ApplicationController
       redirect_to @event
     else
       render :edit
+    end
+  end
+
+  def update_equipment
+    @title = "Edit Event Equipment"
+    @event = Event.find(params[:id])
+    authorize! :update, @event
+
+    p = params.require(:event).permit(:equipment_events_attributes => [:id, :equipment_id, :quantity, :eventdate_start_id, :eventdate_end_id, :_destroy])
+    if @event.update(p)
+      flash[:notice] = "Event equipment updated successfully!"
+      redirect_to @event
+    else
+      render :edit_equipment
     end
   end
 
@@ -160,7 +180,7 @@ class EventsController < ApplicationController
     @title = "Event List - Search for " + params[:q]
     authorize! :read, Event
     
-    @eventdates = Eventdate.where("events.title LIKE (?) OR eventdates.description LIKE (?)", "%" + params[:q] + "%", "%" + params[:q] + "%").order("startdate DESC").includes(:event).references(:event).paginate(:per_page => 50, :page => params[:page])
+    @eventdates = Eventdate.search params[:q], :page => params[:page], :per_page => 50, :order => "startdate DESC"
   end
 
   def iphone

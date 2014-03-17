@@ -1,0 +1,13 @@
+jQuery("#dialog").html("<%=escape_javascript(render :partial => 'filter_role')%>");
+jQuery("#dialog").dialog({
+  height: 200,
+  resizable: false,
+  position: "top",
+  width: 150,
+  title: "Filter by Role",
+  buttons: {
+    "Apply Filter": function(){
+      jQuery("#filter_role").submit();
+    }}
+  
+});

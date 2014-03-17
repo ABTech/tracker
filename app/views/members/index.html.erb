@@ -11,7 +11,7 @@
     <th><%= table_order_link( "Callsign",    "callsign",      @order) %></th>
     <th><%= table_order_link( "Shirt Size",    "shirt_size",      @order) %></th>
     <%- if can? :show, Member -%>
-      <th>Role</th>
+      <th><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></th>
       <th><%= table_order_link( "Created",  "created_at", @order) %></th>
       <th><%= table_order_link( "Updated",  "updated_at", @order) %></th>
       <th colspan=3>&nbsp;</th>
@@ -52,14 +52,22 @@
   </tr>
 <% end %>
 </table>
-
+<%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %>
 <% content_for :more do %>
   <ul>
+      <li><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></li>
     <% if can? :create, Member %>
       <li><%= link_to "New member", new_member_path %></li>
     <% end %>
-    <li><%= link_to 'Download as V-Cards', members_path(:format => :vcf) %></li>
+    <% if params[:active_only] == "1" %>
+      <li><%= link_to 'Show all members', members_path() %></li>
+      <li><%= link_to 'Download as V-Cards', {:format => :vcf, :active_only => "1"}  %></li>
+    <% else %>
+      <li><%= link_to 'Show active members only', {:active_only => "1"} %></li>
+      <li><%= link_to 'Download as V-Cards', members_path(:format => :vcf) %></li>
+    <% end %>
     <li><%= link_to 'Generate T-Shirt Order', tshirts_members_url %></li>
     <li><%= link_to 'List Members by Run Position', roles_members_url %></li>
   </ul>
 <% end %>
+<div id="dialog"></div>

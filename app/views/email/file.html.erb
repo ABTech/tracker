@@ -148,7 +148,7 @@ td input {
   
   <div id="existing-event-div" class="hidden">
     <table>
-      <% matches = Event.find(:all, :conditions => ["id IN (SELECT DISTINCT event_id FROM emails WHERE subject LIKE (?))", (@email.subject[4,@email.subject.length])], :order => "updated_at DESC") %>
+      <% matches = Event.where("id IN (SELECT DISTINCT event_id FROM emails WHERE subject LIKE (?))", (@email.subject[4,@email.subject.length])).order(updated_at: :desc) %>
       <% if(!matches.empty?) %>
         <tr><th class="subject-match">match by subject<br /></th></tr>
         <tr><td class="subject-match">
@@ -161,7 +161,7 @@ td input {
         <tr><td class="spacer"></td></tr>
       <% end %>
       
-      <% matches = Event.find(:all, :conditions => ["contactemail LIKE (?)", "%#{@email.sender}%"], :order => "updated_at DESC") %>
+      <% matches = Event.where("contactemail LIKE (?)", "%#{@email.sender}%").order(updated_at: :desc) %>
       <% if(!matches.empty?) %>
         <tr><th>match by sender<br /></th></tr>
         <tr><td>
@@ -176,7 +176,7 @@ td input {
     
       <% @email.subject.split().each do |word| %>
         <% if (word != "Re:") %>
-          <% matches = Event.find(:all, :conditions => ["title LIKE (?)", "%#{word}%"], :limit => 5, :order => "updated_at DESC") %>
+          <% matches = Event.where("title LIKE (?)", "%#{word}%").limit(5).order(updated_at: :desc) %>
           <% if(!matches.empty?) %>
             <tr><th>match by subject (<%= word %>)<br /></th></tr>
             <tr><td>
@@ -191,7 +191,7 @@ td input {
         <% end %>
       <% end %>
       
-      <% matches = Event.find(:all, :conditions => ["representative_date >= ?", Account::Magic_Date], :order => "representative_date DESC", :include => :eventdates) %>
+      <% matches = Event.where("representative_date >= ?", Account::Magic_Date).order(representative_date: :desc).includes(:eventdates) %>
       <tr><th>all events<br /></th></tr>
       <tr><td>
         <div style="height: 200px; overflow: auto;">

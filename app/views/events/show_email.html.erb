@@ -6,7 +6,7 @@
     
     <ul>
       <% @event.emails.each do |email| %>
-        <li><%= link_to email.display_title, "#email" + email.id.to_s %></li>
+        <li><%= link_to email.display_title, "#email" + email.id.to_s %> from <%= email.sender %></li>
       <% end %>
     </ul>
   </div>
@@ -14,6 +14,7 @@
   <% @event.emails.each do |email| %>
     <div class="event-email-full" id="email<%= email.id %>">
       <strong><%= email.display_title %></strong><br />
+      <em>Sender: <%= mail_to email.sender %></em><br />
       
       <%= simple_format strip_tags email.quoteless_contents %>
     </div>

@@ -122,7 +122,7 @@
         <th>Techie</th>
       </tr>
       
-      <%= f.fields_for :event_roles do |builder| %>
+      <%= f.fields_for :event_roles, f.object.event_roles.sort do |builder| %>
         <%= render :partial => 'events/event_role_fields', :locals => {:f => builder} %>
       <% end %>
     

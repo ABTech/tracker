@@ -19,8 +19,16 @@
 <tr><td>
   <table style="float:right;" class=prettyBorder >
   <tr><td>Event:</td><td><%= @invoice.event.title  %></td></tr>
-  <% location = @invoice.event.eventdates[0].locations[0] %>
-  <tr><td>Venue:</td><td><%= location.building + "-" + location.room  %></td></tr>
+  <tr>
+    <td>Venue:</td>
+    <td>
+      <ul class="pdf-venue-list">
+        <% @invoice.event.locations.each do |location| %>
+          <li><%= location %></li>
+        <% end %>
+      </ul>
+    </td>
+  </tr>
   <tr><td>Event Date:</td><td><%= @invoice.event.eventdates[0].startdate.strftime("%B %d, %Y") %></td></tr>
   <tr><td>Event Contact:</td><td><%= @invoice.event.contact_name %></td></tr>
   <tr><td>Organization:</td><td><%= @invoice.event.organization.name %></td></tr>

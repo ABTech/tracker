@@ -7,21 +7,26 @@ $ ->
     $(this).prev("input[type=hidden]").val("1")
     $(this).closest(".fields").hide()
 
-$ ->
+@setUpAddFields = () ->
   $("a.add_field").click ->
     new_id = new Date().getTime()
     regexp = new RegExp("new_" + $(this).data("association"), "g")
     $(this).parent().before($(this).data("content").replace(regexp, new_id))
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
-
-$ ->
+    setUpAddFields()
   $("a.add_field2").click ->
     new_id = new Date().getTime()
     regexp = new RegExp("new_" + $(this).data("association"), "g")
     $(this).parent().parent().before($(this).data("content").replace(regexp, new_id))
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
+    setUpAddFields()
+  $("a.add_field").removeClass("add_field")
+  $("a.add_field2").removeClass("add_field2")
+
+$ ->
+  setUpAddFields()
 
 $ ->
   $("a.add_blackout_fields").click ->

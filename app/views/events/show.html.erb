@@ -53,7 +53,7 @@
                   <% if !eventdate.equipment.empty? %>
                     <br />
                     <b>Equipment:</b><br />
-                    <%= @event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |eq_ev| eq_ev.equipment.shortname unless eq_ev.equipment.nil? }.join(", ") %>
+                    <%= @event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |eq_ev| eq_ev.equipment.shortname unless equipment.equipment.nil? }.join(", ") %>
                   <% end %>
                 </td>
               <% end %>

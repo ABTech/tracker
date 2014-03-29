@@ -44,12 +44,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     authorize! :update, @event
   end
- 
-  def edit_equipment
-    @title = "Edit Event Equipment"
-    @event = Event.find(params[:id])
-    authorize! :update, @event
-  end
   
   def create
     @title = "Create New Event"
@@ -113,20 +107,6 @@ class EventsController < ApplicationController
       redirect_to @event
     else
       render :edit
-    end
-  end
-
-  def update_equipment
-    @title = "Edit Event Equipment"
-    @event = Event.find(params[:id])
-    authorize! :update, @event
-
-    p = params.require(:event).permit(:equipment_events_attributes => [:id, :equipment_id, :quantity, :eventdate_start_id, :eventdate_end_id, :_destroy])
-    if @event.update(p)
-      flash[:notice] = "Event equipment updated successfully!"
-      redirect_to @event
-    else
-      render :edit_equipment
     end
   end
 

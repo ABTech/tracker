@@ -28,8 +28,8 @@
         </td>
         <td style="white-space: normal;">
           <%= eventdate.locations.join("<br />").html_safe %>
-          <%= "<br />".html_safe if eventdate.equipment_pulled.count >= 1 %>
-          <%= eventdate.equipment_pulled.map(&:shortname).join(", ") %>
+          <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
+          <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
         </td>
         <td>
           <small>

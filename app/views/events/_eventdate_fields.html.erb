@@ -48,6 +48,13 @@
       <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, floor ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
     </tr>
     <tr>
+      <td><%= f.label :equipment_ids, "Equipment" %>:</td>
+      <td><%= f.select :equipment_ids, options_from_collection_for_select(EquipmentCategory::tree_as_collection, "id", "description", f.object.equipment.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
+    </tr>
+      <td><%= f.label :override_roles, "Override Roles" %>:</td>
+      <td><%= f.check_box :override_roles %></td>
+    </tr>
+      <tr>
       <td>Roles:</td>
       <td>
         <table>

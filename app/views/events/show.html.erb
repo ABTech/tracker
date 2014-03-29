@@ -50,10 +50,10 @@
                   <% end %>
                   <b>Location:</b><br />
                   <%= eventdate.locations.join("<br />").html_safe %><br />
-                  <% if !eventdate.equipment_pulled.empty? %>
+                  <% if !eventdate.equipment.empty? %>
                     <br />
                     <b>Equipment:</b><br />
-                    <%= eventdate.equipment_pulled.map(&:shortname).join(", ") %>
+                    <%= @event.equipment_events.where(eventdate_start_id: eventdate.id).collect{ |eq_ev| eq_ev.equipment.shortname unless eq_ev.equipment.nil? }.join(", ") %>
                   <% end %>
                 </td>
               <% end %>

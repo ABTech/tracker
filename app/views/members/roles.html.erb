@@ -20,12 +20,26 @@
             </tr>
     
             <% role[:members].each do |member| %>
-              <tr>
-                <% if can? :show, member[:member] %>
-                  <td><%= link_to member[:member].to_s, member[:member] %></td>
-                <% else %>
-                  <td><%= member[:member].to_s %></td>
-                <% end %>
+              <tr class="member-by-role">
+                <td>
+                  <% if can? :show, member[:member] %>
+                    <%= link_to member[:member].to_s, member[:member] %>
+                  <% else %>
+                    <%= member[:member].to_s %>
+                  <% end %>
+                  
+                  <div class="hide">
+                    <b><%= member[:member].to_s %></b> as <b><%= role[:role] %></b>
+                    <ul>
+                      <% member[:member].event_roles.where(role: role[:role]).includes(:roleable).sort_by(&:date).map(&:event).each do |event| %>
+                        <li>
+                          <%= link_to event.title, event %>
+                          <span>&rarr; <%= event.representative_date.strftime("%-m/%-d/%Y") %></span>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </td>
                 <td><%= member[:count] %></td>
               </tr>
             <% end %>

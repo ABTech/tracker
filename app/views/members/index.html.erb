@@ -55,7 +55,7 @@
 
 <% content_for :more do %>
   <ul>
-      <li><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></li>
+    <li><%= conditional_link_to_remote "Filter members by role", choose_filter_members_url(:format => :js), :show, Member %></li>
     <% if can? :create, Member %>
       <li><%= link_to "New member", new_member_path %></li>
     <% end %>

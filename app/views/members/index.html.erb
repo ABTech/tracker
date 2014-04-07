@@ -52,7 +52,7 @@
   </tr>
 <% end %>
 </table>
-<%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %>
+
 <% content_for :more do %>
   <ul>
       <li><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></li>

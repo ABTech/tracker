@@ -28,7 +28,7 @@
     <tr>
       <td><strong>Total</strong></td>
       <td></td>
-      <td><%= timecard.entries(member).collect{|e| e.hours}.inject(0) {|sum, n| sum+n} %></td>
+      <td><%= timecard.entries(member).map(&:hours).reduce(0.0, &:+).round(1) %></td>
     </tr>
   </tfoot>
 </table>

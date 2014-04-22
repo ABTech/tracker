@@ -12,4 +12,7 @@
       <td colspan=2><%= link_to_remove_blackout f %></td>
     </tr>
   <% end %>
+  <% if @event.new_record? %>
+    <%= f.hidden_field :with_new_event, value: "true" %>
+  <% end %>
 </table>

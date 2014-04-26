@@ -79,7 +79,7 @@ class EquipmentController < ApplicationController
     @title = "Editing Item"
 
     @item = Equipment.active.find(params['id']);
-    authorize :update, @item
+    authorize! :update, @item
     
     if(!@item)
       flash[:error] = "Please select a valid item.";

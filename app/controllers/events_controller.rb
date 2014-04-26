@@ -53,7 +53,7 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate])
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate, :with_new_event])
     
     @event = Event.new(p)
     authorize! :create, @event

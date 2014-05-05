@@ -88,7 +88,7 @@
     <th></th>
   </tr>
   
-  <%= f.fields_for :invoice_lines do |builder| %>
+  <%= f.fields_for :invoice_lines, @invoice.invoice_lines.sort do |builder| %>
     <%= render :partial => 'invoice_line_fields', :locals => {:f => builder} %>
   <% end %>
   

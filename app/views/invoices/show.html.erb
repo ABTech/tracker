@@ -22,11 +22,6 @@
     <td><%= @invoice.status %></td>
   </tr>
   
-  <tr>
-    <td class="subheading">Recognized?</td>
-    <td><%= @invoice.recognized? ? "yes" : "no" %></td>
-  </tr>
-  
   <% if @invoice.journal_invoice %>
     <tr>
       <td class="subheading">Invoice JE:</td>

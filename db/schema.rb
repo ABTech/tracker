@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140308192041) do
+ActiveRecord::Schema.define(version: 20140505211056) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -164,10 +164,9 @@ ActiveRecord::Schema.define(version: 20140308192041) do
   add_index "events", ["title"], name: "events_title_index", using: :btree
 
   create_table "invoice_items", force: true do |t|
-    t.string   "memo",               null: false
-    t.string   "category",           null: false
-    t.integer  "price_recognized",   null: false
-    t.integer  "price_unrecognized", null: false
+    t.string   "memo",       null: false
+    t.string   "category",   null: false
+    t.integer  "price",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -191,7 +190,6 @@ ActiveRecord::Schema.define(version: 20140308192041) do
     t.datetime "created_at"
     t.integer  "event_id",      null: false
     t.string   "status",        null: false
-    t.boolean  "recognized",    null: false
     t.string   "payment_type",  null: false
     t.string   "oracle_string", null: false
     t.text     "memo"

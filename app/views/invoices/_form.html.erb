@@ -36,11 +36,6 @@
     <% end %>
   </tr>
   
-  <tr>
-    <td class="subheading"><%= f.label :recognized, "Recognized?" %></td>
-    <td><%= f.check_box :recognized %></td>
-  </tr>
-  
   <% if not f.object.new_record? and can? :create, Journal %>
     <tr>
       <td class="subheading"><%= f.label :journal_invoice, "Invoice JE" %>:</td>

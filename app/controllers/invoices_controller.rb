@@ -148,7 +148,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params['id'], :include => [:event]);
     authorize! :email, @invoice
     
-    if(params['mark_completed'])
+    if params[:mark_billing]
       journal = Journal.new
       journal.date = DateTime.now
       journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
@@ -157,6 +157,16 @@ class InvoicesController < ApplicationController
       journal.amount=@invoice.total
       journal.save!
       @invoice.event.status= Event::Event_Status_Billing_Pending
+      @invoice.event.save!
+    elsif params[:mark_complete]
+      journal = Journal.new
+      journal.date = DateTime.now
+      journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
+      journal.account=Account::Events_Account
+      journal.invoice=@invoice
+      journal.amount=@invoice.total
+      journal.save!
+      @invoice.event.status= Event::Event_Status_Event_Completed
       @invoice.event.save!
     end
 

@@ -20,8 +20,8 @@ class InvoiceLine < ActiveRecord::Base
   end
 
   def <=> (il)
-    return 1 if Invoice_Categories.find_index(category) < 0
-    return -1 if Invoice_Categories.find_index(il.category) < 0
+    return 1 if Invoice_Categories.find_index(category).nil?
+    return -1 if Invoice_Categories.find_index(il.category).nil?
     return Invoice_Categories.find_index(category) <=> Invoice_Categories.find_index(il.category)
   end
 end

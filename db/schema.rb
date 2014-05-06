@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505211056) do
+ActiveRecord::Schema.define(version: 20140506212208) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 20140505211056) do
     t.datetime "created_at"
     t.datetime "representative_date",                             null: false
     t.boolean  "billable",            default: true,              null: false
+    t.boolean  "textable",            default: false,             null: false
   end
 
   add_index "events", ["contactemail"], name: "events_contactemail_index", using: :btree

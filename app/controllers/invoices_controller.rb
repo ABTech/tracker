@@ -133,6 +133,8 @@ class InvoicesController < ApplicationController
       end
     elsif @invoice.status == "Received"
       @email_content = "Attached is the final invoice for your event with AB Tech.  We have received your payment, and this copy is for your reference only."
+    elsif @invoice.status == "Loan Agreement"
+      @email_content = "Attached is the loan agreement for your event with AB Tech.  Please read the contract terms, and let us know if you have any questions.  Please reply with the signed contract attached, return the contract to 5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213, or fax to 412-268-5938 ATTN:  AB Tech."
     end
         
     @email_content += "\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."

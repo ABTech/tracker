@@ -8,6 +8,11 @@ $ ->
       $('#oracleString').show('Blind')
     else
       $('#oracleString').hide('Blind')
+  $('#invoice_status').change ->
+    if $(this).val() == "Loan Agreement"
+      $('#loan-agreement-notice').show('Blind')
+    else
+      $('#loan-agreement-notice').hide('Blind')
 
 @chooseLinePreset = (id) ->
   if $("#invoice-line-preset-" + id).val() != ""

@@ -154,7 +154,7 @@
     
     <p><b>This agreement</b>, made this <u><%= Time.new.day.ordinalize %></u> day of <u><%= Time.new.strftime("%B %Y") %></u> by and between AB Tech (the "Lender") and <u><%= @invoice.event.organization.name %></u> (the "Borrower").</p>
     
-    <p><b>Witnesseth</b>, that the items listed above are loaned to the Borrower at no cost by the Lender for the period beginning on the <u><%= @invoice.event.eventdates.first.startdate.day.ordinalize %></u> day of <u><%= @invoice.event.eventdates.first.startdate.strftime("%B %Y") %></u> to the <u><%= @invoice.event.eventdates.first.enddate.day.ordinalize %></u> day of <u><%= @invoice.event.eventdates.first.enddate.strftime("%B %Y") %></u>.</p>
+    <p><b>Witnesseth</b>, that the items listed above are loaned to the Borrower at the above agreed cost by the Lender for the period beginning on the <u><%= @invoice.event.eventdates.first.startdate.day.ordinalize %></u> day of <u><%= @invoice.event.eventdates.first.startdate.strftime("%B %Y") %></u> to the <u><%= @invoice.event.eventdates.first.enddate.day.ordinalize %></u> day of <u><%= @invoice.event.eventdates.first.enddate.strftime("%B %Y") %></u>.</p>
     
     <p><b>Witnesseth</b>, that the Borrower has suitable insurance or acceptable cash assets an amount equal to or greater than the replacement value of the items. Borrower shall indemnify and hold AB Tech harmless in the event the items are lost, stolen or destroyed in total or in part.</p>
     

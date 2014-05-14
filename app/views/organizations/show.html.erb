@@ -5,7 +5,7 @@
 <p><b><%= @org.events.length %> Events:</b></p>
 <ul>
   <% @org.events.each do |e| %>
-    <li><%= link_to e.to_s, e %></li>
+    <li><%= link_to e.to_s, e %> - <%= e.representative_date.strftime("%D") %></li>
   <% end %>
 </ul>
 

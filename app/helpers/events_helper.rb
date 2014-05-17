@@ -90,8 +90,8 @@ module EventsHelper
   
   def members_for_select(role)
     members = [["unassigned", [["unassigned", ""]]]]
-    members << ["Active Members", Member.active.order("namefirst ASC, namelast ASC").map {|m| [m.fullname, m.id]}]
-    members << ["Alumni", Member.where(role: "alumni").order("namefirst ASC, namelast ASC").map {|m| [m.fullname, m.id]}]
+    members << ["Active Members", Member.active.alphabetical.map {|m| [m.fullname, m.id]}]
+    members << ["Alumni", Member.where(role: "alumni").alphabetical.map {|m| [m.fullname, m.id]}]
   end
   
   def month_links(cur=nil,count=nil)

@@ -8,6 +8,11 @@ $ ->
       $('#oracleString').show('Blind')
     else
       $('#oracleString').hide('Blind')
+  $('#invoice_status').change ->
+    if $(this).val() == "Loan Agreement"
+      $('#loan-agreement-notice').show('Blind')
+    else
+      $('#loan-agreement-notice').hide('Blind')
 
 @chooseLinePreset = (id) ->
   if $("#invoice-line-preset-" + id).val() != ""
@@ -15,10 +20,7 @@ $ ->
     $("#invoice_invoice_lines_attributes_" + id + "_category").val(selected.data('category'))
     $("#invoice_invoice_lines_attributes_" + id + "_memo").val(selected.data('memo'))
     $("#invoice_invoice_lines_attributes_" + id + "_quantity").val("1")
-    if $("#invoice_recognized").is(":checked")
-      $("#invoice_invoice_lines_attributes_" + id + "_price").val(selected.data('recprice'))
-    else
-      $("#invoice_invoice_lines_attributes_" + id + "_price").val(selected.data('unrecprice'))
+    $("#invoice_invoice_lines_attributes_" + id + "_price").val(selected.data('price'))
 
 @toggleNotes = (id) ->
   note = $("#notes" + id)

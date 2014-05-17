@@ -133,6 +133,8 @@ class InvoicesController < ApplicationController
       end
     elsif @invoice.status == "Received"
       @email_content = "Attached is the final invoice for your event with AB Tech.  We have received your payment, and this copy is for your reference only."
+    elsif @invoice.status == "Loan Agreement"
+      @email_content = "Attached is the loan agreement for your event with AB Tech.  Please read the contract terms, and let us know if you have any questions.  Please reply with the signed contract attached, return the contract to 5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213, or fax to 412-268-5938 ATTN:  AB Tech."
     end
         
     @email_content += "\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
@@ -148,7 +150,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params['id'], :include => [:event]);
     authorize! :email, @invoice
     
-    if(params['mark_completed'])
+    if params[:mark_billing]
       journal = Journal.new
       journal.date = DateTime.now
       journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
@@ -157,6 +159,16 @@ class InvoicesController < ApplicationController
       journal.amount=@invoice.total
       journal.save!
       @invoice.event.status= Event::Event_Status_Billing_Pending
+      @invoice.event.save!
+    elsif params[:mark_complete]
+      journal = Journal.new
+      journal.date = DateTime.now
+      journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
+      journal.account=Account::Events_Account
+      journal.invoice=@invoice
+      journal.amount=@invoice.total
+      journal.save!
+      @invoice.event.status= Event::Event_Status_Event_Completed
       @invoice.event.save!
     end
 
@@ -174,13 +186,13 @@ class InvoicesController < ApplicationController
   private
     def invoice_params(invoice=Invoice)
       if can? :manage, invoice
-        params.require(:invoice).permit(:event_id, :status, :recognized, :payment_type, :oracle_string, :memo, :update_journal, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy], :journal_invoice_attributes => [:date, :memo, :amount, :date_paid, :notes, :account_id, :event_id, :paymeth_category, :id])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :update_journal, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy], :journal_invoice_attributes => [:date, :memo, :amount, :date_paid, :notes, :account_id, :event_id, :paymeth_category, :id])
       else
         if not Invoice::Invoice_Status_Group_Exec.include? params[:invoice][:status]
           params[:invoice].delete :status
         end
         
-        params.require(:invoice).permit(:event_id, :status, :recognized, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
       end
     end
 end

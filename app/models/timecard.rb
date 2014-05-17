@@ -1,6 +1,6 @@
 class Timecard < ActiveRecord::Base
   has_many :timecard_entries
-  has_many :members, -> { order("namefirst ASC").distinct }, :through => :timecard_entries
+  has_many :members, -> { order("namelast ASC").distinct }, :through => :timecard_entries
 
   validates_presence_of :billing_date, :due_date, :start_date, :end_date
   validates_uniqueness_of :billing_date

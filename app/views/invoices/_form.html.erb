@@ -36,11 +36,6 @@
     <% end %>
   </tr>
   
-  <tr>
-    <td class="subheading"><%= f.label :recognized, "Recognized?" %></td>
-    <td><%= f.check_box :recognized %></td>
-  </tr>
-  
   <% if not f.object.new_record? and can? :create, Journal %>
     <tr>
       <td class="subheading"><%= f.label :journal_invoice, "Invoice JE" %>:</td>
@@ -83,6 +78,12 @@
   </tr>
 </table>
 
+<p>
+  <p id="loan-agreement-notice" <%= raw 'style="display: none"' unless f.object.status == "Loan Agreement" %>>
+    Each item must have the current condition of the item listed in its description (click the arrow next to the memo box to access the description box) as well as the item's replacement cost (the amount of reimbursement ABTech would require if the borrower of the equipment were to damage it).
+  </p>
+</p>
+
 <table class="generic">
   <tr>
     <th>Preset</th>
@@ -93,7 +94,7 @@
     <th></th>
   </tr>
   
-  <%= f.fields_for :invoice_lines do |builder| %>
+  <%= f.fields_for :invoice_lines, @invoice.invoice_lines.sort do |builder| %>
     <%= render :partial => 'invoice_line_fields', :locals => {:f => builder} %>
   <% end %>
   

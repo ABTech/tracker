@@ -100,17 +100,8 @@ class Event < ActiveRecord::Base
     event_roles.sort!
   end
 
-  def approximate_date
-    return self.eventdates.first.calldate unless self.eventdates.first.nil?
-  end
-
-  def earliest_date
-    return self.eventdates.collect{|ed| ed.calldate}.min unless self.eventdates.first.nil?
-  end
-
-  def to_s 
-    return "#{self.title} on #{self.approximate_date.strftime('%D')}" unless self.approximate_date.nil?
-    return "#{self.title}"
+  def to_s
+    self.title
   end
 
   def members

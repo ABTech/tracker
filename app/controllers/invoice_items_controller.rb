@@ -47,6 +47,6 @@ class InvoiceItemsController < ApplicationController
   
   private
     def ii_params
-      params.require(:invoice_item).permit(:memo, :category, :price_recognized, :price_unrecognized)
+      params.require(:invoice_item).permit(:memo, :category, :price)
     end
 end

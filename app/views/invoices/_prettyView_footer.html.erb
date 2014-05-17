@@ -44,7 +44,7 @@
 <table class=prettyBorder align=center width=100% >
 <tr><th>Qty</th><th>Category</th><th>Description</th><th>Unit Price</th><th>Extended Price</th></tr>
 <% sum = 0 %>
-<% for line in @invoice.invoice_lines do %>
+<% @invoice.invoice_lines.sort.each do |line| %>
   <tr>
     <td><%=line.quantity %></td>
     <td><%=line.category %></td>
@@ -144,5 +144,46 @@
   <tr><td>____________________________________</td><td>_________________________________</td></tr>
   <tr><td>Printed Name</td><td>Printed Name</td></tr>
   </table>  
+  </div>
+<% elsif @invoice.status == "Loan Agreement" %>
+  <p align=left style="text-indent:20px">
+  Please read the Contract Terms on the following page.
+  </p>
+  <div class="loan">
+    <h2>Loan Agreement For AB Tech Equipment</h2>
+    
+    <p><b>This agreement</b>, made this <u><%= Time.new.day.ordinalize %></u> day of <u><%= Time.new.strftime("%B %Y") %></u> by and between AB Tech (the "Lender") and <u><%= @invoice.event.organization.name %></u> (the "Borrower").</p>
+    
+    <p><b>Witnesseth</b>, that the items listed above are loaned to the Borrower at the above agreed cost by the Lender for the period beginning on the <u><%= @invoice.event.eventdates.first.startdate.day.ordinalize %></u> day of <u><%= @invoice.event.eventdates.first.startdate.strftime("%B %Y") %></u> to the <u><%= @invoice.event.eventdates.first.enddate.day.ordinalize %></u> day of <u><%= @invoice.event.eventdates.first.enddate.strftime("%B %Y") %></u>.</p>
+    
+    <p><b>Witnesseth</b>, that the Borrower has suitable insurance or acceptable cash assets an amount equal to or greater than the replacement value of the items. Borrower shall indemnify and hold AB Tech harmless in the event the items are lost, stolen or destroyed in total or in part.</p>
+    
+    <p><b>Witnesseth</b>, that the "replacement value" for each item rented is listed above. The "replacement value" is to be paid in full to the Lender in case of loss, theft or damage as determined in the sole judgement of the Lender. A suitable replacement if offered, will be accepted in the Lender's sole discretion in lieu of the "replacement value".</p>
+    
+    <p><b>In witness whereof</b>, this agreement has been duly executed by the parties hereto.</p>
+    
+    <div id="parties-hereto">
+      <div id="party-lender">
+        <h2>AB Tech</h2>
+        
+        <p>Signature: ___________________________________</p>
+        
+        <p>Name: ___________________________________</p>
+        
+        <p>Title: ___________________________________</p>
+      </div>
+      
+      <div id="party-borrower">
+        <h2>Borrower</h2>
+        
+        <p>Signature: ___________________________________</p>
+        
+        <p>Name: ___________________________________</p>
+        
+        <p>Title: ___________________________________</p>
+        
+        <p>Organization: ___________________________________</p>
+      </div>
+    </div>
   </div>
 <% end %>

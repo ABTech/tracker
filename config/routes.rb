@@ -114,6 +114,7 @@ Abtt::Application.routes.draw do
 
   get 'calendar/generate.:format' => 'events#generate'
   get 'calendar' => 'events#calendar'
+  get 'calendar/callfeed' => 'events#callfeed'
   get 'mobile' => 'events#mobile'
   get 'iphone' => 'events#iphone'
   get 'i' => 'events#iphone'

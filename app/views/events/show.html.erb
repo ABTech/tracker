@@ -183,7 +183,6 @@
                 </td>
                 <td>
                   <ul class="simple">
-                    <li><%= conditional_link_to "Show full", invoice, :read, invoice %></li>
                     <li><%= conditional_link_to "Edit", edit_invoice_url(invoice), :update, invoice %></li>
                     <li><%= conditional_link_to "Preview", prettyView_invoice_url(invoice), :read, invoice %></li>
                     <li><%= conditional_link_to "Print", prettyView_invoice_url(invoice, :format => :pdf), :read, invoice %></li>

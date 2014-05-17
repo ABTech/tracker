@@ -29,12 +29,13 @@ class Member < ActiveRecord::Base
   end
   
   scope :active, -> { where.not(role: ["suspended", "alumni"]) }
+  scope :alphabetical, -> { order(namelast: :asc, namefirst: :asc) }
   
   def is_at_least?(pos)
     Member.role.values.index(self.role) >= Member.role.values.index(pos.to_s)
   end
 
-  Default_sort_key = "namefirst"
+  Default_sort_key = "namelast"
 
   def fullname
     return namefirst + " " + namelast;

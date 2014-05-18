@@ -303,19 +303,9 @@ class EventsController < ApplicationController
 
     # find the eventdates relevant
     # showall=true param includes events that are unpublished (events.published == false)
-    if(params['showall'])
-      @eventdates = Eventdate.find(:all,
-                                   :conditions => "('#{@startdate.strftime("%Y-%m-%d")}' < startdate) AND " +
-                                                  "('#{@enddate.strftime("%Y-%m-%d")}' > enddate)",
-                                   :order => "startdate ASC",
-                                   :include => [:event, :locations]);
-    else
-      @eventdates = Eventdate.find(:all, 
-                                   :conditions => "('#{@startdate.strftime("%Y-%m-%d")}' < startdate) AND " +
-                                                    "('#{@enddate.strftime("%Y-%m-%d")}' > enddate) AND " +
-                                                    "(events.publish)",
-                                   :order => "startdate ASC",
-                                   :include => [:event, :locations]);
+    @eventdates = Eventdate.where("('#{@startdate.strftime("%Y-%m-%d")}' < startdate) AND ('#{@enddate.strftime("%Y-%m-%d")}' > enddate)").order(startdate: :asc).includes(:event, :locations)
+    if not params[:showall]
+      @eventdates = @eventdates.where("events.publish = TRUE").references(:events)
     end
 
     format = params['format'];

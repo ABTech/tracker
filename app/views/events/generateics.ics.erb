@@ -1,16 +1,20 @@
 <%
 
+require 'icalendar/tzinfo'
+
 calendar = Icalendar::Calendar.new();
 calendar.prodid = "ABTechTracker"
-calendar.custom_property("X-WR-CALNAME", "ABtech schedule");
-calendar.custom_property("X-WR-TIMEZONE", "America/New_York");
+
+calendar.timezone do |tz|
+  tz.tzid = "America/New_York"
+end
 
 # THIS WAS AN AWFUL MISIMPLEMENTATION OF ICALENDAR!#
 # let uid be created automagically by Icalendar::Evenet.new()
 #uid = 0;
 
 @eventdates.each do |date|
-  event = Event.find(date.event_id, :include => [:event_roles]);
+  event = date.event
   summary = event.title + " - " + date.description;
   description = "";
 
@@ -45,30 +49,30 @@ calendar.custom_property("X-WR-TIMEZONE", "America/New_York");
 
   # generate call event 
   if date.has_call?
-    calevent = Icalendar::Event.new();
-    calevent.dtstart   = DateTime.parse(date.effective_call.to_s).to_ical 
-    calevent.dtend   = DateTime.parse(date.startdate.to_s).to_ical
-    calevent.summary    = cancelled + summary + " Call";
-    calevent.description  = description;
-    calendar.add_event(calevent);
+    calendar.event do |e|
+      e.dtstart = date.effective_call
+      e.dtend   = date.startdate
+      e.summary    = cancelled + summary + " Call";
+      e.description  = description;
+    end
   end
 
   # generate event event
-  calevent = Icalendar::Event.new();
-  calevent.dtstart    DateTime.parse(date.startdate.to_s).to_ical 
-  calevent.dtend    DateTime.parse(date.enddate.to_s).to_ical
-  calevent.summary    = cancelled + summary + " Show";
-  calevent.description  = description;
-  calendar.add_event(calevent);
+  calendar.event do |e|
+    e.dtstart  =  date.startdate
+    e.dtend   = date.enddate
+    e.summary    = cancelled + summary + " Show";
+    e.description  = description;
+  end
 
   # generate strike event
   if date.has_strike?
-    calevent = Icalendar::Event.new();
-    calevent.dtstart    = DateTime.parse(date.effective_strike.to_s).to_ical
-    calevent.dtend    = DateTime.parse((date.effective_strike + 60 * 60).to_s).to_ical # an hour, sure
-    calevent.summary    = cancelled + summary + " Strike";
-    calevent.description  = description;
-    calendar.add_event(calevent);
+    calendar.event do |e|
+      e.dtstart    = date.effective_strike
+      e.dtend    = (date.effective_strike + 60 * 60)
+      e.summary    = cancelled + summary + " Strike";
+      e.description  = description;
+    end
   end
 end
 

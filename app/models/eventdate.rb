@@ -16,7 +16,7 @@ class Eventdate < ActiveRecord::Base
   Event_Span_Days       = 2;
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
   
-  include Enumerize
+  extend Enumerize
   enumerize :calltype, in: ["literal", "blank", "startdate"]
   enumerize :striketype, in: ["literal", "enddate", "none", "blank"]
 

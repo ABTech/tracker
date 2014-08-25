@@ -15,16 +15,16 @@
         <br />
         <%= f.radio_button :calltype, "literal" %>
         <%= f.label :call_type_literal, "literal" %>
-        <%= f.datetime_select :calldate, :minute_step => 5 %>
+        <div class="datetime_select"><%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true %></div>
       </td>
     </tr>
     <tr>
       <td><%= f.label :startdate, "Start" %>:</td>
-      <td><%= f.datetime_select :startdate, :minute_step => 5 %></td>
+      <td class="datetime_select"><%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %></td>
     </tr>
     <tr>
       <td><%= f.label :enddate, "Ends" %>:</td>
-      <td><%= f.datetime_select :enddate, :minute_step => 5 %></td>
+      <td class="datetime_select"><%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %></td>
     </tr>
     <tr>
       <td><%= f.label :strikedate, "Strike" %>:</td>
@@ -40,7 +40,7 @@
         <br />
         <%= f.radio_button :striketype, "literal" %>
         <%= f.label :strike_type_literal, "literal" %>
-        <%= f.datetime_select :strikedate, :minute_step => 5 %>
+        <div class="datetime_select"><%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true %></div>
       </td>
     </tr>
     <tr>

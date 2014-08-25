@@ -40,3 +40,25 @@ $ ->
     $(this).prev("input[type=hidden]").val("1")
     $("#event_blackout_form").before("Blackout removed.")
     $("#event_blackout_form").hide()
+
+@setDateMonths = (parent) ->
+  year = parseInt(parent.children(".year").children(":selected").val())
+  month = parseInt(parent.children(".month").children(":selected").val())
+  day = parseInt(parent.children(".day").children(":selected").val())
+  days = new Date(year, month, 0).getDate()
+  if days < day
+    day = 1
+  day_select = parent.children(".day")
+  day_select.empty()
+  for d in [1..days]
+    if d == day
+      day_select.append("<option value=\"" + d + "\" selected=\"selected\">" + d + "</option>")
+    else
+      day_select.append("<option value=\"" + d + "\">" + d + "</option>")
+
+$ ->
+  $(".datetime_select").each ->
+    parent = $(this)
+    setDateMonths(parent)
+    $(this).children(".month, .year").change ->
+      setDateMonths(parent)

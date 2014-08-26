@@ -88,17 +88,19 @@
       </table>
     </fieldset>
     
-    <% if can? :tic, @event %>
+    <% if @event.has_editable_eventdates? current_member %>
       <fieldset id="event-form-dates">
         <legend>Dates</legend>
     
-        <%= f.fields_for :eventdates do |builder| %>
+        <%= f.fields_for :eventdates, f.object.eventdates_editable_by(current_member) do |builder| %>
           <%= render :partial => 'events/eventdate_fields', :locals => {:f => builder} %>
         <% end %>
     
-        <p>
-          <%= link_to_add_fields "Add another event date", f, :eventdates, "", "events" %>
-        </p>
+        <% if can? :tic, @event %>
+          <p>
+            <%= link_to_add_fields "Add another event date", f, :eventdates, "", "events" %>
+          </p>
+        <% end %>
       </fieldset>
     <% end %>
     
@@ -127,12 +129,12 @@
       </tr>
       
       <%= f.fields_for :event_roles, f.object.event_roles.sort do |builder| %>
-        <%= render :partial => 'events/event_role_fields', :locals => {:f => builder} %>
+        <%= render :partial => 'events/event_role_fields', :locals => {:f => builder, :parent => @event} %>
       <% end %>
     
       <% if can? :tic, @event or not @event.run_positions_for(current_member).flat_map(&:assistants).empty? %>
         <tr>
-          <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2", "events" %></td>
+          <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2", "events", {:parent => @event} %></td>
         </tr>
       <% end %>
     </table>

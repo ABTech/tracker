@@ -51,7 +51,11 @@ class Ability
       end
       
       can :update, Event do |event|
-        event.has_run_position? member
+        event.has_run_position? member or event.eventdates.any? {|ed| ed.has_run_position? member}
+      end
+      
+      can :tic, Eventdate do |ed|
+        (!ed.event.nil? and ed.event.tic == member) or ed.tic == member
       end
     end
     
@@ -69,6 +73,7 @@ class Ability
       
       # Event Management
       can :manage, Event
+      can :manage, Eventdate
       can :manage, Email
       can :destroy, Comment
       can :manage, Blackout

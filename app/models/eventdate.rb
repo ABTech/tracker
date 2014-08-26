@@ -118,4 +118,19 @@ class Eventdate < ActiveRecord::Base
       roles
     end
   end
+  
+  def tic
+    t = event_roles.where(role: EventRole::Role_TIC).first
+    return t.member if t
+    return event.tic if event
+    nil
+  end
+  
+  def has_run_position?(member)
+    self.event_roles.where(member: member).count > 0
+  end
+  
+  def run_positions_for(member)
+    self.event_roles.where(member: member)
+  end
 end

@@ -144,6 +144,20 @@ class Event < ActiveRecord::Base
     self.event_roles.includes(:member).map(&:member).uniq.compact
   end
   
+  def eventdates_editable_by(member)
+    if member.ability.can? :tic, self
+      self.eventdates
+    else
+      self.eventdates.select do |ed|
+        ed.has_run_position? member
+      end
+    end
+  end
+  
+  def has_editable_eventdates?(member)
+    eventdates_editable_by(member).count != 0
+  end
+  
   private
     def handle_organization
       if self.org_type == "new"

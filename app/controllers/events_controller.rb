@@ -53,7 +53,14 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}], :event_roles_attributes => [:role, :member_id], :attachments_attributes => [:attachment, :name], :blackout_attributes => [:startdate, :enddate, :with_new_event])
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
+      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+      :eventdates_attributes =>
+        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []},
+        {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
+      :event_roles_attributes => [:role, :member_id],
+      :attachments_attributes => [:attachment, :name],
+      :blackout_attributes => [:startdate, :enddate, :with_new_event])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -71,17 +78,40 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     authorize! :update, @event
     
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
+      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+      :eventdates_attributes =>
+        [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
+        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
+      :attachments_attributes => [:attachment, :name, :id, :_destroy],
+      :event_roles_attributes => [:id, :role, :member_id, :_destroy],
+      :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
+      :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
+    
     if cannot? :create, Organization
-      params[:event].delete(:org_type)
-      params[:event].delete(:org_new)
+      p.delete(:org_type)
+      p.delete(:org_new)
     end
     
-    if can? :manage, :finance
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
-    elsif can? :tic, @event
-      p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :eventdates_attributes => [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}], :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy], :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
-    else
-      p = params.require(:event).permit(:notes, :attachments_attributes => [:attachment, :name, :id, :_destroy], :event_roles_attributes => [:id, :role, :member_id, :_destroy])
+    if cannot? :manage, :finance
+      p.delete(:invoice_attributes)
+    end
+    
+    if cannot? :tic, @event
+      p.delete(:title)
+      p.delete(:org_type)
+      p.delete(:organization_id)
+      p.delete(:org_new)
+      p.delete(:status)
+      p.delete(:billable)
+      p.delete(:textable)
+      p.delete(:rental)
+      p.delete(:publish)
+      p.delete(:contact_name)
+      p.delete(:contactemail)
+      p.delete(:contact_phone)
+      p.delete(:price_quote)
+      p.delete(:blackout_attributes)
       
       # If you are not TIC for the event, with regards to run positions, you
       # can only delete yourself from a run position, assign a member who isn't
@@ -98,6 +128,48 @@ class EventsController < ApplicationController
           end
         else
           er[:member_id] != current_member.id and assistants.include? er[:role]
+        end
+      end
+      
+      # If you are not TIC for the event, with regards to eventdates, you
+      # can only edit and delete eventdates that you are the TIC of. You cannot
+      # create a new eventdate. If you are not the TIC of an eventdate but are
+      # a run position, you may only delete yourself from a run position, assign
+      # a member who isn't you to be one of your assistants, or modify a run
+      # position which is one of your assistants
+      if p[:eventdates_attributes]
+        p[:eventdates_attributes].each do |key,ed|
+          if ed[:id]
+            red = Eventdate.find(ed[:id])
+            if red.tic.id != current_member.id
+              p[:eventdates_attributes][key].delete(:_destroy)
+              p[:eventdates_attributes][key].delete(:startdate)
+              p[:eventdates_attributes][key].delete(:description)
+              p[:eventdates_attributes][key].delete(:enddate)
+              p[:eventdates_attributes][key].delete(:calldate)
+              p[:eventdates_attributes][key].delete(:strikedate)
+              p[:eventdates_attributes][key].delete(:calltype)
+              p[:eventdates_attributes][key].delete(:striketype)
+              p[:eventdates_attributes][key].delete(:location_ids)
+              p[:eventdates_attributes][key].delete(:equipment_ids)
+            
+              assistants = red.run_positions_for(current_member).flat_map(&:assistants)
+              p[:eventdates_attributes][key][:event_roles_attributes].select! do |_,er|
+                if er[:id]
+                  rer = EventRole.find(er[:id])
+                  if rer.member_id == current_member.id
+                    er[:_destroy] == '1'
+                  else
+                    assistants.include? er[:role] and assistants.include? rer.role
+                  end
+                else
+                  er[:member_id] != current_member.id and assistants.include? er[:role]
+                end
+              end
+            end
+          else
+            p[:eventdates_attributes].delete(key)
+          end
         end
       end
     end

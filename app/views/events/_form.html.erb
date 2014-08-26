@@ -88,7 +88,7 @@
       </table>
     </fieldset>
     
-    <% if @event.has_editable_eventdates? current_member %>
+    <% if @event.new_record? or @event.has_editable_eventdates? current_member %>
       <fieldset id="event-form-dates">
         <legend>Dates</legend>
     
@@ -96,7 +96,7 @@
           <%= render :partial => 'events/eventdate_fields', :locals => {:f => builder} %>
         <% end %>
     
-        <% if can? :tic, @event %>
+        <% if can? :tic, @event or @event.new_record? %>
           <p>
             <%= link_to_add_fields "Add another event date", f, :eventdates, "", "events" %>
           </p>

@@ -14,7 +14,7 @@
             "you?"
         }.join(", ");
 
-      role_line << " ";
+      role_line << ", ";
 
     # if we could guarantee every event had a "TIC" that'd be better
     elsif(type == EventRole::Role_TIC)
@@ -31,6 +31,7 @@
   Show:      <%= cancelled ? "CANCELLED" : (date.startdate.strftime("%I:%M %p").downcase()) %>
   Strike:    <%= cancelled ? "CANCELLED" : (date.has_strike? ? date.effective_strike.strftime("%I:%M %p").downcase() : (date.striketype == "blank" ? "?" : date.striketype)) %>
   Equipment: <%= date.equipment.empty? ? "?" : date.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
-  <%= role_line %>
+  <%= role_line[0..-3] %>
+  
 <% end %>
 # Schedule file generated on <%= DateTime.now().strftime("%Y-%m-%d") %> for the period <%= @startdate.to_s() %> to <%= @enddate.to_s() %>. (<%= @eventdates.length %> dates)

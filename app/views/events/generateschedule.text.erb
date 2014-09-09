@@ -32,5 +32,6 @@
   Strike:    <%= cancelled ? "CANCELLED" : (date.has_strike? ? date.effective_strike.strftime("%I:%M %p").downcase() : (date.striketype == "blank" ? "?" : date.striketype)) %>
   Equipment: <%= date.equipment.empty? ? "?" : date.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
   <%= role_line %>
+  <%= "\r\n" %> 
 <% end %>
 # Schedule file generated on <%= DateTime.now().strftime("%Y-%m-%d") %> for the period <%= @startdate.to_s() %> to <%= @enddate.to_s() %>. (<%= @eventdates.length %> dates)

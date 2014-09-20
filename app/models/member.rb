@@ -57,4 +57,8 @@ class Member < ActiveRecord::Base
   def active_for_authentication?
     super and not suspended?
   end
+  
+  def ability
+    @ability ||= Ability.new(self)
+  end
 end

@@ -1,56 +1,59 @@
 <div class="event-date-form fields association-<%= f.index %>">
   <table>
-    <tr>
-      <td><%= f.label :description %>:</td>
-      <td><%= f.text_field :description %></td>
-    </tr>
-    <tr>
-      <td><%= f.label :calldate, "Call" %>:</td>
-      <td>
-        <%= f.radio_button :calltype, "blank" %>
-        <%= f.label :call_type_blank, "blank" %>
-        <br />
-        <%= f.radio_button :calltype, "startdate" %>
-        <%= f.label :call_type_startdate, "startdate" %>
-        <br />
-        <%= f.radio_button :calltype, "literal" %>
-        <%= f.label :call_type_literal, "literal" %>
-        <%= f.datetime_select :calldate, :minute_step => 5 %>
-      </td>
-    </tr>
-    <tr>
-      <td><%= f.label :startdate, "Start" %>:</td>
-      <td><%= f.datetime_select :startdate, :minute_step => 5 %></td>
-    </tr>
-    <tr>
-      <td><%= f.label :enddate, "Ends" %>:</td>
-      <td><%= f.datetime_select :enddate, :minute_step => 5 %></td>
-    </tr>
-    <tr>
-      <td><%= f.label :strikedate, "Strike" %>:</td>
-      <td>
-        <%= f.radio_button :striketype, "blank" %>
-        <%= f.label :strike_type_blank, "blank" %>
-        <br />
-        <%= f.radio_button :striketype, "none" %>
-        <%= f.label :strike_type_none, "none "%>
-        <br />
-        <%= f.radio_button :striketype, "enddate" %>
-        <%= f.label :strike_type_enddate, "enddate" %>
-        <br />
-        <%= f.radio_button :striketype, "literal" %>
-        <%= f.label :strike_type_literal, "literal" %>
-        <%= f.datetime_select :strikedate, :minute_step => 5 %>
-      </td>
-    </tr>
-    <tr>
-      <td><%= f.label :location_ids, "Location" %>:</td>
-      <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, floor ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
-    </tr>
-    <tr>
-      <td><%= f.label :equipment_ids, "Equipment" %>:</td>
-      <td><%= f.select :equipment_ids, options_from_collection_for_select(EquipmentCategory::tree_as_collection, "id", "description", f.object.equipment.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
-    </tr>
+    <% if can? :tic, f.object %>
+      <tr>
+        <td><%= f.label :description %>:</td>
+        <td><%= f.text_field :description %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :calldate, "Call" %>:</td>
+        <td>
+          <%= f.radio_button :calltype, "blank" %>
+          <%= f.label :call_type_blank, "blank" %>
+          <br />
+          <%= f.radio_button :calltype, "startdate" %>
+          <%= f.label :call_type_startdate, "startdate" %>
+          <br />
+          <%= f.radio_button :calltype, "literal" %>
+          <%= f.label :call_type_literal, "literal" %>
+          <div class="datetime_select"><%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true %></div>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :startdate, "Start" %>:</td>
+        <td class="datetime_select"><%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :enddate, "Ends" %>:</td>
+        <td class="datetime_select"><%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :strikedate, "Strike" %>:</td>
+        <td>
+          <%= f.radio_button :striketype, "blank" %>
+          <%= f.label :strike_type_blank, "blank" %>
+          <br />
+          <%= f.radio_button :striketype, "none" %>
+          <%= f.label :strike_type_none, "none "%>
+          <br />
+          <%= f.radio_button :striketype, "enddate" %>
+          <%= f.label :strike_type_enddate, "enddate" %>
+          <br />
+          <%= f.radio_button :striketype, "literal" %>
+          <%= f.label :strike_type_literal, "literal" %>
+          <div class="datetime_select"><%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true %></div>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :location_ids, "Location" %>:</td>
+        <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, floor ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :equipment_ids, "Equipment" %>:</td>
+        <td><%= f.select :equipment_ids, options_from_collection_for_select(EquipmentCategory::tree_as_collection, "id", "description", f.object.equipment.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
+      </tr>
+    <% end %>
+    
     <tr>
       <td>Roles:</td>
       <td>
@@ -60,19 +63,24 @@
             <th>Techie</th>
           </tr>
       
-          <%= f.fields_for :event_roles do |builder| %>
-            <%= render :partial => 'events/event_role_fields', :locals => {:f => builder} %>
+          <%= f.fields_for :event_roles, f.object.event_roles.sort do |builder| %>
+            <%= render :partial => 'events/event_role_fields', :locals => {:f => builder, :parent => f.object} %>
           <% end %>
-
-          <tr>
-            <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2", "events" %></td>
-          </tr>
+          
+          <% if can? :tic, @event or can? :tic, f.object or not f.object.run_positions_for(current_member).flat_map(&:assistants).empty? %>
+            <tr>
+              <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2", "events", {:parent => f.object} %></td>
+            </tr>
+          <% end %>
         </table> 
       </td>
     </tr>
-    <tr>
-      <td></td>
-      <td><%= link_to_remove_fields "Delete this event date", f %></td>
-    </tr>
+    
+    <% if can? :tic, f.object %>
+      <tr>
+        <td></td>
+        <td><%= link_to_remove_fields "Delete this event date", f %></td>
+      </tr>
+    <% end %>
   </table>
 </div>

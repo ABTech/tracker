@@ -139,7 +139,7 @@ class InvoicesController < ApplicationController
         
     @email_content += "\n\nAB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to ensure the success of future events, as well as improve the relationship between our organizations. As such, we welcome any comments or complaints you may have about our services. Feedback may be directed to abtech@andrew.cmu.edu, or to (412) 268-2104."
     
-    @email_subject = "AB Tech Billing For #{@invoice.event.title}"   
+    @email_subject = "[AB Tech Billing] #{@invoice.event.title}"   
     
     respond_to do |format|
       format.js

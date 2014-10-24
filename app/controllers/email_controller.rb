@@ -81,8 +81,8 @@ class EmailController < ApplicationController
                 # get the actual contents, finding the text multipart segment
                 # if we've got a multipart message (a message with attachment)
                 parts = collapse_multipart_tree(mail)
-                textpart = parts.find { |p| p.content_type.starts_with? "text/plain" }
-                htmlpart = parts.find { |p| p.content_type.starts_with? "text/html" }
+                textpart = parts.find { |p| not p.content_type.nil? and p.content_type.starts_with? "text/plain" }
+                htmlpart = parts.find { |p| not p.content_type.nil? and p.content_type.starts_with? "text/html" }
                 
                 if textpart
                   message.contents = textpart.body.decoded

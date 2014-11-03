@@ -28,7 +28,7 @@ class Timecard < ActiveRecord::Base
   end
 
   def entries(member=nil)
-    timecard_entries.select {|entry| member.nil? or entry.member == member } unless timecard_entries.nil?
+    timecard_entries.where(member: member).order("eventdates.startdate ASC").includes(:eventdate).references(:eventdate) unless timecard_entries.nil?
   end
 
   def hours(member=nil)

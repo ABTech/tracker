@@ -1,6 +1,6 @@
 <div class="event-date-form fields association-<%= f.index %>">
   <table>
-    <% if can? :tic, f.object %>
+    <% if can? :tic, @event %>
       <tr>
         <td><%= f.label :description %>:</td>
         <td><%= f.text_field :description %></td>
@@ -76,7 +76,7 @@
       </td>
     </tr>
     
-    <% if can? :tic, f.object %>
+    <% if can? :tic, @event %>
       <tr>
         <td></td>
         <td><%= link_to_remove_fields "Delete this event date", f %></td>

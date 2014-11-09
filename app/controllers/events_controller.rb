@@ -232,7 +232,7 @@ class EventsController < ApplicationController
     @title = "Event List - Search for " + params[:q]
     authorize! :read, Event
     
-    @eventdates = Eventdate.search params[:q], :page => params[:page], :per_page => 50, :order => "startdate DESC"
+    @eventdates = Eventdate.search (Riddle::Query.escape(params[:q])), :page => params[:page], :per_page => 50, :order => "startdate DESC"
   end
 
   def iphone

@@ -11,7 +11,7 @@
   <tr><td colspan=2>
     <p align=center ><b><%= @invoice.status %></b></p>
   </td></tr>
-  <tr><td>Date:</td><td><%= @invoice.created_at.strftime("%B %d, %Y") %></td></tr>
+  <tr><td>Date:</td><td><%= Time.now.strftime("%B %d, %Y") %></td></tr>
   <tr><td>Invoice Number:</td><td><%= @invoice.id %></td></tr>
   <tr><td>Prepared By:</td><td><%=  current_member().fullname %></td></tr>
   </table>

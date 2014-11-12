@@ -4,6 +4,8 @@
   <span id="event-sel-time"><%= link_to "Future", events_url %> | <%= link_to "Past", past_events_url %></span>
 </div>
 
+<%= will_paginate @eventdates %>
+
 <%= eventslist @eventdates %>
 
 <%= will_paginate @eventdates %>

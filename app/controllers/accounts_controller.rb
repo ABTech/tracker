@@ -52,33 +52,29 @@ class AccountsController < ApplicationController
     begin
       @accstart = Date.parse(params[:start]).to_s
     rescue
-      @accstart = Account::Magic_Date
+      @accstart = Account.magic_date
     end
 
     begin
       @accend = Date.parse(params[:end]).to_s
     rescue
-      @accend = Account::Future_Magic_Date
+      @accend = Account.future_magic_date
     end
 
     cat_filter="%"
     if !params[:category].nil?
       cat_filter=params[:category]
     end
-    @credit_accounts = Account.find(:all, :conditions => "is_credit = true")
-    @debit_accounts = Account.find(:all, :conditions => "is_credit = false")
+    @credit_accounts = Account.where(is_credit: true)
+    @debit_accounts = Account.where(is_credit: false)
+    
+    @accounts_receivable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Credit_Accounts, cat_filter).sum(:amount)
+    @accounts_received_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Credit_Accounts, cat_filter).sum(:amount)
+    @accounts_payable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Debit_Accounts, cat_filter).sum(:amount)
+    @accounts_paid_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Debit_Accounts, cat_filter).sum(:amount)
 
-    @accounts_receivable_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"' AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter])
-    @accounts_receivable_total = (@accounts_receivable_total == nil) ? 0 : @accounts_receivable_total
-    @accounts_received_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter])
-    @accounts_received_total = (@accounts_received_total == nil) ? 0 : @accounts_received_total
-    @accounts_payable_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "'  AND date < '"+ @accend +"' AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter])
-    @accounts_payable_total = (@accounts_payable_total == nil) ? 0 : @accounts_payable_total
-    @accounts_paid_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter])
-    @accounts_paid_total = (@accounts_paid_total == nil) ? 0 : @accounts_paid_total
-
-    @credit_JEs = Journal.find(:all, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Credit_Accounts, cat_filter], :order => "date DESC")
-    @debit_JEs = Journal.find(:all, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND account_id in (?) and paymeth_category LIKE ?", Account::Debit_Accounts, cat_filter], :order => "date DESC")
+    @credit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?) AND paymeth_category LIKE ?", @accstart, @accend, Account::Credit_Accounts, cat_filter)
+    @debit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?) AND paymeth_category LIKE ?", @accstart, @accend, Account::Debit_Accounts, cat_filter)
   end
 
   def events
@@ -93,7 +89,7 @@ class AccountsController < ApplicationController
     
     @title = "Unpaid JEs"
 
-    @journals = Journal.find(:all, :conditions => ["date >= '" + Account::Magic_Date + "' AND date_paid IS NULL"])
+    @journals = Journal.find(:all, :conditions => ["date >= '" + Account.magic_date + "' AND date_paid IS NULL"])
   end
 
   def unpaid_print
@@ -101,7 +97,7 @@ class AccountsController < ApplicationController
     
     @title = "Unpaid JEs"
 
-    @journals = Journal.find(:all, :conditions => ["date >= '" + Account::Magic_Date + "' AND date_paid IS NULL"])
+    @journals = Journal.find(:all, :conditions => ["date >= '" + Account.magic_date + "' AND date_paid IS NULL"])
   end
 
   def confirm_paid

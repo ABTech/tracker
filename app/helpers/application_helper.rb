@@ -46,20 +46,16 @@ module ApplicationHelper
   end
   
   def load_account_totals
-    @accstart = Account::Magic_Date unless @accstart
-    @accend = Account::Future_Magic_Date unless @accend
-    
-    @accounts_receivable_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"' AND date_paid IS NULL AND account_id in (?)", Account::Credit_Accounts])
-    @accounts_receivable_total = (@accounts_receivable_total == nil) ? 0 : @accounts_receivable_total
-    @accounts_received_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND date_paid IS NOT NULL AND account_id in (?)", Account::Credit_Accounts])
-    @accounts_received_total = (@accounts_received_total == nil) ? 0 : @accounts_received_total
-    @accounts_payable_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "'  AND date < '"+ @accend +"' AND date_paid IS NULL AND account_id in (?)", Account::Debit_Accounts])
-    @accounts_payable_total = (@accounts_payable_total == nil) ? 0 : @accounts_payable_total
-    @accounts_paid_total = Journal.sum(:amount, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND date_paid IS NOT NULL AND account_id in (?)", Account::Debit_Accounts])
-    @accounts_paid_total = (@accounts_paid_total == nil) ? 0 : @accounts_paid_total
+    @accstart = Account.magic_date unless @accstart
+    @accend = Account.future_magic_date unless @accend
 
-    @credit_JEs = Journal.find(:all, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND account_id in (?)", Account::Credit_Accounts], :order => "date DESC")
-    @debit_JEs = Journal.find(:all, :conditions => ["date >= '" + @accstart+ "' AND date < '"+ @accend +"'  AND account_id in (?)", Account::Debit_Accounts], :order => "date DESC")
+    @accounts_receivable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts).sum(:amount)
+    @accounts_received_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts).sum(:amount)
+    @accounts_payable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts).sum(:amount)
+    @accounts_paid_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts).sum(:amount)
+
+    @credit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts)
+    @debit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts)
 
     @credit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date >= '#{@accstart}' AND date < '#{@accend}' AND account_id in (?)",Account::Credit_Accounts])
     @debit_categories = Journal.find(:all,:group=>"paymeth_category",:select=>"SUM(amount) AS amount, id,paymeth_category", :conditions => ["date >= '#{@accstart}' AND date < '#{@accend}' AND account_id in (?)",Account::Debit_Accounts])

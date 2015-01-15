@@ -3,6 +3,8 @@
   <span id="event-sel-time"><%= link_to "Future", events_url %> | <b>Past (<%= page_entries_info @eventdates, :html => false %>)</b></span>
 </div>
 
+<%= will_paginate @eventdates %>
+
 <%= eventslist @eventdates %>
 
 <%= will_paginate @eventdates %>

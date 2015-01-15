@@ -23,9 +23,9 @@ class JournalsController < ApplicationController
     @journal.date = DateTime.now()
     authorize! :create, @journal
     
-    @start = (Time.parse Account::Magic_Date)-1.year
-    @end = (Time.parse Account::Future_Magic_Date)
-    @events = Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC")
+    @start = (Time.parse Account.magic_date)-1.year
+    @end = (Time.parse Account.future_magic_date)
+    @events = Event.where(["representative_date >= ?", Account.magic_date]).order("title ASC")
     @event_id = params[:event_id] if params[:event_id]
 
     render(:action => "new")
@@ -34,13 +34,13 @@ class JournalsController < ApplicationController
   def edit
     @title = "Editing JE"
     @mode = Mode_Edit
-    @events = Event.where(["representative_date >= ?", Account::Magic_Date]).order("title ASC")
+    @events = Event.where(["representative_date >= ?", Account.magic_date]).order("title ASC")
     @journal = Journal.find(params['id'])
     authorize! :update, @journal
     
-    if(@journal.date>(Time.parse Account::Magic_Date) and @journal.date < (Time.parse Account::Future_Magic_Date))
-      @start = (Time.parse Account::Magic_Date)-1.year
-      @end = (Time.parse Account::Future_Magic_Date)
+    if(@journal.date>(Time.parse Account.magic_date) and @journal.date < (Time.parse Account.future_magic_date))
+      @start = (Time.parse Account.magic_date)-1.year
+      @end = (Time.parse Account.future_magic_date)
     end
   end
 

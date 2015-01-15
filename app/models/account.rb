@@ -4,32 +4,42 @@ class Account < ActiveRecord::Base
   validates_presence_of :name, :position;
   validates_inclusion_of :is_credit, :in => [true, false];
 
-  # When you change this magic date, finances are reset. JEs before this date don't count. Perhaps this should be made sensible some day.
-  Magic_Date = '2013-07-01'
-  Future_Magic_Date = '2014-07-01'
+  def self.magic_date
+    if Date.today.month < 7
+      (Date.today.year - 1).to_s + '-07-01'
+    else
+      Date.today.year.to_s + '-07-01'
+    end
+  end
+  
+  def self.future_magic_date
+    if Date.today.month < 7
+      Date.today.year.to_s + '-07-01'
+    else
+      (Date.today.year + 1).to_s + '-07-01'
+    end
+  end
   		
   # Credit
-  Credit_Accounts = Account.find(:all, :conditions => "is_credit = true")
-  Events_Account = Account.find(1);
-  Rentals_Credit_Account = Account.find(2);
-  CMU_Account = Account.find(3);
-  Misc_Credit_Account = Account.find(4);
+  Credit_Accounts = Account.where(is_credit: true)
+  Events_Account = Account.find(1)
+  Rentals_Credit_Account = Account.find(2)
+  CMU_Account = Account.find(3)
+  Misc_Credit_Account = Account.find(4)
 
   # Debit
-  Debit_Accounts = Account.find(:all, :conditions => "is_credit = false")
-  Equipment_Account = Account.find(5);
-  Rentals_Debit_Account = Account.find(6);
-  Food_Account = Account.find(7);
-  Payroll_Account = Account.find(8);
-  Misc_Debit_Account = Account.find(9);
+  Debit_Accounts = Account.where(is_credit: false)
+  Equipment_Account = Account.find(5)
+  Rentals_Debit_Account = Account.find(6)
+  Food_Account = Account.find(7)
+  Payroll_Account = Account.find(8)
+  Misc_Debit_Account = Account.find(9)
 
-  def total(start_date=Account::Magic_Date, end_date=nil)
+  def total(start_date=Account.magic_date, end_date=nil)
     if end_date
-      t = Journal.sum(:amount, :conditions => ["date >= '" + start_date + "' AND date < '"+ end_date +"' AND account_id = (?)", id.to_s]);
+      Journal.where("date >= ? AND date < ? AND account_id = (?)", start_date, end_date, id.to_s).sum(:amount)
     else
-      t = Journal.sum(:amount, :conditions => ["date >= '" + start_date + "' AND account_id = (?)", id.to_s]);
+      Journal.where("date >= ? AND account_id = (?)", start_date, id.to_s).sum(:amount)
     end
-
-    return (t == nil ? 0 : t)
   end
 end

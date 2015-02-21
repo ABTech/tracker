@@ -31,7 +31,7 @@ class EmailController < ApplicationController
             redirect_to :action => "index"
             return;
         end
-        imap.select('user.abtech')
+        imap.select('inbox')
         
         # if we've never pulled emails before, pull all emails that arrived
         # before tomorrow. otherwise, pull all emails that arrived on or after
@@ -92,12 +92,8 @@ class EmailController < ApplicationController
                   flash[:error] = "The email \"" + message.subject + "\" has no text part or html part. Please check it out in the webmail and deal with it accordingly."
                   break
                 end
-                                
-                # cyrus returns buggy unicode data in the guise of 8-bit ascii.
-                # just filter out any bytes with a value over 127 and pretend
-                # it never happened.
-                message.contents = message.contents.bytes.select { |c| c < 128 }.pack('c*')
-                message.contents.encode!("UTF-8")
+
+                message.contents = message.contents.force_encoding('iso8859-1').encode("utf-8")
 
                 # save our local message
                 if message.valid?

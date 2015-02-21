@@ -20,7 +20,9 @@
           <% else %>
             <%= eventdate.startdate.strftime("%B %d, %Y") %>
           <% end %><br />
-          <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
+          <% if can? :read, Event %>
+            <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
+          <% end %>
         </td>
         <td>
           <% if can? :read, Event %>

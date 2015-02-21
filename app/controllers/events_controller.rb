@@ -202,7 +202,7 @@ class EventsController < ApplicationController
     @title = "Event List"
     authorize! :index, Event
 
-    @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+    @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?) AND events.publish = true", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
 
     if not member_signed_in?
       render(:action => "index", :layout => "public")

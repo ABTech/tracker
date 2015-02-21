@@ -5,13 +5,15 @@
 
 <%= eventslist @eventdates %>
 
-<% content_for :more do %>
-  <ul>
-    <% if can? :create, Event %>
-      <li>Create a <%= link_to("new event", new_event_path) %>.</li>
-    <% end %>
-    <li>View <%= link_to "incomplete events", incomplete_events_url %>. (<%= Event.where.not(status: Event::Event_Status_Group_Completed).count %>)
-  </ul>
+<% if can? :read, Event %>
+  <% content_for :more do %>
+    <ul>
+      <% if can? :create, Event %>
+        <li>Create a <%= link_to("new event", new_event_path) %>.</li>
+      <% end %>
+        <li>View <%= link_to "incomplete events", incomplete_events_url %>. (<%= Event.where.not(status: Event::Event_Status_Group_Completed).count %>)
+    </ul>
+  <% end %>
 <% end %>
 
 <% content_for :calendar do %>

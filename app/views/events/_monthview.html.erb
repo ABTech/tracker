@@ -51,7 +51,7 @@
             <td width="14%" <%= "class='".html_safe + day_class + "'".html_safe if day_class %> <% if !(date[:events].empty? and not date[:blackout]) %>onmouseover="this.getElementsByTagName('span')[0].className='show'" onmouseout="this.getElementsByTagName('span')[0].className='hide'"<% end %>>
               <%= date[:date].mday %>
 
-              <% if current_member and not (date[:events].empty? and not date[:blackout]) %>
+              <% if not (date[:events].empty? and not date[:blackout]) %>
                 <span class="hide">
                   <b><%= date[:date].strftime("%B %d, %Y")%></b><br/>
                   <% if date[:blackout] %>
@@ -66,7 +66,11 @@
                     <br />
                   <% end %>
                   <% date[:events].each do |evtdate| %>
-                    <%= link_to evtdate.event.title + " - " + evtdate.description, evtdate.event %>
+                    <% if can? :read, Event %>                    
+                      <%= link_to evtdate.event.title + " - " + evtdate.description, evtdate.event %>
+                    <% else %>
+                      <%= "#{evtdate.event.title} - #{evtdate.description}" %>
+                    <% end %>
                     <span>&rarr; <%= evtdate.startdate.strftime("%I:%M %p") %> - <%= evtdate.enddate.strftime("%I:%M %p") %></span><br />
                   <% end %>
                 </span>

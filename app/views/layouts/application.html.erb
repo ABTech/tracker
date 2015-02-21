@@ -19,21 +19,21 @@
     <b><%= current_member.fullname %></b> (<%= current_member.email %>)<br/>
     <%= link_to "Profile", edit_member_url(current_member) %>&nbsp;&nbsp;<%= link_to "Logout", destroy_member_session_url, :method => :delete %>
   <% else %>
-    <br/>(not logged in)
+    <br/>(not logged in) <%= link_to "Login", new_member_session_url %>
   <% end %>
 </div>
 
-<% if member_signed_in?() %>
   <div id="menu" class="main-nav">
-    <%= conditional_link_to "Events", events_url, :read, Event %>
+    <%= conditional_link_to "Events", events_url, :index, Event %>
+    <%= conditional_link_to "Calendar", calendar_events_url, :index, Event %>
     <%= conditional_link_to "Email", email_index_url, :read, Email %>
-    <%= conditional_link_to "Calendar", calendar_events_url, :read, Event %>
     <%= conditional_link_to "Finance", list_accounts_url, :read, :finance %>
     <%= conditional_link_to "Members", members_url, :index, Member %>
     <% if iphone_user_agent? %>
       <%= conditional_link_to "iPhone View", iphone_events_url, :read, Event %>
     <% end %>
     <%= conditional_link_to "Timecards", timecard_entries_url, :read, TimecardEntry %>
+<% if member_signed_in?() %>
     <%= link_to "Miscellaneous", "#", class: "toggle-div", data: {div: "misc-menu"} %>
     <% if show_admin_link %> 
       <%= link_to "Tracker Admin", "#", class: "toggle-div", data: {div: "submenu"} %>
@@ -51,9 +51,9 @@
       <%= conditional_link_to "Invoice Items", invoice_items_url, :read, InvoiceItem %>
       <%= conditional_link_to "Form Emails", email_forms_url, :read, EmailForm %>
       <%= conditional_link_to "Blackouts", blackouts_url, :read, Blackout %>
-    </div>
   <% end %>
 <% end %>
+    </div>
 
 <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 <% if flash[:error] %> <div class="error"> <%= flash[:error] %> </div><% end %>
@@ -84,6 +84,8 @@
     }
   }
 </script>
+
+<%= content_for :public %>
 
 <table class="eventsmain">
   <tr>

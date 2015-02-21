@@ -23,7 +23,11 @@
           <small class="published">(<%= event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
         </td>
         <td>
-          <%= link_to(("#{event.title} - #{eventdate.description}"),event_path(event)) %><br />
+          <% if can? :read, Event %>
+            <%= link_to(("#{event.title} - #{eventdate.description}"),event_path(event)) %><br />
+          <% else %>
+            <%= "#{event.title} - #{eventdate.description}" %><br />
+          <% end %>
           <small class="organization"><%= event.organization.name %></small>
         </td>
         <td style="white-space: normal;">

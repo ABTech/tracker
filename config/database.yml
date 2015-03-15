@@ -11,11 +11,11 @@
 development:
   adapter: mysql2
   encoding: utf8
-  database: abtt_development
+  database: abtt_development_master
   pool: 5
   username: root
   password:
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
   collation: utf8_unicode_ci
 
 # Warning: The database defined as "test" will be erased and

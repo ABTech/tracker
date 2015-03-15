@@ -1,31 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <title>ABTT - <%= @title %></title>
-  <% if(!@title || @title.empty?) %>
-    <script>
-      /* alert("controller action with no title! bug abtech@ if this happens."); */
-    </script>
-  <% end %>
-  <%= stylesheet_link_tag    "application", media: "all" %>
-</head>
-<body>
-<div class="header"><%= image_tag("header.png") %></div>
-<div class="login">
-  <% if member_signed_in?() %>
-    <b><%= current_member.fullname %></b> (<%= current_member.email %>)<br/>
-    <%= link_to edit_member_url(current_member) %>&nbsp;&nbsp;<%= link_to "Logout", destroy_member_session_url %>
-  <% else %>
-    <br/>(not logged in)
-  <% end %>
-</div>
+<% content_for :public do %>
+  <center><h1>Activities Board Technical Committee - Public <%= @title %></h1></center>
 
-<center><h1>Activities Board Technical Committee - Public Calendar</h1></center>
+<center><p style="width: 400px">All information represented here is subject to change at any time. It is not the definite or final source for decisions or information about events.</p></center>
+<% end %>
 
-<center><p style="width: 400px">All information represented here is subject to change at any time; this material is to be used only as a reference for determining availability and booking information for the Activities Board Technical Committee, and is not the definite or final source for decisions about events.</p></center>
-
-<%= yield %>
-
-</body>
-</html>
+<%= render template: "layouts/events" %>

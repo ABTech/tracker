@@ -30,6 +30,9 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     
     member ||= Member.new(:role => :suspended)
+
+    can :index, Event
+
     if not member.suspended?
       can :read, Event
       can :index, Member

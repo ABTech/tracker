@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917162914) do
+ActiveRecord::Schema.define(version: 20150221221612) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -46,28 +46,28 @@ ActiveRecord::Schema.define(version: 20140917162914) do
 
   create_table "comments", force: true do |t|
     t.integer  "member_id"
-    t.text     "content"
+    t.text     "content",    limit: 16777215
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "email_forms", force: true do |t|
-    t.string   "description", null: false
-    t.text     "contents",    null: false
+    t.string   "description",                  null: false
+    t.text     "contents",    limit: 16777215, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "emails", force: true do |t|
     t.integer  "event_id"
-    t.string   "sender",     default: "",    null: false
-    t.datetime "timestamp",                  null: false
-    t.text     "contents",                   null: false
-    t.string   "status",     default: "New", null: false
+    t.string   "sender",                      default: "",    null: false
+    t.datetime "timestamp",                                   null: false
+    t.text     "contents",   limit: 16777215,                 null: false
+    t.string   "status",                      default: "New", null: false
     t.string   "subject"
-    t.string   "message_id",                 null: false
-    t.text     "headers"
+    t.string   "message_id",                                  null: false
+    t.text     "headers",    limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -143,21 +143,21 @@ ActiveRecord::Schema.define(version: 20140917162914) do
   end
 
   create_table "events", force: true do |t|
-    t.string   "title",               default: "",                null: false
-    t.integer  "organization_id",     default: 0,                 null: false
-    t.string   "status",              default: "Initial Request", null: false
+    t.string   "title",                                default: "",                null: false
+    t.integer  "organization_id",                      default: 0,                 null: false
+    t.string   "status",                               default: "Initial Request", null: false
     t.string   "contactemail"
     t.datetime "updated_at"
-    t.boolean  "publish",             default: false
-    t.boolean  "rental",                                          null: false
-    t.string   "contact_name",        default: "",                null: false
-    t.string   "contact_phone",       default: "",                null: false
+    t.boolean  "publish",                              default: false
+    t.boolean  "rental",                                                           null: false
+    t.string   "contact_name",                         default: "",                null: false
+    t.string   "contact_phone",                        default: "",                null: false
     t.integer  "price_quote"
-    t.text     "notes",                                           null: false
+    t.text     "notes",               limit: 16777215,                             null: false
     t.datetime "created_at"
-    t.datetime "representative_date",                             null: false
-    t.boolean  "billable",            default: true,              null: false
-    t.boolean  "textable",            default: false,             null: false
+    t.datetime "representative_date",                                              null: false
+    t.boolean  "billable",                             default: true,              null: false
+    t.boolean  "textable",                             default: false,             null: false
   end
 
   add_index "events", ["contactemail"], name: "events_contactemail_index", using: :btree
@@ -175,12 +175,12 @@ ActiveRecord::Schema.define(version: 20140917162914) do
   add_index "invoice_items", ["category"], name: "invoice_items_category_index", using: :btree
 
   create_table "invoice_lines", force: true do |t|
-    t.integer  "invoice_id", null: false
-    t.string   "memo",       null: false
-    t.string   "category",   null: false
+    t.integer  "invoice_id",                  null: false
+    t.string   "memo",                        null: false
+    t.string   "category",                    null: false
     t.float    "price"
-    t.integer  "quantity",   null: false
-    t.text     "notes"
+    t.integer  "quantity",                    null: false
+    t.text     "notes",      limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -189,11 +189,11 @@ ActiveRecord::Schema.define(version: 20140917162914) do
 
   create_table "invoices", force: true do |t|
     t.datetime "created_at"
-    t.integer  "event_id",      null: false
-    t.string   "status",        null: false
-    t.string   "payment_type",  null: false
-    t.string   "oracle_string", null: false
-    t.text     "memo"
+    t.integer  "event_id",                       null: false
+    t.string   "status",                         null: false
+    t.string   "payment_type",                   null: false
+    t.string   "oracle_string",                  null: false
+    t.text     "memo",          limit: 16777215
     t.datetime "updated_at"
   end
 
@@ -201,28 +201,28 @@ ActiveRecord::Schema.define(version: 20140917162914) do
 
   create_table "journals", force: true do |t|
     t.datetime "created_at"
-    t.datetime "date",                                                   null: false
-    t.string   "memo",                                                   null: false
+    t.datetime "date",                                                                    null: false
+    t.string   "memo",                                                                    null: false
     t.integer  "invoice_id"
-    t.decimal  "amount",           precision: 9, scale: 2, default: 0.0, null: false
+    t.decimal  "amount",                            precision: 9, scale: 2, default: 0.0, null: false
     t.datetime "date_paid"
-    t.text     "notes"
-    t.integer  "account_id",                               default: 1,   null: false
+    t.text     "notes",            limit: 16777215
+    t.integer  "account_id",                                                default: 1,   null: false
     t.integer  "event_id"
-    t.string   "paymeth_category",                         default: ""
+    t.string   "paymeth_category",                                          default: ""
     t.datetime "updated_at"
   end
 
   add_index "journals", ["invoice_id"], name: "journals_link_id_index", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "building",                   null: false
-    t.string   "floor",                      null: false
-    t.string   "room",                       null: false
-    t.text     "details"
+    t.string   "building",                                    null: false
+    t.string   "floor",                                       null: false
+    t.string   "room",                                        null: false
+    t.text     "details",    limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",    default: false, null: false
+    t.boolean  "defunct",                     default: false, null: false
   end
 
   create_table "members", force: true do |t|

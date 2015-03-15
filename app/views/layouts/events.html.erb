@@ -5,9 +5,11 @@
     <%= monthview Time.zone.now, :full_month => true %>
   <% end %>
   <br/>
-  <form action="<%= search_events_url %>" method="get">
-    <input id="search" name="q" type="text" value="Search" class="search_empty" onFocus="focus_search()" onBlur="blur_search()"/>
-  </form><br/>
+  <% if member_signed_in?() %>
+    <form action="<%= search_events_url %>" method="get">
+      <input id="search" name="q" type="text" value="Search" class="search_empty" onFocus="focus_search()" onBlur="blur_search()"/>
+    </form><br/>
+  <% end %>
   <% if content_for?(:more) %>
     <div id="event-more" class="event-box">
       <h4>More</h4>

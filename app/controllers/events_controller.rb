@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  skip_before_filter :authenticate_member!, :only => [:generate, :calendar, :callfeed]
+  skip_before_filter :authenticate_member!, :only => [:generate, :calendar, :callfeed, :index, :month]
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -200,18 +200,38 @@ class EventsController < ApplicationController
 
   def index
     @title = "Event List"
-    authorize! :read, Event
+    authorize! :index, Event
 
-    @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+    if(can? :read, Event)
+      @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+    else
+      @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?) AND events.publish = true", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+    end
+
+    if not member_signed_in?
+      render(:action => "index", :layout => "public")
+    end
   end
   
   def month
     @title = "Event List for " + Date::MONTHNAMES[params[:month].to_i] + " " + params[:year]
-    authorize! :read, Event
+    authorize! :index, Event
+    if((Time.now.year > params[:year].to_i or Time.now.month > params[:month].to_i) and not can? :read, Event)
+      redirect_to new_member_session_path and return
+    end
     
     @startdate = Time.zone.parse(params["year"] + "-" + params["month"] + "-1").to_datetime.beginning_of_month
     enddate = @startdate.end_of_month
-    @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.utc, enddate.utc).order("startdate ASC")
+
+    if(can? :read, Event)
+      @eventdates = Eventdate.where("enddate >= ? AND startdate <= ?", @startdate.utc, enddate.utc).order("startdate ASC")
+    else
+      @eventdates = Eventdate.where("enddate >= ? AND startdate <= ? AND events.publish = true", @startdate.utc, enddate.utc).order("startdate ASC").includes(:event).references(:event)
+    end
+
+    if not member_signed_in?
+      render(:action => "month", :layout => "public")
+    end
   end
   
   def incomplete

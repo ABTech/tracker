@@ -2,7 +2,11 @@
   <tr class="eventslist-header">
     <th colspan=2>Date</th>
     <th>Name</th>
-    <th>Location, Equipment</th>
+    <% if can? :read, Event %>
+      <th>Location, Equipment</th>
+    <% else %>
+      <th>Location</th>
+    <% end %>
     <th>Timing</th>
     <th>Roles</th>
   </tr>
@@ -34,8 +38,10 @@
         </td>
         <td style="white-space: normal;">
           <%= eventdate.locations.join("<br />").html_safe %>
-          <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
-          <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+          <% if can? :read, Event %>
+            <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
+            <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+          <% end %>
         </td>
         <td>
           <small>
@@ -45,13 +51,22 @@
           </small>
         </td>
         <% if ed[:roles] == :show %>
-          <% if not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TIC } or eventdate.full_roles.find { |r| r.role == EventRole::Role_TIC }.member.nil? %>
+          <% if not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TIC } or eventdate.full_roles.find { |r| r.role == EventRole::Role_TIC }.member.nil? and  can? :read, Event %>
             <td class="ticless" rowspan="<%= ed[:run] %>">
           <% else %>
             <td rowspan="<%= ed[:run] %>">
           <% end %>
           <% eventdate.full_roles.sort.each do |role| %>
-            <%= role.to_s() %><br />
+            <% if can? :read, Event %>
+              <%= role.to_s() %><br />
+            <% else %>
+              <% if role.role == EventRole::Role_TIC and not role.member.nil? %>
+                <%= role.to_s()%><br/>
+              <% end %>
+              <% if role.role == EventRole::Role_exec and not role.member.nil? and (not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TIC } or eventdate.full_roles.find { |r| r.role == EventRole::Role_TIC }.member.nil?) %>
+                <%= role.to_s()%><br/>
+              <% end %>
+            <% end %>
           <% end %>
           </td>
         <% end %>

@@ -50,6 +50,7 @@ end
   # generate call event 
   if date.has_call?
     calendar.event do |e|
+      e.uid = "tracker.abtech.org:" + (date.id * 3).to_s + "_CALL"
       e.dtstart = date.effective_call
       e.dtend   = date.startdate
       e.summary    = cancelled + summary + " Call";
@@ -59,6 +60,7 @@ end
 
   # generate event event
   calendar.event do |e|
+    e.uid = "tracker.abtech.org:" + (date.id * 3).to_s + "_SHOW"
     e.dtstart  =  date.startdate
     e.dtend   = date.enddate
     e.summary    = cancelled + summary + " Show";
@@ -68,6 +70,7 @@ end
   # generate strike event
   if date.has_strike?
     calendar.event do |e|
+      e.uid = "tracker.abtech.org:" + (date.id * 3).to_s + "_STRIKE"
       e.dtstart    = date.effective_strike
       e.dtend    = (date.effective_strike + 60 * 60)
       e.summary    = cancelled + summary + " Strike";

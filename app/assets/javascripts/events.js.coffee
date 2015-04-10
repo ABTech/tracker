@@ -62,3 +62,12 @@ $ ->
     setDateMonths(parent)
     $(this).children(".month, .year").change ->
       setDateMonths(parent)
+      
+$ ->
+  $(".copy_start_time").click ->
+    starttime = $(this).parents(".event-date-form").find(".start-time").children(".datetime_select")
+    $(this).parent().each ->
+      $(this).children(".month").val(starttime.children(".month").val())
+      $(this).children(".year").val(starttime.children(".year").val())
+      setDateMonths($(this))
+      $(this).children(".day").val(starttime.children(".day").val())

@@ -17,5 +17,9 @@
 <% end %>
 
 <% content_for :calendar do %>
-  <%= monthview Time.zone.now, :show_arrows => true, :full_month => true %>
+  <% if can? :read, Event %>
+    <%= monthview Time.zone.now, :show_arrows => true, :full_month => true %>
+  <% else %>
+    <%= monthview Time.zone.now, :show_arrows => true, :full_month => true, :published => true %>
+  <% end %>
 <% end %>

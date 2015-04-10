@@ -16,19 +16,21 @@
           <br />
           <%= f.radio_button :calltype, "literal" %>
           <%= f.label :call_type_literal, "literal" %>
-          <div class="datetime_select">
+          <div class="datetime_select call-time-field">
             <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true %>
             <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
           </div>
         </td>
       </tr>
-      <tr class="start-time">
+      <tr>
         <td><%= f.label :startdate, "Start" %>:</td>
-        <td class="datetime_select"><%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %></td>
+        <td class="datetime_select start-time-field">
+          <%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %>
+        </td>
       </tr>
       <tr>
         <td><%= f.label :enddate, "Ends" %>:</td>
-        <td class="datetime_select">
+        <td class="datetime_select end-time-field">
           <%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %>
           <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
         </td>
@@ -47,7 +49,7 @@
           <br />
           <%= f.radio_button :striketype, "literal" %>
           <%= f.label :strike_type_literal, "literal" %>
-          <div class="datetime_select">
+          <div class="datetime_select strike-time-field">
             <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true %>
             <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
           </div>

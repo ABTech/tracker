@@ -11,7 +11,18 @@ $ ->
   $("a.add_field").click ->
     new_id = new Date().getTime()
     regexp = new RegExp("new_" + $(this).data("association"), "g")
-    $(this).parent().before($(this).data("content").replace(regexp, new_id))
+    
+    if $(this).data("association") == "eventdates"
+      prev = $(this).parents("#event-form-dates").children(".event-date-form").last()
+      $(this).parent().before($(this).data("content").replace(regexp, new_id))
+      added = $(this).parents("#event-form-dates").children(".event-date-form").last()
+      setDateMonths(added.find(".call-time-field"), prev.find(".call-time-field"))
+      setDateMonths(added.find(".start-time-field"), prev.find(".start-time-field"))
+      setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
+      setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
+    else
+      $(this).parent().before($(this).data("content").replace(regexp, new_id))
+      
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
     setUpAddFields()
@@ -41,10 +52,17 @@ $ ->
     $("#event_blackout_form").before("Blackout removed.")
     $("#event_blackout_form").hide()
 
-@setDateMonths = (parent) ->
-  year = parseInt(parent.children(".year").children(":selected").val())
-  month = parseInt(parent.children(".month").children(":selected").val())
-  day = parseInt(parent.children(".day").children(":selected").val())
+@setDateMonths = (parent, other = null) ->
+  if other == null
+    year = parseInt(parent.children(".year").children(":selected").val())
+    month = parseInt(parent.children(".month").children(":selected").val())
+    day = parseInt(parent.children(".day").children(":selected").val())
+  else
+    year = parseInt(other.children(".year").children(":selected").val())
+    month = parseInt(other.children(".month").children(":selected").val())
+    day = parseInt(other.children(".day").children(":selected").val())
+    parent.children(".year").val(year)
+    parent.children(".month").val(month)
   days = new Date(year, month, 0).getDate()
   if days < day
     day = 1
@@ -65,7 +83,7 @@ $ ->
       
 $ ->
   $(".copy_start_time").click ->
-    starttime = $(this).parents(".event-date-form").find(".start-time").children(".datetime_select")
+    starttime = $(this).parents(".event-date-form").find(".start-time-field")
     $(this).parent().each ->
       $(this).children(".month").val(starttime.children(".month").val())
       $(this).children(".year").val(starttime.children(".year").val())

@@ -6,6 +6,10 @@
         <td><%= f.text_field :description %></td>
       </tr>
       <tr>
+        <td><%= f.label :email_description, "Email Description" %>:</td>
+        <td><%= f.text_area :email_description, size: "80x10"%></td>
+      </tr>
+      <tr>
         <td><%= f.label :calldate, "Call" %>:</td>
         <td>
           <%= f.radio_button :calltype, "blank" %>

@@ -40,6 +40,9 @@
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
+                  <% if eventdate.email_description %>
+                    <%= eventdate.email_description %><br><br>
+                  <% end %>
                   <% if not eventdate.event_roles.empty? %>
                     <b>Roles:</b><br>
                     <ul class="edp-roles">

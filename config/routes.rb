@@ -25,6 +25,8 @@ Abtt::Application.routes.draw do
       get 'reply_to'
       get 'send_email'
       get 'unfile'
+      get 'weekly'
+      post 'weekly', action: "send_weekly"
     end
     member do
       get 'view'

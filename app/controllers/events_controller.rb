@@ -56,8 +56,8 @@ class EventsController < ApplicationController
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
-        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, {:location_ids => []},
-        {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
+        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description,
+        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
       :event_roles_attributes => [:role, :member_id],
       :attachments_attributes => [:attachment, :name],
       :blackout_attributes => [:startdate, :enddate, :with_new_event])
@@ -82,7 +82,8 @@ class EventsController < ApplicationController
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
-        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
+        :email_description, {:location_ids => []}, {:equipment_ids => []},
+        {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :_destroy],
       :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
@@ -152,6 +153,7 @@ class EventsController < ApplicationController
               p[:eventdates_attributes][key].delete(:striketype)
               p[:eventdates_attributes][key].delete(:location_ids)
               p[:eventdates_attributes][key].delete(:equipment_ids)
+              p[:eventdates_attributes][key].delete(:email_description)
             
               assistants = red.run_positions_for(current_member).flat_map(&:assistants)
               p[:eventdates_attributes][key][:event_roles_attributes].select! do |_,er|

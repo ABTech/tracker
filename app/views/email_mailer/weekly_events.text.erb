@@ -1,7 +1,7 @@
 <%= @intro_blurb %>
 
 <% @eventdates.each do |date, events_for_day| %>
-<%= date.strftime("%A, %m/%d/%y") %></strong>
+<%= date.strftime("%A, %m/%d/%y") %>
 <% events_for_day.each do |eventdate| %>
   WHAT: <%= eventdate.event.title %> - <%= eventdate.description %>
   WHEN: Call @ <%= email_call_text eventdate %>, Show @ <%= email_show_text eventdate %>, Strike @ <%= email_strike_text eventdate %>

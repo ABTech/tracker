@@ -4,8 +4,13 @@
 
   <table width="50%" border="0" class="generic">
     <tr>
-      <td class="subheading">Sender:</td>
+      <td class="subheading">From:</td>
       <td><%= current_member.fullname %> &lt;<%= current_member.email %>&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="subheading"><%= label_tag :to, "To" %>:</td>
+      <td><%= text_field_tag :to, "abtech@andrew.cmu.edu", size: 80 %></td>
     </tr>
   
     <tr>

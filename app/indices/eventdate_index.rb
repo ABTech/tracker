@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :eventdate, :with => :active_record do
+ThinkingSphinx::Index.define :eventdate, :with => :active_record, :delta => true do
   # fields
   indexes description, :sortable => true
   indexes event.title, :as => :event

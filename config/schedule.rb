@@ -1,3 +1,3 @@
-every 60.minutes do
-  rake "ts:index"
+every 7.days do
+  rake "ts:rebuild"
 end

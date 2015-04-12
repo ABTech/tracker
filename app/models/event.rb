@@ -24,6 +24,7 @@ class Event < ActiveRecord::Base
   before_validation :prune_attachments, :prune_roles
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
+  after_save :set_eventdate_delta_flags
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
@@ -209,6 +210,13 @@ class Event < ActiveRecord::Base
           rl.role = EventRole::Role_TIC
           self.event_roles << rl
         end
+      end
+    end
+    
+    def set_eventdate_delta_flags
+      eventdates.each do |eventdate|
+        eventdate.delta = true
+        eventdate.save
       end
     end
 end

@@ -64,7 +64,7 @@ class EventsController < ApplicationController
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
-        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description,
+        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
       :event_roles_attributes => [:role, :member_id],
       :attachments_attributes => [:attachment, :name],
@@ -90,7 +90,7 @@ class EventsController < ApplicationController
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
-        :email_description, {:location_ids => []}, {:equipment_ids => []},
+        :email_description, :notes, {:location_ids => []}, {:equipment_ids => []},
         {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :_destroy],

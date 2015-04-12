@@ -24,8 +24,8 @@
     </div>
   
     <div id="event-schedule">
-      <table>
-        <% @event.eventdates.each do |eventdate| %>
+      <% @event.eventdates.each do |eventdate| %>
+        <table>
           <tr>
             <th colspan=4><%= eventdate.description %></th>
           </tr>
@@ -40,7 +40,7 @@
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
-                  <% if eventdate.email_description %>
+                  <% if !eventdate.email_description.empty? %>
                     <%= eventdate.email_description %><br><br>
                   <% end %>
                   <% if not eventdate.event_roles.empty? %>
@@ -62,16 +62,12 @@
               <% end %>
             </tr>
           <% end %>
-        <% end %>
-      </table>
+          <% if !eventdate.notes.empty? %>
+            <tr><td colspan=4><%= auto_link simple_format eventdate.notes %></td></tr>
+          <% end %>
+        </table>
+      <% end %>
     </div>
-  
-    <% if not @event.notes.empty? %>
-    <div id="event-notes" class="event-box">
-      <h4>Notes</h4>
-      <%= auto_link simple_format @event.notes %>
-    </div>
-    <% end %>
   </div>
   
   <div id="event-container-right">
@@ -235,6 +231,13 @@
           <% end %>
         </table>
       </div>
+    <% end %>
+    
+    <% if not @event.notes.empty? %>
+    <div id="event-notes" class="event-box">
+      <h4>Notes</h4>
+      <%= auto_link simple_format @event.notes %>
+    </div>
     <% end %>
   
     <% if not @event.attachments.empty? %>

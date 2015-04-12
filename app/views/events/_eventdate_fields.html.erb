@@ -91,6 +91,11 @@
       </td>
     </tr>
     
+    <tr>
+      <td><%= f.label :notes, "Notes" %>:</td>
+      <td><%= f.text_area :notes, size: "80x10" %></td>
+    </tr>
+    
     <% if can? :tic, @event %>
       <tr>
         <td></td>

@@ -3,7 +3,6 @@
 <table class="generic">
   <tr>
     <th>Building</th>
-    <th>Floor</th>
     <th>Room</th>
     <th>Details</th>
     <% if can? :update, Location or can? :destroy, Location %>
@@ -14,7 +13,6 @@
   <% for location in @locations %>
     <tr>
       <td><%= location.building %></td>
-      <td><%= location.floor %></td>
       <td><%= location.room %></td>
       <td><%= location.details %></td>
       <% if can? :update, Location or can? :destroy, Location %>

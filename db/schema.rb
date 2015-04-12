@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150411150723) do
+ActiveRecord::Schema.define(version: 20150412180951) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -218,7 +218,6 @@ ActiveRecord::Schema.define(version: 20150411150723) do
 
   create_table "locations", force: true do |t|
     t.string   "building",                                    null: false
-    t.string   "floor",                                       null: false
     t.string   "room",                                        null: false
     t.text     "details",    limit: 16777215
     t.datetime "created_at"

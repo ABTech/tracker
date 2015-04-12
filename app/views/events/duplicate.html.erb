@@ -1,0 +1,13 @@
+<div id="event-container">
+  <h2>Duplicate event #<%= @old_event.id %> (<%= @old_event.title %>)</h2>
+  
+  <%= form_for @event do |builder| %>
+    <%= render :partial => "form", :locals => {:f => builder} %>
+    
+    <fieldset id="event-form-submit">
+      <legend>Submit</legend>
+    
+      <input type="submit">
+    </div>
+  <% end %>
+</div>

@@ -289,6 +289,9 @@
       <% if can? :destroy, @event %>
         <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
       <% end %>
+      <% if can? :create, Event %>
+        <li><%= link_to "Duplicate this event", duplicate_event_url(@event) %></li>
+      <% end %>
     </ul>
   <% end %>
 <% end %>

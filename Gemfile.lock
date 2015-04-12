@@ -27,6 +27,8 @@ GEM
       tzinfo (~> 0.3.37)
     acts_as_tree (2.1.0)
       activerecord (>= 3.0.0)
+    amoeba (3.0.0)
+      activerecord (>= 3.2.6)
     arel (4.0.2)
     bcrypt (3.1.9)
     builder (3.1.4)
@@ -304,6 +306,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_tree
+  amoeba
   cancan
   capistrano (~> 2.1)
   coffee-rails (~> 4.0.0)

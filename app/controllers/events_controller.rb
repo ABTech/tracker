@@ -38,6 +38,14 @@ class EventsController < ApplicationController
     @event = Event.new
     authorize! :create, @event
   end
+  
+  def duplicate
+    @old_event = Event.find(params[:id])
+    @event = @old_event.amoeba_dup
+    
+    @title = "Duplicate Event #" + @event.id.to_s
+    authorize! :create, @event
+  end
 
   def edit
     @title = "Edit Event"

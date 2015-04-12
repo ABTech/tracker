@@ -9,6 +9,10 @@ class Event < ActiveRecord::Base
   has_many :attachments
   has_one :blackout, :dependent => :destroy
   
+  amoeba do
+    include_association [:eventdates, :event_roles]
+  end
+  
   accepts_nested_attributes_for :eventdates, :allow_destroy => true
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
   accepts_nested_attributes_for :attachments, :allow_destroy => true

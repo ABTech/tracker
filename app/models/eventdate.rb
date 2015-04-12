@@ -4,6 +4,10 @@ class Eventdate < ActiveRecord::Base
   has_many :timecard_entries
   has_and_belongs_to_many :locations
   has_and_belongs_to_many :equipment
+  
+  amoeba do
+    include_association [:event_roles, :locations, :equipment]
+  end
 
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
 

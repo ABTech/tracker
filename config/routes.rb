@@ -54,6 +54,7 @@ Abtt::Application.routes.draw do
       get 'delete_conf'
       get 'show_email'
       get 'finance'
+      get 'duplicate'
     end
     collection do
       get 'calendar'

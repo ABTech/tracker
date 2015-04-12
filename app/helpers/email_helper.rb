@@ -30,5 +30,15 @@ module EmailHelper
   def email_show_text(eventdate)
     eventdate.startdate.strftime("%H:%M") + " - " + eventdate.enddate.strftime("%H:%M")
   end
+  
+  def email_who_text(eventdate)
+    if eventdate.tic
+      "TiC - " + eventdate.tic.fullname
+    elsif eventdate.exec
+      "Exec - " + eventdate.exec.fullname
+    else
+      "you?"
+    end
+  end
     
 end

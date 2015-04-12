@@ -125,7 +125,15 @@ class Event < ActiveRecord::Base
   end
   
   def tic
-    event_roles.where(role: EventRole::Role_TIC).first.member
+    role = event_roles.where(role: EventRole::Role_TIC).first
+    return role.member if role
+    return nil
+  end
+  
+  def exec
+    role = event_roles.where(role: EventRole::Role_exec).first
+    return role.member if role
+    return nil
   end
   
   def synchronize_representative_date

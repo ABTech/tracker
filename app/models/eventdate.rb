@@ -126,6 +126,13 @@ class Eventdate < ActiveRecord::Base
     nil
   end
   
+  def exec
+    t = event_roles.where(role: EventRole::Role_exec).first
+    return t.member if t
+    return event.exec if event
+    nil
+  end
+  
   def has_run_position?(member)
     self.event_roles.where(member: member).count > 0
   end

@@ -21,7 +21,7 @@
           <%= f.radio_button :calltype, "literal" %>
           <%= f.label :call_type_literal, "literal" %>
           <div class="datetime_select call-time-field">
-            <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true %>
+            <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_call_selected_value(f.object) %>
             <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
           </div>
         </td>
@@ -54,7 +54,7 @@
           <%= f.radio_button :striketype, "literal" %>
           <%= f.label :strike_type_literal, "literal" %>
           <div class="datetime_select strike-time-field">
-            <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true %>
+            <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_strike_selected_value(f.object) %>
             <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
           </div>
         </td>

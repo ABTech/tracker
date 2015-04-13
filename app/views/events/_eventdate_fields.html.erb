@@ -61,7 +61,7 @@
       </tr>
       <tr>
         <td><%= f.label :location_ids, "Location" %>:</td>
-        <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
+        <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {class: "eventdate_locations", multiple: "multiple", size: "10"} %></td>
       </tr>
       <tr>
         <td><%= f.label :equipment_ids, "Equipment" %>:</td>

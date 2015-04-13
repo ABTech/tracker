@@ -20,6 +20,7 @@ $ ->
       setDateMonths(added.find(".start-time-field"), prev.find(".start-time-field"))
       setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
       setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
+      added.find(".eventdate_locations").val(prev.find(".eventdate_locations").val())
     else
       $(this).parent().before($(this).data("content").replace(regexp, new_id))
       

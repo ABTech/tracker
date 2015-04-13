@@ -41,6 +41,8 @@ end
       description << "\n";
     end
   end
+  
+  description << "\n" + date.email_description + "\n"
 
   # escape for ics format: newline becomes (literal) \n
   description = description.chomp().gsub("\n", "\\n");

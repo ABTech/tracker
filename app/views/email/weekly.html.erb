@@ -42,7 +42,7 @@
         <td><%= check_box_tag "eventdate_include" + eventdate.id.to_s, "1", true %></td>
         <td><%= eventdate.startdate.strftime("%A, %m/%d/%y") %></td>
         <td><%= eventdate.event.title %> - <%= eventdate.description %></td>
-        <td><%= text_area_tag "eventdate_description" + eventdate.id.to_s, eventdate.email_description, size: "100%" %></td>
+        <td><%= text_area_tag "eventdate_description" + eventdate.id.to_s, eventdate.email_description, size: "100%x5" %></td>
       </tr>
     <% end %>
   </table>

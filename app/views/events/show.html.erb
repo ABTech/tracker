@@ -40,9 +40,6 @@
               <td class="es-name"><%= time[:name] %></td>
               <% if time == eventdate.times.first %>
                 <td rowspan="<%= eventdate.times.size %>" class="es-locequip">
-                  <% if !eventdate.email_description.empty? %>
-                    <%= eventdate.email_description %><br><br>
-                  <% end %>
                   <% if not eventdate.event_roles.empty? %>
                     <b>Roles:</b><br>
                     <ul class="edp-roles">
@@ -64,6 +61,12 @@
           <% end %>
           <% if !eventdate.notes.empty? %>
             <tr><td colspan=4><%= auto_link simple_format eventdate.notes %></td></tr>
+          <% end %>
+          <% if !eventdate.email_description.empty? and can? :tic, @event %>
+            <tr>
+              <td class="es-date">Email Description</td>
+              <td colspan=3><%= simple_format eventdate.email_description %></td>
+            </tr>
           <% end %>
         </table>
       <% end %>

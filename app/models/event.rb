@@ -9,6 +9,10 @@ class Event < ActiveRecord::Base
   has_many :attachments
   has_one :blackout, :dependent => :destroy
   
+  amoeba do
+    include_association [:eventdates, :event_roles]
+  end
+  
   accepts_nested_attributes_for :eventdates, :allow_destroy => true
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
   accepts_nested_attributes_for :attachments, :allow_destroy => true
@@ -20,6 +24,7 @@ class Event < ActiveRecord::Base
   before_validation :prune_attachments, :prune_roles
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
+  after_save :set_eventdate_delta_flags
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
@@ -125,7 +130,15 @@ class Event < ActiveRecord::Base
   end
   
   def tic
-    event_roles.where(role: EventRole::Role_TIC).first.member
+    role = event_roles.where(role: EventRole::Role_TIC).first
+    return role.member if role
+    return nil
+  end
+  
+  def exec
+    role = event_roles.where(role: EventRole::Role_exec).first
+    return role.member if role
+    return nil
   end
   
   def synchronize_representative_date
@@ -197,6 +210,13 @@ class Event < ActiveRecord::Base
           rl.role = EventRole::Role_TIC
           self.event_roles << rl
         end
+      end
+    end
+    
+    def set_eventdate_delta_flags
+      eventdates.each do |eventdate|
+        eventdate.delta = true
+        eventdate.save
       end
     end
 end

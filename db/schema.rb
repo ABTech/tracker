@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150221221612) do
+ActiveRecord::Schema.define(version: 20150412202155) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -46,15 +46,15 @@ ActiveRecord::Schema.define(version: 20150221221612) do
 
   create_table "comments", force: true do |t|
     t.integer  "member_id"
-    t.text     "content",    limit: 16777215
+    t.text     "content",    null: false
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "email_forms", force: true do |t|
-    t.string   "description",                  null: false
-    t.text     "contents",    limit: 16777215, null: false
+    t.string   "description", null: false
+    t.text     "contents",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20150221221612) do
     t.string   "status",                      default: "New", null: false
     t.string   "subject"
     t.string   "message_id",                                  null: false
-    t.text     "headers",    limit: 16777215
+    t.text     "headers",                                     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -120,16 +120,19 @@ ActiveRecord::Schema.define(version: 20150221221612) do
   add_index "event_roles", ["roleable_id"], name: "event_roles_event_id_index", using: :btree
 
   create_table "eventdates", force: true do |t|
-    t.integer  "event_id",                        null: false
-    t.datetime "startdate",                       null: false
-    t.datetime "enddate",                         null: false
+    t.integer  "event_id",                              null: false
+    t.datetime "startdate",                             null: false
+    t.datetime "enddate",                               null: false
     t.datetime "calldate"
     t.datetime "strikedate"
-    t.string   "description",                     null: false
+    t.string   "description",                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "calltype",    default: "blank",   null: false
-    t.string   "striketype",  default: "enddate", null: false
+    t.string   "calltype",          default: "blank",   null: false
+    t.string   "striketype",        default: "enddate", null: false
+    t.text     "email_description",                     null: false
+    t.boolean  "delta",             default: true,      null: false
+    t.text     "notes",                                 null: false
   end
 
   add_index "eventdates", ["description"], name: "eventdates_description_index", using: :btree
@@ -175,12 +178,12 @@ ActiveRecord::Schema.define(version: 20150221221612) do
   add_index "invoice_items", ["category"], name: "invoice_items_category_index", using: :btree
 
   create_table "invoice_lines", force: true do |t|
-    t.integer  "invoice_id",                  null: false
-    t.string   "memo",                        null: false
-    t.string   "category",                    null: false
+    t.integer  "invoice_id", null: false
+    t.string   "memo",       null: false
+    t.string   "category",   null: false
     t.float    "price"
-    t.integer  "quantity",                    null: false
-    t.text     "notes",      limit: 16777215
+    t.integer  "quantity",   null: false
+    t.text     "notes",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -189,11 +192,11 @@ ActiveRecord::Schema.define(version: 20150221221612) do
 
   create_table "invoices", force: true do |t|
     t.datetime "created_at"
-    t.integer  "event_id",                       null: false
-    t.string   "status",                         null: false
-    t.string   "payment_type",                   null: false
-    t.string   "oracle_string",                  null: false
-    t.text     "memo",          limit: 16777215
+    t.integer  "event_id",      null: false
+    t.string   "status",        null: false
+    t.string   "payment_type",  null: false
+    t.string   "oracle_string", null: false
+    t.text     "memo",          null: false
     t.datetime "updated_at"
   end
 
@@ -201,28 +204,27 @@ ActiveRecord::Schema.define(version: 20150221221612) do
 
   create_table "journals", force: true do |t|
     t.datetime "created_at"
-    t.datetime "date",                                                                    null: false
-    t.string   "memo",                                                                    null: false
+    t.datetime "date",                                                   null: false
+    t.string   "memo",                                                   null: false
     t.integer  "invoice_id"
-    t.decimal  "amount",                            precision: 9, scale: 2, default: 0.0, null: false
+    t.decimal  "amount",           precision: 9, scale: 2, default: 0.0, null: false
     t.datetime "date_paid"
-    t.text     "notes",            limit: 16777215
-    t.integer  "account_id",                                                default: 1,   null: false
+    t.text     "notes",                                                  null: false
+    t.integer  "account_id",                               default: 1,   null: false
     t.integer  "event_id"
-    t.string   "paymeth_category",                                          default: ""
+    t.string   "paymeth_category",                         default: ""
     t.datetime "updated_at"
   end
 
   add_index "journals", ["invoice_id"], name: "journals_link_id_index", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "building",                                    null: false
-    t.string   "floor",                                       null: false
-    t.string   "room",                                        null: false
-    t.text     "details",    limit: 16777215
+    t.string   "building",                   null: false
+    t.string   "room",                       null: false
+    t.text     "details",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",                     default: false, null: false
+    t.boolean  "defunct",    default: false, null: false
   end
 
   create_table "members", force: true do |t|

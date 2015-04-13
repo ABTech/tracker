@@ -6,7 +6,7 @@ class TimecardEntry < ActiveRecord::Base
   validates_presence_of :member_id, :eventdate_id, :hours
   validates_numericality_of :hours, :less_than_or_equal_to => 37.5, :greater_than => 0
   validates_associated :member
-  validates_inclusion_of :timecard, :in => Timecard.valid_timecards, :message => 'is not a current timecard', :allow_nil => true
+  validates_inclusion_of :timecard, :in => ->(t){Timecard.valid_timecards}, :message => 'is not a current timecard', :allow_nil => true
   validate :eventdate_in_range, :check_submitted
   before_destroy :check_submitted
 

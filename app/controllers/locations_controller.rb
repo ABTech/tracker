@@ -3,7 +3,7 @@ class LocationsController < ApplicationController
     authorize! :read, Location
     
     @title = "Locations"
-    @locations = Location.active.accessible_by(current_ability).order("building ASC, floor ASC")
+    @locations = Location.active.accessible_by(current_ability).order("building ASC, room ASC")
   end
 
   def show
@@ -62,6 +62,6 @@ class LocationsController < ApplicationController
   
   private
     def location_params
-      params.require(:location).permit(:building, :floor, :room, :details)
+      params.require(:location).permit(:building, :room, :details)
     end
 end

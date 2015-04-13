@@ -9,6 +9,10 @@
   <% if @file_email %>
     or <%= link_to "file incoming emails", view_email_url(@file_email, :next => "continue") %>
   <% end %>
+  <hr />
+  <ul>
+    <li><%= link_to "Send Weekly Email", weekly_email_index_url %></li>
+  </ul>
 <% end %>
 
 <table width="100%" class="generic">

@@ -24,8 +24,8 @@
     </div>
   
     <div id="event-schedule">
-      <table>
-        <% @event.eventdates.each do |eventdate| %>
+      <% @event.eventdates.each do |eventdate| %>
+        <table>
           <tr>
             <th colspan=4><%= eventdate.description %></th>
           </tr>
@@ -59,16 +59,18 @@
               <% end %>
             </tr>
           <% end %>
-        <% end %>
-      </table>
+          <% if !eventdate.notes.empty? %>
+            <tr><td colspan=4><%= auto_link simple_format eventdate.notes %></td></tr>
+          <% end %>
+          <% if !eventdate.email_description.empty? and can? :tic, @event %>
+            <tr>
+              <td class="es-date">Email Description</td>
+              <td colspan=3><%= simple_format eventdate.email_description %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
     </div>
-  
-    <% if not @event.notes.empty? %>
-    <div id="event-notes" class="event-box">
-      <h4>Notes</h4>
-      <%= auto_link simple_format @event.notes %>
-    </div>
-    <% end %>
   </div>
   
   <div id="event-container-right">
@@ -233,6 +235,13 @@
         </table>
       </div>
     <% end %>
+    
+    <% if not @event.notes.empty? %>
+    <div id="event-notes" class="event-box">
+      <h4>Notes</h4>
+      <%= auto_link simple_format @event.notes %>
+    </div>
+    <% end %>
   
     <% if not @event.attachments.empty? %>
       <div id="event-attachments" class="event-box">
@@ -285,6 +294,9 @@
       <% end %>
       <% if can? :destroy, @event %>
         <li><%= link_to "Delete this event", delete_conf_event_url(@event) %></li>
+      <% end %>
+      <% if can? :create, Event %>
+        <li><%= link_to "Duplicate this event", duplicate_event_url(@event) %></li>
       <% end %>
     </ul>
   <% end %>

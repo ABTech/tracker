@@ -129,15 +129,12 @@ table.eventslist .ticless {
   margin: 0 7px 6px 0;
 }
 
-#event-schedule {
+#event-schedule table {
+  width: 100%;
   margin-bottom: 1em;
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-}
-
-#event-schedule table {
-  width: 100%;
 }
 
 #event-schedule table th {
@@ -173,6 +170,14 @@ table.eventslist .ticless {
 
 #event-schedule td.es-locequip {
   border-right: none;
+}
+
+#event-schedule td p:first-child {
+  margin-top: 0;
+}
+
+#event-schedule td p:last-child {
+  margin-bottom: 0;
 }
 
 .es-roles ul,

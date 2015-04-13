@@ -1,0 +1,56 @@
+<style type="text/css">
+
+#dates {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#dates > li {
+  margin-top: 1em;
+  margin-left: 0;
+  padding-left: 0;
+  display: block;
+  list-style: none;
+}
+
+.events {
+  margin-left: 1em;
+  padding-left: 0;
+}
+
+.events > li {
+  margin-left: 0;
+  padding-left: 0;
+  display: block;
+  list-style: none;
+}
+
+.events > li+li {
+  margin-top: 1em;
+}
+
+</style>
+
+<%= simple_format @intro_blurb %>
+
+<ul id="dates">
+  <% @eventdates.each do |date, events_for_day| %>
+    <li>
+      <strong><%= date.strftime("%A, %m/%d/%y") %></strong>
+  
+      <ul class="events">
+        <% events_for_day.each do |eventdate| %>
+          <li>
+            <strong>WHAT: <%= eventdate.event.title %> - <%= eventdate.description %></strong><br/>
+            <strong>WHEN: Call @ <%= email_call_text eventdate %>, Show @ <%= email_show_text eventdate %>, Strike @ <%= email_strike_text eventdate %></strong><br/>
+            <strong>WHERE: <%= eventdate.locations.map(&:to_s).join(", ") %></strong><br/>
+            <strong>WHO: <%= email_who_text eventdate %></strong></br>
+            <%= eventdate.email_description %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>
+
+<%= simple_format @outro_blurb %>

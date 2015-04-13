@@ -1,0 +1,4 @@
+development:
+  charset_table: "0..9, A..Z->a..z, _, a..z"
+production:
+  charset_table: "0..9, A..Z->a..z, _, a..z"

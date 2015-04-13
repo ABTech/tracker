@@ -1,0 +1,54 @@
+<h1>Send Weekly Events Email</h1>
+
+<%= form_tag weekly_email_index_url, :method => :post do %>
+
+  <table width="50%" border="0" class="generic">
+    <tr>
+      <td class="subheading">From:</td>
+      <td><%= current_member.fullname %> &lt;<%= current_member.email %>&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="subheading"><%= label_tag :to, "To" %>:</td>
+      <td><%= text_field_tag :to, "abtech@andrew.cmu.edu", size: 80 %></td>
+    </tr>
+  
+    <tr>
+      <td class="subheading"><%= label_tag :subject, "Subject" %>:</td>
+      <td><%= text_field_tag :subject, "AB Tech Events", size: 80 %></td>
+    </tr>
+    
+    <tr>
+      <td class="subheading"><%= label_tag :intro_blurb, "Intro Blurb" %>:</td>
+      <td><%= text_area_tag :intro_blurb, "Hello techies,", size: "80x10" %></td>
+    </tr>
+    
+    <tr>
+      <td class="subheading"><%= label_tag :outro_blurb, "Outro Blurb" %>:</td>
+      <td><%= text_area_tag :outro_blurb, "Sincerely,\n" + current_member.fullname, size: "80x10" %></td>
+    </tr>
+  </table>
+  
+  <table class="generic">
+    <tr>
+      <th></th>
+      <th>Date</th>
+      <th>Event</th>
+      <th>Description</th>
+    </tr>
+    
+    <% @eventdates.each do |eventdate| %>
+      <tr>
+        <td><%= check_box_tag "eventdate_include" + eventdate.id.to_s, "1", true %></td>
+        <td><%= eventdate.startdate.strftime("%A, %m/%d/%y") %></td>
+        <td><%= eventdate.event.title %> - <%= eventdate.description %></td>
+        <td><%= text_area_tag "eventdate_description" + eventdate.id.to_s, eventdate.email_description, size: "100%x5" %></td>
+      </tr>
+    <% end %>
+  </table>
+  
+  <p>
+    <%= submit_tag "Save Changes and Send Email" %>
+  </p>
+  
+<% end %>

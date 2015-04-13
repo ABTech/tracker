@@ -146,4 +146,20 @@ module EventsHelper
   def link_to_remove_blackout(f)
     f.hidden_field(:_destroy) + link_to("Remove blackout period?", "#", class: "delete_blackout_fields", onClick: "return false")
   end
+  
+  def eventdate_call_selected_value(eventdate)
+    if eventdate.has_call?
+      eventdate.effective_call
+    else
+      DateTime.now
+    end
+  end
+  
+  def eventdate_strike_selected_value(eventdate)
+    if eventdate.has_strike?
+      eventdate.effective_strike
+    else
+      DateTime.now
+    end
+  end
 end

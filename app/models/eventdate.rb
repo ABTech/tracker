@@ -4,6 +4,10 @@ class Eventdate < ActiveRecord::Base
   has_many :timecard_entries
   has_and_belongs_to_many :locations
   has_and_belongs_to_many :equipment
+  
+  amoeba do
+    include_association [:event_roles, :locations, :equipment]
+  end
 
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
 
@@ -123,6 +127,13 @@ class Eventdate < ActiveRecord::Base
     t = event_roles.where(role: EventRole::Role_TIC).first
     return t.member if t
     return event.tic if event
+    nil
+  end
+  
+  def exec
+    t = event_roles.where(role: EventRole::Role_exec).first
+    return t.member if t
+    return event.exec if event
     nil
   end
   

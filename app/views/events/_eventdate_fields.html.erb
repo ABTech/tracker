@@ -6,6 +6,10 @@
         <td><%= f.text_field :description %></td>
       </tr>
       <tr>
+        <td><%= f.label :email_description, "Email Description" %>:</td>
+        <td><%= f.text_area :email_description, size: "80x10"%></td>
+      </tr>
+      <tr>
         <td><%= f.label :calldate, "Call" %>:</td>
         <td>
           <%= f.radio_button :calltype, "blank" %>
@@ -16,16 +20,24 @@
           <br />
           <%= f.radio_button :calltype, "literal" %>
           <%= f.label :call_type_literal, "literal" %>
-          <div class="datetime_select"><%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true %></div>
+          <div class="datetime_select call-time-field">
+            <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_call_selected_value(f.object) %>
+            <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
+          </div>
         </td>
       </tr>
       <tr>
         <td><%= f.label :startdate, "Start" %>:</td>
-        <td class="datetime_select"><%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %></td>
+        <td class="datetime_select start-time-field">
+          <%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %>
+        </td>
       </tr>
       <tr>
         <td><%= f.label :enddate, "Ends" %>:</td>
-        <td class="datetime_select"><%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %></td>
+        <td class="datetime_select end-time-field">
+          <%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %>
+          <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
+        </td>
       </tr>
       <tr>
         <td><%= f.label :strikedate, "Strike" %>:</td>
@@ -41,12 +53,15 @@
           <br />
           <%= f.radio_button :striketype, "literal" %>
           <%= f.label :strike_type_literal, "literal" %>
-          <div class="datetime_select"><%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true %></div>
+          <div class="datetime_select strike-time-field">
+            <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_strike_selected_value(f.object) %>
+            <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
+          </div>
         </td>
       </tr>
       <tr>
         <td><%= f.label :location_ids, "Location" %>:</td>
-        <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, floor ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
+        <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {class: "eventdate_locations", multiple: "multiple", size: "10"} %></td>
       </tr>
       <tr>
         <td><%= f.label :equipment_ids, "Equipment" %>:</td>
@@ -74,6 +89,11 @@
           <% end %>
         </table> 
       </td>
+    </tr>
+    
+    <tr>
+      <td><%= f.label :notes, "Notes" %>:</td>
+      <td><%= f.text_area :notes, size: "80x10" %></td>
     </tr>
     
     <% if can? :tic, @event %>

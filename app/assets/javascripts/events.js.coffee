@@ -35,6 +35,18 @@ $ ->
     setUpAddFields()
   $("a.add_field").removeClass("add_field")
   $("a.add_field2").removeClass("add_field2")
+  $(".datetime_select").each ->
+    parent = $(this)
+    setDateMonths(parent)
+    $(this).children(".month, .year").change ->
+      setDateMonths(parent)
+  $(".copy_start_time").click ->
+    starttime = $(this).parents(".event-date-form").find(".start-time-field")
+    $(this).parent().each ->
+      $(this).children(".month").val(starttime.children(".month").val())
+      $(this).children(".year").val(starttime.children(".year").val())
+      setDateMonths($(this))
+      $(this).children(".day").val(starttime.children(".day").val())
 
 $ ->
   setUpAddFields()
@@ -73,19 +85,3 @@ $ ->
       day_select.append("<option value=\"" + d + "\" selected=\"selected\">" + d + "</option>")
     else
       day_select.append("<option value=\"" + d + "\">" + d + "</option>")
-
-$ ->
-  $(".datetime_select").each ->
-    parent = $(this)
-    setDateMonths(parent)
-    $(this).children(".month, .year").change ->
-      setDateMonths(parent)
-      
-$ ->
-  $(".copy_start_time").click ->
-    starttime = $(this).parents(".event-date-form").find(".start-time-field")
-    $(this).parent().each ->
-      $(this).children(".month").val(starttime.children(".month").val())
-      $(this).children(".year").val(starttime.children(".year").val())
-      setDateMonths($(this))
-      $(this).children(".day").val(starttime.children(".day").val())

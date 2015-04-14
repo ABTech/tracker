@@ -11,16 +11,8 @@
   <tr>
     <td colspan="3" align="center">
       <form name="jumpform" method="get">
-      <table border="0" cellpadding="3" cellspacing="0">
+      <table border="0" cellpadding="3" cellspacing="0" align="center">
         <tr>
-          <% if current_member %>
-            <% EventsController::Generate_Formats.each do |fmt| %>
-              <td>
-                <a href="/calendar/generate.<%= fmt %>?matchdate=<%= @selected.strftime("%Y%m%d") %>">as <%= fmt %></a>
-              </td>
-              <td width="15">&nbsp;</td>
-            <% end %>
-          <% end %>
           <td>Blackout Date</td>
           <td width="16"><div name="status" id="status" style="background-color: #000000; width: 16px; height: 16px" /></td>
           <td width="15">&nbsp;</td>
@@ -46,18 +38,82 @@
 </table></center>
 
 <% if current_member %>
-  <br/>
-
-  <br/>
-  <strong>About generated schedules:</strong><br>
-
-  You can obtain generated schedules using the URL /calendar/generate.[format]. Available format options are: <i><%= EventsController::Generate_Formats.join(", ") %></i>. <br>
-
-  Generation parameters are as such:
-  <ul>
-    <li><strong>startdate/enddate</strong>: use these pairs of flags to specify a range to generate schedule entries for. values are pretty flexible, and are parsed according to Ruby's internal date parsing functionality.</li>
-    <li><strong>matchdate</strong>: use this date to specify a date that should be included in the schedule output; the actual range will be determined based on which period the date falls in ("fall", "spring", or "summer") and the range relevant to that period.</li>
-    <li><strong>period</strong>: use to generate a predefined period for a given year. example values are "f05", "u07" (for summer), "s2006" and "f2007".</li>
-    <li>If no options are specified, the generation proceeds as if the current day's date was supplied as "matchdate".</li>
-  </ul>
+  <h2>Generate Calendar Export</h2>
+  
+  <table id="gencalex_form">
+    <tr>
+      <td><%= radio_button_tag "gen_param", "range", selected: "selected" %></td>
+      <td>
+        <%= label_tag "gen_param_range", "Range:", class: "gen_param_label" %>
+        
+        <p>This option will return a schedule containing events between the two specified dates.</p>
+        
+        <table class="gencalex_subform">
+          <tr>
+            <td><%= label_tag "gencalex_startdate", "Start Date:" %></td>
+            <td><%= select_date @selected_month.first, prefix: "gencalex_startdate" %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag "gencalex_enddate", "End Date:" %></td>
+            <td><%= select_date @selected_month.last, prefix: "gencalex_enddate" %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag "gen_param", "matchdate" %></td>
+      <td>
+        <%= label_tag "gen_param_matchdate", "Match Date:", class: "gen_param_label" %>
+        
+        <p>This option will return a schedule that contains the given date. The actual range of events returned is determined by which period the date falls in (i.e. fall, spring, or summer).</p>
+        
+        <table class="gencalex_subform">
+          <tr>
+            <td><%= label_tag "gencalex_matchdate", "Date:" %></td>
+            <td><%= select_date Date.today, prefix: "gencalex_matchdate" %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag "gen_param", "soon" %></td>
+      <td>
+        <%= label_tag "gen_param_update", "Soon:", class: "gen_param_label" %>
+        
+        <p>This option returns three months of events including the current date. This is useful for synchronizing a calendar.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag "gen_param", "period" %></td>
+      <td>
+        <%= label_tag "gen_param_period", "Period:", class: "gen_param_label" %>
+        
+        <p>This option returns a schedule containing the events in a given period.</p>
+        
+        <table class="gencalex_subform">
+          <tr>
+            <td><%= label_tag "gencalex_period", "Period:" %></td>
+            <td><%= select_tag "gencalex_period", options_for_select([["Fall", "f"], ["Spring", "s"], ["Summer", "u"]]) %></td>
+          </tr>
+          <tr>
+            <td><%= label_tag "gencalex_period_year", "Year:" %></td>
+            <td><%= select_year Date.today, prefix: "gencalex_period_year" %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  
+  <input id="gencalex_root" type="hidden" value="<%= root_url %>" />
+  
+  <table id="gencalex_result">
+    <tr>
+      <th>iCal:</th>
+      <td id="gencalex_ical_result"></td>
+    </tr>
+    <tr>
+      <th>Text:</th>
+      <td id="gencalex_text_result"></td>
+    </tr>
+  </table>
 <% end %>

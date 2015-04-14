@@ -86,3 +86,41 @@ $ ->
       day_select.append("<option value=\"" + d + "\" selected=\"selected\">" + d + "</option>")
     else
       day_select.append("<option value=\"" + d + "\">" + d + "</option>")
+
+@updateCalendarExportLink = () ->
+  param = $("#gencalex_form input[name=gen_param]:checked").val()
+  root = $("#gencalex_root").val()
+  output = ""
+  if param == "range"
+    output += "?startdate="
+    output += $("#gencalex_startdate_year").val()
+    output += "-"
+    output += $("#gencalex_startdate_month").val()
+    output += "-"
+    output += $("#gencalex_startdate_day").val()
+    output += "&amp;enddate="
+    output += $("#gencalex_enddate_year").val()
+    output += "-"
+    output += $("#gencalex_enddate_month").val()
+    output += "-"
+    output += $("#gencalex_enddate_day").val()
+  else if param == "matchdate"
+    output += "?matchdate="
+    output += $("#gencalex_matchdate_year").val()
+    output += "-"
+    output += $("#gencalex_matchdate_month").val()
+    output += "-"
+    output += $("#gencalex_matchdate_day").val()
+  else if param == "soon"
+    output += "?period=soon"
+  else if param == "period"
+    output += "?period="
+    output += $("#gencalex_period").val()
+    output += $("#gencalex_period_year_year").val()
+  $("#gencalex_ical_result").html("<a href=\"" + root + "calendar/generate.ics" + output + "\">" + root + "calendar/generate.ics" + output + "</a>")
+  $("#gencalex_text_result").html("<a href=\"" + root + "calendar/generate.schedule" + output + "\">" + root + "calendar/generate.schedule" + output + "</a>")
+      
+$ ->
+  updateCalendarExportLink()
+  $("#gencalex_form input, #gencalex_form select").change ->
+    updateCalendarExportLink()

@@ -5,6 +5,7 @@ class EventRole < ActiveRecord::Base
   Role_HoT        = "HoT"
   Role_TIC        = "TIC"
   Role_aTIC       = "aTIC"
+  Role_exec       = "exec"
   Role_FoH        = "FoH"
   Role_aFoH       = "aFoH"
   Role_Mon        = "Mon"
@@ -23,7 +24,6 @@ class EventRole < ActiveRecord::Base
   Role_Runner     = "Runner"
   Role_Hole       = "Hole"
   Role_aHole      = "aHole"
-  Role_exec       = "exec"
   Role_car        = "car"
   Role_trunk      = "truck"
   Role_setup      = "setup"
@@ -35,6 +35,7 @@ class EventRole < ActiveRecord::Base
     Role_HoT    ,
     Role_TIC    ,
     Role_aTIC   ,
+    Role_exec   ,
     Role_FoH    ,
     Role_aFoH   ,
     Role_Mon    ,
@@ -53,7 +54,6 @@ class EventRole < ActiveRecord::Base
     Role_Runner ,            
     Role_Hole   ,            
     Role_aHole  ,            
-    Role_exec   ,
     Role_car    ,     
     Role_trunk  ,          
     Role_setup  ,

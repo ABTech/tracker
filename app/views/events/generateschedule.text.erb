@@ -1,6 +1,6 @@
 <% 
 @eventdates.each do |date|
-  event = Event.find(date.event_id, :include => [:event_roles]);
+  event = Event.includes(:event_roles).find(date.event_id)
 
   role_line = "";
   EventRole::Roles_All.each do |type|

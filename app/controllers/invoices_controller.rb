@@ -157,6 +157,7 @@ class InvoicesController < ApplicationController
       journal.account=Account::Events_Account
       journal.invoice=@invoice
       journal.amount=@invoice.total
+      journal.notes = ""
       journal.save!
       @invoice.event.status= Event::Event_Status_Billing_Pending
       @invoice.event.save!
@@ -167,6 +168,7 @@ class InvoicesController < ApplicationController
       journal.account=Account::Events_Account
       journal.invoice=@invoice
       journal.amount=@invoice.total
+      journal.notes = ""
       journal.save!
       @invoice.event.status= Event::Event_Status_Event_Completed
       @invoice.event.save!

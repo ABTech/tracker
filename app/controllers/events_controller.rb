@@ -262,7 +262,7 @@ class EventsController < ApplicationController
     @title = "Event List - Search for " + params[:q]
     authorize! :read, Event
     
-    @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9]/," "), :page => params[:page], :per_page => 50, :order => "startdate DESC"
+    @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9 ]/,""), :page => params[:page], :per_page => 50, :order => "startdate DESC"
   end
 
   def iphone
@@ -363,7 +363,7 @@ class EventsController < ApplicationController
       @startdate = Date.parse(range.first + year);
       @enddate   = Date.parse(range.last  + year);
     elsif params['period'] == 'soon'
-      #soon period is from 1 week ago through 3 weeks from now.
+      #soon period is from 1 week ago through 3 months from now.
       #this is good for syncing a calendar
       @startdate = 1.week.ago
       @enddate = 3.months.from_now

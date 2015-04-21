@@ -322,3 +322,31 @@ table.eventslist .ticless {
     display: block;
   }
 }
+
+#gencalex_form {
+  tr {
+    td {
+      padding-bottom: 1em;
+    }
+    
+    td:first-child {
+      vertical-align: top;
+    }
+    
+    td:last-child {
+      padding-left: .5em;
+      
+      label.gen_param_label {
+        font-weight: bold;
+      }
+      
+      .gencalex_subform {
+        tr {
+          td {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

@@ -12,10 +12,10 @@
       <dt><%= f.label :calldate, "Call:" %></dt>
       <dd>
         <%= f.select :calltype, options_for_select([["Blank", "blank"], ["Same as start", "startdate"], ["Literal", "literal"]], f.object.calltype) %>
-        <span class="datetime_select call-time-field">
+        <div class="datetime_select call-time-field">
           <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_call_selected_value(f.object) %>
           <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
-        </span>
+        </div>
       </dd>
     </dl>
     <dl>
@@ -35,10 +35,10 @@
       <dt><%= f.label :strikedate, "Strike:" %></dt>
       <dd>
         <%= f.select :striketype, options_for_select([["Blank", "blank"], ["None", "none"], ["Same as end", "enddate"], ["Literal", "literal"]], f.object.striketype) %>
-        <span class="datetime_select strike-time-field">
+        <div class="datetime_select strike-time-field">
           <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_strike_selected_value(f.object) %>
           <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
-        </span>
+        </div>
       </dd>
     </dl>
     <dl class="big-field">

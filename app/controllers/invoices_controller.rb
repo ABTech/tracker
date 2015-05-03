@@ -101,7 +101,7 @@ class InvoicesController < ApplicationController
   end
 
   def email_confirm
-    @invoice = Invoice.find(params['id'], :include => [:event]);
+    @invoice = Invoice.find(params['id'])
     authorize! :email, @invoice
     
     @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
@@ -147,7 +147,7 @@ class InvoicesController < ApplicationController
   end
   
   def email
-    @invoice = Invoice.find(params['id'], :include => [:event]);
+    @invoice = Invoice.find(params['id'])
     authorize! :email, @invoice
     
     if params[:mark_billing]
@@ -178,7 +178,7 @@ class InvoicesController < ApplicationController
     #version
 
     attachment=render_to_string :pdf=>"output", :template => 'invoices/prettyView.pdf.erb', :layout=>false
-    InvoiceMailer.invoice(@invoice,attachment,params).deliver
+    InvoiceMailer.invoice(@invoice,attachment,params).deliver_now
     flash[:notice] = "Email Sent"
     respond_to do |format|
       format.html {redirect_to @invoice}

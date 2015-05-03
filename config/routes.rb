@@ -61,7 +61,7 @@ Abtt::Application.routes.draw do
       get 'iphone'
       post 'iphone'
       get 'mobile'
-      get 'months/:year/:month', to: :month, as: :month
+      get 'months/:year/:month', action: :month, as: :month
       get 'past'
       get 'incomplete'
       get 'search'

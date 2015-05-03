@@ -285,7 +285,7 @@ class EmailController < ApplicationController
         eventdate.save
       end
       
-      EmailMailer.weekly_events(current_member, params[:to], params[:bcc], params[:subject], params[:intro_blurb], params[:outro_blurb], @eventdates).deliver
+      EmailMailer.weekly_events(current_member, params[:to], params[:bcc], params[:subject], params[:intro_blurb], params[:outro_blurb], @eventdates).deliver_now
       
       flash[:notice] = "Email Sent"
       respond_to do |format|

@@ -65,6 +65,9 @@ $ ->
     whereToAdd = $(this).parents("table").first().children("tbody").children("tr").last()
     toAdd = $(this).prev().children("option:selected").data("role").replace(regexp, new_id)
     whereToAdd.before(toAdd)
+    $(".association-" + new_id + " a.delete_field").click ->
+      $(this).closest(".fields").remove()
+    setUpAddFields()
 
 $ ->
   setUpAddFields()

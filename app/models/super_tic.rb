@@ -15,7 +15,7 @@ class SuperTic < ActiveRecord::Base
   end
   
   def self.available_for(member)
-    where(member: [nil, member]).count > 0
+    where.not(member: member).count < 7
   end
   
   def self.extant_days

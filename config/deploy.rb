@@ -37,7 +37,7 @@ namespace :deploy do
   
   desc "Symlink shared config files"
   task :symlink_config_files do
-    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secret_token.rb #{ release_path }/config/initializers/secret_token.rb"
+    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secrets.yml #{ release_path }/config/secrets.yml"
   end
 end
 

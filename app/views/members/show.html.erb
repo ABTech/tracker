@@ -67,6 +67,22 @@
           <% end %>
         </td>
       </tr>
+      <% if @member.is_at_least? :exec %>
+      <tr>
+        <th>SuperTIC</th>
+        <td>
+          <% if @member.super_tics.empty? %>
+          N/A
+          <% else %>
+          <ul class="supertic_condensed">
+            <% @member.super_tics.each do |st| %>
+            <li><%= st.dayname %></li>
+            <% end %>
+          </ul>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
       </table>
     </td>
     <% if can? :read, Timecard %>

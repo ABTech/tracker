@@ -101,6 +101,7 @@ class Ability
       can :manage, Organization
       can :manage, EmailForm
       can :manage, Attachment
+      can :manage, SuperTic
     end
     
     cannot :destroy, Event

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.2.0'
 
 # Use mysql as the database for Active Record
 gem 'mysql2'
@@ -60,3 +60,5 @@ gem 'net-ssh', '~> 2.7.0'
 gem 'thinking-sphinx', '~> 3.1.0'
 gem 'whenever'
 gem 'amoeba'
+gem 'web-console', '~> 2.0', group: [:development]
+gem 'responders', '~> 2.0'

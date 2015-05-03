@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150412202155) do
+ActiveRecord::Schema.define(version: 20150503155324) do
 
   create_table "accounts", force: true do |t|
     t.string   "name",       null: false
@@ -270,6 +270,15 @@ ActiveRecord::Schema.define(version: 20150412202155) do
   end
 
   add_index "organizations", ["name"], name: "organizations_name_index", using: :btree
+
+  create_table "super_tics", force: true do |t|
+    t.integer  "member_id"
+    t.integer  "day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "super_tics", ["member_id"], name: "index_super_tics_on_member_id", using: :btree
 
   create_table "timecard_entries", force: true do |t|
     t.integer  "member_id"

@@ -2,17 +2,24 @@
 
 The tech tracker is a specialized web application used internally by Carnegie Mellon University's Activities Board Technical Committee. Its major features are event planning/organization, incoming email management, financial tracking, and membership management (including payroll and timecard generation). It was originally written in ~2003 in perl-style Rails 1.x, and through the years has been taken over and upgraded by various techies.
 
-The current version of ABTT uses Ruby 2.0 and Rails 4.0. Postfix is used for sending emails, and Sphinx is used for searching events.
+The current version of ABTT uses Ruby 2.0 and Rails 4.2. Postfix is used for sending emails, and Sphinx is used for searching events.
 
 ## Development Notes
 
 Work on large new features should be done in branches and/or forks; smaller changes can be done in `master`. The `production` branch should always be deployable.
 
-A few steps are required to start developing with ABTT. You can install all of the required gems using the command `bundle install`. Rails requires you to generate a secret token which cannot be stored in source control. Running `rake secret` will generate a token, after which you should create a file `config/initializers/secret_token.rb` with the following text, where `X` is your generated secret token:
+A few steps are required to start developing with ABTT. You can install all of the required gems using the command `bundle install`. Rails requires you to generate a secret key which cannot be stored in source control. Running `rake secret` will generate a token, after which you should create a file `config/secrets.yml` with the following text, where `X` is your generated secret token:
 
-```ruby
-Abtt::Application.config.secret_token = "X"
+```yaml
+development:
+  secret\_key_base: X
+test:
+  secret\_key_base: X
+production:
+  secret\_key_base: X
 ```
+
+Optimally, each `X` should be a different value.
 
 A Devise configuration file is required for the membership model. One can be generated with the command `rails g devise Member`. The generated configuration (and therefore, the membership data in the database) may not be compatible with production ABTT. If using a copy of the production database, this may mean you will either have to edit some records with `rails c` to allow you to log in, or request a copy of the production Devise configuration file.
 

@@ -86,6 +86,31 @@
   <% end %>
 <% end %>
 
+<% if can? :manage, SuperTic %>
+  <% if @member.is_at_least? :exec %>
+    <tr>
+      <th>SuperTIC</th>
+      <td>
+        <% if SuperTic.available_for @member %>
+          <ul class="supertic_condensed">
+            <%= f.fields_for :super_tics, SuperTic.days do |builder| %>
+              <% if builder.object.member == @member or builder.object.member == nil %>
+                <li>
+                  <%= builder.check_box :_destroy, {:checked => builder.object.member == @member}, "0", "1" %>
+                  <%= builder.label :_destroy, builder.object.dayname %>
+                  <%= builder.hidden_field :day %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        <% else %>
+          N/A
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
+
 <tr>
   <th></th>
   <td><%= f.submit %></td>

@@ -5,6 +5,9 @@ class Member < ActiveRecord::Base
   has_many :comments
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
+  has_many :super_tics, -> { order(day: :asc) }
+  
+  accepts_nested_attributes_for :super_tics, :allow_destroy => true
   
   attr_accessor :login
 

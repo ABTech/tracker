@@ -149,6 +149,14 @@ class MembersController < ApplicationController
         params[:member].delete(:tracker_dev)
       end
       
-      params.require(:member).permit(:password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev)
+      if cannot? :manage, SuperTic
+        params[:member].delete(:super_tics_attributes)
+      end
+      
+      params.require(:member).permit(
+        :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
+        :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev,
+        :super_tics_attributes => [:id, :_destroy, :day]
+      )
     end
 end

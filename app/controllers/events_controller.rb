@@ -73,7 +73,7 @@ class EventsController < ApplicationController
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
       :event_roles_attributes => [:role, :member_id],
       :attachments_attributes => [:attachment, :name],
-      :blackout_attributes => [:startdate, :enddate, :with_new_event, :blackout_include])
+      :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -100,7 +100,7 @@ class EventsController < ApplicationController
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :_destroy],
       :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
-      :blackout_attributes => [:startdate, :enddate, :id, :_destroy, :blackout_include])
+      :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     
     if cannot? :create, Organization
       p.delete(:org_type)

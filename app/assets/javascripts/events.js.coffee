@@ -137,10 +137,10 @@ $ ->
     updateCalendarExportLink()
 
 $ ->
-  if $("#event_blackout_attributes_blackout_include").prop("checked")
+  if $("#event_blackout_attributes__destroy").prop("checked")
     $(".event-blackout-fields").show()
-  $("#event_blackout_attributes_blackout_include").change ->
-    if $("#event_blackout_attributes_blackout_include").prop("checked")
+  $("#event_blackout_attributes__destroy").change ->
+    if $("#event_blackout_attributes__destroy").prop("checked")
       $(".event-blackout-fields").show()
     else
       $(".event-blackout-fields").hide()

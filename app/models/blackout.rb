@@ -1,7 +1,7 @@
 class Blackout < ActiveRecord::Base
   belongs_to :event
   
-  attr_accessor :with_new_event, :blackout_include
+  attr_accessor :with_new_event
   
   validates :startdate, :enddate, presence: true
   validate :chronologicality, :informative

@@ -37,11 +37,7 @@
         <dt><%= f.label :blackout, "Blackout:" %></dt>
         <dd>
           <%= f.fields_for :blackout, f.object.blackout || Blackout.new do |builder| %>
-            <% if builder.object.new_record? %>
-              <%= builder.check_box :blackout_include %>
-            <% else %>
-              <%= builder.check_box :_destroy, {:id => "event_blackout_attributes_blackout_include", :checked => true}, "0", "1" %>
-            <% end %>
+            <%= builder.check_box :_destroy, {:checked => !builder.object.new_record?}, "0", "1" %>
             <span class="event-blackout-fields">
                 <%= builder.date_select :startdate %>
                 to

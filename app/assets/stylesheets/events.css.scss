@@ -271,9 +271,8 @@ table.eventslist .ticless {
 }
 
 .event-form dl {
-  overflow: hidden;
-  display: block;
-  margin: 0;
+  display: table;
+  margin: 0 0 5px 0;
   width: 100%;
 }
 
@@ -282,20 +281,25 @@ table.eventslist .ticless {
 }
 
 .event-form dt {
-  display: block;
-  float: left;
+  display: table-cell;
   text-align: right;
   width: 15%;
   line-height: 25px;
   margin: 0 10px 10px 0;
+  padding-right: 1em;
+  vertical-align: baseline;
 }
 
 .event-form dd {
-  display: block;
-  overflow: hidden;
+  display: table-cell;
   line-height: 25px;
   margin: 0 0 10px 0;
   padding: 1px;
+  vertical-align: baseline;
+  
+  img {
+    vertical-align: sub;
+  }
 }
 
 .event-form-full-input {

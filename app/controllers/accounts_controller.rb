@@ -89,7 +89,7 @@ class AccountsController < ApplicationController
     
     @title = "Unpaid JEs"
 
-    @journals = Journal.find(:all, :conditions => ["date >= '" + Account.magic_date + "' AND date_paid IS NULL"])
+    @journals = Journal.where("date >= ? AND date_paid IS NULL", Account.magic_date)
   end
 
   def unpaid_print
@@ -97,7 +97,7 @@ class AccountsController < ApplicationController
     
     @title = "Unpaid JEs"
 
-    @journals = Journal.find(:all, :conditions => ["date >= '" + Account.magic_date + "' AND date_paid IS NULL"])
+    @journals = Journal.where("date >= ? AND date_paid IS NULL", Account.magic_date)
   end
 
   def confirm_paid

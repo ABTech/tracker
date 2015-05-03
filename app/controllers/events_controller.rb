@@ -276,7 +276,7 @@ class EventsController < ApplicationController
     @startdate = params["startdate"] ? Date.parse(params["startdate"]) : Date.today 
     @enddate   = @startdate+7
 
-    @eventdates = Eventdate.find(:all, :order => "startdate ASC", :conditions => ["? <= startdate AND ? > enddate", @startdate, @enddate])
+    @eventdates = Eventdate.where("startdate > ? AND enddate <= ?", @startdate, @enddate).order("startdate ASC")
 
     unless params[:showall]
       @eventdates.reject! do |eventdate|

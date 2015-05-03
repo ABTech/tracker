@@ -12,11 +12,11 @@ A few steps are required to start developing with ABTT. You can install all of t
 
 ```yaml
 development:
-  secret\_key_base: X
+  secret_key_base: X
 test:
-  secret\_key_base: X
+  secret_key_base: X
 production:
-  secret\_key_base: X
+  secret_key_base: X
 ```
 
 Optimally, each `X` should be a different value.

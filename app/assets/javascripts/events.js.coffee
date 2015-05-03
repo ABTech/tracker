@@ -16,6 +16,16 @@ $ ->
     whereToAdd.before(toAdd)
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
+      
+@setUpSuperTicEdit = (ed,roles) ->
+  ed.find(".start-time-field").children(".day, .month, .year").change ->
+    day = parseInt($(this).parent().children(".day").val())
+    month = parseInt($(this).parent().children(".month").val())-1
+    year = parseInt($(this).parent().children(".year").val())
+    dayOfWeek = new Date(year, month, day).getDay()
+    if dayOfWeek == 0
+      dayOfWeek = 7
+    roles.find(".supertic_add_role_select").val(dayOfWeek)
     
 @setUpEventDate = (ed) ->
   ed.find(".datetime_select").each ->
@@ -41,6 +51,7 @@ $ ->
         parent.show()
       else
         parent.hide()
+  setUpSuperTicEdit(ed, ed.find(".event-form-roles"))
 
 @setUpAddFields = () ->
   $("a.add_field").click ->
@@ -80,6 +91,8 @@ $ ->
     setUpSuperTicAdd($(this))
   $(".event-date-form").each ->
     setUpEventDate($(this))
+  setUpSuperTicEdit($(".event-date-form").first(), $("fieldset.event-form-roles"))
+  
 
 $ ->
   $("a.add_blackout_fields").click ->

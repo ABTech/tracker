@@ -5,7 +5,7 @@ class Member < ActiveRecord::Base
   has_many :comments
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
-  has_many :super_tics, -> { order(day: :asc) }
+  has_many :super_tics, -> { order(day: :asc) }, dependent: :destroy
   
   accepts_nested_attributes_for :super_tics, :allow_destroy => true
   
@@ -20,6 +20,10 @@ class Member < ActiveRecord::Base
     m.phone = m.phone.gsub(/[\.\- ]/, "") if m.phone
     m.callsign.upcase! if m.callsign.respond_to? "upcase!"
     m.ssn = nil if m.ssn.blank?
+    
+    unless is_at_least? :exec
+      m.super_tics.clear
+    end
   end
   
   extend Enumerize

@@ -137,7 +137,7 @@ class MembersController < ApplicationController
         params[:member].delete(:password_confirmation)
       end
       
-      if params[:member][:role] and (not current_member.is_at_least? params[:member][:role] or cannot? :manage, Member)
+      if params[:member][:role] and (not current_member.is_at_least? params[:member][:role] or cannot? :manage, Member) and not current_member.tracker_dev?
         params[:member].delete(:role)
       end
       

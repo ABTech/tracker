@@ -151,4 +151,14 @@ module EventsHelper
     end
   end
   
+  def supertic_add_role(f, date)
+    select_tag("", options_for_select(SuperTic.extant_days.collect do |day|
+      new_object = EventRole.new(role: EventRole::Role_exec, member: day.member)
+      fields = f.fields_for(:event_roles, new_object, :child_index => "new_event_roles") do |builder|
+        render("events/event_role_fields", {:f => builder, :parent => f.object})
+      end
+      [day.dayname, day.day, data: {role: "#{fields}"}]
+    end, date.nil? ? nil : date.to_date.cwday), class: "supertic_add_role_select") + button_tag("Add", type: :button, class: "supertic_add_role_button")
+  end
+  
 end

@@ -59,6 +59,12 @@ $ ->
         parent.show()
       else
         parent.hide()
+  $(".supertic_add_role_button").click ->
+    new_id = new Date().getTime()
+    regexp = new RegExp("new_event_roles", "g")
+    whereToAdd = $(this).parents("table").first().children("tbody").children("tr").last()
+    toAdd = $(this).prev().children("option:selected").data("role").replace(regexp, new_id)
+    whereToAdd.before(toAdd)
 
 $ ->
   setUpAddFields()

@@ -18,6 +18,10 @@ class SuperTic < ActiveRecord::Base
     where(member: [nil, member]).count > 0
   end
   
+  def self.extant_days
+    order(day: :asc)
+  end
+  
   private
     def member_is_exec
       unless member.is_at_least? :exec

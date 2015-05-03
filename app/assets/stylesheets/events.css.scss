@@ -334,7 +334,9 @@ table.eventslist .ticless {
   tr td {
     align: center;
     padding: .5em 1em;
-    
+  }
+  
+  tbody tr td {
     select, input {
       width: 100%;
     }

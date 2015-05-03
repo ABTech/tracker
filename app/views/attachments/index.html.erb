@@ -16,7 +16,7 @@
 <% @attachments.each do |a| %>
   <tr>
     <td><%= link_to a.name, a.attachment.url %></td>
-    <td><%= link_to a.event, event_path(a.event) %></td>
+    <td><%= link_to a.event, event_path(a.event) unless a.event.nil? %></td>
     <td><%= a.attachment.content_type %></td>
 	  <td><%= a.friendly_size %></td>
     <% if can? :manage, Attachment %>

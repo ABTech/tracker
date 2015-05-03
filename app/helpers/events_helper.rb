@@ -135,18 +135,6 @@ module EventsHelper
     end
   end
   
-  def link_to_add_blackout(f)
-    new_object = Blackout.new
-    fields = f.fields_for(:blackout, new_object, :child_index => "new_blackout") do |builder|
-      render("events/blackout_fields", :f => builder)
-    end
-    link_to("Create blackout period", "#", class:"add_blackout_fields", data: {content: "#{fields}"}, onClick: "return false")
-  end
-  
-  def link_to_remove_blackout(f)
-    f.hidden_field(:_destroy) + link_to("Remove blackout period?", "#", class: "delete_blackout_fields", onClick: "return false")
-  end
-  
   def eventdate_call_selected_value(eventdate)
     if eventdate.has_call?
       eventdate.effective_call
@@ -162,4 +150,5 @@ module EventsHelper
       DateTime.now
     end
   end
+  
 end

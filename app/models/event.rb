@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
   accepts_nested_attributes_for :attachments, :allow_destroy => true
   accepts_nested_attributes_for :invoices
-  accepts_nested_attributes_for :blackout, :allow_destroy => true
+  accepts_nested_attributes_for :blackout, :reject_if => lambda {|a| a[:blackout_include] == "0"}, :allow_destroy => true
   
   attr_accessor :org_type, :org_new
   
@@ -171,6 +171,14 @@ class Event < ActiveRecord::Base
     eventdates_editable_by(member).count != 0
   end
   
+  def blackout_include
+    !blackout.nil?
+  end
+  
+  def blackout_include=(b)
+    should_ignore_blackout = !b
+  end
+  
   private
     def handle_organization
       if self.org_type == "new"
@@ -202,6 +210,7 @@ class Event < ActiveRecord::Base
           dt.startdate = Time.now
           dt.enddate = Time.now
           dt.strikedate = Time.now
+          dt.event_roles << EventRole.new
           self.eventdates << dt
         end
         

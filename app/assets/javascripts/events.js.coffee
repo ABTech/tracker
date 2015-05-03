@@ -48,6 +48,17 @@ $ ->
       $(this).children(".year").val(starttime.children(".year").val())
       setDateMonths($(this))
       $(this).children(".day").val(starttime.children(".day").val())
+  $(".event-date-form .call-time-field, .event-date-form .strike-time-field").each ->
+    parent = $(this)
+    if parent.prev().val() == "literal"
+      parent.show()
+    else
+      parent.hide()
+    parent.prev().change ->
+      if parent.prev().val() == "literal"
+        parent.show()
+      else
+        parent.hide()
 
 $ ->
   setUpAddFields()
@@ -124,3 +135,24 @@ $ ->
   updateCalendarExportLink()
   $("#gencalex_form input, #gencalex_form select").change ->
     updateCalendarExportLink()
+
+$ ->
+  if $("#event_blackout_attributes_blackout_include").prop("checked")
+    $(".event-blackout-fields").show()
+  $("#event_blackout_attributes_blackout_include").change ->
+    if $("#event_blackout_attributes_blackout_include").prop("checked")
+      $(".event-blackout-fields").show()
+    else
+      $(".event-blackout-fields").hide()
+
+$ ->
+  if $("#event_org_type").val() == "new"
+    $("#event_organization_id").hide()
+    $("#event_org_new").show()
+  $("#event_org_type").change ->
+    if $("#event_org_type").val() == "new"
+      $("#event_organization_id").hide()
+      $("#event_org_new").show()
+    else
+      $("#event_org_new").hide()
+      $("#event_organization_id").show()

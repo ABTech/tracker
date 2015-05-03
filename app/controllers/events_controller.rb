@@ -50,6 +50,11 @@ class EventsController < ApplicationController
   def edit
     @title = "Edit Event"
     @event = Event.find(params[:id])
+    
+    @event.eventdates.each do |ed|
+      ed.event_roles.build
+    end
+    
     authorize! :update, @event
   end
   
@@ -61,14 +66,14 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
       :event_roles_attributes => [:role, :member_id],
       :attachments_attributes => [:attachment, :name],
-      :blackout_attributes => [:startdate, :enddate, :with_new_event])
+      :blackout_attributes => [:startdate, :enddate, :with_new_event, :blackout_include])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -86,7 +91,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     authorize! :update, @event
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
@@ -95,7 +100,7 @@ class EventsController < ApplicationController
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :_destroy],
       :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
-      :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
+      :blackout_attributes => [:startdate, :enddate, :id, :_destroy, :blackout_include])
     
     if cannot? :create, Organization
       p.delete(:org_type)

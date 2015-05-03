@@ -15,6 +15,7 @@ class Eventdate < ActiveRecord::Base
   validates_associated :locations, :equipment
   validate :dates, :validate_call, :validate_strike
   
+  before_validation :prune_roles
   after_save :synchronize_representative_date
 
   Event_Span_Days       = 2;
@@ -144,4 +145,9 @@ class Eventdate < ActiveRecord::Base
   def run_positions_for(member)
     self.event_roles.where(member: member)
   end
+  
+  private
+    def prune_roles
+      self.event_roles = self.event_roles.reject { |er| er.role.blank? }
+    end
 end

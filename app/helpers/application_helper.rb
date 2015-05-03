@@ -87,4 +87,13 @@ module ApplicationHelper
     end
     link_to(name, "#", class:"add_field"+extra, data: {association: "#{association}", content: "#{fields}"}, onClick: "return false")
   end
+  
+  def link_to_add_eventdate_fields(name, f)
+    new_object = f.object.class.reflect_on_association(:eventdates).klass.new
+    new_object.event_roles.build
+    fields = f.fields_for(:eventdates, new_object, :child_index => "new_eventdates") do |builder|
+      render("events/eventdate_fields", {:f => builder})
+    end
+    link_to(name, "#", class:"add_field", data: {association: "eventdates", content: "#{fields}"}, onClick: "return false")
+  end
 end

@@ -98,6 +98,8 @@ Abtt::Application.routes.draw do
       get 'tshirts'
       get 'roles'
       get 'choose_filter'
+      get 'super_tics'
+      post 'super_tics', action: :update_super_tics
     end
   end
 

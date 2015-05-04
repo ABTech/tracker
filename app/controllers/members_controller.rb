@@ -130,6 +130,32 @@ class MembersController < ApplicationController
     end
   end
   
+  def super_tics
+    authorize! :manage, SuperTic
+    
+    @super_tics = SuperTic.days
+  end
+  
+  def update_super_tics
+    authorize! :manage, SuperTic
+    
+    SuperTic.days.each do |d|
+      if params[:super_tics][d.day.to_s] == ""
+        d.destroy
+      else
+        d.member_id = params[:super_tics][d.day.to_s].to_i
+        
+        unless d.save
+          @errors = d.errors
+          render :super_tics and return
+        end
+      end
+    end
+    
+    flash[:notice] = "Super TICs successfully updated."
+    redirect_to super_tics_members_url
+  end
+  
   private
     def member_params
       if params[:member][:password].blank?

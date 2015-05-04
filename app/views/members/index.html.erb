@@ -68,6 +68,9 @@
     <% end %>
     <li><%= link_to 'Generate T-Shirt Order', tshirts_members_url %></li>
     <li><%= link_to 'List Members by Run Position', roles_members_url %></li>
+    <% if can? :manage, SuperTic %>
+      <li><%= link_to "Manage Super TICs", super_tics_members_path %></li>
+    <% end %>
   </ul>
 <% end %>
 <div id="dialog"></div>

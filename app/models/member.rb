@@ -31,6 +31,8 @@ class Member < ActiveRecord::Base
   enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :tracker_management, :head_of_tech], predicates: true
   validates_presence_of :role
   
+  scope :can_be_supertic, -> { where(role: [:exec, :tracker_management, :head_of_tech]).order(namefirst: :asc, namelast: :asc) }
+  
   def active?
     not suspended? and not alumni?
   end

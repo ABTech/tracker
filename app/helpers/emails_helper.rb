@@ -1,14 +1,5 @@
-module EmailHelper
-  IMAP_Server           = "imap.gmail.com";
-  IMAP_Port             = 993;
+module EmailsHelper
 
-  SMTP_Server           = "localhost"
-  SMTP_Domain           = "andrew.cmu.edu"
-  SMTP_Port             = 25;
-  SMTP_CC_List          = ["abtech@andrew.cmu.edu"];
-  SMTP_From             = "abtech@andrew.cmu.edu";
-  SMTP_Reply_To         = "abtech@andrew.cmu.edu";
-  
   def email_call_text(eventdate)
     if eventdate.has_call?
       eventdate.effective_call.strftime("%H:%M")
@@ -39,6 +30,27 @@ module EmailHelper
     else
       "you?"
     end
+  end
+  
+  def email_headers_display(email)
+    headers = email.headers.split("\n").collect do |h|
+      parts = h.split(": ")
+      ht = parts.shift
+      
+      {
+        :title => ht,
+        :content => parts.join(": "),
+        :hidden => (not (["from", "date", "subject", "to", "cc"].include?(ht.downcase)))
+      }
+    end
+    
+    ("<ul>" + headers.collect do |h|
+      if h[:hidden]
+        "<li class=\"hidden-header\">"
+      else
+        "<li>"
+      end + "#{h[:title]}: #{h[:content]}</li>"
+    end.join("") + "</ul>").html_safe
   end
     
 end

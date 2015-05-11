@@ -15,21 +15,11 @@ Abtt::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
-  resources :email, only: [:index, :view] do
+  resources :emails, only: [:index, :show, :create, :update] do
     collection do
-      get 'file'
-      post 'file'
-      get 'mark_status'
-      get 'new_thread'
-      post 'pull_email'
-      get 'reply_to'
-      get 'send_email'
-      get 'unfile'
+      get 'sent'
       get 'weekly'
       post 'weekly', action: "send_weekly"
-    end
-    member do
-      get 'view'
     end
   end
 

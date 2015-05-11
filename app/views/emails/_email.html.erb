@@ -1,0 +1,21 @@
+<div id="email">
+  <div id="email-header">
+    <%= email_headers_display email %>
+    
+    <a id="hidden-header-toggle" data-clicked="no">Show All Headers</a>
+  </div>
+  
+  <div id="email-content"
+    data-one-quote="<%= simple_format(h email.one_quote_contents) %>"
+    data-all-quotes="<%= simple_format(h email.contents) %>"
+    data-no-quotes="<%= simple_format(h email.quoteless_contents) %>"
+    data-quote-mode="no-quotes">
+    <ul class="email-contents-quote-mode">
+      <li><a data-quote-mode="no-quotes" class="active">Hide Quotes</a></li>
+      <li><a data-quote-mode="one-quote">Show One Quote Level</a></li>
+      <li><a data-quote-mode="all-quotes">Show Quotes</a></li>
+    </ul>
+    
+    <div class="the-content"><%= simple_format(h email.quoteless_contents) %></div>
+  </div>
+</div>

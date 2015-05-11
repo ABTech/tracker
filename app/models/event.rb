@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   has_many :invoices, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :journals
-  has_many :attachments
+  has_many :attachments, as: :attachable
   has_one :blackout, :dependent => :destroy
   
   amoeba do

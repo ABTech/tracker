@@ -4,7 +4,7 @@
   <thead>
   <tr>
     <th>Name</th>
-    <th>Event</th>
+    <th>Association</th>
     <th>Content Type</th>
     <th>Size</th>
     <% if can? :manage, Attachment %>
@@ -16,7 +16,11 @@
 <% @attachments.each do |a| %>
   <tr>
     <td><%= link_to a.name, a.attachment.url %></td>
-    <td><%= link_to a.event, event_path(a.event) unless a.event.nil? %></td>
+    <td>
+      <% if can? :read, a.attachable %>
+        <%= link_to a.attachable, a.attachable %>
+      <% end %>
+    </td>
     <td><%= a.attachment.content_type %></td>
 	  <td><%= a.friendly_size %></td>
     <% if can? :manage, Attachment %>

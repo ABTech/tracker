@@ -1,0 +1,89 @@
+// Place all the styles related to the Email controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.unread {
+  font-weight: bold;
+}
+
+#email {
+  border: 1px solid #666661;
+  max-width: 720px;
+  
+  #email-header {
+    padding: 10px;
+    position: relative;
+    background-color: #f6f6f6;
+    border-bottom: 1px solid black;
+    
+    ul {
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      
+      li {
+        display: block;
+        
+        &.hidden-header {
+          display: none;
+        }
+      }
+    }
+    
+    #hidden-header-toggle {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: .5em;
+      background-color: #e0e0e0;
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  
+  #email-content {
+    padding: 0 10px;
+    
+    .the-content {
+      padding-top: 10px;
+      
+      p:first-child {
+        margin-top: 0;
+      }
+    }
+    
+    .email-contents-quote-mode {
+      bottom: 0;
+      right: 0;
+      display: block;
+      margin-right: -10px;
+      margin-top: -10px;
+      
+      li {
+        display: block;
+        float: right;
+        
+        a {
+          display: block;
+          padding: .5em;
+          background-color: #f0f0f0;
+          border-bottom: 1px solid black;
+          border-left: 1px solid black;
+      
+          &:hover {
+            cursor: pointer;
+          }
+          
+          &.active {
+            background-color: #e0e0e0;
+          }
+        }
+      }
+    }
+  }
+}

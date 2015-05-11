@@ -42,7 +42,7 @@ gem 'capistrano', '~> 2.1', group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'wkhtmltopdf-binary'
-gem "paperclip", "~> 3.0"
+gem "paperclip", "~> 4.0"
 gem "acts_as_tree"
 gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
@@ -62,3 +62,7 @@ gem 'whenever'
 gem 'amoeba'
 gem 'web-console', '~> 2.0', group: [:development]
 gem 'responders', '~> 2.0'
+gem 'mail_room', git: 'https://github.com/hatkirby/mail_room'
+gem 'faraday'
+gem 'gmail_xoauth'
+gem 'oauth2'

@@ -1,9 +1,8 @@
 class Attachment < ActiveRecord::Base
-  belongs_to :event
-  belongs_to :journal
+  belongs_to :attachable, polymorphic: true
 
   has_attached_file :attachment, :url => "/system/attachments/:id/:style/:filename", :path => ":rails_root/public/system/attachments/:id/:style/:filename"
-
+  do_not_validate_attachment_file_type :attachment
   validates_attachment_presence :attachment
   
   before_save :ensure_name

@@ -1,0 +1,25 @@
+<table width="100%" class="generic">
+  <tr>
+    <th class="listheader" scope="col">Date</th>
+    <th class="listheader" scope="col">Time</th>
+    <th class="listheader" scope="col"><div align="center">Status</div></th>
+    <th class="listheader" scope="col"><div align="left">Sender</div></th>
+    <th class="listheader" scope="col">Subject</th>
+  </tr>
+  
+  <% @emails.each do |email| %>
+    <% if email.unread %>
+    <tr class="unread">
+    <% else %>
+    <tr>
+    <% end %>
+      <td class="list"><%= email.timestamp.strftime("%b %d, %Y") %></td>
+      <td class="list"><%= email.timestamp.strftime("%I:%M %p") %></td>
+      <td class="list"><%= email.unread ? "Unread" : "Read" %></td>
+      <td class="list"><%= email.sender %></td>
+      <td class="list"><%= link_to email.subject, email %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @emails %>

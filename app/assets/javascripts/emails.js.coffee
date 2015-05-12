@@ -15,6 +15,6 @@ $ ->
   $(".email-contents-quote-mode a").click ->
     contents = $(this).parent().parent().parent()
     contents.data("quote-mode", $(this).data("quote-mode"))
-    contents.children(".the-content").html(contents.data($(this).data("quote-mode")))
+    contents.children(".the-content").html(simpleFormat(contents.data($(this).data("quote-mode"))))
     $(this).parent().parent().find("a").removeClass("active")
     $(this).addClass("active")

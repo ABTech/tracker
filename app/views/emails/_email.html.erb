@@ -6,9 +6,9 @@
   </div>
   
   <div class="email-content"
-    data-one-quote="<%= simple_format(h email.one_quote_contents) %>"
-    data-all-quotes="<%= simple_format(h email.contents) %>"
-    data-no-quotes="<%= simple_format(h email.quoteless_contents) %>"
+    data-one-quote="<%= h email.one_quote_contents %>"
+    data-all-quotes="<%= h email.contents %>"
+    data-no-quotes="<%= h email.quoteless_contents %>"
     data-quote-mode="no-quotes">
     <ul class="email-contents-quote-mode">
       <li><a data-quote-mode="no-quotes" class="active">Hide Quotes</a></li>

@@ -2,6 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+@simpleFormat = (str) ->
+  str = str.replace(/\r\n?/, "\n")
+  str = $.trim(str)
+  if str.length > 0
+    str = str.replace(/\n\n+/g, '</p><p>')
+    str = str.replace(/\n/g, '<br />')
+    str = '<p>' + str + '</p>'
+  return str
+
 $ ->
   $("a.delete_field").click ->
     $(this).prev("input[type=hidden]").val("1")

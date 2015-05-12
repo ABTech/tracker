@@ -5,6 +5,7 @@
     <th class="listheader" scope="col"><div align="center">Status</div></th>
     <th class="listheader" scope="col"><div align="left">Sender</div></th>
     <th class="listheader" scope="col">Subject</th>
+    <th class="listheader" scope="col">Event</th>
   </tr>
   
   <% @emails.each do |email| %>
@@ -18,6 +19,11 @@
       <td class="list"><%= email.unread ? "Unread" : "Read" %></td>
       <td class="list"><%= email.sender %></td>
       <td class="list"><%= link_to email.subject, email %></td>
+      <td class="list">
+        <% if email.event %>
+        <%= link_to email.event, email.event %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

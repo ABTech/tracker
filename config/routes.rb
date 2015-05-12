@@ -18,6 +18,7 @@ Abtt::Application.routes.draw do
   resources :emails, only: [:index, :show, :create, :update] do
     collection do
       get 'sent'
+      get 'unread'
       get 'weekly'
       post 'weekly', action: "send_weekly"
     end

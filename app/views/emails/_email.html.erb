@@ -2,21 +2,30 @@
   <div class="email-header">
     <%= email_headers_display email %>
     
-    <a class="hidden-header-toggle" data-clicked="no">Show All Headers</a>
+    <a class="email-options-link">Options</a>
+    
+    <ul class="email-options">
+      <li class="close-options">Options</li>
+      <li class="hidden-header-toggle" data-clicked="no">Show All Headers</li>
+      <li class="email-contents-quote-mode active" data-quote-mode="no-quotes">Hide Quotes</li>
+      <li class="email-contents-quote-mode" data-quote-mode="one-quote">Show One Quote Level</li>
+      <li class="email-contents-quote-mode" data-quote-mode="all-quotes">Show Quotes</li>
+      <% if email.unread %>
+        <li class="email-unread-toggle" data-clicked="yes" data-url="<%= email_url(email) %>">Mark Read</li>
+      <% else %>
+        <li class="email-unread-toggle" data-clicked="no" data-url="<%= email_url(email) %>">Mark Unread</li>
+      <% end %>
+    </ul>
   </div>
   
-  <div class="email-content"
-    data-one-quote="<%= h email.one_quote_contents %>"
-    data-all-quotes="<%= h email.contents %>"
-    data-no-quotes="<%= h email.quoteless_contents %>"
-    data-quote-mode="no-quotes">
-    <ul class="email-contents-quote-mode">
-      <li><a data-quote-mode="no-quotes" class="active">Hide Quotes</a></li>
-      <li><a data-quote-mode="one-quote">Show One Quote Level</a></li>
-      <li><a data-quote-mode="all-quotes">Show Quotes</a></li>
-    </ul>
-    
-    <div class="the-content"><%= simple_format(h email.quoteless_contents) %></div>
+  <div class="email-content">
+    <div class="the-content"
+      data-one-quote="<%= h email.one_quote_contents %>"
+      data-all-quotes="<%= h email.contents %>"
+      data-no-quotes="<%= h email.quoteless_contents %>"
+      data-quote-mode="no-quotes">
+      <%= simple_format(h email.quoteless_contents) %>
+    </div>
     
     <% unless email.attachments.empty? %>
     <ul class="the-attachments">

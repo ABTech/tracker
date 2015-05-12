@@ -16,7 +16,7 @@
     background-color: #f6f6f6;
     border-bottom: 1px solid black;
     
-    ul {
+    &>ul {
       padding-left: 0;
       margin-top: 0;
       margin-bottom: 0;
@@ -30,7 +30,7 @@
       }
     }
     
-    .hidden-header-toggle {
+    .email-options-link {
       display: block;
       position: absolute;
       top: 0;
@@ -43,6 +43,45 @@
       &:hover {
         cursor: pointer;
       }
+    }
+    
+    .email-options {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      padding-left: 0;
+      margin: 0;
+        
+      li {
+        list-style-type: none;
+        display: block;
+        padding: .5em;
+        background-color: #e0e0e0;
+        color: blue;
+        
+        &.active {
+          display: none;
+        }
+        
+        &+li {
+          border-top: 1px solid black;
+        }
+        
+        &:hover {
+          cursor: pointer;
+        }
+      }      
+    }
+    
+    .visible {
+      display: block;
+    }
+    
+    .invisible {
+      display: none;
     }
   }
   

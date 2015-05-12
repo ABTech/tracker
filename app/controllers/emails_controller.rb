@@ -1,6 +1,6 @@
 class EmailsController < ApplicationController
   skip_before_filter :authenticate_member!, :only => [:create]
-  load_and_authorize_resource only: [:index, :show, :update]
+  load_and_authorize_resource only: [:index, :show, :update, :sent, :unread]
   protect_from_forgery except: :create
   
   def index
@@ -11,12 +11,18 @@ class EmailsController < ApplicationController
     @emails = @emails.sent.paginate(:per_page => 20, :page => params[:page])
   end
   
+  def unread
+    @emails = @emails.unread.paginate(:per_page => 20, :page => params[:page])
+  end
+  
   def show
+    @email.unread = false
+    @email.save
   end
   
   def create
     request.headers["HTTP_AUTHORIZATION"]
-    maildropConfig = YAML::load(File.read(Rails.root.join("config","cfg.cfg")))
+    maildropConfig = YAML::load(File.read(Rails.root.join("config","mail_room.cfg")))
     unless request.headers["HTTP_AUTHORIZATION"] == "Token token=\"#{maildropConfig[:mailboxes][0][:delivery_token]}\""
       raise CanCan::AccessDenied
     end
@@ -26,6 +32,9 @@ class EmailsController < ApplicationController
   end
   
   def update
+    @email.update(params.require(:email).permit(:unread))
+    
+    render nothing: true
   end
   
   def weekly

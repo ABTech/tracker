@@ -4,6 +4,7 @@ class Email < ActiveRecord::Base
   
   scope :received, -> { where(sent: false).order(timestamp: :desc) }
   scope :sent, -> { where(sent: true).order(timestamp: :desc) }
+  scope :unread, -> { where(unread: true).order(timestamp: :desc) }
     
   validates_presence_of :sender, :timestamp, :contents
   validates_format_of :sender, :with => Event::EmailRegex, :multiline => true

@@ -21,12 +21,6 @@ class EventsController < ApplicationController
     authorize! :read, @event
   end
   
-  def show_email
-    @title = "Viewing Event Emails"
-    @event = Event.find(params[:id])
-    authorize! :read, @event
-  end
-  
   def finance
     @title = "Viewing Event Finances"
     @event = Event.find(params[:id])

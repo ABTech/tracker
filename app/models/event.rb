@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   belongs_to :organization
-  has_many :emails, -> { order "timestamp DESC" }
+  has_many :emails
   has_many :eventdates, -> { order "startdate ASC" }, :dependent => :destroy
   has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :invoices, :dependent => :destroy

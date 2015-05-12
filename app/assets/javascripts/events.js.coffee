@@ -187,3 +187,14 @@ $ ->
     else
       $("#event_org_new").hide()
       $("#event_organization_id").show()
+
+$ ->
+  $("#event-emails h5").click ->
+    email = $(this).parent().children(".email")
+    if $(this).data("visible") == "yes"
+      $(this).data("visible", "no")
+      $(this).children(".arrow").html("&#9654;")
+    else
+      $(this).data("visible", "yes")
+      $(this).children(".arrow").html("&#9660;")
+    email.toggle("blind")

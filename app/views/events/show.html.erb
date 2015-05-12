@@ -254,6 +254,22 @@
         </ul>
       </div>
     <% end %>
+    
+    <% if can? :tic, @event and not @event.emails.empty? %>
+      <div id="event-emails" class="event-box">
+        <h4>Emails</h4>
+        
+        <ul>
+          <% @event.emails.order(timestamp: :asc).each do |email| %>
+            <li>
+              <h5 data-visible="no"><%= email.display_title %> <span class="arrow">&#9654;</span></h5>
+              
+              <%= render partial: "emails/email", locals: { email: email } %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </div>
   
   <div id="event-comments" class="event-box">
@@ -285,9 +301,6 @@
     <ul>
       <% if can? :read, Timecard %>
         <li><%= link_to "View payroll", finance_event_url(@event) %></li>
-      <% end %>
-      <% if not @event.emails.empty? %>
-        <li><%= link_to "View emails", show_email_event_url(@event) %></li>
       <% end %>
       <% if can? :update, @event %>
         <li><%= link_to "Edit this event", edit_event_url(@event) %></li>

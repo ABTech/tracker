@@ -1,11 +1,11 @@
-<div id="email">
-  <div id="email-header">
+<div class="email">
+  <div class="email-header">
     <%= email_headers_display email %>
     
-    <a id="hidden-header-toggle" data-clicked="no">Show All Headers</a>
+    <a class="hidden-header-toggle" data-clicked="no">Show All Headers</a>
   </div>
   
-  <div id="email-content"
+  <div class="email-content"
     data-one-quote="<%= simple_format(h email.one_quote_contents) %>"
     data-all-quotes="<%= simple_format(h email.contents) %>"
     data-no-quotes="<%= simple_format(h email.quoteless_contents) %>"
@@ -17,5 +17,13 @@
     </ul>
     
     <div class="the-content"><%= simple_format(h email.quoteless_contents) %></div>
+    
+    <% unless email.attachments.empty? %>
+    <ul class="the-attachments">
+      <% email.attachments.each do |a| %>
+      <li><%= image_tag "link.png" %><%= link_to "#{a.name} (#{a.friendly_size})", a.attachment.url %></li>
+      <% end %>
+    </ul>
+    <% end %>
   </div>
 </div>

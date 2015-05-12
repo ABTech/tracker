@@ -6,11 +6,11 @@
   font-weight: bold;
 }
 
-#email {
+.email {
   border: 1px solid #666661;
   max-width: 720px;
   
-  #email-header {
+  .email-header {
     padding: 10px;
     position: relative;
     background-color: #f6f6f6;
@@ -30,7 +30,7 @@
       }
     }
     
-    #hidden-header-toggle {
+    .hidden-header-toggle {
       display: block;
       position: absolute;
       top: 0;
@@ -46,7 +46,7 @@
     }
   }
   
-  #email-content {
+  .email-content {
     padding: 0 10px;
     
     .the-content {
@@ -82,6 +82,19 @@
           &.active {
             background-color: #e0e0e0;
           }
+        }
+      }
+    }
+    
+    .the-attachments {
+      padding-left: 0;
+      
+      li {
+        display: block;
+        
+        img {
+          vertical-align: middle;
+          margin-right: 5px;
         }
       }
     }

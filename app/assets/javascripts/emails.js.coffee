@@ -3,15 +3,15 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $("#hidden-header-toggle").click ->
+  $(".hidden-header-toggle").click ->
     if $(this).data("clicked") == "no"
       $(this).data("clicked", "yes")
       $(this).text("Hide Extra Headers")
-      $(".hidden-header").css("display", "block")
+      $(this).parent().find(".hidden-header").css("display", "block")
     else
       $(this).data("clicked", "no")
       $(this).text("Show Hidden Headers")
-      $(".hidden-header").css("display", "none")
+      $(this).parent().find(".hidden-header").css("display", "none")
   $(".email-contents-quote-mode a").click ->
     contents = $(this).parent().parent().parent()
     contents.data("quote-mode", $(this).data("quote-mode"))

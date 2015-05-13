@@ -1,0 +1,22 @@
+$(".eventsmain").before('<%= j render(partial: "emails/new_event", object: @event) %>');
+$("#new-email-event").dialog({
+  resizable: false,
+  position: "center",
+  width: 720,
+  title: "Create new Event",
+  modal: true,
+  buttons: {
+    "Submit": function(){
+      jQuery("#new-email-event form").submit();
+      jQuery("#new-email-event").dialog("destroy");
+      jQuery("#new-email-event").html("Creating Event...")
+      jQuery("#new-email-event").dialog({
+        modal:true,
+        closeOnEscape: false,
+        title: "Don't Navigate Away!"
+      });
+      //Removing ability to close dialog
+      jQuery("#new-email-event").parent().find('a.ui-dialog-titlebar-close').remove();
+      jQuery("#new-email-event").bind('dialogbeforeclose', false);
+    }}
+});

@@ -16,6 +16,7 @@ class EmailsController < ApplicationController
   end
   
   def reply
+    @reply = Email.find(params[:id]).reply
   end
   
   def send_reply
@@ -38,6 +39,11 @@ class EmailsController < ApplicationController
     else
       redirect_to replied.event
     end
+  end
+  
+  def new_event
+    @email = Email.find(params[:id])
+    @event = Event.new(title: @email.subject, created_email: @email.id)
   end
   
   def show

@@ -1,0 +1,5 @@
+<div id="new-email-event">
+  <%= form_for @event do |builder| %>
+    <%= render :partial => "events/form", :locals => {:f => builder} %>
+  <% end %>
+</div>

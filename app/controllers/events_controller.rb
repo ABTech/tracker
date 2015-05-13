@@ -61,7 +61,7 @@ class EventsController < ApplicationController
     end
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],

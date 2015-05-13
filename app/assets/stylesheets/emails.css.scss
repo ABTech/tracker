@@ -149,3 +149,15 @@
     }
   }
 }
+
+#loader {
+  position:absolute;
+  z-index:15;
+  top:50%;
+  left:50%;
+  margin: -16px 0 0 -16px;
+  background: black;
+  padding: 1em;
+  border-radius: 4px;
+  display: none;
+}

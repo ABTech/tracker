@@ -2,6 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+$ ->
+  $.ajaxSetup({
+    beforeSend: ->
+      $('#loader').show();
+    , complete: ->
+      $('#loader').hide(); 
+    , success: ->
+  })
+
 @hideOptionsMenu = (menu) ->
   menu.removeClass("visible")
   menu.parent().children(".email-options-link").removeClass("invisible")
@@ -50,6 +59,13 @@ $ ->
   $(".email-reply-link").click ->
     $.ajax({
       url: "/emails/reply.js",
+      data: "id=" + $(this).data("email-id"),
+      dataType: "script",
+      success: "success"
+    })
+  $(".email-new-event-link").click ->
+    $.ajax({
+      url: "/emails/new_event.js",
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"

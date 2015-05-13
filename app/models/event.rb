@@ -19,12 +19,12 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :invoices
   accepts_nested_attributes_for :blackout, :allow_destroy => true
   
-  attr_accessor :org_type, :org_new
+  attr_accessor :org_type, :org_new, :created_email
   
   before_validation :prune_attachments, :prune_roles
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
-  after_save :set_eventdate_delta_flags
+  after_save :set_eventdate_delta_flags, :set_created_email
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
@@ -218,6 +218,14 @@ class Event < ActiveRecord::Base
       eventdates.each do |eventdate|
         eventdate.delta = true
         eventdate.save
+      end
+    end
+    
+    def set_created_email
+      if created_email
+        mail = Email.find(created_email)
+        mail.event = self
+        mail.save
       end
     end
 end

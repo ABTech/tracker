@@ -15,6 +15,31 @@ class EmailsController < ApplicationController
     @emails = @emails.unread.paginate(:per_page => 20, :page => params[:page])
   end
   
+  def reply
+  end
+  
+  def send_reply
+    @email = Email.new(params.require(:email).permit(:sender, :recipient, :cc, :bcc, :subject, :contents, :in_reply_to))
+    reply = EmailMailer.reply(@email).deliver_now
+    @email.message_id = reply.message_id
+    @email.timestamp = reply.date
+    @email.sent = true
+    @email.headers = reply.header.to_s
+    
+    replied = Email.where(message_id: @email.in_reply_to).first
+    @email.event = replied.email
+    
+    @email.save
+    
+    flash[:notice] = "Successfully responded to email."
+    
+    if can? :show, replied
+      redirect_to replied
+    else
+      redirect_to replied.event
+    end
+  end
+  
   def show
     @email.unread = false
     @email.save

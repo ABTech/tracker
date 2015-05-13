@@ -47,3 +47,10 @@ $ ->
         data: "email[unread]=0"
       })
     hideOptionsMenu($(this).parent())
+  $(".email-reply-link").click ->
+    $.ajax({
+      url: "/emails/reply.js",
+      data: "id=" + $(this).data("email-id"),
+      dataType: "script",
+      success: "success"
+    })

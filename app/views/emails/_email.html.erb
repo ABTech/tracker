@@ -15,6 +15,9 @@
       <% else %>
         <li class="email-unread-toggle" data-clicked="no" data-url="<%= email_url(email) %>">Mark Unread</li>
       <% end %>
+      <% if can? :edit, email %>
+        <li class="email-reply-link" data-email-id="<%= email.id %>">Reply</li>
+      <% end %>
     </ul>
   </div>
   

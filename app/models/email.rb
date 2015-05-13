@@ -8,6 +8,8 @@ class Email < ActiveRecord::Base
     
   validates_presence_of :sender, :timestamp, :contents
   validates_format_of :sender, :with => Event::EmailRegex, :multiline => true
+  
+  attr_accessor :recipient, :cc, :bcc
 
   def quoteless_contents
     contents.lines.reject { |l| l[0] == ">" or (l.start_with? "On" and l.end_with? " wrote:\n") }.join("")
@@ -25,6 +27,22 @@ class Email < ActiveRecord::Base
     subject
   end
   
+  def reply
+    m = Email.new
+    m.in_reply_to = message_id
+    m.recipient = sender
+    m.subject = subject.downcase.start_with?("re: ") ? subject : ("Re: " + subject)
+    m.sender = "abtech@andrew.cmu.edu"
+    m.contents = "\n\n\n\n\nOn #{timestamp.strftime("%a, %b %-d, %Y at %-l:%M %p")}, #{sender} wrote:\n\n" + contents.lines.collect do |line|
+      if line.start_with? ">"
+        ">" + line
+      else
+        "> " + line
+      end
+    end.join("")
+    m
+  end
+  
   def self.create_from_mail(mail)
     return false if Email.where(message_id: mail.message_id).exists?
     
@@ -35,6 +53,7 @@ class Email < ActiveRecord::Base
     message.message_id = mail.message_id
     message.headers = mail.header.to_s
     message.unread = true
+    message.in_reply_to = mail.in_reply_to
     
     if not mail.multipart?
       message.contents = mail.body.decoded
@@ -50,7 +69,7 @@ class Email < ActiveRecord::Base
     
     # threading
     subject_stripped = mail.subject
-    while subject_stripped.start_with? "Re: "
+    while subject_stripped.downcase.start_with? "re: "
       subject_stripped = subject_stripped[4..-1]
     end
     

@@ -255,7 +255,7 @@
       </div>
     <% end %>
     
-    <% if can? :tic, @event and not @event.emails.empty? %>
+    <% unless @event.emails.empty? %>
       <div id="event-emails" class="event-box">
         <h4>Emails</h4>
         

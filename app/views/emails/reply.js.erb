@@ -1,0 +1,23 @@
+$(".eventsmain").before('<%= j render(partial: "emails/reply", object: Email.find(params[:id]).reply) %>');
+$("#reply-dialog").dialog({
+  height: 540,
+  resizable: false,
+  position: "top",
+  width: 400,
+  title: "Respond to Email",
+  modal: true,
+  buttons: {
+    "Send Email": function(){
+      jQuery("#reply-dialog form").submit();
+      jQuery("#reply-dialog").dialog("destroy");
+      jQuery("#reply-dialog").html("Sending Email...")
+      jQuery("#reply-dialog").dialog({
+        modal:true,
+        closeOnEscape: false,
+        title: "Don't Navigate Away!"
+      });
+      //Removing ability to close dialog
+      jQuery("#reply-dialog").parent().find('a.ui-dialog-titlebar-close').remove();
+      jQuery("#reply-dialog").bind('dialogbeforeclose', false);
+    }}
+});

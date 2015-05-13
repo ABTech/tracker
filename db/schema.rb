@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511002514) do
+ActiveRecord::Schema.define(version: 20150512170009) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
@@ -60,17 +60,18 @@ ActiveRecord::Schema.define(version: 20150511002514) do
   end
 
   create_table "emails", force: :cascade do |t|
-    t.integer  "event_id",   limit: 4
-    t.string   "sender",     limit: 255,      default: "",    null: false
-    t.datetime "timestamp",                                   null: false
-    t.text     "contents",   limit: 16777215,                 null: false
-    t.string   "subject",    limit: 255
-    t.string   "message_id", limit: 255,                      null: false
-    t.text     "headers",    limit: 65535,                    null: false
+    t.integer  "event_id",    limit: 4
+    t.string   "sender",      limit: 255,      default: "",    null: false
+    t.datetime "timestamp",                                    null: false
+    t.text     "contents",    limit: 16777215,                 null: false
+    t.string   "subject",     limit: 255
+    t.string   "message_id",  limit: 255,                      null: false
+    t.text     "headers",     limit: 65535,                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "unread",     limit: 1,        default: false, null: false
-    t.boolean  "sent",       limit: 1,        default: false, null: false
+    t.boolean  "unread",      limit: 1,        default: false, null: false
+    t.boolean  "sent",        limit: 1,        default: false, null: false
+    t.string   "in_reply_to", limit: 255
   end
 
   add_index "emails", ["contents"], name: "emails_contents_index", type: :fulltext

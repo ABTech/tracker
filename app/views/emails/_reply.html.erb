@@ -1,0 +1,31 @@
+<div id="reply-dialog">
+  <%= form_for reply, url: reply_emails_url, class: "reply-form" do |f| %>
+    <dl>
+      <dt><%= f.label :recipient %></dt>
+      <dd><%= f.text_field :recipient %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :subject %></dt>
+      <dd><%= f.text_field :subject %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :cc %></dt>
+      <dd><%= f.text_field :cc %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :bcc %></dt>
+      <dd><%= f.text_field :bcc %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :contents %></dt>
+      <dd><%= f.text_area :contents, size: "40x20" %></dd>
+    </dl>
+    
+    <%= f.hidden_field :in_reply_to %>
+    <%= f.hidden_field :sender %>
+  <% end %>
+</div>

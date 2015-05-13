@@ -19,6 +19,8 @@ Abtt::Application.routes.draw do
     collection do
       get 'sent'
       get 'unread'
+      get 'reply'
+      post 'reply', action: "send_reply"
       get 'weekly'
       post 'weekly', action: "send_weekly"
     end

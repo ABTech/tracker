@@ -44,6 +44,15 @@ class EmailsController < ApplicationController
   def new_event
     @email = Email.find(params[:id])
     @event = Event.new(title: @email.subject, created_email: @email.id)
+    
+    @event.contactemail = @email.sender
+    if @email.contents =~ /from:.*\((.*)\)/
+      @event.contact_name = $1
+    end
+    
+    if @email.contents =~ /\s(\(?\d{3}\)?\D\d{3}\D\d{4})\s/
+      @event.contact_phone = $1
+    end
   end
   
   def show

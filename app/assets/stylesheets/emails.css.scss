@@ -199,3 +199,33 @@
     }
   }
 }
+
+.email-navigation {
+  max-width: 720px;
+  width: 100%;
+  font-size: 12px;
+  
+  .email-navigation-newer {
+    float: left;
+  }
+  
+  .email-navigation-older {
+    float: right;
+  }
+  
+  .email-navigation-middle {
+    text-align: center;
+  }
+  
+  &+.email-navigation {
+    clear: both;
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  
+  &+.email {
+    clear: both;
+    margin-top: 10px;
+  }
+}

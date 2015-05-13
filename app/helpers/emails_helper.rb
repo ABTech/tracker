@@ -52,5 +52,21 @@ module EmailsHelper
       end + "#{h[:title]}: #{h[:content]}</li>"
     end.join("") + "</ul>").html_safe
   end
+  
+  def email_thread(email)
+    "<ul>".html_safe + email_thread_recur(email.make_tree) + "</ul>".html_safe
+  end
+  
+  def email_thread_recur(thread)
+    "<li>".html_safe + link_to_unless_current(thread[:email].subject, thread[:email]) +
+    " by #{thread[:email].sender} on #{thread[:email].timestamp.strftime("%-m/%-d/%y %H:%M")}" +
+    if thread[:children].empty?
+      "".html_safe
+    else
+      "<ul>".html_safe + safe_join(thread[:children].collect do |child|
+        email_thread_recur(child)
+      end) + "</ul>".html_safe
+    end + "</li>".html_safe
+  end
     
 end

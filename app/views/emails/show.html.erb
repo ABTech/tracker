@@ -1,1 +1,28 @@
+<% if @newerEmail or @olderEmail %>
+  <div class="email-navigation">
+    <% if @newerEmail %>
+      <div class="email-navigation-newer"><%= link_to "« #{@newerEmail.subject}", @newerEmail %></div>
+    <% end %>
+    <% if @olderEmail %>
+      <div class="email-navigation-older"><%= link_to "#{@olderEmail.subject} »", @olderEmail %></div>
+    <% end %>
+    <div class="email-navigation-middle">all emails</div>
+  </div>
+<% end %>
+
+<% if @newerUnreadEmail or @olderUnreadEmail %>
+  <div class="email-navigation">
+    <% if @newerUnreadEmail %>
+      <div class="email-navigation-newer"><%= link_to "« #{@newerUnreadEmail.subject}", @newerUnreadEmail %></div>
+    <% end %>
+    <% if @olderUnreadEmail %>
+      <div class="email-navigation-older"><%= link_to "#{@olderUnreadEmail.subject} »", @olderUnreadEmail %></div>
+    <% end %>
+    <div class="email-navigation-middle">unread emails</div>
+  </div>
+<% end %>
+
 <%= render partial: "email", locals: { email: @email } %>
+
+<h4>Thread</h4>
+<%= email_thread @email %>

@@ -43,6 +43,25 @@ class Email < ActiveRecord::Base
     m
   end
   
+  def make_tree
+    if in_reply_to
+      replied = Email.where(message_id: in_reply_to).first
+      if replied
+        replied.make_tree
+      else
+        { :email => self, :children => make_tree_children }
+      end
+    else
+      { :email => self, :children => make_tree_children }
+    end
+  end
+  
+  def make_tree_children
+    Email.where(in_reply_to: message_id).map do |child|
+      { :email => child, :children => child.make_tree_children }
+    end
+  end
+  
   def self.create_from_mail(mail)
     return false if Email.where(message_id: mail.message_id).exists?
     

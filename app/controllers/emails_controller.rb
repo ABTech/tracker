@@ -73,6 +73,11 @@ class EmailsController < ApplicationController
   def show
     @email.unread = false
     @email.save
+    
+    @newerEmail = Email.where("timestamp > (?)", @email.timestamp).order(timestamp: :asc).limit(1).first
+    @olderEmail = Email.where("timestamp < (?)", @email.timestamp).order(timestamp: :desc).limit(1).first
+    @newerUnreadEmail = Email.where("timestamp > (?) AND unread = true", @email.timestamp).order(timestamp: :asc).limit(1).first
+    @olderUnreadEmail = Email.where("timestamp < (?) AND unread = true", @email.timestamp).order(timestamp: :desc).limit(1).first
   end
   
   def create

@@ -21,6 +21,8 @@ class EmailsController < ApplicationController
   
   def send_reply
     @email = Email.new(params.require(:email).permit(:sender, :recipient, :cc, :bcc, :subject, :contents, :in_reply_to))
+    authorize! :create, @email
+    
     reply = EmailMailer.reply(@email).deliver_now
     @email.message_id = reply.message_id
     @email.timestamp = reply.date
@@ -28,7 +30,7 @@ class EmailsController < ApplicationController
     @email.headers = reply.header.to_s
     
     replied = Email.where(message_id: @email.in_reply_to).first
-    @email.event = replied.email
+    @email.event = replied.event
     
     @email.save
     
@@ -43,6 +45,8 @@ class EmailsController < ApplicationController
   
   def new_event
     @email = Email.find(params[:id])
+    authorize! :manage, @email
+    
     @event = Event.new(title: @email.subject, created_email: @email.id)
     
     @event.contactemail = @email.sender
@@ -57,6 +61,7 @@ class EmailsController < ApplicationController
   
   def existing_event
     @email = Email.find(params[:id])
+    authorize! :manage, @email
     
     @subjectMatches = []
     @email.subject.split(" ").each do |word|

@@ -48,6 +48,7 @@ class Ability
       can :destroy, Comment, :member_id => member.id
       can :manage, TimecardEntry, :member_id => member.id
       can :show, Timecard 
+      can :create, Email
       
       can :tic, Event do |event|
         event.tic == member
@@ -59,6 +60,10 @@ class Ability
       
       can :tic, Eventdate do |ed|
         (!ed.event.nil? and ed.event.tic == member) or ed.tic == member
+      end
+      
+      can :update, Email do |email|
+        !email.event.nil? and (email.event.has_run_position? member or email.event.eventdates.any? {|ed| ed.has_run_position? member})
       end
     end
     

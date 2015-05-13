@@ -10,10 +10,12 @@
       <li class="email-contents-quote-mode active" data-quote-mode="no-quotes">Hide Quotes</li>
       <li class="email-contents-quote-mode" data-quote-mode="one-quote">Show One Quote Level</li>
       <li class="email-contents-quote-mode" data-quote-mode="all-quotes">Show Quotes</li>
-      <% if email.unread %>
-        <li class="email-unread-toggle" data-clicked="yes" data-url="<%= email_url(email) %>">Mark Read</li>
-      <% else %>
-        <li class="email-unread-toggle" data-clicked="no" data-url="<%= email_url(email) %>">Mark Unread</li>
+      <% if can? :manage, email %>
+        <% if email.unread %>
+          <li class="email-unread-toggle" data-clicked="yes" data-url="<%= email_url(email) %>">Mark Read</li>
+        <% else %>
+          <li class="email-unread-toggle" data-clicked="no" data-url="<%= email_url(email) %>">Mark Unread</li>
+        <% end %>
       <% end %>
       <% if can? :update, email %>
         <li class="email-reply-link" data-email-id="<%= email.id %>">Reply</li>

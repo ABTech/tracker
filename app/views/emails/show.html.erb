@@ -24,5 +24,13 @@
 
 <%= render partial: "email", locals: { email: @email } %>
 
-<h4>Thread</h4>
-<%= email_thread @email %>
+<% if @email.event %>
+  <div class="email-event-info">
+    <%= render partial: "events/info", locals: {event: @email.event} %>
+  </div>
+<% end %>
+
+<div class="email-thread">
+  <h4>Thread</h4>
+  <%= email_thread @email %>
+</div>

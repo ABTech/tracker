@@ -2,26 +2,7 @@
 
 <div id="event-container">
   <div id="event-container-left">
-    <div id="event-info">
-      <h2><%= @event.title %></h2>
-  
-      <div id="event-org">
-        <h3><%= link_to @event.organization.name, @event.organization %></h3>
-    
-        <b><%= @event.contact_name %></b> | <%= @event.contactemail %>
-        <% if @event.contact_phone and !@event.contact_phone.empty? %>
-          | <%= @event.contact_phone %>
-        <% end %>
-      </div>
-  
-      <p><b><%= @event.status %></b>,
-      <%= @event.rental ? "Rental" : "Full Event" %>,
-      <%= @event.publish ? "Published" : "Not Published" %></p>
-      
-      <% if @event.blackout %>
-        <p>Blackout from <b><%= @event.blackout.startdate.strftime("%b %d, %Y") %></b> to <b><%= @event.blackout.enddate.strftime("%b %d, %Y") %></b>.</p>
-      <% end %>
-    </div>
+    <%= render partial: "events/info", locals: {event: @event} %>
   
     <div id="event-schedule">
       <% @event.eventdates.each do |eventdate| %>

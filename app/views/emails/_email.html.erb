@@ -20,6 +20,7 @@
       <% end %>
       <% if can? :create, Event and not email.event %>
         <li class="email-new-event-link" data-email-id="<%= email.id %>">File New Event</li>
+        <li class="email-existing-event-link" data-email-id="<%= email.id %>">File Existing Event</li>
       <% end %>
     </ul>
   </div>

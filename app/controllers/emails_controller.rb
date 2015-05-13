@@ -55,6 +55,21 @@ class EmailsController < ApplicationController
     end
   end
   
+  def existing_event
+    @email = Email.find(params[:id])
+    
+    @subjectMatches = []
+    @email.subject.split(" ").each do |word|
+      matches = Event.where("title LIKE (?)", "%#{word}%").order(representative_date: :desc)
+      unless matches.empty?
+        @subjectMatches << [word, matches]
+      end
+    end
+    
+    @senderMatches = Event.where("contactemail LIKE (?)", @email.sender).order(representative_date: :desc)
+    @recentEvents = Event.where("representative_date >= ?", Account.magic_date).order(representative_date: :desc)
+  end
+  
   def show
     @email.unread = false
     @email.save
@@ -72,9 +87,13 @@ class EmailsController < ApplicationController
   end
   
   def update
-    @email.update(params.require(:email).permit(:unread))
+    begin
+      @email.update(params.require(:email).permit(:unread, :event_id))
+    rescue
+      flash[:error] = "There was an error updating the email."
+    end
     
-    render nothing: true
+    redirect_to @email
   end
   
   def weekly

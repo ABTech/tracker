@@ -70,3 +70,10 @@ $ ->
       dataType: "script",
       success: "success"
     })
+  $(".email-existing-event-link").click ->
+    $.ajax({
+      url: "/emails/existing_event.js",
+      data: "id=" + $(this).data("email-id"),
+      dataType: "script",
+      success: "success"
+    })

@@ -161,3 +161,41 @@
   border-radius: 4px;
   display: none;
 }
+
+#existing-email-event {
+  dl {
+    dt {
+      background: #eeeef3;
+      border: 1px solid #ccc;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    dd {
+      border: 1px solid #ccc;
+      padding: 5px;
+      margin-left: 0;
+      max-height: 260px;
+      overflow: scroll;
+      
+      &+dt {
+        margin-top: 11px;
+      }
+      
+      .date {
+        margin-left: 5px;
+        color: #999;
+      }
+      
+      ul {
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        
+        li {
+          display: block;
+        }
+      }
+    }
+  }
+}

@@ -22,6 +22,7 @@ Abtt::Application.routes.draw do
       get 'reply'
       post 'reply', action: "send_reply"
       get 'new_event'
+      get 'existing_event'
       get 'weekly'
       post 'weekly', action: "send_weekly"
     end

@@ -1,0 +1,22 @@
+$(".eventsmain").before('<%= j render(partial: "emails/existing_event") %>');
+$("#existing-email-event").dialog({
+  resizable: false,
+  position: "center",
+  width: 720,
+  title: "File Under Existing Event",
+  modal: true,
+  buttons: {
+    "Submit": function(){
+      jQuery("#existing-email-event form").submit();
+      jQuery("#existing-email-event").dialog("destroy");
+      jQuery("#existing-email-event").html("Filing Email...")
+      jQuery("#existing-email-event").dialog({
+        modal:true,
+        closeOnEscape: false,
+        title: "Don't Navigate Away!"
+      });
+      //Removing ability to close dialog
+      jQuery("#existing-email-event").parent().find('a.ui-dialog-titlebar-close').remove();
+      jQuery("#existing-email-event").bind('dialogbeforeclose', false);
+    }}
+});

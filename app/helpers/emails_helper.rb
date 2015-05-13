@@ -44,13 +44,13 @@ module EmailsHelper
       }
     end
     
-    ("<ul>" + headers.collect do |h|
+    "<ul>".html_safe + safe_join(headers.collect do |h|
       if h[:hidden]
-        "<li class=\"hidden-header\">"
+        "<li class=\"hidden-header\">".html_safe
       else
-        "<li>"
-      end + "#{h[:title]}: #{h[:content]}</li>"
-    end.join("") + "</ul>").html_safe
+        "<li>".html_safe
+      end + h[:title] + ": " + h[:content] + "</li>".html_safe
+    end) + "</ul>".html_safe
   end
   
   def email_thread(email)

@@ -27,12 +27,13 @@ class Email < ActiveRecord::Base
     subject
   end
   
-  def reply
+  def reply(member)
     m = Email.new
     m.in_reply_to = message_id
     m.recipient = sender
     m.subject = subject.downcase.start_with?("re: ") ? subject : ("Re: " + subject)
-    m.sender = "abtech@andrew.cmu.edu"
+    m.sender = member.email
+    m.cc = "abtech@andrew.cmu.edu"
     m.contents = "\n\n\n\n\nOn #{timestamp.strftime("%a, %b %-d, %Y at %-l:%M %p")}, #{sender} wrote:\n\n" + contents.lines.collect do |line|
       if line.start_with? ">"
         ">" + line

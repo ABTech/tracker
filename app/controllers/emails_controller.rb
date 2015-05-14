@@ -16,7 +16,7 @@ class EmailsController < ApplicationController
   end
   
   def reply
-    @reply = Email.find(params[:id]).reply
+    @reply = Email.find(params[:id]).reply(current_member)
   end
   
   def send_reply

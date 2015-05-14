@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/hatkirby/mail_room
-  revision: 9ab918811397c406297604b98a634c9882e85938
+  revision: b55a3170e15857b6cab5dea74c3484fa897ddd37
   specs:
     mail_room (0.3.1)
 
@@ -202,7 +202,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.3.0)
+    sprockets-rails (2.3.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)

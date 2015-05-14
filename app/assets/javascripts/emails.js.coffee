@@ -48,12 +48,14 @@ $ ->
         data: "email[unread]=1"
       })
     else
-      $(this).text("Mark Unread")
-      $(this).data("clicked","no")
+      link = $(this)
       $.ajax({
         url: $(this).data("url"),
         type: "put",
-        data: "email[unread]=0"
+        data: "email[unread]=0",
+        success: ->
+          link.text("Mark Unread")
+          link.data("clicked","no")
       })
     hideOptionsMenu($(this).parent())
   $(".email-reply-link").click ->
@@ -76,4 +78,12 @@ $ ->
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"
+    })
+  $(".email-unfile-link").click ->
+    $.ajax({
+      url: $(this).data("url"),
+      type: "put",
+      data: "email[event_id]=nil",
+      success: ->
+        window.location.reload(true)
     })

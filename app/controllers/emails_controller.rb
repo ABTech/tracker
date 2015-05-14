@@ -97,13 +97,29 @@ class EmailsController < ApplicationController
   end
   
   def update
+    error = false
+    
     begin
       @email.update(params.require(:email).permit(:unread, :event_id))
     rescue
-      flash[:error] = "There was an error updating the email."
+      error = true
     end
     
-    redirect_to @email
+    respond_to do |format|
+      format.html do
+        if error
+          flash[:error] = "There was an error updating the email."
+        else
+          flash[:notice] = "Email updated successfully."
+        end
+        
+        redirect_to @email
+      end
+      
+      format.json do
+        render json: { message: "Email updated." }
+      end
+    end
   end
   
   def weekly

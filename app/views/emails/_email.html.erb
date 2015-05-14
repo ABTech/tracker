@@ -12,9 +12,9 @@
       <li class="email-contents-quote-mode" data-quote-mode="all-quotes">Show Quotes</li>
       <% if can? :manage, email %>
         <% if email.unread %>
-          <li class="email-unread-toggle" data-clicked="yes" data-url="<%= email_url(email) %>">Mark Read</li>
+          <li class="email-unread-toggle" data-clicked="yes" data-url="<%= email_url(email, format: :json) %>">Mark Read</li>
         <% else %>
-          <li class="email-unread-toggle" data-clicked="no" data-url="<%= email_url(email) %>">Mark Unread</li>
+          <li class="email-unread-toggle" data-clicked="no" data-url="<%= email_url(email, format: :json) %>">Mark Unread</li>
         <% end %>
       <% end %>
       <% if can? :update, email %>
@@ -23,6 +23,9 @@
       <% if can? :create, Event and not email.event %>
         <li class="email-new-event-link" data-email-id="<%= email.id %>">File New Event</li>
         <li class="email-existing-event-link" data-email-id="<%= email.id %>">File Existing Event</li>
+      <% end %>
+      <% if can? :create, Event and email.event %>
+        <li class="email-unfile-link" data-url="<%= email_url(email, format: :json) %>">Unfile</li>
       <% end %>
     </ul>
   </div>

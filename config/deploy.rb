@@ -13,6 +13,10 @@ set :user, ''
 set :domain, 'tracker-dev.abtech.org'
 set :rails_env, "production"
 set :rvm_type, :system
+set :rvm_bin_path, '/usr/local/rvm/bin'
+set :rvm_ruby_string, :local
+set :rvm_autolibs_flag, 'packages'
+set :rvm_install_type, :head
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -43,3 +47,7 @@ namespace :deploy do
 end
 
 after "deploy:finalize_update", "deploy:symlink_config_files"
+
+require "rvm/capistrano/alias_and_wrapp"
+before 'deploy', 'rvm:create_alias'
+before 'deploy', 'rvm:create_wrappers'

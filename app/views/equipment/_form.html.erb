@@ -1,0 +1,40 @@
+<% if @equipment.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@equipment.errors.count, "error") %> prohibited
+      this equipment from being saved:</h2>
+    <ul>
+    <% @equipment.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table class="generic" width="50%">
+  <tr>
+    <td class="subheading"><%= f.label :description %>:</th>
+    <td><%= f.text_field :description, size: "100%" %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :shortname %>:</th>
+    <td><%= f.text_field :shortname, size: "100%" %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :category %>:</th>
+    <td>
+      <%= f.select :category, options_for_select(equipment_categories_for_select, f.object.category), {}, {width: "95%", data: {text: "" + f.text_field(:category, size: "100%") }} %>
+      <%= image_tag "folder_edit.png", class: "edit_equipment_category" %>
+    </td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :subcategory %>:</th>
+    <td>
+      <%= f.select :subcategory, options_for_select(Equipment.subcategories(f.object.category), f.object.subcategory), {}, {width: "95%", data: {text: "" + f.text_field(:subcategory, size: "100%", data: {did: "true"}) }} %>
+      <%= image_tag "folder_edit.png", class: "edit_equipment_subcategory" %>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

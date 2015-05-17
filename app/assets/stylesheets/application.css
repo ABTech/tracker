@@ -12,6 +12,8 @@
  *= require_tree .
  *= require jquery-ui
  *= require icon-font
+ *= require chosen.min
+ *= require fullcalendar.min
  */
 
 body, input, textarea, select {

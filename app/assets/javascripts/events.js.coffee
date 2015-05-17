@@ -15,6 +15,7 @@ $ ->
   $("a.delete_field").click ->
     $(this).prev("input[type=hidden]").val("1")
     $(this).closest(".fields").hide()
+  $(".eventdate_big_select").chosen({width: "95%"})
     
 @setUpSuperTicAdd = (parent) ->
   parent.find(".supertic_add_role_button").click ->

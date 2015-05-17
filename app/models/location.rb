@@ -6,6 +6,8 @@ class Location < ActiveRecord::Base
   validates_presence_of :building, :room
   
   scope :active, -> { where(defunct: false) }
+  scope :buildings, -> { active.order(building: :asc).select(:building).distinct.pluck(:building) }
+  scope :building, -> (building) { active.where(building: building).order(room: :asc) }
 
   def to_s
     return (building + " - " + room);

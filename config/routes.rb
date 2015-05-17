@@ -30,19 +30,7 @@ Abtt::Application.routes.draw do
 
   resources :email_forms, except: [:show]
 
-  resources :equipment, only: [] do
-    collection do
-      get 'delgroup'
-      get 'delitem'
-      get 'editgroup'
-      get 'edititem'
-      get 'newgroup'
-      get 'newitem'
-      post 'savegroup'
-      post 'saveitem'
-      get 'tree'
-    end
-  end
+  resources :equipment
 
   resources :events do
     member do

@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
+@setupAjaxLoader = () ->
   $.ajaxSetup({
     beforeSend: ->
       $('#loader').show();
@@ -42,6 +42,7 @@ $ ->
     if $(this).data("clicked") == "no"
       $(this).text("Mark Read")
       $(this).data("clicked","yes")
+      setupAjaxLoader()
       $.ajax({
         url: $(this).data("url"),
         type: "put",
@@ -49,6 +50,7 @@ $ ->
       })
     else
       link = $(this)
+      setupAjaxLoader()
       $.ajax({
         url: $(this).data("url"),
         type: "put",
@@ -59,6 +61,7 @@ $ ->
       })
     hideOptionsMenu($(this).parent())
   $(".email-reply-link").click ->
+    setupAjaxLoader()
     $.ajax({
       url: "/emails/reply.js",
       data: "id=" + $(this).data("email-id"),
@@ -66,6 +69,7 @@ $ ->
       success: "success"
     })
   $(".email-new-event-link").click ->
+    setupAjaxLoader()
     $.ajax({
       url: "/emails/new_event.js",
       data: "id=" + $(this).data("email-id"),
@@ -73,6 +77,7 @@ $ ->
       success: "success"
     })
   $(".email-existing-event-link").click ->
+    setupAjaxLoader()
     $.ajax({
       url: "/emails/existing_event.js",
       data: "id=" + $(this).data("email-id"),
@@ -80,6 +85,7 @@ $ ->
       success: "success"
     })
   $(".email-unfile-link").click ->
+    setupAjaxLoader()
     $.ajax({
       url: $(this).data("url"),
       type: "put",

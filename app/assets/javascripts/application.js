@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require chosen.jquery.min
+//= require masonry.pkgd.min
+//= require moment.min
+//= require fullcalendar.min
 //= require_tree .

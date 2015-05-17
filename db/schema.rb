@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512170009) do
+ActiveRecord::Schema.define(version: 20150515151245) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
@@ -80,28 +80,16 @@ ActiveRecord::Schema.define(version: 20150512170009) do
   add_index "emails", ["subject"], name: "emails_subject_index", using: :btree
 
   create_table "equipment", force: :cascade do |t|
-    t.integer  "parent_id",   limit: 4,                   null: false
     t.string   "description", limit: 255,                 null: false
-    t.integer  "position",    limit: 4,                   null: false
     t.string   "shortname",   limit: 255,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "defunct",     limit: 1,   default: false, null: false
+    t.string   "category",    limit: 255,                 null: false
+    t.string   "subcategory", limit: 255
   end
 
   add_index "equipment", ["description"], name: "equipment_description_index", using: :btree
-  add_index "equipment", ["parent_id"], name: "equipment_parent_id_index", using: :btree
-
-  create_table "equipment_categories", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.integer  "parent_id",  limit: 4,   null: false
-    t.integer  "position",   limit: 4,   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "equipment_categories", ["name"], name: "equipment_categories_name_index", using: :btree
-  add_index "equipment_categories", ["parent_id"], name: "equipment_categories_parent_id_index", using: :btree
 
   create_table "equipment_eventdates", id: false, force: :cascade do |t|
     t.integer "eventdate_id", limit: 4, null: false

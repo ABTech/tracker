@@ -36,14 +36,13 @@ end
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', '~> 2.1', group: :development
+gem 'capistrano', '~> 2.1', group: :development, require: false
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 gem 'wkhtmltopdf-binary'
 gem "paperclip", "~> 4.0"
-gem "acts_as_tree"
 gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
 gem 'rails_autolink'

@@ -1,0 +1,12 @@
+<h1>Editing equipment</h1>
+
+<%= form_for @equipment do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Show equipment', @equipment %></li>
+    <li><%= link_to 'Back to equipment list', equipment_index_url %></li>
+  </ul>
+<% end %>

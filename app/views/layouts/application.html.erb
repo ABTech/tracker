@@ -48,7 +48,7 @@
   <% if show_admin_link %>
     <div id="submenu" style="display: none;" class="main-nav">
       <%= conditional_link_to "Locations", locations_url, :read, Location %>
-      <%= conditional_link_to "Equipment", tree_equipment_index_url, :read, Equipment %>
+      <%= conditional_link_to "Equipment", equipment_index_url, :read, Equipment %>
       <%= conditional_link_to "Timecards", timecards_url, :read, Timecard %>
       <%= conditional_link_to "Invoice Items", invoice_items_url, :read, InvoiceItem %>
       <%= conditional_link_to "Form Emails", email_forms_url, :read, EmailForm %>

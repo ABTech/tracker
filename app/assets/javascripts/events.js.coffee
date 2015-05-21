@@ -62,6 +62,7 @@ $ ->
       else
         parent.hide()
   setUpSuperTicEdit(ed, ed.find(".event-form-roles"))
+  ed.find(".eventdate_big_select").chosen({width: "95%"})
 
 @setUpAddFields = () ->
   $("a.add_field").click ->

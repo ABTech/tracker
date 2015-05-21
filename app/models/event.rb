@@ -222,7 +222,7 @@ class Event < ActiveRecord::Base
     end
     
     def set_created_email
-      unless created_email.empty?
+      unless created_email.nil? or created_email.empty?
         mail = Email.find(created_email)
         mail.event = self
         mail.save

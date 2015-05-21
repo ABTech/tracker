@@ -22,7 +22,7 @@
     <td><%= @invoice.status %></td>
   </tr>
   
-  <% if @invoice.journal_invoice %>
+  <% if @invoice.journal_invoice and can? :read, @invoice.journal_invoice %>
     <tr>
       <td class="subheading">Invoice JE:</td>
       <td><%= link_to @invoice.journal_invoice.date_s, view_journal_url(@invoice.journal_invoice) %></td>

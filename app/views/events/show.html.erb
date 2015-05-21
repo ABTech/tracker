@@ -69,75 +69,53 @@
       </ul>
     </div>
   
-    <% if can? :read, :finance %>
+    <% if can? :create, Invoice.new(event: @event) or not @event.invoices.accessible_by(current_ability).empty? %>
       <div id="event-invoices">
         <table class="event-finance">
           <tr>
-            <% if can? :create, Invoice %>
+            <% if can? :create, Invoice.new(event: @event) %>
               <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
             <% else %>
               <th>Invoices</th>
             <% end %>
             <th>Status</th>
-            <th>Actions</th>
+            <% if can? :update, @event.invoices %>
+              <th>Actions</th>
+            <% else %>
+              <th>Amount</th>
+            <% end %>
           </tr>
-          <% if @event.invoices.empty? %>
+          <% if @event.invoices.accessible_by(current_ability).empty? %>
             <tr>
               <td colspan=3>There are currently no invoices for this event.</td>
             </tr>
           <% else %>
-            <% @event.invoices.each do |invoice| %>
+            <% @event.invoices.accessible_by(current_ability).each do |invoice| %>
               <tr>
                 <td>
-                  <p><%= link_to invoice.display_title, invoice %></p>
-                  <p>
-                    Invoice JE:
-                    <% if invoice.journal_invoice %>
-                      <%= link_to invoice.journal_invoice.date_s, view_journal_url(invoice.journal_invoice) %>
-                    <% elsif can? :create, Journal %>                  
-                      <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
-                      <div id="invoice<%= invoice.id %>-createje" style="display: none">
-                        <%= form_for invoice do |builder| %>
-                          <%= builder.hidden_field :update_journal, value: "1" %>
-                          <%= builder.fields_for :journal_invoice, Journal.new do |f| %>
-                            <%= hidden_field_tag "redirect", "event" %>
-                            <table class="generic">
-                              <tr><td width="70" align="right"><strong><%= f.label :date %>:</strong></td>
-                                <td><%= f.date_select :date %></td></tr>
-                              <tr><td width="70" align="right"><strong><%= f.label :memo %>:</strong></td>
-                                <td><%= f.text_field :memo, value: invoice.event.organization.name + " - " + invoice.event.title, size: 40 %></td></tr>
-                              <tr><td width="70" align="right"><strong><%= f.label :account_id, "Account" %>:</strong></td>
-                                <td>
-                                  <%= f.radio_button :account_id, Account::Events_Account.id, :checked => true %> Event
-                                  <%= f.radio_button :account_id, Account::Rentals_Credit_Account.id %> Rental
-                                </td>  
-                              </tr>
-                              <tr>
-                                <td></td>
-                                <td><%= submit_tag %></td>
-                              </tr>
-                            </table>
-                          <% end %>
-                        <% end %>
-                      </div>
-                    <% else %>
-                      none
-                    <% end %>
-                  </p>
-                  <% if invoice.journal_invoice %>
+                  <% if (invoice.journal_invoice and can? :read, invoice.journal_invoice) or can? :create, Journal.new(invoice: invoice) %>
+                    <p><%= link_to invoice.display_title, invoice %></p>
                     <p>
-                      Invoice Paid JE:
-                      <% if invoice.journal_invoice.date_paid %>
-                        <%= link_to invoice.journal_invoice.date_paid_s, view_journal_url(invoice.journal_invoice) %>
-                      <% elsif can? :update, invoice.journal_invoice %>
-                        <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
-                        <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+                      Invoice JE:
+                      <% if invoice.journal_invoice %>
+                        <%= link_to invoice.journal_invoice.date_s, view_journal_url(invoice.journal_invoice) %>
+                      <% elsif can? :create, Journal %>                  
+                        <a href="#" onclick="$('#invoice<%= invoice.id %>-createje').toggle('Blind'); return false">Create?</a>
+                        <div id="invoice<%= invoice.id %>-createje" style="display: none">
                           <%= form_for invoice do |builder| %>
-                            <%= builder.fields_for :journal_invoice, invoice.journal_invoice do |f| %>
+                            <%= builder.hidden_field :update_journal, value: "1" %>
+                            <%= builder.fields_for :journal_invoice, Journal.new do |f| %>
                               <%= hidden_field_tag "redirect", "event" %>
                               <table class="generic">
-                                <tr><td width="70" align="right"><strong><%= f.label :date_paid, "Date Paid" %>:</strong></td>
-                                  <td><%= f.date_select :date_paid %></td>
+                                <tr><td width="70" align="right"><strong><%= f.label :date %>:</strong></td>
+                                  <td><%= f.date_select :date %></td></tr>
+                                <tr><td width="70" align="right"><strong><%= f.label :memo %>:</strong></td>
+                                  <td><%= f.text_field :memo, value: invoice.event.organization.name + " - " + invoice.event.title, size: 40 %></td></tr>
+                                <tr><td width="70" align="right"><strong><%= f.label :account_id, "Account" %>:</strong></td>
+                                  <td>
+                                    <%= f.radio_button :account_id, Account::Events_Account.id, :checked => true %> Event
+                                    <%= f.radio_button :account_id, Account::Rentals_Credit_Account.id %> Rental
+                                  </td>  
                                 </tr>
                                 <tr>
                                   <td></td>
@@ -151,6 +129,36 @@
                         none
                       <% end %>
                     </p>
+                    <% if invoice.journal_invoice %>
+                      <p>
+                        Invoice Paid JE:
+                        <% if invoice.journal_invoice.date_paid %>
+                          <%= link_to invoice.journal_invoice.date_paid_s, view_journal_url(invoice.journal_invoice) %>
+                        <% elsif can? :update, invoice.journal_invoice %>
+                          <a href="#" onclick="$('#invoice<%= invoice.id %>-markpaid').toggle('Blind'); return false">Mark paid?</a>
+                          <div id="invoice<%= invoice.id %>-markpaid" style="display: none">
+                            <%= form_for invoice do |builder| %>
+                              <%= builder.fields_for :journal_invoice, invoice.journal_invoice do |f| %>
+                                <%= hidden_field_tag "redirect", "event" %>
+                                <table class="generic">
+                                  <tr><td width="70" align="right"><strong><%= f.label :date_paid, "Date Paid" %>:</strong></td>
+                                    <td><%= f.date_select :date_paid %></td>
+                                  </tr>
+                                  <tr>
+                                    <td></td>
+                                    <td><%= submit_tag %></td>
+                                  </tr>
+                                </table>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        <% else %>
+                          none
+                        <% end %>
+                      </p>
+                    <% end %>
+                  <% else %>
+                    <%= link_to invoice.display_title, invoice %>
                   <% end %>
                 </td>
                 <td>
@@ -165,19 +173,25 @@
                   <% end %>
                 </td>
                 <td>
-                  <ul class="simple">
-                    <li><%= conditional_link_to "Edit", edit_invoice_url(invoice), :update, invoice %></li>
-                    <li><%= conditional_link_to "Preview", prettyView_invoice_url(invoice), :read, invoice %></li>
-                    <li><%= conditional_link_to "Print", prettyView_invoice_url(invoice, :format => :pdf), :read, invoice %></li>
-                    <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(invoice, :format => :js), :email, invoice %></li>
-                  </ul>
+                  <% if can? :update, invoice %>
+                    <ul class="simple">
+                      <li><%= conditional_link_to "Edit", edit_invoice_url(invoice), :update, invoice %></li>
+                      <li><%= conditional_link_to "Preview", prettyView_invoice_url(invoice), :read, invoice %></li>
+                      <li><%= conditional_link_to "Print", prettyView_invoice_url(invoice, :format => :pdf), :read, invoice %></li>
+                      <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(invoice, :format => :js), :email, invoice %></li>
+                    </ul>
+                  <% else %>
+                    <%= number_to_currency invoice.total %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
           <% end %>
         </table>
       </div>
-      
+    <% end %>
+
+    <% unless @event.journals.accessible_by(current_ability).empty? %>
       <div id="event-journals">
         <table class="event-finance">
           <tr>

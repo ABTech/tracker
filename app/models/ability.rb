@@ -65,6 +65,8 @@ class Ability
       can :update, Email do |email|
         !email.event.nil? and (email.event.has_run_position? member or email.event.eventdates.any? {|ed| ed.has_run_position? member})
       end
+      
+      can :read, Invoice, :event_id => member.event_roles.where(role: EventRole::Role_TIC, roleable_type: "event").pluck(:roleable_id)
     end
     
     if member.is_at_least? :exec

@@ -112,6 +112,11 @@
 <% end %>
 
 <tr>
+  <th><%= f.label :receives_comment_emails, "Receives emails for comments on events?" %></th>
+  <td><%= f.check_box :receives_comment_emails %></td>
+</tr>
+
+<tr>
   <th></th>
   <td><%= f.submit %></td>
 </tr>

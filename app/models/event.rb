@@ -157,6 +157,11 @@ class Event < ActiveRecord::Base
     self.event_roles.includes(:member).map(&:member).uniq.compact
   end
   
+  def all_techies
+    (self.eventdates.includes(event_roles: [:member]).map(&:event_roles).flatten.map(&:member) +
+    self.event_roles.includes(:member).map(&:member)).uniq.compact
+  end
+  
   def eventdates_editable_by(member)
     if member.ability.can? :tic, self
       self.eventdates

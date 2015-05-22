@@ -1,0 +1,9 @@
+<p><%= @member.fullname %>,</p>
+
+<p><%= @comment.member.fullname %> has posted a new comment on the event <%= link_to @comment.event.title, @comment.event %>. You are receiving this email because you hold a run position either on the event or on one of its subevents. Here is the comment:</p>
+
+<blockquote><%= auto_link simple_format @comment.content %></blockquote>
+
+<p>--ABTT (ABTech Tracker)</p>
+
+<p><small>To unsubscribe from these emails, edit your profile on tracker and uncheck the "Receive emails for comments on events" checkbox.</small></p>

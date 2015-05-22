@@ -11,6 +11,10 @@ class CommentsController < ApplicationController
       flash[:error] = "Comment could not be created (make sure you actually entered text!)."
     end
     
+    @comment.event.all_techies.reject {|m| (m == @comment.member) or !m.receives_comment_emails}.each do |member|
+      MemberMailer.comment(member, @comment).deliver_now
+    end
+    
     redirect_to event_path(@comment.event)
   end
 

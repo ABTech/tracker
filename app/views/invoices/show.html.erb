@@ -79,6 +79,9 @@
     <li><%= conditional_link_to "Edit", edit_invoice_url(@invoice), :edit, @invoice %></li>
     <li><%= conditional_link_to "Preview", prettyView_invoice_url(@invoice), :show, @invoice %></li>
     <li><%= conditional_link_to "Print", prettyView_invoice_url(@invoice, :format => "pdf"), :show, @invoice %></li>
+    <% if @invoice.payment_type == "Oracle" %>
+    <li><%= conditional_link_to "Print without Oracle string", prettyView_invoice_url(@invoice, :no_show_oracle => 1, :format => "pdf"), :show, @invoice %></li>
+    <% end %>
     <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(@invoice, :format => :js), :email, @invoice %></li>
     <li><%= conditional_link_to_delete "Delete", @invoice, :destroy, @invoice %></li>
   </ul>

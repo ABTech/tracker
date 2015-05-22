@@ -16,6 +16,10 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.includes(:event, :journal_invoice, :invoice_lines).find(params[:id])
     authorize! :show, @invoice
     
+    if params.include? :no_show_oracle
+      @no_show_oracle = true
+    end
+    
     @title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
     if params[:format] == 'pdf'
       headers['Content-Type'] = 'application/pdf'

@@ -156,6 +156,38 @@ class MembersController < ApplicationController
     redirect_to super_tics_members_url
   end
   
+  def bulk_edit
+  end
+  
+  def bulk_update
+    params[:members].each do |m|
+      member = Member.find m
+      
+      if params[:zero_payrate] == "1"
+        member.payrate = 0.0
+      elsif params[:increase_payrate] == "1"
+        member.payrate = [8.0, member.payrate + 0.25].min
+      end
+      
+      if params[:set_role] == "1"
+        member.role = params[:set_role_to]
+      end
+      
+      if params[:reset_ssi] == "1"
+        member.ssi_date = nil
+      end
+      
+      if params[:reset_driving] == "1"
+        member.driving_paperwork_date = nil
+      end
+      
+      member.save!
+    end
+    
+    flash[:notice] = "Members edited succesfully!"
+    render action: :bulk_edit
+  end
+  
   private
     def member_params
       if params[:member][:password].blank?

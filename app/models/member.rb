@@ -40,6 +40,7 @@ class Member < ActiveRecord::Base
   
   scope :active, -> { where.not(role: ["suspended", "alumni"]) }
   scope :alphabetical, -> { order(namelast: :asc, namefirst: :asc) }
+  scope :with_role, ->(role) { where(role: role) }
   
   def is_at_least?(pos)
     Member.role.values.index(self.role) >= Member.role.values.index(pos.to_s)

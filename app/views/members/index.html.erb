@@ -67,6 +67,9 @@
     <% if can? :manage, SuperTic %>
       <li><%= link_to "Manage Super TICs", super_tics_members_path %></li>
     <% end %>
+    <% if can? :hot, Member %>
+      <li><%= link_to "Bulk edit members", bulk_edit_members_url %></li>
+    <% end %>
   </ul>
 <% end %>
 <div id="dialog"></div>

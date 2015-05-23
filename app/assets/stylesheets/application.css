@@ -14,6 +14,7 @@
  *= require icon-font
  *= require chosen.min
  *= require fullcalendar.min
+ *= require multi-select
  */
 
 body, input, textarea, select {

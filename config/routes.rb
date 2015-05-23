@@ -82,6 +82,8 @@ Abtt::Application.routes.draw do
       get 'choose_filter'
       get 'super_tics'
       post 'super_tics', action: :update_super_tics
+      get 'bulk_edit'
+      post 'bulk_edit', action: :bulk_update
     end
   end
 

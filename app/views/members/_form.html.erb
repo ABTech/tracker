@@ -116,6 +116,32 @@
   <td><%= f.check_box :receives_comment_emails %></td>
 </tr>
 
+<% if can? :hot, @member %>
+  <tr>
+    <th><%= f.label :payroll_paperwork_date, "Payroll Paperwork Submission Date" %></th>
+    <td><%= f.date_select :payroll_paperwork_date, { :include_blank => true, :default => nil } %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :ssi_date, "SSI Submission Date" %></th>
+    <td><%= f.date_select :ssi_date, { :include_blank => true, :default => nil } %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :driving_paperwork_date, "Driving Paperwork Submission Date" %></th>
+    <td><%= f.date_select :driving_paperwork_date, { :include_blank => true, :default => nil } %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :key_possession %></th>
+    <td><%= f.select :key_possession, options_for_select(["none", "bottom", "top"], f.object.key_possession) %></td>
+  </tr>
+<% end %>
+
+<% if can? :hot, @member or @member == current_member %>
+  <tr>
+    <th><%= f.label :alternate_email %></th>
+    <td><%= f.email_field :alternate_email %></th>
+  </tr>
+<% end %>
+
 <tr>
   <th></th>
   <td><%= f.submit %></td>

@@ -95,7 +95,7 @@ class Ability
     end
     
     if member.is_at_least? :tracker_management
-      can :manage, Member
+      can [:create, :read, :update, :destroy], Member
       can :manage, :finance
       can :manage, Account
       can :manage, Invoice
@@ -113,6 +113,7 @@ class Ability
     
     if member.head_of_tech?
       can :manage, Timecard
+      can :manage, Member
     end
     
     if member.tracker_dev?

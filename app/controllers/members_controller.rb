@@ -179,9 +179,17 @@ class MembersController < ApplicationController
         params[:member].delete(:super_tics_attributes)
       end
       
+      if cannot? :hot, Member
+        params[:member].delete(:payroll_paperwork_date)
+        params[:member].delete(:ssi_date)
+        params[:member].delete(:driving_paperwork_date)
+        params[:member].delete(:key_possession)
+      end
+      
       params.require(:member).permit(
         :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
         :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev, :receives_comment_emails,
+        :payroll_paperwork_date, :ssi_date, :driving_paperwork_date, :key_possession,
         :super_tics_attributes => [:id, :_destroy, :day]
       )
     end

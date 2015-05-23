@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522131337) do
+ActiveRecord::Schema.define(version: 20150523161426) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
@@ -246,6 +246,11 @@ ActiveRecord::Schema.define(version: 20150522131337) do
     t.string   "reset_password_token",      limit: 255
     t.datetime "reset_password_sent_at"
     t.boolean  "receives_comment_emails",   limit: 1,   default: false,            null: false
+    t.datetime "payroll_paperwork_date"
+    t.datetime "ssi_date"
+    t.datetime "driving_paperwork_date"
+    t.string   "key_possession",            limit: 255, default: "none",           null: false
+    t.string   "alternate_email",           limit: 255
   end
 
   add_index "members", ["email"], name: "members_kerbid_index", using: :btree

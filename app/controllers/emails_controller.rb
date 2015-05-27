@@ -98,6 +98,8 @@ class EmailsController < ApplicationController
     
     mail = Mail.read_from_string(request.body.read)
     Email.create_from_mail(mail)
+    
+    render nothing: true
   end
   
   def update

@@ -14,7 +14,7 @@ NAME=abtt_mail_room
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 start() {
-  if [ -f $ABTT_DIR/tmp/pids/mail_room.pid ];
+  if [ -f $ABTT_DIR/tmp/pids/mail_room.pid ]; then
     local pids=$(cat $ABTT_DIR/tmp/pids/mail_room.pid)
     if [ -n "$pids" ]; then
       echo "$prog (pid $pids) is already running"

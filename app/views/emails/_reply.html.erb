@@ -2,7 +2,11 @@
   <%= form_for reply, url: reply_emails_url, class: "reply-form" do |f| %>
     <dl>
       <dt><%= f.label :sender %></dt>
-      <dd><%= f.text_field :sender %></dd>
+      <% if can? :sender, Email %>
+        <dd><%= f.text_field :sender %></dd>
+      <% else %>
+        <dd><%= f.text_field :sender, disabled: true %></dd>
+      <% end %>
     </dl>
   
     <dl>

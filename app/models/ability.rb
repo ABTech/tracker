@@ -85,6 +85,7 @@ class Ability
       can :manage, Event
       can :manage, Eventdate
       can :manage, Email
+      can :sender, Email
       can :destroy, Comment
       can :manage, Blackout
       

@@ -23,6 +23,10 @@ class EmailsController < ApplicationController
     @email = Email.new(params.require(:email).permit(:sender, :recipient, :cc, :bcc, :subject, :contents, :in_reply_to))
     authorize! :create, @email
     
+    unless can? :sender, Email
+      @email.sender = current_member.email
+    end
+    
     reply = EmailMailer.reply(@email).deliver_now
     @email.message_id = reply.message_id
     @email.timestamp = reply.date

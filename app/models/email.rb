@@ -85,8 +85,6 @@ class Email < ActiveRecord::Base
       return false
     end
     
-    message.contents = message.contents.force_encoding('iso8859-1').encode("utf-8")
-    
     # threading
     subject_stripped = mail.subject
     while subject_stripped.downcase.start_with? "re: "

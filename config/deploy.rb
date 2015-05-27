@@ -46,8 +46,38 @@ namespace :deploy do
   end
 end
 
+namespace :mail_room do
+  %w[start stop restart].each do |command|
+    task command, roles: :app, :except => { :no_release => true } do
+      run "if [ -L /etc/init.d/abtt_mail_room ]; then #{try_sudo} /etc/init.d/abtt_mail_room #{command}; fi"
+    end
+  end
+  
+  desc "Install mail_room service"
+  task :setup, roles: :app do
+    run "if [ ! -L /etc/init.d/abtt_mail_room -a -f #{current_path}/mail_room-init.d ]; then \
+      #{try_sudo} ln -nfs #{current_path}/mail_room-init.d /etc/init.d/abtt_mail_room && \
+      #{try_sudo} chmod +x #{current_path}/mail_room-init.d && \
+      #{try_sudo} chmod o-w #{current_path}/mail_room-init.d && \
+      #{try_sudo} update-rc.d abtt_mail_room defaults ; \
+    elif [ -f #{current_path}/mail_room-init.d ]; then \
+      #{try_sudo} chmod +x #{current_path}/mail_room-init.d && \
+      #{try_sudo} chmod o-w #{current_path}/mail_room-init.d ; \
+    fi"
+  end
+  
+  desc "Setup mail_room service configuration"
+  task :defaults, roles: :app do
+    run "#{try_sudo} sh -c 'echo \"ABTT_DIR=#{current_path}\" > /etc/default/abtt_mail_room'"
+  end
+end
+
 after "deploy:finalize_update", "deploy:symlink_config_files"
 
 require "rvm/capistrano/alias_and_wrapp"
+before 'deploy', 'mail_room:stop'
 before 'deploy', 'rvm:create_alias'
 before 'deploy', 'rvm:create_wrappers'
+after 'deploy', 'mail_room:setup'
+after 'mail_room:setup', 'mail_room:start'
+after 'deploy:setup', 'mail_room:defaults'

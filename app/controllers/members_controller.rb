@@ -181,6 +181,10 @@ class MembersController < ApplicationController
         member.driving_paperwork_date = nil
       end
       
+      if params[:set_key] == "1"
+        member.key_possession = params[:set_key_to]
+      end
+      
       member.save!
     end
     

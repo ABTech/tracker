@@ -23,9 +23,16 @@
     <% if can? :hot, Member %>
       <li><%= check_box_tag "reset_ssi" %> Reset SSI submission date</li>
       <li><%= check_box_tag "reset_driving" %> Reset driving paperwork submission date</li>
+      <li><%= check_box_tag "set_key" %> Set key possession to <%= select_tag "set_key_to", options_for_select(Member.key_possession.values.map { |c| [c,c] }) %></li>
     <% end %>
   </ul>
   
   <%= submit_tag %>
   
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Back to members list", members_url %></li>
+  </ul>
 <% end %>

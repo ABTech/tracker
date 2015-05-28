@@ -5,14 +5,17 @@ class EmailsController < ApplicationController
   
   def index
     @emails = @emails.received.paginate(:per_page => 20, :page => params[:page])
+    @title = "Emails"
   end
   
   def sent
     @emails = @emails.sent.paginate(:per_page => 20, :page => params[:page])
+    @title = "Send Emails"
   end
   
   def unread
     @emails = @emails.unread.paginate(:per_page => 20, :page => params[:page])
+    @title = "Unread Emails"
   end
   
   def reply
@@ -80,6 +83,7 @@ class EmailsController < ApplicationController
   end
   
   def show
+    @title = "Viewing Email #{@email.subject}"
     @email.unread = false
     @email.save
     

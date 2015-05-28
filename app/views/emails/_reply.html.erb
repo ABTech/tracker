@@ -31,7 +31,10 @@
   
     <dl>
       <dt><%= f.label :contents %></dt>
-      <dd><%= f.text_area :contents, size: "40x20" %></dd>
+      <dd>
+        <%= select_tag "form_email", options_for_select(form_emails_for_select), { :include_blank => true } %><br/>
+        <%= f.text_area :contents, { size: "40x20", data: { footer: "" + f.object.contents } } %>
+      </dd>
     </dl>
     
     <%= f.hidden_field :in_reply_to %>

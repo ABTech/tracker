@@ -20,3 +20,11 @@ $("#reply-dialog").dialog({
       jQuery("#reply-dialog").bind('dialogbeforeclose', false);
     }}
 });
+$("#form_email").change(function() {
+  if ($(this).children("option:selected").data("contents")) 
+  {
+    $("#email_contents").val($(this).children("option:selected").data("contents") + $("#email_contents").data("footer"));
+  } else {
+    $("#email_contents").val($("#email_contents").data("footer"));
+  }
+});

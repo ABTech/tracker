@@ -68,5 +68,11 @@ module EmailsHelper
       end) + "</ul>".html_safe
     end + "</li>".html_safe
   end
+  
+  def form_emails_for_select
+    EmailForm.all.map do |ef|
+      [ ef.description, ef.id, { :data => { :contents => "" + ef.contents } } ]
+    end
+  end
     
 end

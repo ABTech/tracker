@@ -17,7 +17,7 @@ start() {
   if [ -f $ABTT_DIR/tmp/pids/mail_room.pid ]; then
     local pids=$(cat $ABTT_DIR/tmp/pids/mail_room.pid)
     if [ -n "$pids" ]; then
-      echo "$prog (pid $pids) is already running"
+      echo "$NAME (pid $pids) is already running"
       return 0
     fi
   fi
@@ -31,13 +31,21 @@ start() {
 }
 
 stop() {
-  echo -n "Stopping $prog: "
-  kill -15 $(cat $ABTT_DIR/tmp/pids/mail_room.pid) && rm -f $ABTT_DIR/tmp/pids/mail_room.pid
+  if [ -f $ABTT_DIR/tmp/pids/mail_room.pid ]; then
+    local pids=$(cat $ABTT_DIR/tmp/pids/mail_room.pid)
+    if [ -n "$pids" ]; then
+      echo -n "Stopping $NAME: "
+      kill -15 $(cat $ABTT_DIR/tmp/pids/mail_room.pid) && rm -f $ABTT_DIR/tmp/pids/mail_room.pid
 
-  RETVAL=$?
+      RETVAL=$?
 
-  echo "done"
-  return $RETVAL
+      echo "done"
+      return $RETVAL
+    fi
+  fi
+  
+  echo "$NAME is not running"
+  return 0
 }
 
 reload() {

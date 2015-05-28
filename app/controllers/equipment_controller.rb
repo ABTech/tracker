@@ -57,7 +57,7 @@ class EquipmentController < ApplicationController
     authorize! :create, @equipment
     if @equipment.save
       flash[:notice] = 'Equipment was successfully created.'
-      redirect_to equipment_url
+      redirect_to equipment_index_url
     else
       render(:action => 'new')
     end
@@ -80,12 +80,12 @@ class EquipmentController < ApplicationController
     
     @equipment.defunct = true
     if @equipment.save
-      flash[:notice] = "Equipment \"#{@equipment}\" has been marked as defunct."
+      flash[:notice] = "Equipment \"#{@equipment.description}\" has been marked as defunct."
     else
-      flash[:error] = "Error marking equipment \"#{@equipment}\" as defunct."
+      flash[:error] = "Error marking equipment \"#{@equipment.description}\" as defunct."
     end
     
-    redirect_to equipment_url
+    redirect_to equipment_index_url
   end
   
   private

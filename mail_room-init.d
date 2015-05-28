@@ -21,7 +21,7 @@ start() {
       return 0
     fi
   fi
-  echo -n "Starting $prog: "
+  echo -n "Starting $NAME: "
   BUNDLE_GEMFILE=$ABTT_DIR/Gemfile nohup /usr/local/rvm/wrappers/abtt/bundle exec mail_room -c $ABTT_DIR/config/mail_room.cfg > $ABTT_DIR/log/mail_room.log &
   RETVAL=$?
   PID=$!

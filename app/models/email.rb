@@ -80,7 +80,7 @@ class Email < ActiveRecord::Base
     elsif mail.text_part
       message.contents = mail.text_part.body.decoded.force_encoding(mail.text_part.content_type_parameters['charset']).encode('UTF-8')
     elsif mail.html_part
-      message.contents = Sanitize.clean(message.html_part.body.decoded).force_encoding(mail.html_part.content_type_parameters['charset']).encode('UTF-8'))
+      message.contents = Sanitize.clean(message.html_part.body.decoded).force_encoding(mail.html_part.content_type_parameters['charset']).encode('UTF-8')
     else
       return false
     end

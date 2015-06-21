@@ -17,11 +17,11 @@
     <%= link_to image_tag("header.png"), root_url %>
   </div>
   <div class="login">
-  <% if member_signed_in?() %>
+  <% if member_signed_in? %>
     <b><%= current_member.fullname %></b> (<%= current_member.email %>)<br/>
     <%= link_to "Profile", edit_member_url(current_member) %>&nbsp;&nbsp;<%= link_to "Logout", destroy_member_session_url, :method => :delete %>
   <% else %>
-    <br/>(not logged in) <%= link_to "Login", new_member_session_url %>
+    <br/>(not logged in) <%= link_to "Login", member_omniauth_authorize_url(:shibboleth) %>
   <% end %>
 </div>
 

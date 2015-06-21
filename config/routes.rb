@@ -74,7 +74,10 @@ Abtt::Application.routes.draw do
 
   resources :member_filter, only: [:edit, :new, :save]
 
-  devise_for :members
+  devise_for :members, controllers: {
+    omniauth_callbacks: 'members/omniauth_callbacks'
+  }
+  
   resources :members do
     collection do
       get 'tshirts'

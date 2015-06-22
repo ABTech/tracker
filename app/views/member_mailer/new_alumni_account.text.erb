@@ -1,0 +1,7 @@
+<%= @member.fullname %>,
+
+An account has been created for you on ABTech Tracker. To activate the account, please use the following link to set your password:
+
+<%= edit_member_password_url(reset_password_token: @raw_token) %>
+
+--ABTT (ABTech Tracker)

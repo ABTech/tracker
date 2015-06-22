@@ -72,4 +72,8 @@ class Member < ActiveRecord::Base
   def ability
     @ability ||= Ability.new(self)
   end
+  
+  def andrew?
+    email.end_with? "@andrew.cmu.edu"
+  end
 end

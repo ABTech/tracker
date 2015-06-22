@@ -7,4 +7,11 @@ class MemberMailer < ActionMailer::Base
     mail to: member.email, from: "no-reply@tracker.abtech.org", subject: "New Comment on #{comment.event.title}"
   end
   
+  def new_alumni_account(member, raw_token)
+    @member = member
+    @raw_token = raw_token
+    
+    mail to: member.email, from: "no-reply@tracker.abtech.org", subject: "An ABTech Tracker account has been created for you"
+  end
+  
 end

@@ -59,14 +59,16 @@
   </tr>
 <% end %>
 
-<tr>
-  <th><%= f.label :password %></th>
-  <td><%= f.password_field :password %></td>
-</tr>
-<tr>
-  <th><%= f.label :password_confirmation %></th>
-  <td><%= f.password_field :password_confirmation %></td>
-</tr>
+<% if not @member.new_record? %>
+  <tr>
+    <th><%= f.label :password %></th>
+    <td><%= f.password_field :password %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :password_confirmation %></th>
+    <td><%= f.password_field :password_confirmation %></td>
+  </tr>
+<% end %>
 
 <% if can? :manage, @member %>
   <% if current_member.tracker_dev? %>

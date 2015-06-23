@@ -1,4 +1,4 @@
-<%= form_for @member do |f| %>
+<%= form_for @member, html: {class: "member-form"} do |f| %>
   <% if @member.errors.any? %>
     <div id="errorExplanation">
       <h2><%= pluralize(@member.errors.count, "error") %> prohibited
@@ -10,142 +10,168 @@
       </ul>
     </div>
   <% end %>
-<table class="generic">
-<tr>
-  <th><%= f.label :email, "Email" %></th>
-  <td><%= f.text_field :email %></td>
-</tr>
-<tr>
-  <th><%= f.label :namefirst, "First name" %></th>
-  <td><%= f.text_field :namefirst %></td>
-</tr>
-<tr>
-  <th><%= f.label :namelast, "Last name" %></th>
-  <td><%= f.text_field :namelast %></td>
-</tr>
-<tr>
-  <th><%= f.label :namenick, "Nickname" %></th>
-  <td><%= f.text_field :namenick %></td>
-</tr>
-<tr>
-  <th><%= f.label :title %></th>
-  <td><%= f.text_field :title %></td>
-</tr>
-<tr>
-  <th><%= f.label :callsign, "Ham radio callsign" %></th>
-  <td><%= f.text_field :callsign %></td>
-</tr>
-<tr>
-  <th><%= f.label :shirt_size, "Shirt size" %></th>
-  <td><%= f.select :shirt_size, Member.shirt_size.values, include_blank: true %></td>
-</tr>
-<tr>
-  <th><%= f.label :phone %></th>
-  <td><%= f.text_field :phone %></td>
-</tr>
-<tr>
-  <th><%= f.label :aim, "AIM" %></th>
-  <td><%= f.text_field :aim %></td>
-</tr>
-<tr>
-	<th><%= f.label :ssn, "Last 4 digits of SSN" %></th>
-	<td><%= f.text_field :ssn %></td>
-</tr>
 
-<% if can? :payrate, @member %>
-  <tr>
-  	<th><%= f.label :payrate %></th>
-  	<td>$<%= f.text_field :payrate %> per hour</td>
-  </tr>
-<% end %>
+  <fieldset>
+    <legend>Authentication</legend>
+  
+    <dl class="requierd-field">
+      <dt><%= f.label :email, "Email:" %></dt>
+      <dd><%= f.email_field :email, class: "wide-input" %></dd>
+    </dl>
+  
+    <% if not @member.new_record? %>
+      <dl>
+        <dt><%= f.label :password, "Password:" %></dt>
+        <dd><%= f.password_field :password, class: "wide-input" %></dd>
+      </dl>
+    
+      <dl>
+        <dt><%= f.label :password_confirmation, "Password confirmation:" %></dt>
+        <dd><%= f.password_field :password_confirmation, class: "wide-input" %></dd>
+      </dl>
+    <% end %>
+  </fieldset>
 
-<tr>
-  <th><%= f.label :password %></th>
-  <td><%= f.password_field :password %></td>
-</tr>
-<tr>
-  <th><%= f.label :password_confirmation %></th>
-  <td><%= f.password_field :password_confirmation %></td>
-</tr>
+  <fieldset>
+    <legend>Profile</legend>
+  
+    <dl class="requierd-field">
+      <dt><%= f.label :namefirst, "First name:" %></dt>
+      <dd><%= f.text_field :namefirst, class: "wide-input" %></dd>
+    </dl>
 
-<% if can? :manage, @member %>
-  <% if current_member.tracker_dev? %>
-    <tr>
-      <th><%= f.label :role, "Role" %></th>
-      <td><%= f.select :role, Member.role.values.map { |c| [Member.new(:role => c).role_text, c] } %></td>
-    </tr>
-    <tr>
-      <th><%= f.label :tracker_dev, "Tracker Dev" %></th>
-      <td><%= f.check_box :tracker_dev %></td>
-    </tr>
-  <% else %>
-    <tr>
-      <th><%= f.label :role, "Role" %></th>
-      <td><%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %></td>
-    </tr>
+    <dl class="required-field">
+      <dt><%= f.label :namelast, "Last name:" %></dt>
+      <dd><%= f.text_field :namelast, class: "wide-input" %></dd>
+    </dl>
+
+    <dl>
+      <dt><%= f.label :namenick, "Nickname:" %></dt>
+      <dd><%= f.text_field :namenick, class: "wide-input" %></dd>
+    </dl>
+
+    <dl>
+      <dt><%= f.label :callsign, "Ham radio callsign:" %></dt>
+      <dd><%= f.text_field :callsign %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :shirt_size, "Shirt size:" %></dt>
+      <dd><%= f.select :shirt_size, Member.shirt_size.values, include_blank: true %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :phone, "Phone:" %></dt>
+      <dd><%= f.phone_field :phone %></dd>
+    </dl>
+
+    <dl>
+    	<dt><%= f.label :ssn, "Last 4 digits of SSN" %></dt>
+    	<dd><%= f.text_field :ssn %></dd>
+    </dl>
+  
+    <% if can? :hot, @member or @member == current_member %>
+      <dl>
+        <dt><%= f.label :alternate_email, "Alternate email:" %></dt>
+        <dd><%= f.email_field :alternate_email, class: "wide-input" %></dd>
+      </dl>
+    <% end %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Notifications</legend>
+  
+    <dl>
+      <dt><%= f.check_box :receives_comment_emails %></dt>
+      <dd><%= f.label :receives_comment_emails, "Email me when comments are posted on events I have run positions for" %></dd>
+    </dl>
+  </fieldset>
+
+  <% if can? :manage, @member %>
+    <fieldset>
+      <legend>Permissions</legend>
+    
+      <% if current_member.tracker_dev? %>
+        <dl>
+          <dt><%= f.label :role, "Role:" %></dt>
+          <dd><%= f.select :role, Member.role.values.map { |c| [Member.new(:role => c).role_text, c] } %></dd>
+        </dl>
+      
+        <dl>
+          <dt><%= f.label :tracker_dev, "Tracker Dev:" %></dt>
+          <dd><%= f.check_box :tracker_dev %></dd>
+        </dl>
+      <% else %>
+        <dl>
+          <dt><%= f.label :role, "Role:" %></dt>
+          <dd><%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %></dd>
+        </dl>
+      <% end %>
+    </fieldset>
   <% end %>
-<% end %>
 
-<% if can? :manage, SuperTic %>
-  <% if @member.is_at_least? :exec %>
-    <tr>
-      <th>SuperTIC</th>
-      <td>
-        <% if SuperTic.available_for @member %>
-          <ul class="supertic_condensed">
-            <%= f.fields_for :super_tics, SuperTic.days do |builder| %>
-              <% if builder.object.member == @member or builder.object.member == nil %>
-                <li>
-                  <%= builder.check_box :_destroy, {:checked => builder.object.member == @member}, "0", "1" %>
-                  <%= builder.label :_destroy, builder.object.dayname %>
-                  <%= builder.hidden_field :day %>
-                </li>
-              <% end %>
-            <% end %>
-          </ul>
-        <% else %>
-          N/A
+  <% if can? :payrate, @member %>
+    <fieldset>
+      <legend>Payroll</legend>
+    
+      <dl>
+      	<dt><%= f.label :payrate, "Payrate ($/hour):" %></dt>
+      	<dd><%= f.number_field :payrate, step: 'any' %></dd>
+      </dl>
+    </fieldset>
+  <% end %>
+
+  <% if can? :manage, SuperTic and @member.is_at_least? :exec %>
+    <fieldset>
+      <legend>SuperTIC</legend>
+    
+      <% if SuperTic.available_for @member %>
+        <%= f.fields_for :super_tics, SuperTic.days do |builder| %>
+          <% if builder.object.member == @member or builder.object.member == nil %>
+            <dl>
+              <dt>
+                <%= builder.check_box :_destroy, {:checked => builder.object.member == @member}, "0", "1" %>
+                <%= builder.hidden_field :day %>
+              </dt>
+              <dd><%= builder.label :_destroy, builder.object.dayname %></dd>
+            </dl>
+          <% end %>
         <% end %>
-      </td>
-    </tr>
+      <% else %>
+        <p>There are no Super TIC positions available for this member.</p>
+      <% end %>
+    </fieldset>
   <% end %>
-<% end %>
 
-<tr>
-  <th><%= f.label :receives_comment_emails, "Receives emails for comments on events?" %></th>
-  <td><%= f.check_box :receives_comment_emails %></td>
-</tr>
+  <% if can? :hot, @member %>
+    <fieldset>
+      <legend>Administrivia</legend>
+     
+      <dl>
+        <dt><%= f.label :payroll_paperwork_date, "Payroll paperwork submission date:" %></dt>
+        <dd><%= f.date_select :payroll_paperwork_date, { :include_blank => true, :default => nil } %></dd>
+      </dl>
+    
+      <dl>
+        <dt><%= f.label :ssi_date, "SSI submission date:" %></dt>
+        <dd><%= f.date_select :ssi_date, { :include_blank => true, :default => nil } %></dd>
+      </dl>
+    
+      <dl>
+        <dt><%= f.label :driving_paperwork_date, "Driving paperwork submission date:" %></dt>
+        <dd><%= f.date_select :driving_paperwork_date, { :include_blank => true, :default => nil } %></dd>
+      </dl>
+    
+      <dl>
+        <dt><%= f.label :key_possession, "Key possession:" %></dt>
+        <dd><%= f.select :key_possession, options_for_select(["none", "bottom", "top"], f.object.key_possession) %></dd>
+      </dl>
+    </fieldset>
+  <% end %>
 
-<% if can? :hot, @member %>
-  <tr>
-    <th><%= f.label :payroll_paperwork_date, "Payroll Paperwork Submission Date" %></th>
-    <td><%= f.date_select :payroll_paperwork_date, { :include_blank => true, :default => nil } %></td>
-  </tr>
-  <tr>
-    <th><%= f.label :ssi_date, "SSI Submission Date" %></th>
-    <td><%= f.date_select :ssi_date, { :include_blank => true, :default => nil } %></td>
-  </tr>
-  <tr>
-    <th><%= f.label :driving_paperwork_date, "Driving Paperwork Submission Date" %></th>
-    <td><%= f.date_select :driving_paperwork_date, { :include_blank => true, :default => nil } %></td>
-  </tr>
-  <tr>
-    <th><%= f.label :key_possession %></th>
-    <td><%= f.select :key_possession, options_for_select(["none", "bottom", "top"], f.object.key_possession) %></td>
-  </tr>
-<% end %>
-
-<% if can? :hot, @member or @member == current_member %>
-  <tr>
-    <th><%= f.label :alternate_email %></th>
-    <td><%= f.email_field :alternate_email %></th>
-  </tr>
-<% end %>
-
-<tr>
-  <th></th>
-  <td><%= f.submit %></td>
-</tr>
-</table>
-<!--[eoform:member]-->
+  <fieldset>
+    <dl>
+      <dd><%= f.submit %></dd>
+    </dt>
+  </fieldset>
 <% end %>

@@ -1,0 +1,9 @@
+<h1>Sent Emails</h1>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Back to email index", emails_url %></li>
+  </ul>
+<% end %>
+
+<%= render :partial => "list" %>

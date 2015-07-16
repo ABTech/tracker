@@ -1,33 +1,37 @@
   <h1>Members of ABTech</h1>
   <p>See also: <a href="https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList">https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList</a></p>
-<table class="generic">
+<table class="generic" width="100%">
   <tr>
     <th><%= table_order_link( "kerbid",   "email",     @order) %></th>
     <th><%= table_order_link( "Name",     "namelast",  @order) %></th>
-    <th><%= table_order_link( "Title",    "title",      @order) %></th>
     <th><%= table_order_link( "Nickname", "namenick",   @order) %></th>
     <th><%= table_order_link( "Phone",    "phone",      @order) %></th>
-    <th><%= table_order_link( "Aim",      "aim",        @order) %></th>
     <th><%= table_order_link( "Callsign",    "callsign",      @order) %></th>
     <th><%= table_order_link( "Shirt Size",    "shirt_size",      @order) %></th>
+    <% if can? :hot, Member %>
+      <th><%= table_order_link "Payroll Submission", "payroll_paperwork_date", @order %></th>
+      <th><%= table_order_link "SSI Submission", "ssi_date", @order %></th>
+      <th><%= table_order_link "Key Possession", "key_possession", @order %></th>
+    <% end %>
     <%- if can? :show, Member -%>
       <th><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></th>
-      <th><%= table_order_link( "Created",  "created_at", @order) %></th>
-      <th><%= table_order_link( "Updated",  "updated_at", @order) %></th>
-      <th colspan=3>&nbsp;</th>
+      <th><%= table_order_link( "Joined",  "created_at", @order) %></th>
     <%- end -%>
   </tr>
   
 <% for member in @members %>
   <tr>
     <td><%= member.email %></td>
-    <td><%= member.fullname %></td>
-    <td><%= member.title %></td>
+    <td><%= link_to_if (can? :show, member), member.fullname, member %></td>
     <td><%= member.namenick %></td>
     <td><%= pretty_phone member.phone %></td>
-    <td><%= link_to h(member.aim), "aim:goim?screenname=#{h(member.aim)}" unless member.aim.nil? %></td>
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%= member.shirt_size %></td>
+    <% if can? :hot, member %>
+      <td><%= member.payroll_paperwork_date ? member.payroll_paperwork_date.strftime("%m/%d/%Y") : "N/A" %></td>
+      <td><%= member.ssi_date ? member.ssi_date.strftime("%m/%d/%Y") : "N/A" %></td>
+      <td><%= member.key_possession %></td>
+    <% end %>
     <%- if can? :show, member -%>
       <td>
         <%= member.role_text %>
@@ -36,18 +40,10 @@
         <% end %>
       </td>
       <% if member.created_at.nil? %>
-        <td></td>
+        <td>N/A</td>
       <% else %>
         <td title="<%= member.created_at.strftime('%c') %>"><%= member.created_at.strftime("%m/%d/%Y") %></td>
       <% end %>
-      <% if member.updated_at.nil? %>
-        <td></td>
-      <% else %>
-        <td title="<%= member.updated_at.strftime('%c') %>"><%= member.updated_at.strftime("%m/%d/%Y") %></td>
-      <% end %>
-      <td><%= link_to 'Show', :action => 'show', :id => member %></td>
-      <td><%= link_to 'Edit', :action => 'edit', :id => member %></td>
-      <td><%= link_to 'Destroy', { :action => 'destroy', :id => member }, :confirm => 'Are you sure?', :post => true %></td>
     <%- end -%>
   </tr>
 <% end %>
@@ -68,6 +64,12 @@
     <% end %>
     <li><%= link_to 'Generate T-Shirt Order', tshirts_members_url %></li>
     <li><%= link_to 'List Members by Run Position', roles_members_url %></li>
+    <% if can? :manage, SuperTic %>
+      <li><%= link_to "Manage Super TICs", super_tics_members_path %></li>
+    <% end %>
+    <% if can? :hot, Member %>
+      <li><%= link_to "Bulk edit members", bulk_edit_members_url %></li>
+    <% end %>
   </ul>
 <% end %>
 <div id="dialog"></div>

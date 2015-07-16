@@ -1,0 +1,246 @@
+// Place all the styles related to the Email controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.unread {
+  font-weight: bold;
+}
+
+.email {
+  border: 1px solid #666661;
+  max-width: 720px;
+  
+  .email-header {
+    padding: 10px;
+    position: relative;
+    background-color: #f6f6f6;
+    border-bottom: 1px solid black;
+    
+    &>ul {
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      
+      li {
+        display: block;
+        
+        &.hidden-header {
+          display: none;
+        }
+      }
+    }
+    
+    .email-options-link {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: .5em;
+      background-color: #e0e0e0;
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    
+    .email-options {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      padding-left: 0;
+      margin: 0;
+        
+      li {
+        list-style-type: none;
+        display: block;
+        padding: .5em;
+        background-color: #e0e0e0;
+        color: blue;
+        
+        &.active {
+          display: none;
+        }
+        
+        &+li {
+          border-top: 1px solid black;
+        }
+        
+        &:hover {
+          cursor: pointer;
+        }
+      }      
+    }
+    
+    .visible {
+      display: block;
+    }
+    
+    .invisible {
+      display: none;
+    }
+  }
+  
+  .email-content {
+    padding: 0 10px;
+    
+    .the-content {
+      padding-top: 10px;
+      
+      p:first-child {
+        margin-top: 0;
+      }
+    }
+    
+    .email-contents-quote-mode {
+      bottom: 0;
+      right: 0;
+      display: block;
+      margin-right: -10px;
+      margin-top: -10px;
+      
+      li {
+        display: block;
+        float: right;
+        
+        a {
+          display: block;
+          padding: .5em;
+          background-color: #f0f0f0;
+          border-bottom: 1px solid black;
+          border-left: 1px solid black;
+      
+          &:hover {
+            cursor: pointer;
+          }
+          
+          &.active {
+            background-color: #e0e0e0;
+          }
+        }
+      }
+    }
+    
+    .the-attachments {
+      padding-left: 0;
+      
+      li {
+        display: block;
+        
+        img {
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+#reply-dialog {
+  dd {
+    margin: 0;
+    
+    input, textarea {
+      width: 100%;
+    }
+  }
+}
+
+#loader {
+  position:absolute;
+  z-index:15;
+  top:50%;
+  left:50%;
+  margin: -16px 0 0 -16px;
+  background: black;
+  padding: 1em;
+  border-radius: 4px;
+  display: none;
+}
+
+#existing-email-event {
+  dl {
+    dt {
+      background: #eeeef3;
+      border: 1px solid #ccc;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    dd {
+      border: 1px solid #ccc;
+      padding: 5px;
+      margin-left: 0;
+      max-height: 260px;
+      overflow: scroll;
+      
+      &+dt {
+        margin-top: 11px;
+      }
+      
+      .date {
+        margin-left: 5px;
+        color: #999;
+      }
+      
+      ul {
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        
+        li {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.email-navigation {
+  max-width: 720px;
+  width: 100%;
+  font-size: 12px;
+  
+  .email-navigation-newer {
+    float: left;
+  }
+  
+  .email-navigation-older {
+    float: right;
+  }
+  
+  .email-navigation-middle {
+    text-align: center;
+  }
+  
+  &+.email-navigation {
+    clear: both;
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  
+  &+.email {
+    clear: both;
+    margin-top: 10px;
+  }
+}
+
+.email-thread {
+  h4 {
+    margin-bottom: 0;
+  }
+  
+  ul {
+    margin-top: 0;
+  }
+}
+
+.email-event-info {
+  max-width: 720px;
+  margin-top: 10px;
+}

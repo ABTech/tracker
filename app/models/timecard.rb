@@ -8,7 +8,7 @@ class Timecard < ActiveRecord::Base
   before_destroy :clear_entries
 
   after_save do |timecard|
-    TimecardEntry.find(:all, :conditions => ["timecard_id is null"]).each do |entry|
+    TimecardEntry.where("timecard_id IS NULL").each do |entry|
       entry.timecard = timecard
       entry.save
     end
@@ -46,7 +46,7 @@ class Timecard < ActiveRecord::Base
   end
 
   def self.latest_dates
-    Timecard.find(:first, :order => 'billing_date DESC')
+    Timecard.order(billing_date: :desc).first
   end
 
   def self.valid_timecards

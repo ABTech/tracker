@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.2.1'
 
 # Use mysql as the database for Active Record
 gem 'mysql2'
@@ -36,14 +36,13 @@ end
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', '~> 2.1', group: :development
+gem 'capistrano', '~> 2.1', group: :development, require: false
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 gem 'wkhtmltopdf-binary'
-gem "paperclip", "~> 3.0"
-gem "acts_as_tree"
+gem "paperclip", "~> 4.0"
 gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
 gem 'rails_autolink'
@@ -60,3 +59,9 @@ gem 'net-ssh', '~> 2.7.0'
 gem 'thinking-sphinx', '~> 3.1.0'
 gem 'whenever'
 gem 'amoeba'
+gem 'web-console', '~> 2.0', group: [:development]
+gem 'responders', '~> 2.0'
+gem 'mail_room', git: 'https://github.com/hatkirby/mail_room'
+gem 'faraday'
+gem 'gmail_xoauth'
+gem 'oauth2'

@@ -1,0 +1,46 @@
+<div id="existing-email-event">
+  <%= form_tag email_url(@email.id), method: :put do %>
+    <dl>
+      <% @subjectMatches.each do |word, matches| %>
+        <dt>match by subject (<%= word %>)</dt>
+        <dd>
+          <ul>
+            <% matches.each do |match| %>
+              <li>
+                <%= radio_button_tag "email[event_id]", match.id %>
+                <%= link_to match.title, match %>
+                <span class="date"><%= match.representative_date.strftime("%m/%d/%y") %></span>
+              </li>
+            <% end %>
+          </ul>
+        </dd>
+      <% end %>
+      <% unless @senderMatches.empty? %>
+        <dt>match by sender (<%= @email.sender %>)</dt>
+        <dd>
+          <ul>
+            <% @senderMatches.each do |match| %>
+              <li>
+                <%= radio_button_tag "email[event_id]", match.id %>
+                <%= link_to match.title, match %>
+                <span class="date"><%= match.representative_date.strftime("%m/%d/%y") %></span>
+              </li>
+            <% end %>
+          </ul>
+        </dd>
+      <% end %>
+      <dt>recent events</dt>
+      <dd>
+        <ul>
+          <% @recentEvents.each do |match| %>
+            <li>
+              <%= radio_button_tag "email[event_id]", match.id %>
+              <%= link_to match.title, match %>
+              <span class="date"><%= match.representative_date.strftime("%m/%d/%y") %></span>
+            </li>
+          <% end %>
+        </ul>
+      </dd>
+    </dl>
+  <% end %>
+</div>

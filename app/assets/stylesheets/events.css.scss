@@ -253,47 +253,120 @@ table.eventslist .ticless {
   vertical-align: top;
 }
 
-.event-form td:first-child {
-  vertical-align: top;
-  padding-right: 1em;
+.event-form fieldset {
+  padding: 10px;
+  border: 1px solid #666661;
+  margin-bottom: 1em;
+  max-width: 720px;
 }
 
-.event-form tr+tr td {
-  padding-top: 1em;
-}
-
-.event-form input[type=text] {
-  width: 40em;
-}
-
-.event-form legend,
-#event-form-submit legend {
-  font-size: 1.5em;
+.event-form legend {
+  background-color: #e0e0e0;
+  color: black;
+  font: 17px/21px Calibri, Arial, Helvetica, sans-serif;
+  padding: 0 10px;
+  margin: -26px 0 0 -11px;
   font-weight: bold;
+  border: 1px solid black;
+}
+
+.event-form dl {
+  display: table;
+  margin: 0 0 5px 0;
+  width: 100%;
+}
+
+.event-form dl+dl dt, .event-form dl+dl dd {
+  padding-top: 1px;
+}
+
+.event-form dt {
+  display: table-cell;
+  text-align: right;
+  width: 15%;
+  line-height: 25px;
+  margin: 0 10px 10px 0;
+  padding-right: 1em;
+  vertical-align: baseline;
+}
+
+.event-form dd {
+  display: table-cell;
+  line-height: 25px;
+  margin: 0 0 10px 0;
+  padding: 1px;
+  vertical-align: baseline;
+  
+  img {
+    vertical-align: sub;
+  }
+}
+
+.event-form-full-input {
+  width: 400px;
+  max-width: 100%;
+}
+
+.event-form select {
+  border: 0;
+  outline: 1px solid #e0e0e0;
+  font: 12px/21px Verdana, Arial, Helvetica, sans-serif;
+}
+
+.event-form textarea {
+  width: 400px;
+  max-width: 100%;
+  height: 6em;
+}
+
+.event-form .big-field dt {
+  vertical-align: top;
+}
+
+.event-form #event_org_new, .call-time-field, .strike-time-field {
+  display: none;
+}
+
+.event-form .event-blackout-fields {
+  display: none;
+  margin-left: 4px;
+}
+
+.event-form-roles table, #event-form-attachments table {
+  width: 100%;
+  
+  tr td {
+    align: center;
+    padding: .5em 1em;
+  }
+  
+  tbody tr td {
+    select, input {
+      width: 100%;
+    }
+  }
+}
+
+legend + .event-date-form {
+  padding-top: 0;
 }
 
 .event-date-form {
   border-bottom: 1px dashed black;
-  margin-bottom: 1em;
-  padding-bottom: 1em;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  padding: 1em 10px 1em 10px;
+  margin: 0 -11px 0 -11px;
+  
+  &:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
 }
 
 .event-email-full+.event-email-full {
   margin-top: 1em;
   border-top: 1px dashed black;
   padding-top: 1em;
-}
-
-@media (min-width: 1092px) {
-  #event-container #event-form-left {
-    float: left;
-    width: 70%;
-  }
-
-  #event-container #event-form-roles {
-    width: 25%;
-    float: right;
-  }
 }
 
 #event-form-submit {
@@ -345,6 +418,52 @@ table.eventslist .ticless {
           td {
             padding-bottom: 0;
           }
+        }
+      }
+    }
+  }
+}
+
+#event-emails {
+  padding: .5em 0;
+  
+  &>ul {
+    padding: 0;
+    margin-bottom: 0;
+    
+    &>li {
+      display: block;
+      
+      h5 {
+        font-size: 1em;
+        background-color: #f7f7f7;
+        padding: 10px;
+        margin: 0;
+        border-top: 1px solid #ccc;
+        
+        .arrow {
+          display: block;
+          float: right;
+        }
+        
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      
+      .email {
+        display: none;
+        border-top: 1px solid #ccc;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+        
+        .email-header {
+          border-bottom: 1px solid #ccc;
+        }
+        
+        .email-content {
+          padding-top: 10px;
         }
       }
     }

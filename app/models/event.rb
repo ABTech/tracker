@@ -1,12 +1,12 @@
 class Event < ActiveRecord::Base
   belongs_to :organization
-  has_many :emails, -> { order "timestamp DESC" }
+  has_many :emails
   has_many :eventdates, -> { order "startdate ASC" }, :dependent => :destroy
   has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :journals
-  has_many :attachments
+  has_many :attachments, as: :attachable
   has_one :blackout, :dependent => :destroy
   
   amoeba do
@@ -19,12 +19,12 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :invoices
   accepts_nested_attributes_for :blackout, :allow_destroy => true
   
-  attr_accessor :org_type, :org_new
+  attr_accessor :org_type, :org_new, :created_email
   
   before_validation :prune_attachments, :prune_roles
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_date
   after_initialize :default_values
-  after_save :set_eventdate_delta_flags
+  after_save :set_eventdate_delta_flags, :set_created_email
   
   EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
@@ -102,7 +102,7 @@ class Event < ActiveRecord::Base
   # method to resort event_roles by a given key
   # @param by is a field of event_role, but this behavior is not yet implemented
   def sort_roles
-    event_roles.sort!
+    event_roles.to_a.sort!
   end
 
   def to_s
@@ -157,6 +157,11 @@ class Event < ActiveRecord::Base
     self.event_roles.includes(:member).map(&:member).uniq.compact
   end
   
+  def all_techies
+    (self.eventdates.includes(event_roles: [:member]).map(&:event_roles).flatten.map(&:member) +
+    self.event_roles.includes(:member).map(&:member)).uniq.compact
+  end
+  
   def eventdates_editable_by(member)
     if member.ability.can? :tic, self
       self.eventdates
@@ -170,7 +175,7 @@ class Event < ActiveRecord::Base
   def has_editable_eventdates?(member)
     eventdates_editable_by(member).count != 0
   end
-  
+    
   private
     def handle_organization
       if self.org_type == "new"
@@ -202,6 +207,7 @@ class Event < ActiveRecord::Base
           dt.startdate = Time.now
           dt.enddate = Time.now
           dt.strikedate = Time.now
+          dt.event_roles << EventRole.new
           self.eventdates << dt
         end
         
@@ -217,6 +223,14 @@ class Event < ActiveRecord::Base
       eventdates.each do |eventdate|
         eventdate.delta = true
         eventdate.save
+      end
+    end
+    
+    def set_created_email
+      unless created_email.nil? or created_email.empty?
+        mail = Email.find(created_email)
+        mail.event = self
+        mail.save
       end
     end
 end

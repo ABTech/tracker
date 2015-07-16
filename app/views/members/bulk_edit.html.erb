@@ -1,0 +1,38 @@
+<h1>Bulk Edit Members</h1>
+
+<%= form_tag bulk_edit_members_url do %>
+
+  <h2>Members to Edit</h2>
+  
+  <%= select_tag "members", grouped_options_for_select(bulk_members_for_select), { multiple: true, class: "members-to-edit" } %>
+  
+  <h2>Edit Actions</h2>
+  
+  <ul>
+    <% if can? :manage, Timecard %>
+      <li><%= check_box_tag "increase_payrate" %> Increase payrate by 25c (with a max of $8.00)</li>
+      <li><%= check_box_tag "zero_payrate" %> Set payrate to zero (will override above option)</li>
+    <% end %>
+    <li>
+      <% if current_member.tracker_dev? %>
+        <%= check_box_tag "set_role" %> Set role to <%= select_tag "set_role_to", options_for_select(Member.role.values.map { |c| [Member.new(:role => c).role_text, c] }) %>
+      <% else %>
+        <%= check_box_tag "set_role" %> Set role to <%= select_tag "set_role_to", options_for_select(Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] }) %>
+      <% end %>
+    </li>
+    <% if can? :hot, Member %>
+      <li><%= check_box_tag "reset_ssi" %> Reset SSI submission date</li>
+      <li><%= check_box_tag "reset_driving" %> Reset driving paperwork submission date</li>
+      <li><%= check_box_tag "set_key" %> Set key possession to <%= select_tag "set_key_to", options_for_select(Member.key_possession.values.map { |c| [c,c] }) %></li>
+    <% end %>
+  </ul>
+  
+  <%= submit_tag %>
+  
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Back to members list", members_url %></li>
+  </ul>
+<% end %>

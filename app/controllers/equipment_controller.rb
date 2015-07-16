@@ -1,132 +1,96 @@
 class EquipmentController < ApplicationController
-  # we need to represent categories and nodes within the same
-  # structure, so arbitrarily pick some large constant to add
-  # to node ID values
-  TreeNodeIDOffset = 100000;
-
-  def tree
+  def index
     authorize! :read, Equipment
     
-    @title = "Equipment Tree"
-  end
-
-  # creates a new group under a given group
-  # (meant to be used through Jscript)
-  def newgroup
-    id = params['id'];
-    if(!id || !EquipmentCategory.find(id))
-      flash[:error] = "Please select a valid group id.";
-      return;
+    @title = "Equipment"
+    @categories = Equipment.categories.collect do |c|
+      {
+        :name => c,
+        :children => Equipment.category(c),
+        :subcategories => Equipment.subcategories(c).collect do |sc|
+          {
+            :name => sc,
+            :children => Equipment.subcategory(c, sc)
+          }
+        end
+      }
     end
-
-    group = EquipmentCategory.new();
-    group.name = "New Group";
-    group.parent = EquipmentCategory.find(id);
-    group.position = 0;
-    
-    authorize! :create, group
-    group.save();
   end
-
-  # creates a new item under a given group
-  # (meant to be used through Jscript)
-  def newitem
-    id = params['id'];
-    if(!id || !EquipmentCategory.find(id))
-      flash[:error] = "Please select a valid group id.";
-      return;
-    end
-
-    item = Equipment.new();
-    item.description = "New Equipment";
-    item.parent = EquipmentCategory.find(id);
-    item.position = 0;
-    item.shortname = "New Shortname"
+  
+  def show
+    @title = "Viewing Equipment"
+    @equipment = Equipment.active.find(params[:id])
+    authorize! :read, @equipment
     
-    authorize! :create, item
-    item.save();
-  end
-
-  # deletes a group, merges children to parent
-  # (meant to be used through Jscript)
-  def delgroup
-    id = params['id'];
-
-    if(id && (id.to_i() != EquipmentCategory::Root_Category))
-      # move all remaining items in the group to the parent group
-      category = EquipmentCategory.find(id);
-      authorize! :destroy, category
-
-      category.equipment.each do |item|
-        item.parent = category.parent;
-        item.save();
+    respond_to do |format|
+      format.html
+      format.json do
+        events = Eventdate.where("enddate > ? AND startdate < ? AND id IN (SELECT eventdate_id FROM equipment_eventdates WHERE equipment_id = ?)",
+          Date.parse(params[:start]), Date.parse(params[:end]), @equipment.id).to_a.collect do |ed|
+            {
+              title: "#{ed.event.title} - #{ed.description}",
+              start: ed.startdate,
+              end: ed.enddate,
+              url: event_url(ed.event)
+            }
+        end
+        
+        render json: events
       end
-      EquipmentCategory.delete(params['id']);
     end
   end
-
-  # deletes an item
-  # (meant to be used through Jscript)
-  def delitem
-    @eq = Equipment.active.find(params[:id])
-    authorize! :destroy, @eq
-    
-    @eq.defunct = true
-    @eq.save
+  
+  def new
+    @title = "New Equipment"
+    @equipment = Equipment.new
+    authorize! :create, @equipment
   end
-
-  def edititem
-    @title = "Editing Item"
-
-    @item = Equipment.active.find(params['id']);
-    authorize! :update, @item
-    
-    if(!@item)
-      flash[:error] = "Please select a valid item.";
-    end
-    render :layout => false
+  
+  def edit
+    @title = "Editing Equipment"
+    @equipment = Equipment.active.find(params[:id])
+    authorize! :update, @equipment
   end
-
-  def editgroup
-    @title = "Editing Group"
-
-    @category = EquipmentCategory.find(params['id']);
-    authorize! :update, @category
-    
-    if(!@category)
-      flash[:error] = "Please select a valid category.";
-    end
-    render :layout => false
-  end
-
-  def saveitem
-    @title = "Saved Item";
-
-    record = Equipment.active.find(params['id']);
-    authorize! :update, record
-    
-    if(!record)
-      flash[:error] = "Please select a valid item.";
-      render :layout => false
+  
+  def create
+    @equipment = Equipment.new(equipment_params)
+    authorize! :create, @equipment
+    if @equipment.save
+      flash[:notice] = 'Equipment was successfully created.'
+      redirect_to equipment_index_url
     else
-      record.update_attributes(params.require(:item).permit(:description, :shortname, :position, :parent_id))
-      record.save
-      render :layout => false
+      render(:action => 'new')
     end
   end
-
-  def savegroup
-    @title = "Saved Group";
-
-    record = EquipmentCategory.find(params['id']);
-    authorize! :update, record
-    if(!record)
-      flash[:error] = "Please select a valid category.";
-      render :layout => false
+  
+  def update
+    @equipment = Equipment.active.find(params[:id])
+    authorize! :update, @equipment
+    if @equipment.update_attributes(equipment_params)
+      flash[:notice] = 'Equipment was successfully updated.'
+      redirect_to @equipment
     else
-      record.update_attributes(params.require(:category).permit(:name, :parent_id, :position))
-      record.save
-      render :layout => false
+      render(:action => 'edit')
     end
   end
+  
+  def destroy
+    @equipment = Equipment.active.find(params[:id])
+    authorize! :destroy, @equipment
+    
+    @equipment.defunct = true
+    if @equipment.save
+      flash[:notice] = "Equipment \"#{@equipment.description}\" has been marked as defunct."
+    else
+      flash[:error] = "Error marking equipment \"#{@equipment.description}\" as defunct."
+    end
+    
+    redirect_to equipment_index_url
+  end
+  
+  private
+    def equipment_params
+      params.require(:equipment).permit(:description, :shortname, :category, :subcategory)
+    end
+  
 end

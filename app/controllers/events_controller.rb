@@ -21,12 +21,6 @@ class EventsController < ApplicationController
     authorize! :read, @event
   end
   
-  def show_email
-    @title = "Viewing Event Emails"
-    @event = Event.find(params[:id])
-    authorize! :read, @event
-  end
-  
   def finance
     @title = "Viewing Event Finances"
     @event = Event.find(params[:id])
@@ -50,6 +44,11 @@ class EventsController < ApplicationController
   def edit
     @title = "Edit Event"
     @event = Event.find(params[:id])
+    
+    @event.eventdates.each do |ed|
+      ed.event_roles.build
+    end
+    
     authorize! :update, @event
   end
   
@@ -61,14 +60,14 @@ class EventsController < ApplicationController
       params[:event].delete(:org_new)
     end
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
-      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
+      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
       :event_roles_attributes => [:role, :member_id],
       :attachments_attributes => [:attachment, :name],
-      :blackout_attributes => [:startdate, :enddate, :with_new_event])
+      :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
     
     @event = Event.new(p)
     authorize! :create, @event
@@ -86,7 +85,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     authorize! :update, @event
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :textable, :rental,
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
       :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
@@ -271,7 +270,7 @@ class EventsController < ApplicationController
     @startdate = params["startdate"] ? Date.parse(params["startdate"]) : Date.today 
     @enddate   = @startdate+7
 
-    @eventdates = Eventdate.find(:all, :order => "startdate ASC", :conditions => ["? <= startdate AND ? > enddate", @startdate, @enddate])
+    @eventdates = Eventdate.where("startdate > ? AND enddate <= ?", @startdate, @enddate).order("startdate ASC")
 
     unless params[:showall]
       @eventdates.reject! do |eventdate|

@@ -1,0 +1,37 @@
+<h1>Equipment Categories</h1>
+
+<div id="equipment-list">
+  <% @categories.each_with_index do |c,i| %>
+    <div class="equipment-category">
+      <div class="equipment-category-inner">
+        <h2><%= c[:name] %></h2>
+    
+        <% unless c[:children].empty? %>
+          <ul>
+            <% c[:children].each do |child| %>
+              <li><%= link_to child.description, child %> [<%= child.shortname %>]</li>
+            <% end %>
+          </ul>
+        <% end %>
+    
+        <% c[:subcategories].each do |sc| %>
+          <div class="equipment-subcategory">
+            <h3><%= sc[:name] %></h3>
+        
+            <ul>
+              <% sc[:children].each do |child| %>
+                <li><%= link_to child.description, child %> [<%= child.shortname %>]</li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Add new equipment", new_equipment_url %></li>
+  </ul>
+<% end %>

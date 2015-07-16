@@ -1,0 +1,43 @@
+<div id="reply-dialog">
+  <%= form_for reply, url: reply_emails_url, class: "reply-form" do |f| %>
+    <dl>
+      <dt><%= f.label :sender %></dt>
+      <% if can? :sender, Email %>
+        <dd><%= f.text_field :sender %></dd>
+      <% else %>
+        <dd><%= f.text_field :sender, disabled: true %></dd>
+      <% end %>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :recipient %></dt>
+      <dd><%= f.text_field :recipient %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :subject %></dt>
+      <dd><%= f.text_field :subject %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :cc %></dt>
+      <dd><%= f.text_field :cc %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :bcc %></dt>
+      <dd><%= f.text_field :bcc %></dd>
+    </dl>
+  
+    <dl>
+      <dt><%= f.label :contents %></dt>
+      <dd>
+        <%= select_tag "form_email", options_for_select(form_emails_for_select), { :include_blank => true } %><br/>
+        <%= f.text_area :contents, { size: "40x20", data: { footer: "" + f.object.contents } } %>
+      </dd>
+    </dl>
+    
+    <%= f.hidden_field :in_reply_to %>
+    <%= f.hidden_field :sender %>
+  <% end %>
+</div>

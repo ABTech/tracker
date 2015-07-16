@@ -1,0 +1,33 @@
+$(".eventsmain").before('<%= j render(partial: "emails/reply", object: @reply) %>');
+$("#reply-dialog").dialog({
+  resizable: false,
+  position: "center",
+  width: 720,
+  title: "Respond to Email",
+  modal: true,
+  buttons: {
+    "Send Email": function(){
+      if (confirm("Are you sure you want to send this email?"))
+      {
+        jQuery("#reply-dialog form").submit();
+        jQuery("#reply-dialog").dialog("destroy");
+        jQuery("#reply-dialog").html("Sending Email...")
+        jQuery("#reply-dialog").dialog({
+          modal:true,
+          closeOnEscape: false,
+          title: "Don't Navigate Away!"
+        });
+        //Removing ability to close dialog
+        jQuery("#reply-dialog").parent().find('a.ui-dialog-titlebar-close').remove();
+        jQuery("#reply-dialog").bind('dialogbeforeclose', false);
+      }
+    }}
+});
+$("#form_email").change(function() {
+  if ($(this).children("option:selected").data("contents")) 
+  {
+    $("#email_contents").val($(this).children("option:selected").data("contents") + $("#email_contents").data("footer"));
+  } else {
+    $("#email_contents").val($("#email_contents").data("footer"));
+  }
+});

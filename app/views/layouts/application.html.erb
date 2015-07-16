@@ -8,6 +8,8 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div id="loader"><%= image_tag "loader.gif" %></div>
+  
   <div class="header">
     <% if ENV["RAILS_ENV"] == 'development' %>
       <div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>
@@ -26,7 +28,7 @@
   <div id="menu" class="main-nav">
     <%= conditional_link_to "Events", events_url, :index, Event %>
     <%= conditional_link_to "Calendar", calendar_events_url, :index, Event %>
-    <%= conditional_link_to "Email", email_index_url, :read, Email %>
+    <%= conditional_link_to "Email (#{Email.where(unread: true).count})", emails_url, :read, Email %>
     <%= conditional_link_to "Finance", list_accounts_url, :read, :finance %>
     <%= conditional_link_to "Members", members_url, :index, Member %>
     <% if iphone_user_agent? %>
@@ -46,7 +48,7 @@
   <% if show_admin_link %>
     <div id="submenu" style="display: none;" class="main-nav">
       <%= conditional_link_to "Locations", locations_url, :read, Location %>
-      <%= conditional_link_to "Equipment", tree_equipment_index_url, :read, Equipment %>
+      <%= conditional_link_to "Equipment", equipment_index_url, :read, Equipment %>
       <%= conditional_link_to "Timecards", timecards_url, :read, Timecard %>
       <%= conditional_link_to "Invoice Items", invoice_items_url, :read, InvoiceItem %>
       <%= conditional_link_to "Form Emails", email_forms_url, :read, EmailForm %>

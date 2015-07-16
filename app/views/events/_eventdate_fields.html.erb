@@ -1,106 +1,97 @@
 <div class="event-date-form fields association-<%= f.index %>">
-  <table>
-    <% if can? :tic, @event %>
-      <tr>
-        <td><%= f.label :description %>:</td>
-        <td><%= f.text_field :description %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :email_description, "Email Description" %>:</td>
-        <td><%= f.text_area :email_description, size: "80x10"%></td>
-      </tr>
-      <tr>
-        <td><%= f.label :calldate, "Call" %>:</td>
-        <td>
-          <%= f.radio_button :calltype, "blank" %>
-          <%= f.label :call_type_blank, "blank" %>
-          <br />
-          <%= f.radio_button :calltype, "startdate" %>
-          <%= f.label :call_type_startdate, "startdate" %>
-          <br />
-          <%= f.radio_button :calltype, "literal" %>
-          <%= f.label :call_type_literal, "literal" %>
-          <div class="datetime_select call-time-field">
-            <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_call_selected_value(f.object) %>
-            <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td><%= f.label :startdate, "Start" %>:</td>
-        <td class="datetime_select start-time-field">
-          <%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %>
-        </td>
-      </tr>
-      <tr>
-        <td><%= f.label :enddate, "Ends" %>:</td>
-        <td class="datetime_select end-time-field">
-          <%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %>
+  <% if can? :tic, @event %>
+    <dl>
+      <dt><%= f.label :description, "Description:" %></dt>
+      <dd><%= f.text_field :description, class: "event-form-full-input" %></dd>
+    </dl>
+    <dl class="big-field">
+      <dt><%= f.label :email_description, "Email Description:" %></dt>
+      <dd><%= f.text_area :email_description %></dd>
+    </dl>
+    <dl>
+      <dt><%= f.label :calldate, "Call:" %></dt>
+      <dd>
+        <%= f.select :calltype, options_for_select([["Blank", "blank"], ["Same as start", "startdate"], ["Literal", "literal"]], f.object.calltype) %>
+        <div class="datetime_select call-time-field">
+          <%= f.datetime_select :calldate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_call_selected_value(f.object) %>
           <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
-        </td>
-      </tr>
-      <tr>
-        <td><%= f.label :strikedate, "Strike" %>:</td>
-        <td>
-          <%= f.radio_button :striketype, "blank" %>
-          <%= f.label :strike_type_blank, "blank" %>
-          <br />
-          <%= f.radio_button :striketype, "none" %>
-          <%= f.label :strike_type_none, "none "%>
-          <br />
-          <%= f.radio_button :striketype, "enddate" %>
-          <%= f.label :strike_type_enddate, "enddate" %>
-          <br />
-          <%= f.radio_button :striketype, "literal" %>
-          <%= f.label :strike_type_literal, "literal" %>
-          <div class="datetime_select strike-time-field">
-            <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_strike_selected_value(f.object) %>
-            <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td><%= f.label :location_ids, "Location" %>:</td>
-        <td><%= f.select :location_ids, options_from_collection_for_select(Location.active.order("building ASC, room ASC"), "id", "to_s", f.object.locations.collect(&:id)), {}, {class: "eventdate_locations", multiple: "multiple", size: "10"} %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :equipment_ids, "Equipment" %>:</td>
-        <td><%= f.select :equipment_ids, options_from_collection_for_select(EquipmentCategory::tree_as_collection, "id", "description", f.object.equipment.collect(&:id)), {}, {multiple: "multiple", size: "10"} %></td>
-      </tr>
-    <% end %>
-    
-    <tr>
-      <td>Roles:</td>
-      <td>
-        <table>
+        </div>
+      </dd>
+    </dl>
+    <dl>
+      <dt><%= f.label :startdate, "Start:" %></dt>
+      <dd class="datetime_select start-time-field">
+        <%= f.datetime_select :startdate, :minute_step => 5, :with_css_classes => true %>
+      </dd>
+    </dl>
+    <dl>
+      <dt><%= f.label :enddate, "Ends:" %></dt>
+      <dd class="datetime_select end-time-field">
+        <%= f.datetime_select :enddate, :minute_step => 5, :with_css_classes => true %>
+        <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
+      </dd>
+    </dl>
+    <dl>
+      <dt><%= f.label :strikedate, "Strike:" %></dt>
+      <dd>
+        <%= f.select :striketype, options_for_select([["Blank", "blank"], ["None", "none"], ["Same as end", "enddate"], ["Literal", "literal"]], f.object.striketype) %>
+        <div class="datetime_select strike-time-field">
+          <%= f.datetime_select :strikedate, :minute_step => 5, :with_css_classes => true, :selected => eventdate_strike_selected_value(f.object) %>
+          <%= button_tag "Copy Start Date", :type => "button", :class => "copy_start_time" %>
+        </div>
+      </dd>
+    </dl>
+    <dl class="big-field">
+      <dt><%= f.label :location_ids, "Location:" %></dt>
+      <dd><%= f.select :location_ids, grouped_options_for_select(location_groups_for_select, f.object.locations.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
+    </dl>
+    <dl class="big-field">
+      <dt><%= f.label :equipment_ids, "Equipment:" %></dt>
+      <dd><%= f.select :equipment_ids, grouped_options_for_select(equipment_groups_for_select, f.object.equipment.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
+    </dl>
+  <% end %>
+  
+  <dl class="big-field event-form-roles">
+    <dt>Roles:</dt>
+    <dd>
+      <table>
+        <thead>
           <tr>
             <th>Role</th>
             <th>Techie</th>
           </tr>
-      
+        </thead>
+    
+        <tbody>
           <%= f.fields_for :event_roles, f.object.event_roles.sort do |builder| %>
             <%= render :partial => 'events/event_role_fields', :locals => {:f => builder, :parent => f.object} %>
           <% end %>
-          
+        
           <% if can? :tic, @event or can? :tic, f.object or not f.object.run_positions_for(current_member).flat_map(&:assistants).empty? %>
             <tr>
               <td colspan=2><%= link_to_add_fields "Add another role", f, :event_roles, "2", "events", {:parent => f.object} %></td>
             </tr>
           <% end %>
-        </table> 
-      </td>
-    </tr>
-    
-    <tr>
-      <td><%= f.label :notes, "Notes" %>:</td>
-      <td><%= f.text_area :notes, size: "80x10" %></td>
-    </tr>
-    
-    <% if can? :tic, @event %>
-      <tr>
-        <td></td>
-        <td><%= link_to_remove_fields "Delete this event date", f %></td>
-      </tr>
-    <% end %>
-  </table>
+        </tbody>
+        
+        <tfoot>
+          <tr>
+            <td colspan=2>Add SuperTIC: <%= supertic_add_role(f, f.object.startdate) %></td>
+          </tr>
+        </tfoot>
+      </table> 
+    </dd>
+  </dl>
+  
+  <dl class="big-field">
+    <dt><%= f.label :notes, "Notes:" %></dt>
+    <dd><%= f.text_area :notes %></dd>
+  </dl>
+  
+  <% if can? :tic, @event %>
+    <dl>
+      <dt>Delete?</dt>
+      <dd><%= link_to_remove_fields image_tag("cross.png"), f %></dd>
+    </dl>
+  <% end %>
 </div>

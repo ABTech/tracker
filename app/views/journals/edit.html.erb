@@ -58,7 +58,7 @@ fieldset { width:40% }
       <% else %>
         <select name="journal[account_id]">
         <% accs = {} %>
-        <% Account.find(:all).each do |acc| accs[acc.name] = acc.id end %>
+        <% Account.all.each do |acc| accs[acc.name] = acc.id end %>
         <%= options_for_select(accs, @journal.account_id) %>
         </select>
       <% end %>
@@ -80,7 +80,7 @@ fieldset { width:40% }
 
       <div id="paymeth">
       <a href="javascript:switch_pay_meth_field()"><i class="icon-pencil"></i></a>
-      <%= select("journal", "paymeth_category",Journal.find(:all, :select => "distinct paymeth_category", :conditions => ["date >= ? AND date < ? AND paymeth_category!=''", @start, @end]).collect {|j|j.paymeth_category}, :include_blank=>true ) %>
+      <%= select("journal", "paymeth_category",Journal.where("date >= ? AND date < ? AND paymeth_category != ?", @start, @end, "").select(:paymeth_category).distinct.collect {|j|j.paymeth_category}, :include_blank=>true ) %>
       </div>
     </td>
   </tr>

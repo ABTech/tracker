@@ -1,3 +1,59 @@
 // Place all the styles related to the Equipment controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.equipment-category {
+  width: 50%;
+  
+  .equipment-category-inner {
+    border: 1px solid #e0e0e0;
+    background: #f7f7f7;
+    margin: 1em;
+    padding: .5em 1em;
+    
+    h2 {
+      font-size: 21pt;
+      font-weight: bold;
+      color: #444;
+      margin: 0;
+    }
+    
+    &>ul {
+      padding-left: 2em;
+      
+      li {
+        display: block;
+      }
+    }
+    
+    .equipment-subcategory {
+      border: 1px solid #e0e0e0;
+      background: #f7f7f7;
+      margin: 1em;
+      padding: .5em 1em;
+      
+      h3 {
+        font-size: 16pt;
+        font-weight: bold;
+        color: #444;
+        margin: 0;
+      }
+      
+      ul {
+        padding-left: 0;
+      
+        li {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.edit_equipment_category, .edit_equipment_subcategory {
+  vertical-align: middle;
+  
+  &:hover {
+    cursor: pointer;
+  }
+}

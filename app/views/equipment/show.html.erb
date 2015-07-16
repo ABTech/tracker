@@ -1,0 +1,13 @@
+<h1><%= @equipment.description %></h1>
+<p><b>[<%= @equipment.shortname %>]</b></p>
+<p><i><%= @equipment.full_category %></i></p>
+
+<div id="equipment-calendar" data-id="<%= @equipment.id %>"></div>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Edit", edit_equipment_url(@equipment) %></li>
+    <li><%= link_to "Mark as defunct", @equipment, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this equipment as defunct?"} %></li>
+    <li><%= link_to "Back to equipments index", equipment_index_url %></li>
+  </ul>
+<% end %>

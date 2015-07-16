@@ -1,0 +1,36 @@
+<h1>Manage Super TICs</h1>
+
+<% unless @errors.nil? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(errors.count, "error") %> prohibited
+      this member from being saved:</h2>
+    <ul>
+    <% errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table class="generic">
+  <%= form_tag super_tics_members_url, :method => :post do %>
+    <% @super_tics.each do |d| %>
+      <tr>
+        <th><%= d.dayname %></th>
+        <td>
+          <%= select_tag "super_tics[#{d.day}]", options_from_collection_for_select(Member.can_be_supertic, :id, :fullname, d.member_id), :include_blank => "" %>
+        </td>
+      </tr>
+    <% end %>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Submit" %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to "Back to member list", members_url %></li>
+  </ul>
+<% end %>

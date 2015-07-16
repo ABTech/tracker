@@ -67,6 +67,46 @@
           <% end %>
         </td>
       </tr>
+      <% if @member.is_at_least? :exec %>
+      <tr>
+        <th>SuperTIC</th>
+        <td>
+          <% if @member.super_tics.empty? %>
+          N/A
+          <% else %>
+          <ul class="supertic_condensed">
+            <% @member.super_tics.each do |st| %>
+            <li><%= st.dayname %></li>
+            <% end %>
+          </ul>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+      <% if can? :hot, @member %>
+        <tr>
+          <th>Payroll Paperwork Submission Date</th>
+          <td><%= @member.payroll_paperwork_date ? @member.payroll_paperwork_date.strftime("%m/%d/%Y") : "N/A" %></td>
+        </tr>
+        <tr>
+          <th>SSI Submission Date</th>
+          <td><%= @member.ssi_date ? @member.ssi_date.strftime("%m/%d/%Y") : "N/A" %></td>
+        </tr>
+        <tr>
+          <th>Driving Paperwork Submission Date</th>
+          <td><%= @member.driving_paperwork_date ? @member.driving_paperwork_date.strftime("%m/%d/%Y") : "N/A" %></td>
+        </tr>
+        <tr>
+          <th>Key possession</th>
+          <td><%= @member.key_possession %></td>
+        </tr>
+      <% end %>
+      <% if can? :hot, @member or @member == current_member %>
+        <tr>
+          <th>Alternate email</th>
+          <td><%= @member.alternate_email %></td>
+        </tr>
+      <% end %>
       </table>
     </td>
     <% if can? :read, Timecard %>

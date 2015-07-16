@@ -48,6 +48,7 @@ class Ability
       can :destroy, Comment, :member_id => member.id
       can :manage, TimecardEntry, :member_id => member.id
       can :show, Timecard 
+      can :create, Email
       
       can :tic, Event do |event|
         event.tic == member
@@ -60,6 +61,12 @@ class Ability
       can :tic, Eventdate do |ed|
         (!ed.event.nil? and ed.event.tic == member) or ed.tic == member
       end
+      
+      can :update, Email do |email|
+        !email.event.nil? and (email.event.has_run_position? member or email.event.eventdates.any? {|ed| ed.has_run_position? member})
+      end
+      
+      can :read, Invoice, :event_id => member.event_roles.where(role: EventRole::Role_TIC, roleable_type: "event").pluck(:roleable_id)
     end
     
     if member.is_at_least? :exec
@@ -78,35 +85,36 @@ class Ability
       can :manage, Event
       can :manage, Eventdate
       can :manage, Email
+      can :sender, Email
       can :destroy, Comment
       can :manage, Blackout
       
       # Read only tracker management
       can :read, Equipment
-      can :read, EquipmentCategory
       can :read, Location
       can :read, EmailForm
     end
     
     if member.is_at_least? :tracker_management
-      can :manage, Member
+      can [:create, :read, :update, :destroy], Member
       can :manage, :finance
       can :manage, Account
       can :manage, Invoice
       can :manage, Journal
       can :manage, InvoiceItem
       can :manage, Equipment
-      can :manage, EquipmentCategory
       can :manage, Location
       can :manage, Organization
       can :manage, EmailForm
       can :manage, Attachment
+      can :manage, SuperTic
     end
     
     cannot :destroy, Event
     
     if member.head_of_tech?
       can :manage, Timecard
+      can :manage, Member
     end
     
     if member.tracker_dev?

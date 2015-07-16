@@ -15,44 +15,26 @@ Abtt::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
-  resources :email, only: [:index, :view] do
+  resources :emails, only: [:index, :show, :create, :update] do
     collection do
-      get 'file'
-      post 'file'
-      get 'mark_status'
-      get 'new_thread'
-      post 'pull_email'
-      get 'reply_to'
-      get 'send_email'
-      get 'unfile'
+      get 'sent'
+      get 'unread'
+      get 'reply'
+      post 'reply', action: "send_reply"
+      get 'new_event'
+      get 'existing_event'
       get 'weekly'
       post 'weekly', action: "send_weekly"
-    end
-    member do
-      get 'view'
     end
   end
 
   resources :email_forms, except: [:show]
 
-  resources :equipment, only: [] do
-    collection do
-      get 'delgroup'
-      get 'delitem'
-      get 'editgroup'
-      get 'edititem'
-      get 'newgroup'
-      get 'newitem'
-      post 'savegroup'
-      post 'saveitem'
-      get 'tree'
-    end
-  end
+  resources :equipment
 
   resources :events do
     member do
       get 'delete_conf'
-      get 'show_email'
       get 'finance'
       get 'duplicate'
     end
@@ -61,7 +43,7 @@ Abtt::Application.routes.draw do
       get 'iphone'
       post 'iphone'
       get 'mobile'
-      get 'months/:year/:month', to: :month, as: :month
+      get 'months/:year/:month', action: :month, as: :month
       get 'past'
       get 'incomplete'
       get 'search'
@@ -98,6 +80,10 @@ Abtt::Application.routes.draw do
       get 'tshirts'
       get 'roles'
       get 'choose_filter'
+      get 'super_tics'
+      post 'super_tics', action: :update_super_tics
+      get 'bulk_edit'
+      post 'bulk_edit', action: :bulk_update
     end
   end
 

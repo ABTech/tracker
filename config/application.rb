@@ -27,5 +27,7 @@ module Abtt
       Devise::SessionsController.layout "application"
       Devise::PasswordsController.layout "application"
     end
+    
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

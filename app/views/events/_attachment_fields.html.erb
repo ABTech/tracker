@@ -2,5 +2,5 @@
   <td><%= f.text_field :name, placeholder: "Name (defaults to filename)" %></td>
   <td><%= f.object.attachment.original_filename if !f.object.new_record? %></td>
   <td><%= f.file_field :attachment %></td>
-  <td><%= link_to_remove_fields "delete", f %></td>
+  <td><%= link_to_remove_fields image_tag("cross.png"), f %></td>
 </tr>

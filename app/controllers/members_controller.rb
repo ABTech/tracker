@@ -130,6 +130,68 @@ class MembersController < ApplicationController
     end
   end
   
+  def super_tics
+    authorize! :manage, SuperTic
+    
+    @super_tics = SuperTic.days
+  end
+  
+  def update_super_tics
+    authorize! :manage, SuperTic
+    
+    SuperTic.days.each do |d|
+      if params[:super_tics][d.day.to_s] == ""
+        d.destroy
+      else
+        d.member_id = params[:super_tics][d.day.to_s].to_i
+        
+        unless d.save
+          @errors = d.errors
+          render :super_tics and return
+        end
+      end
+    end
+    
+    flash[:notice] = "Super TICs successfully updated."
+    redirect_to super_tics_members_url
+  end
+  
+  def bulk_edit
+  end
+  
+  def bulk_update
+    params[:members].each do |m|
+      member = Member.find m
+      
+      if params[:zero_payrate] == "1"
+        member.payrate = 0.0
+      elsif params[:increase_payrate] == "1"
+        member.payrate = [8.0, member.payrate + 0.25].min
+      end
+      
+      if params[:set_role] == "1"
+        member.role = params[:set_role_to]
+      end
+      
+      if params[:reset_ssi] == "1"
+        member.ssi_date = nil
+      end
+      
+      if params[:reset_driving] == "1"
+        member.driving_paperwork_date = nil
+      end
+      
+      if params[:set_key] == "1"
+        member.key_possession = params[:set_key_to]
+      end
+      
+      member.save!
+    end
+    
+    flash[:notice] = "Members edited succesfully!"
+    render action: :bulk_edit
+  end
+  
   private
     def member_params
       if params[:member][:password].blank?
@@ -137,7 +199,7 @@ class MembersController < ApplicationController
         params[:member].delete(:password_confirmation)
       end
       
-      if params[:member][:role] and (not current_member.is_at_least? params[:member][:role] or cannot? :manage, Member)
+      if params[:member][:role] and (not current_member.is_at_least? params[:member][:role] or cannot? :manage, Member) and not current_member.tracker_dev?
         params[:member].delete(:role)
       end
       
@@ -149,6 +211,22 @@ class MembersController < ApplicationController
         params[:member].delete(:tracker_dev)
       end
       
-      params.require(:member).permit(:password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign, :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev)
+      if cannot? :manage, SuperTic
+        params[:member].delete(:super_tics_attributes)
+      end
+      
+      if cannot? :hot, Member
+        params[:member].delete(:payroll_paperwork_date)
+        params[:member].delete(:ssi_date)
+        params[:member].delete(:driving_paperwork_date)
+        params[:member].delete(:key_possession)
+      end
+      
+      params.require(:member).permit(
+        :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
+        :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev, :receives_comment_emails,
+        :payroll_paperwork_date, :ssi_date, :driving_paperwork_date, :key_possession,
+        :super_tics_attributes => [:id, :_destroy, :day]
+      )
     end
 end

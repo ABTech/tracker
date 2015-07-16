@@ -33,7 +33,7 @@
   <tr><td>Event Contact:</td><td><%= @invoice.event.contact_name %></td></tr>
   <tr><td>Organization:</td><td><%= @invoice.event.organization.name %></td></tr>
   <tr><td>Bill to Account:</td><td><b>
-    <%= if @invoice.payment_type == "Oracle" then 
+    <%= if @invoice.payment_type == "Oracle" and not @no_show_oracle then 
       @invoice.oracle_string
     else
       @invoice.event.organization.name

@@ -2,10 +2,67 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+@simpleFormat = (str) ->
+  str = str.replace(/\r\n?/, "\n")
+  str = $.trim(str)
+  if str.length > 0
+    str = str.replace(/\n\n+/g, '</p><p>')
+    str = str.replace(/\n/g, '<br />')
+    str = '<p>' + str + '</p>'
+  return str
+
 $ ->
   $("a.delete_field").click ->
     $(this).prev("input[type=hidden]").val("1")
     $(this).closest(".fields").hide()
+  $(".eventdate_big_select").chosen({width: "95%"})
+    
+@setUpSuperTicAdd = (parent) ->
+  parent.find(".supertic_add_role_button").click ->
+    new_id = new Date().getTime()
+    regexp = new RegExp("new_event_roles", "g")
+    whereToAdd = $(this).parents("table").first().children("tbody").children("tr").last()
+    toAdd = $(this).prev().children("option:selected").data("role").replace(regexp, new_id)
+    whereToAdd.before(toAdd)
+    $(".association-" + new_id + " a.delete_field").click ->
+      $(this).closest(".fields").remove()
+      
+@setUpSuperTicEdit = (ed,roles) ->
+  ed.find(".start-time-field").children(".day, .month, .year").change ->
+    day = parseInt($(this).parent().children(".day").val())
+    month = parseInt($(this).parent().children(".month").val())-1
+    year = parseInt($(this).parent().children(".year").val())
+    dayOfWeek = new Date(year, month, day).getDay()
+    if dayOfWeek == 0
+      dayOfWeek = 7
+    roles.find(".supertic_add_role_select").val(dayOfWeek)
+    
+@setUpEventDate = (ed) ->
+  ed.find(".datetime_select").each ->
+    parent = $(this)
+    setDateMonths(parent)
+    $(this).children(".month, .year").change ->
+      setDateMonths(parent)
+  ed.find(".copy_start_time").click ->
+    starttime = $(this).parents(".event-date-form").find(".start-time-field")
+    $(this).parent().each ->
+      $(this).children(".month").val(starttime.children(".month").val())
+      $(this).children(".year").val(starttime.children(".year").val())
+      setDateMonths($(this))
+      $(this).children(".day").val(starttime.children(".day").val())
+  ed.find(".call-time-field, .strike-time-field").each ->
+    parent = $(this)
+    if parent.prev().val() == "literal"
+      parent.show()
+    else
+      parent.hide()
+    parent.prev().change ->
+      if parent.prev().val() == "literal"
+        parent.show()
+      else
+        parent.hide()
+  setUpSuperTicEdit(ed, ed.find(".event-form-roles"))
+  ed.find(".eventdate_big_select").chosen({width: "95%"})
 
 @setUpAddFields = () ->
   $("a.add_field").click ->
@@ -21,6 +78,8 @@ $ ->
       setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
       setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
       added.find(".eventdate_locations").val(prev.find(".eventdate_locations").val())
+      setUpEventDate(added)
+      setUpSuperTicAdd(added)
     else
       $(this).parent().before($(this).data("content").replace(regexp, new_id))
       
@@ -36,21 +95,15 @@ $ ->
     setUpAddFields()
   $("a.add_field").removeClass("add_field")
   $("a.add_field2").removeClass("add_field2")
-  $(".datetime_select").each ->
-    parent = $(this)
-    setDateMonths(parent)
-    $(this).children(".month, .year").change ->
-      setDateMonths(parent)
-  $(".copy_start_time").click ->
-    starttime = $(this).parents(".event-date-form").find(".start-time-field")
-    $(this).parent().each ->
-      $(this).children(".month").val(starttime.children(".month").val())
-      $(this).children(".year").val(starttime.children(".year").val())
-      setDateMonths($(this))
-      $(this).children(".day").val(starttime.children(".day").val())
 
 $ ->
   setUpAddFields()
+  $(".event-form-roles").each ->
+    setUpSuperTicAdd($(this))
+  $(".event-date-form").each ->
+    setUpEventDate($(this))
+  setUpSuperTicEdit($(".event-date-form").first(), $("fieldset.event-form-roles"))
+  
 
 $ ->
   $("a.add_blackout_fields").click ->
@@ -124,3 +177,35 @@ $ ->
   updateCalendarExportLink()
   $("#gencalex_form input, #gencalex_form select").change ->
     updateCalendarExportLink()
+
+$ ->
+  if $("#event_blackout_attributes__destroy").prop("checked")
+    $(".event-blackout-fields").show()
+  $("#event_blackout_attributes__destroy").change ->
+    if $("#event_blackout_attributes__destroy").prop("checked")
+      $(".event-blackout-fields").show()
+    else
+      $(".event-blackout-fields").hide()
+
+$ ->
+  if $("#event_org_type").val() == "new"
+    $("#event_organization_id").hide()
+    $("#event_org_new").show()
+  $("#event_org_type").change ->
+    if $("#event_org_type").val() == "new"
+      $("#event_organization_id").hide()
+      $("#event_org_new").show()
+    else
+      $("#event_org_new").hide()
+      $("#event_organization_id").show()
+
+$ ->
+  $("#event-emails h5").click ->
+    email = $(this).parent().children(".email")
+    if $(this).data("visible") == "yes"
+      $(this).data("visible", "no")
+      $(this).children(".arrow").html("&#9654;")
+    else
+      $(this).data("visible", "yes")
+      $(this).children(".arrow").html("&#9660;")
+    email.toggle("blind")

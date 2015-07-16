@@ -5,6 +5,9 @@ class Member < ActiveRecord::Base
   has_many :comments
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
+  has_many :super_tics, -> { order(day: :asc) }, dependent: :destroy
+  
+  accepts_nested_attributes_for :super_tics, :allow_destroy => true
   
   attr_accessor :login
 
@@ -17,12 +20,19 @@ class Member < ActiveRecord::Base
     m.phone = m.phone.gsub(/[\.\- ]/, "") if m.phone
     m.callsign.upcase! if m.callsign.respond_to? "upcase!"
     m.ssn = nil if m.ssn.blank?
+    
+    unless is_at_least? :exec
+      m.super_tics.clear
+    end
   end
   
   extend Enumerize
   enumerize :shirt_size, in: ["XS", "S", "M", "L", "XL", "2XL", "3XL"]
   enumerize :role, in: [:suspended, :alumni, :general_member, :exec, :tracker_management, :head_of_tech], predicates: true
+  enumerize :key_possession, in: [:none, :bottom, :top]
   validates_presence_of :role
+  
+  scope :can_be_supertic, -> { where(role: [:exec, :tracker_management, :head_of_tech]).order(namefirst: :asc, namelast: :asc) }
   
   def active?
     not suspended? and not alumni?
@@ -30,6 +40,7 @@ class Member < ActiveRecord::Base
   
   scope :active, -> { where.not(role: ["suspended", "alumni"]) }
   scope :alphabetical, -> { order(namelast: :asc, namefirst: :asc) }
+  scope :with_role, ->(role) { where(role: role) }
   
   def is_at_least?(pos)
     Member.role.values.index(self.role) >= Member.role.values.index(pos.to_s)

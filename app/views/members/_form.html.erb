@@ -86,6 +86,62 @@
   <% end %>
 <% end %>
 
+<% if can? :manage, SuperTic %>
+  <% if @member.is_at_least? :exec %>
+    <tr>
+      <th>SuperTIC</th>
+      <td>
+        <% if SuperTic.available_for @member %>
+          <ul class="supertic_condensed">
+            <%= f.fields_for :super_tics, SuperTic.days do |builder| %>
+              <% if builder.object.member == @member or builder.object.member == nil %>
+                <li>
+                  <%= builder.check_box :_destroy, {:checked => builder.object.member == @member}, "0", "1" %>
+                  <%= builder.label :_destroy, builder.object.dayname %>
+                  <%= builder.hidden_field :day %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        <% else %>
+          N/A
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
+
+<tr>
+  <th><%= f.label :receives_comment_emails, "Receives emails for comments on events?" %></th>
+  <td><%= f.check_box :receives_comment_emails %></td>
+</tr>
+
+<% if can? :hot, @member %>
+  <tr>
+    <th><%= f.label :payroll_paperwork_date, "Payroll Paperwork Submission Date" %></th>
+    <td><%= f.date_select :payroll_paperwork_date, { :include_blank => true, :default => nil } %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :ssi_date, "SSI Submission Date" %></th>
+    <td><%= f.date_select :ssi_date, { :include_blank => true, :default => nil } %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :driving_paperwork_date, "Driving Paperwork Submission Date" %></th>
+    <td><%= f.date_select :driving_paperwork_date, { :include_blank => true, :default => nil } %></td>
+  </tr>
+  <tr>
+    <th><%= f.label :key_possession %></th>
+    <td><%= f.select :key_possession, options_for_select(["none", "bottom", "top"], f.object.key_possession) %></td>
+  </tr>
+<% end %>
+
+<% if can? :hot, @member or @member == current_member %>
+  <tr>
+    <th><%= f.label :alternate_email %></th>
+    <td><%= f.email_field :alternate_email %></th>
+  </tr>
+<% end %>
+
 <tr>
   <th></th>
   <td><%= f.submit %></td>

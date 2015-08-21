@@ -47,7 +47,7 @@ namespace :deploy do
   
   desc "Create shared Thinking Sphinx folder"
   task :shared_sphinx_folder do
-    run "#{try_sudo} mkdir #{deploy_to}/shared/sphinx"
+    run "mkdir #{deploy_to}/shared/sphinx"
   end
 end
 

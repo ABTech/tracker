@@ -150,7 +150,7 @@ class EmailsController < ApplicationController
     
     flash[:notice] = "Email Sent"
     respond_to do |format|
-      format.html {redirect_to weekly_email_index_url}
+      format.html {redirect_to weekly_emails_url}
     end
   end
   

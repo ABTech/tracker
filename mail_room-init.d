@@ -40,7 +40,7 @@ stop() {
       RETVAL=$?
 
       echo "done"
-      return $RETVAL
+      return 0
     fi
   fi
   

@@ -7,17 +7,20 @@ $("#reply-dialog").dialog({
   modal: true,
   buttons: {
     "Send Email": function(){
-      jQuery("#reply-dialog form").submit();
-      jQuery("#reply-dialog").dialog("destroy");
-      jQuery("#reply-dialog").html("Sending Email...")
-      jQuery("#reply-dialog").dialog({
-        modal:true,
-        closeOnEscape: false,
-        title: "Don't Navigate Away!"
-      });
-      //Removing ability to close dialog
-      jQuery("#reply-dialog").parent().find('a.ui-dialog-titlebar-close').remove();
-      jQuery("#reply-dialog").bind('dialogbeforeclose', false);
+      if (confirm("Are you sure you want to send this email?"))
+      {
+        jQuery("#reply-dialog form").submit();
+        jQuery("#reply-dialog").dialog("destroy");
+        jQuery("#reply-dialog").html("Sending Email...")
+        jQuery("#reply-dialog").dialog({
+          modal:true,
+          closeOnEscape: false,
+          title: "Don't Navigate Away!"
+        });
+        //Removing ability to close dialog
+        jQuery("#reply-dialog").parent().find('a.ui-dialog-titlebar-close').remove();
+        jQuery("#reply-dialog").bind('dialogbeforeclose', false);
+      }
     }}
 });
 $("#form_email").change(function() {

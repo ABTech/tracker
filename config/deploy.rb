@@ -44,6 +44,11 @@ namespace :deploy do
     run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secrets.yml #{ release_path }/config/secrets.yml"
     run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/mail_room.cfg #{ release_path }/config/mail_room.cfg"
   end
+  
+  desc "Create shared Thinking Sphinx folder"
+  task :shared_sphinx_folder do
+    run "#{try_sudo} mkdir #{deploy_to}/shared/sphinx"
+  end
 end
 
 namespace :mail_room do
@@ -81,3 +86,4 @@ before 'deploy', 'rvm:create_wrappers'
 after 'deploy', 'mail_room:setup'
 after 'mail_room:setup', 'mail_room:start'
 after 'deploy:setup', 'mail_room:defaults'
+after 'deploy:setup', 'deploy:shared_sphinx_folder'

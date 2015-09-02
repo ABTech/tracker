@@ -65,7 +65,7 @@ case "$1" in
                 ;;
   status)
     status $prog
-                RETVAL=$?
+                exit $?
         ;;
   restart)
                 stop
@@ -73,7 +73,5 @@ case "$1" in
         ;;
   *)
         echo $"Usage: $prog {start|stop|restart}"
-        RETVAL=2
+        exit 2
 esac
-
-exit $RETVAL

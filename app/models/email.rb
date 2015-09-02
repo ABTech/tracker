@@ -69,7 +69,7 @@ class Email < ActiveRecord::Base
   
   def self.create_from_mail(mail)
     return false if Email.where(message_id: mail.message_id).exists?
-    
+
     message = Email.new
     message.sender = mail.reply_to ? mail.reply_to.address : mail.from[0]
     message.timestamp = mail.date

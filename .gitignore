@@ -22,4 +22,4 @@ public/system
 config/development.sphinx.conf
 db/sphinx/*
 log/development.sphinx.pid
-config/mail_room.cfg
+config/email.yml

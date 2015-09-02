@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/hatkirby/mail_room
-  revision: b55a3170e15857b6cab5dea74c3484fa897ddd37
-  specs:
-    mail_room (0.3.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -245,13 +239,11 @@ DEPENDENCIES
   devise
   devise-encryptable
   enumerize
-  faraday
   gmail_xoauth
   icalendar
   jbuilder (~> 1.2)
   jquery-rails
   mail
-  mail_room!
   mysql2
   net-ssh (~> 2.7.0)
   oauth2
@@ -271,3 +263,6 @@ DEPENDENCIES
   wicked_pdf
   will_paginate (~> 3.0)
   wkhtmltopdf-binary
+
+BUNDLED WITH
+   1.10.5

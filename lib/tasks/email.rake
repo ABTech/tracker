@@ -1,6 +1,8 @@
 namespace :email do
   desc "Check for email continuously in the background"
   task :idle => :environment do
+    STDOUT.sync = true
+    
     config = YAML.load_file(Rails.root.join("config", "email.yml"))
     imap = Net::IMAP.new(config[:host], port: config[:port], ssl: config[:ssl])
     

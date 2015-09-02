@@ -24,7 +24,7 @@ start() {
     fi
   fi
   echo -n "Starting $NAME: "
-  BUNDLE_GEMFILE=$ABTT_DIR/Gemfile nohup /usr/local/rvm/wrappers/abtt/bundle exec rake email:idle > $ABTT_DIR/log/email.log &
+  BUNDLE_GEMFILE=$ABTT_DIR/Gemfile RAILS_ENV=production nohup /usr/local/rvm/wrappers/abtt/bundle exec rake -f $ABTT_DIR/Rakefile email:idle >> $ABTT_DIR/log/email.log 2>&1 &
   RETVAL=$?
   PID=$!
   echo $PID > $ABTT_DIR/tmp/pids/email.pid

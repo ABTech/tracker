@@ -36,8 +36,10 @@ namespace :email do
           imap.fetch(ids, "RFC822").each do |msg|
             mail = Mail.new(msg.attr["RFC822"])
             
-            unless Email.create_from_mail(mail)
-              logger.error("Could not pull message #{mail.message_id}")
+            unless Email.where(message_id: mail.message_id).exists?
+              unless Email.create_from_mail(mail)
+                logger.error("Could not pull message #{mail.message_id}")
+              end
             end
           end
           

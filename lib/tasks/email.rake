@@ -39,8 +39,18 @@ namespace :email do
           end
           
           logger.info("Idling for #{config[:email]}")
+          
+          waiting = Thread.start do
+            sleep(20.minutes)
+            
+            imap.idle_done
+          end
+          
           imap.idle do |response|
-            imap.idle_done if response.respond_to?(:name) && response.name == 'EXISTS'
+            if response.respond_to?(:name) && response.name == 'EXISTS'
+              waiting.kill
+              imap.idle_done
+            end
           end
         end
       rescue Net::IMAP::Error, EOFError, Errno::ECONNRESET => e

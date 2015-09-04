@@ -106,20 +106,22 @@ class Email < ActiveRecord::Base
       message.event_id = prev.event_id
     end
     
-    message.save!
-    
-    Dir.mktmpdir do |dir|
-      mail.attachments.each do |a|
-        File.open(dir + "/" + a.filename, "w:ASCII-8BIT") do |f|
-          f.write(a.body.decoded)
-          f.flush
-          f.rewind
+    if message.save
+      Dir.mktmpdir do |dir|
+        mail.attachments.each do |a|
+          File.open(dir + "/" + a.filename, "w:ASCII-8BIT") do |f|
+            f.write(a.body.decoded)
+            f.flush
+            f.rewind
           
-          message.attachments.create!(attachment: f)
+            message.attachments.create!(attachment: f)
+          end
         end
       end
+      
+      return true
     end
     
-    return true
+    return false
   end
 end

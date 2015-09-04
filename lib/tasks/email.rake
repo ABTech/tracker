@@ -35,7 +35,10 @@ namespace :email do
           ids = imap.search(query)
           imap.fetch(ids, "RFC822").each do |msg|
             mail = Mail.new(msg.attr["RFC822"])
-            Email.create_from_mail(mail)
+            
+            unless Email.create_from_mail(mail)
+              logger.error("Could not pull message #{mail.message_id}")
+            end
           end
           
           logger.info("Idling for #{config[:email]}")

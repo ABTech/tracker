@@ -15,7 +15,7 @@ Abtt::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
-  resources :emails, only: [:index, :show, :create, :update] do
+  resources :emails, only: [:index, :show, :update] do
     collection do
       get 'sent'
       get 'unread'

@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/hatkirby/mail_room
-  revision: d2592b366af8a5d3ecc534b55039b7785403bfa4
-  specs:
-    mail_room (0.3.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -246,13 +240,11 @@ DEPENDENCIES
   devise
   devise-encryptable
   enumerize
-  faraday
   gmail_xoauth
   icalendar
   jbuilder (~> 1.2)
   jquery-rails
   mail
-  mail_room!
   mysql2
   net-ssh (~> 2.7.0)
   oauth2

@@ -42,7 +42,7 @@ namespace :deploy do
   desc "Symlink shared config files"
   task :symlink_config_files do
     run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secrets.yml #{ release_path }/config/secrets.yml"
-    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/mail_room.cfg #{ release_path }/config/mail_room.cfg"
+    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/email.yml #{ release_path }/config/email.yml"
   end
   
   desc "Create shared Thinking Sphinx folder"
@@ -51,14 +51,14 @@ namespace :deploy do
   end
 end
 
-namespace :mail_room do
+namespace :email do
   %w[start stop restart].each do |command|
     task command, roles: :app, :except => { :no_release => true } do
       run "if [ -L /etc/init.d/abtt_mail_room ]; then #{try_sudo} /etc/init.d/abtt_mail_room #{command}; fi"
     end
   end
   
-  desc "Install mail_room service"
+  desc "Install email pulling service"
   task :setup, roles: :app do
     run "if [ ! -L /etc/init.d/abtt_mail_room -a -f #{current_path}/mail_room-init.d ]; then \
       #{try_sudo} ln -nfs #{current_path}/mail_room-init.d /etc/init.d/abtt_mail_room && \
@@ -71,7 +71,7 @@ namespace :mail_room do
     fi"
   end
   
-  desc "Setup mail_room service configuration"
+  desc "Setup email pulling service configuration"
   task :defaults, roles: :app do
     run "#{try_sudo} sh -c 'echo \"ABTT_DIR=#{current_path}\" > /etc/default/abtt_mail_room'"
   end
@@ -80,10 +80,10 @@ end
 after "deploy:finalize_update", "deploy:symlink_config_files"
 
 require "rvm/capistrano/alias_and_wrapp"
-before 'deploy', 'mail_room:stop'
+before 'deploy', 'email:stop'
 before 'deploy', 'rvm:create_alias'
 before 'deploy', 'rvm:create_wrappers'
-after 'deploy', 'mail_room:setup'
-after 'mail_room:setup', 'mail_room:start'
-after 'deploy:setup', 'mail_room:defaults'
+after 'deploy', 'email:setup'
+after 'email:setup', 'email:start'
+after 'deploy:setup', 'email:defaults'
 after 'deploy:setup', 'deploy:shared_sphinx_folder'

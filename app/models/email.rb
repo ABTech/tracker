@@ -71,7 +71,7 @@ class Email < ActiveRecord::Base
     return false if Email.where(message_id: mail.message_id).exists?
 
     message = Email.new
-    message.sender = mail.reply_to ? mail.reply_to.address : mail.from[0]
+    message.sender = mail.reply_to ? mail.reply_to[0] : mail.from[0]
     message.timestamp = mail.date
     message.subject = mail.subject
     message.message_id = mail.message_id

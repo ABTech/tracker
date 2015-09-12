@@ -90,20 +90,25 @@ class Email < ActiveRecord::Base
     end
     
     # threading
-    subject_stripped = mail.subject
-    while subject_stripped.downcase.start_with? "re: "
-      subject_stripped = subject_stripped[4..-1]
-    end
+    if mail.subject
+      subject_stripped = mail.subject
+      while subject_stripped.downcase.start_with? "re: "
+        subject_stripped = subject_stripped[4..-1]
+      end
     
-    subjects = [mail.subject, "Re: " + mail.subject, subject_stripped, "Re: " + subject_stripped].collect(&:downcase).uniq
-    if mail.in_reply_to
-      prev = Email.where("message_id = ? OR (sender = ? AND LCASE(subject) IN (?))", mail.in_reply_to, mail.from[0], subjects).first
+      subjects = [mail.subject, "Re: " + mail.subject, subject_stripped, "Re: " + subject_stripped].collect(&:downcase).uniq
+      if mail.in_reply_to
+        prev = Email.where("message_id = ? OR (sender = ? AND LCASE(subject) IN (?))", mail.in_reply_to, mail.from[0], subjects).first
+      else
+        prev = Email.where("sender = ? AND LCASE(subject) IN (?)", mail.from[0], subjects).first
+      end
+    
+      if prev
+        message.event_id = prev.event_id
+      end
     else
-      prev = Email.where("sender = ? AND LCASE(subject) IN (?)", mail.from[0], subjects).first
-    end
-    
-    if prev
-      message.event_id = prev.event_id
+      # no subject!
+      message.subject = "<no subject>"
     end
     
     if message.save

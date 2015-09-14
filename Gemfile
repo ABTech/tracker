@@ -61,8 +61,6 @@ gem 'whenever'
 gem 'amoeba'
 gem 'web-console', '~> 2.0', group: [:development]
 gem 'responders', '~> 2.0'
-gem 'mail_room', git: 'https://github.com/hatkirby/mail_room'
-gem 'faraday'
 gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'omniauth'

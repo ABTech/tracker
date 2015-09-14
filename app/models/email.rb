@@ -69,9 +69,9 @@ class Email < ActiveRecord::Base
   
   def self.create_from_mail(mail)
     return false if Email.where(message_id: mail.message_id).exists?
-    
+
     message = Email.new
-    message.sender = mail.reply_to ? mail.reply_to.address : mail.from[0]
+    message.sender = mail.reply_to ? mail.reply_to[0] : mail.from[0]
     message.timestamp = mail.date
     message.subject = mail.subject
     message.message_id = mail.message_id
@@ -90,36 +90,43 @@ class Email < ActiveRecord::Base
     end
     
     # threading
-    subject_stripped = mail.subject
-    while subject_stripped.downcase.start_with? "re: "
-      subject_stripped = subject_stripped[4..-1]
-    end
+    if mail.subject
+      subject_stripped = mail.subject
+      while subject_stripped.downcase.start_with? "re: "
+        subject_stripped = subject_stripped[4..-1]
+      end
     
-    subjects = [mail.subject, "Re: " + mail.subject, subject_stripped, "Re: " + subject_stripped].collect(&:downcase).uniq
-    if mail.in_reply_to
-      prev = Email.where("message_id = ? OR (sender = ? AND LCASE(subject) IN (?))", mail.in_reply_to, mail.from[0], subjects).first
+      subjects = [mail.subject, "Re: " + mail.subject, subject_stripped, "Re: " + subject_stripped].collect(&:downcase).uniq
+      if mail.in_reply_to
+        prev = Email.where("message_id = ? OR (sender = ? AND LCASE(subject) IN (?))", mail.in_reply_to, mail.from[0], subjects).first
+      else
+        prev = Email.where("sender = ? AND LCASE(subject) IN (?)", mail.from[0], subjects).first
+      end
+    
+      if prev
+        message.event_id = prev.event_id
+      end
     else
-      prev = Email.where("sender = ? AND LCASE(subject) IN (?)", mail.from[0], subjects).first
+      # no subject!
+      message.subject = "<no subject>"
     end
     
-    if prev
-      message.event_id = prev.event_id
-    end
-    
-    message.save!
-    
-    Dir.mktmpdir do |dir|
-      mail.attachments.each do |a|
-        File.open(dir + "/" + a.filename, "w:ASCII-8BIT") do |f|
-          f.write(a.body.decoded)
-          f.flush
-          f.rewind
+    if message.save
+      Dir.mktmpdir do |dir|
+        mail.attachments.each do |a|
+          File.open(dir + "/" + a.filename, "w:ASCII-8BIT") do |f|
+            f.write(a.body.decoded)
+            f.flush
+            f.rewind
           
-          message.attachments.create!(attachment: f)
+            message.attachments.create!(attachment: f)
+          end
         end
       end
+      
+      return true
     end
     
-    return true
+    return false
   end
 end

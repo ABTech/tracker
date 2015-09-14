@@ -93,19 +93,6 @@ class EmailsController < ApplicationController
     @olderUnreadEmail = Email.where("timestamp < (?) AND unread = true", @email.timestamp).order(timestamp: :desc).limit(1).first
   end
   
-  def create
-    request.headers["HTTP_AUTHORIZATION"]
-    maildropConfig = YAML::load(File.read(Rails.root.join("config","mail_room.cfg")))
-    unless request.headers["HTTP_AUTHORIZATION"] == "Token token=\"#{maildropConfig[:mailboxes][0][:delivery_token]}\""
-      raise CanCan::AccessDenied
-    end
-    
-    mail = Mail.read_from_string(request.body.read)
-    Email.create_from_mail(mail)
-    
-    render nothing: true
-  end
-  
   def update
     error = false
     

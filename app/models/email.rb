@@ -80,7 +80,11 @@ class Email < ActiveRecord::Base
     message.in_reply_to = mail.in_reply_to
     
     if not mail.multipart?
-      message.contents = mail.body.decoded.force_encoding(mail.content_type_parameters['charset']).encode('UTF-8')
+      if mail.charset
+        message.contents = mail.body.decoded.force_encoding(mail.content_type_parameters['charset']).encode('UTF-8')
+      else
+        message.contents = mail.body.decoded
+      end
     elsif mail.text_part
       message.contents = mail.text_part.body.decoded.force_encoding(mail.text_part.content_type_parameters['charset']).encode('UTF-8')
     elsif mail.html_part

@@ -10,18 +10,24 @@ namespace :email do
     
     config = YAML.load_file(Rails.root.join("config", "email.yml"))
     
+    reconnectSleep = 1
+    
     logger.info("Logging in to mailbox #{config[:email]}")
     while true
-      imap = Net::IMAP.new(config[:host], port: config[:port], ssl: config[:ssl])
-      oauth_client = OAuth2::Client.new(config[:client_id], config[:client_secret], {site: 'https://accounts.google.com', authorize_url: '/o/oauth2/auth', token_url: '/o/oauth2/token'})
-      access_token = OAuth2::AccessToken.from_hash(oauth_client, refresh_token: config[:refresh_token]).refresh!
-      
       begin
+        imap = Net::IMAP.new(config[:host], port: config[:port], ssl: config[:ssl])
+        oauth_client = OAuth2::Client.new(config[:client_id], config[:client_secret], {site: 'https://accounts.google.com', authorize_url: '/o/oauth2/auth', token_url: '/o/oauth2/token'})
+        access_token = OAuth2::AccessToken.from_hash(oauth_client, refresh_token: config[:refresh_token]).refresh!
         imap.authenticate('XOAUTH2', config[:email], access_token.token)
-      rescue Net::IMAP::NoResponseError
-        logger.info("Could not authenticate for #{config[:email]}, trying again")
+      rescue Net::IMAP::NoResponseError, SocketError
+        logger.info("Could not authenticate for #{config[:email]}, trying again in #{reconnectSleep} #{"second".pluralize(reconnectSleep)}")
+        sleep reconnectSleep
+        reconnectSleep += 1
+        
         next
       end
+      
+      reconnectSleep = 1
       
       imap.select(config[:name])
       

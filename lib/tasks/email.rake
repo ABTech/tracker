@@ -29,9 +29,9 @@ namespace :email do
       
       reconnectSleep = 1
       
-      imap.select(config[:name])
-      
       begin
+        imap.select(config[:name])
+        
         while true
           logger.info("Pulling emails for #{config[:email]}")
           query = ["BEFORE", Net::IMAP.format_date(Time.now + 1.day)]

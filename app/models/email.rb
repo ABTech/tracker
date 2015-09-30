@@ -81,14 +81,14 @@ class Email < ActiveRecord::Base
     
     if not mail.multipart?
       if mail.charset
-        message.contents = mail.body.decoded.force_encoding(mail.content_type_parameters['charset']).encode('UTF-8')
+        message.contents = mail.body.decoded.force_encoding(mail.charset).encode('UTF-8')
       else
         message.contents = mail.body.decoded
       end
     elsif mail.text_part
-      message.contents = mail.text_part.body.decoded.force_encoding(mail.text_part.content_type_parameters['charset']).encode('UTF-8')
+      message.contents = mail.text_part.body.decoded.force_encoding(mail.text_part.charset).encode('UTF-8')
     elsif mail.html_part
-      message.contents = Sanitize.clean(message.html_part.body.decoded).force_encoding(mail.html_part.content_type_parameters['charset']).encode('UTF-8')
+      message.contents = Sanitize.clean(message.html_part.body.decoded).force_encoding(mail.html_part.charset).encode('UTF-8')
     else
       return false
     end

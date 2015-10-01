@@ -6,5 +6,5 @@
 <%= eventslist @eventdates %>
 
 <% content_for :calendar do %>
-  <%= monthview @startdate, :show_arrows => true %>
+  <%= monthview @startdate, :show_arrows => true, :blackouts => true %>
 <% end %>

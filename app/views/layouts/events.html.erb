@@ -2,7 +2,11 @@
   <% if content_for?(:calendar) %>
     <%= yield :calendar %>
   <% else %>
-    <%= monthview Time.zone.now, :full_month => true %>
+    <% if can? :read, Event %>
+      <%= monthview Time.zone.now, :full_month => true, blackouts: true %>
+    <% else %>
+      <%= monthview Time.zone.now, :full_month => true, published: true %>
+    <% end %>
   <% end %>
   <br/>
   <% if member_signed_in?() %>

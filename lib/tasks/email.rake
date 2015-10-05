@@ -39,8 +39,8 @@ namespace :email do
           query = ["SINCE", Net::IMAP.format_date(latest.timestamp)] if latest
           
           ids = imap.search(query)
-          imap.fetch(ids, "RFC822").each do |msg|
-            mail = Mail.new(msg.attr["RFC822"])
+          imap.fetch(ids, "BODY.PEEK[]").each do |msg|
+            mail = Mail.new(msg.attr["BODY[]"])
             
             unless Email.where(message_id: mail.message_id).exists?
               unless Email.create_from_mail(mail)

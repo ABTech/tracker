@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150523161426) do
+ActiveRecord::Schema.define(version: 20151005212917) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
@@ -145,7 +145,6 @@ ActiveRecord::Schema.define(version: 20150523161426) do
     t.boolean  "rental",              limit: 1,                                    null: false
     t.string   "contact_name",        limit: 255,      default: "",                null: false
     t.string   "contact_phone",       limit: 255,      default: "",                null: false
-    t.integer  "price_quote",         limit: 4
     t.text     "notes",               limit: 16777215,                             null: false
     t.datetime "created_at"
     t.datetime "representative_date",                                              null: false

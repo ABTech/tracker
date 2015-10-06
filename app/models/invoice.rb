@@ -15,6 +15,7 @@ class Invoice < ActiveRecord::Base
   validates_presence_of :status, :event, :event_id
   validates_inclusion_of :status, :in => Invoice_Status_Group_All
   validates_associated :event
+  validate :event_is_in_current_year, :on => :create
   
   before_validation :prune_lines
   after_save :update_je_total
@@ -42,7 +43,7 @@ class Invoice < ActiveRecord::Base
       "Invoice at " + created_at.strftime("%A, %B %d at %I:%M %p")
     end
   end
-  
+
   private
     def prune_lines
       self.invoice_lines = self.invoice_lines.reject do |line|
@@ -56,4 +57,11 @@ class Invoice < ActiveRecord::Base
         self.journal_invoice.save
       end
     end
+
+    def event_is_in_current_year
+      unless event.current_year?
+        errors.add(:event, "is not in the current billing year")
+      end
+    end
+
 end

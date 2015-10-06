@@ -40,7 +40,13 @@ class InvoicesController < ApplicationController
     end
     
     if params["event_id"]
-      @invoice.event_id = params["event_id"];
+      @invoice.event_id = params["event_id"]
+
+      unless @invoice.event.current_year?
+        flash[:error] = "This event is outside of the current billing year."
+
+        redirect_to @invoice.event
+      end 
     end
   end
 

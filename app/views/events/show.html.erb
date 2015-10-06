@@ -73,7 +73,7 @@
       <div id="event-invoices">
         <table class="event-finance">
           <tr>
-            <% if can? :create, Invoice.new(event: @event) %>
+            <% if @event.current_year? and can? :create, Invoice.new(event: @event) %>
               <th>Invoices (<%= link_to "Create", new_invoice_url(:event_id => @event.id) %>)</th>
             <% else %>
               <th>Invoices</th>
@@ -224,7 +224,7 @@
             <tr>
               <th>Total</th>
               <th class="money"><%= number_to_currency @event.journals_total if @event.journals_total >= 0 %>
-              <th class="money"><%= number_to_currency -@event.journals_total if @event.journals_total < 0 %></th>
+              <th class="money"><%= number_to_currency (-@event.journals_total) if @event.journals_total < 0 %></th>
             </tr>
           <% end %>
         </table>

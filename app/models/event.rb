@@ -175,6 +175,10 @@ class Event < ActiveRecord::Base
   def has_editable_eventdates?(member)
     eventdates_editable_by(member).count != 0
   end
+
+  def current_year?
+    representative_date >= Account.magic_date
+  end
     
   private
     def handle_organization

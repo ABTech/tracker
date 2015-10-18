@@ -111,7 +111,7 @@ GEM
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.4.1)
+    mysql2 (0.3.20)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -245,7 +245,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   mail
-  mysql2
+  mysql2 (~> 0.3.20)
   net-ssh (~> 2.7.0)
   oauth2
   paperclip (~> 4.0)

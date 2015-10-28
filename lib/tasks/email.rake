@@ -19,7 +19,7 @@ namespace :email do
         oauth_client = OAuth2::Client.new(config[:client_id], config[:client_secret], {site: 'https://accounts.google.com', authorize_url: '/o/oauth2/auth', token_url: '/o/oauth2/token'})
         access_token = OAuth2::AccessToken.from_hash(oauth_client, refresh_token: config[:refresh_token]).refresh!
         imap.authenticate('XOAUTH2', config[:email], access_token.token)
-      rescue Net::IMAP::NoResponseError, SocketError
+      rescue Net::IMAP::NoResponseError, SocketError, Faraday::ConnectionFailed
         logger.info("Could not authenticate for #{config[:email]}, trying again in #{reconnectSleep} #{"second".pluralize(reconnectSleep)}")
         sleep reconnectSleep
         reconnectSleep += 1

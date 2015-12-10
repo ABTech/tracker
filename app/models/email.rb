@@ -79,9 +79,17 @@ class Email < ActiveRecord::Base
     message.unread = true
     message.in_reply_to = mail.in_reply_to
     
+    attachments = mail.attachments
+    
     if not mail.multipart?
-      msg_content = mail.body.decoded
-      msg_charset = mail.charset
+      if mail.text?
+        msg_content = mail.body.decoded
+        msg_charset = mail.charset
+      else
+        msg_content = "[Attachment]"
+        msg_charset = nil
+        attachments = [mail]
+      end
     elsif mail.text_part
       msg_content = mail.text_part.body.decoded
       msg_charset = mail.text_part.charset
@@ -122,7 +130,7 @@ class Email < ActiveRecord::Base
     
     if message.save
       Dir.mktmpdir do |dir|
-        mail.attachments.each do |a|
+        attachments.each do |a|
           File.open(dir + "/" + a.filename, "w:ASCII-8BIT") do |f|
             f.write(a.body.decoded)
             f.flush

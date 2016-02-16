@@ -94,7 +94,7 @@ class Email < ActiveRecord::Base
       msg_content = mail.text_part.body.decoded
       msg_charset = mail.text_part.charset
     elsif mail.html_part
-      msg_content = Sanitize.clean(message.html_part.body.decoded)
+      msg_content = Sanitize.clean(mail.html_part.body.decoded)
       msg_charset = mail.html_part.charset
     else
       return false

@@ -61,14 +61,16 @@ class Event < ActiveRecord::Base
 			                      Event_Status_Billing_Pending,
                             Event_Status_Event_Completed]
 
-  Event_Status_Group_Cancelled = [Event_Status_Event_Cancelled];
+  Event_Status_Group_Cancelled = [Event_Status_Event_Cancelled]
 
-  Event_Status_Group_Declined  = [Event_Status_Event_Declined];
+  Event_Status_Group_Declined  = [Event_Status_Event_Declined]
 
   validates_presence_of     :title, :status, :organization, :eventdates
-  validates_inclusion_of    :status, :in => Event_Status_Group_All;
-  validates_associated      :organization, :emails, :event_roles, :eventdates;
-  validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true;
+  validates_inclusion_of    :status, :in => Event_Status_Group_All
+  validates_associated      :organization, :emails, :event_roles, :eventdates
+  validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true
+  
+  scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
   def locations
     eventdates.flat_map(&:locations).uniq

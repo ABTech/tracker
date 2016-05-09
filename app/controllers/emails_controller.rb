@@ -72,14 +72,14 @@ class EmailsController < ApplicationController
     
     @subjectMatches = []
     @email.subject.split(" ").each do |word|
-      matches = Event.where("title LIKE (?)", "%#{word}%").order(representative_date: :desc)
+      matches = Event.current_year.where("title LIKE (?)", "%#{word}%").order(representative_date: :desc)
       unless matches.empty?
         @subjectMatches << [word, matches]
       end
     end
     
-    @senderMatches = Event.where("contactemail LIKE (?)", @email.sender).order(representative_date: :desc)
-    @recentEvents = Event.where("representative_date >= ?", Account.magic_date).order(representative_date: :desc)
+    @senderMatches = Event.current_year.where("contactemail LIKE (?)", @email.sender).order(representative_date: :desc)
+    @recentEvents = Event.current_year.order(representative_date: :desc)
   end
   
   def show

@@ -5,6 +5,7 @@
 <table width="100%" border="0" class="generic">
   <tr>
     <th class="listheader" scope="col">Creation Date</th>
+    <th class="listheader" scope="col">Invoice</th>
     <th class="listheader" scope="col">Event</th>
     <th class="listheader" scope="col">Amount</th>
     <th class="listheader" scope="col">Invoice JE</th>
@@ -14,8 +15,9 @@
   <% @invoices.sort{|x, y| y.created_at <=> x.created_at}.each do |invoice| %>
     <tr>
       <td class="list"><%= invoice.created_at.strftime("%B %d %Y") %></td>
+      <td class="list"><%= link_to invoice.id, invoice %></td>
       <td class="list">
-    <%= link_to(invoice.event.title, event_path(invoice.event)) %>
+    <%= link_to(invoice.event.title, event_path(invoice.event)) %> (<%= invoice.event.status %>)
     </td>
       <td class="list"><%= number_to_currency invoice.total %></td>
     <td>

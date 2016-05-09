@@ -11,11 +11,10 @@
     str = '<p>' + str + '</p>'
   return str
 
-$ ->
+@setUpDeleteFields = () ->
   $("a.delete_field").click ->
     $(this).prev("input[type=hidden]").val("1")
     $(this).closest(".fields").hide()
-  $(".eventdate_big_select").chosen({width: "95%"})
     
 @setUpSuperTicAdd = (parent) ->
   parent.find(".supertic_add_role_button").click ->
@@ -96,28 +95,6 @@ $ ->
   $("a.add_field").removeClass("add_field")
   $("a.add_field2").removeClass("add_field2")
 
-$ ->
-  setUpAddFields()
-  $(".event-form-roles").each ->
-    setUpSuperTicAdd($(this))
-  $(".event-date-form").each ->
-    setUpEventDate($(this))
-  setUpSuperTicEdit($(".event-date-form").first(), $("fieldset.event-form-roles"))
-  
-
-$ ->
-  $("a.add_blackout_fields").click ->
-    new_id = new Date().getTime()
-    regexp = new RegExp("new_blackout", "g")
-    $(this).parent().before($(this).data("content").replace(regexp, new_id))
-    $(this).hide()
-
-$ ->
-  $("a.delete_blackout_fields").click ->
-    $(this).prev("input[type=hidden]").val("1")
-    $("#event_blackout_form").before("Blackout removed.")
-    $("#event_blackout_form").hide()
-
 @setDateMonths = (parent, other = null) ->
   if other == null
     year = parseInt(parent.children(".year").children(":selected").val())
@@ -179,6 +156,25 @@ $ ->
     updateCalendarExportLink()
 
 $ ->
+  $("#event-emails h5").click ->
+    email = $(this).parent().children(".email")
+    if $(this).data("visible") == "yes"
+      $(this).data("visible", "no")
+      $(this).children(".arrow").html("&#9654;")
+    else
+      $(this).data("visible", "yes")
+      $(this).children(".arrow").html("&#9660;")
+    email.toggle("blind")
+
+@setupForms = () ->
+  setUpAddFields()
+  setUpDeleteFields()
+  $(".event-form-roles").each ->
+    setUpSuperTicAdd($(this))
+  $(".event-date-form").each ->
+    setUpEventDate($(this))
+  setUpSuperTicEdit($(".event-date-form").first(), $("fieldset.event-form-roles"))
+  $(".eventdate_big_select").chosen({width: "95%"})
   if $("#event_blackout_attributes__destroy").prop("checked")
     $(".event-blackout-fields").show()
   $("#event_blackout_attributes__destroy").change ->
@@ -186,8 +182,6 @@ $ ->
       $(".event-blackout-fields").show()
     else
       $(".event-blackout-fields").hide()
-
-$ ->
   if $("#event_org_type").val() == "new"
     $("#event_organization_id").hide()
     $("#event_org_new").show()
@@ -200,12 +194,4 @@ $ ->
       $("#event_organization_id").show()
 
 $ ->
-  $("#event-emails h5").click ->
-    email = $(this).parent().children(".email")
-    if $(this).data("visible") == "yes"
-      $(this).data("visible", "no")
-      $(this).children(".arrow").html("&#9654;")
-    else
-      $(this).data("visible", "yes")
-      $(this).children(".arrow").html("&#9660;")
-    email.toggle("blind")
+  setupForms()

@@ -1,4 +1,5 @@
 $(".eventsmain").before('<%= j render(partial: "emails/new_event", object: @event) %>');
+setupForms();
 $("#new-email-event").dialog({
   resizable: false,
   position: "center",

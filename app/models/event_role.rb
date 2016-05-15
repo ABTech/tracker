@@ -30,6 +30,7 @@ class EventRole < ActiveRecord::Base
   Role_setup      = "setup"
   Role_strike     = "strike"
   Role_food       = "food"
+  Role_airhorn    = "airhorn"
     
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
@@ -59,7 +60,8 @@ class EventRole < ActiveRecord::Base
     Role_trunk  ,          
     Role_setup  ,
     Role_strike ,
-    Role_food   ]
+    Role_food   ,
+    Role_airhorn]
 
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All

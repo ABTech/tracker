@@ -67,6 +67,11 @@ class Ability
       end
       
       can :read, Invoice, :event_id => member.event_roles.where(role: EventRole::Role_TIC, roleable_type: "event").pluck(:roleable_id)
+      
+      can :create, EventRoleApplication, :member_id => member.id
+      can :update, EventRoleApplication do |app|
+        app.event_role.event.tic == member or app.event_role.roleable.run_positions_for(member).map(&:assistants).flatten.include? app.event_role.role
+      end
     end
     
     if member.is_at_least? :exec
@@ -88,6 +93,7 @@ class Ability
       can :sender, Email
       can :destroy, Comment
       can :manage, Blackout
+      can :update, EventRoleApplication
       
       # Read only tracker management
       can :read, Equipment

@@ -37,6 +37,10 @@ Abtt::Application.routes.draw do
       get 'delete_conf'
       get 'finance'
       get 'duplicate'
+      resources :applications, controller: 'event_role_applications', only: [:new, :create] do
+        get 'confirm'
+        get 'deny'
+      end
     end
     collection do
       get 'calendar'

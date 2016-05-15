@@ -25,7 +25,7 @@
                     <b>Roles:</b><br>
                     <ul class="edp-roles">
                       <% eventdate.event_roles.sort.each do |role| %>
-                        <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+                        <li><b><%= role.role %></b>: <%= show_run_position role %></li>
                       <% end %>
                     </ul>
                   <% end %>
@@ -64,7 +64,7 @@
 
       <ul>
         <% @event.event_roles.sort.each do |role| %>
-          <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+          <li><b><%= role.role %></b>: <%= show_run_position role %></li>
         <% end %>
       </ul>
     </div>

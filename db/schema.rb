@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151005212917) do
+ActiveRecord::Schema.define(version: 20160509161332) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
-    t.boolean  "is_credit",  limit: 1,   null: false
+    t.boolean  "is_credit",              null: false
     t.integer  "position",   limit: 4,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.text     "headers",     limit: 65535,                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "unread",      limit: 1,        default: false, null: false
-    t.boolean  "sent",        limit: 1,        default: false, null: false
+    t.boolean  "unread",                       default: false, null: false
+    t.boolean  "sent",                         default: false, null: false
     t.string   "in_reply_to", limit: 255
   end
 
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.string   "shortname",   limit: 255,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",     limit: 1,   default: false, null: false
+    t.boolean  "defunct",                 default: false, null: false
     t.string   "category",    limit: 255,                 null: false
     t.string   "subcategory", limit: 255
   end
@@ -94,6 +94,13 @@ ActiveRecord::Schema.define(version: 20151005212917) do
   create_table "equipment_eventdates", id: false, force: :cascade do |t|
     t.integer "eventdate_id", limit: 4, null: false
     t.integer "equipment_id", limit: 4, null: false
+  end
+
+  create_table "event_role_applications", force: :cascade do |t|
+    t.integer  "event_role_id", limit: 4, null: false
+    t.integer  "member_id",     limit: 4, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "event_roles", force: :cascade do |t|
@@ -121,7 +128,7 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.string   "calltype",          limit: 255,   default: "blank",   null: false
     t.string   "striketype",        limit: 255,   default: "enddate", null: false
     t.text     "email_description", limit: 65535,                     null: false
-    t.boolean  "delta",             limit: 1,     default: true,      null: false
+    t.boolean  "delta",                           default: true,      null: false
     t.text     "notes",             limit: 65535,                     null: false
   end
 
@@ -141,15 +148,15 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.string   "status",              limit: 255,      default: "Initial Request", null: false
     t.string   "contactemail",        limit: 255
     t.datetime "updated_at"
-    t.boolean  "publish",             limit: 1,        default: false
-    t.boolean  "rental",              limit: 1,                                    null: false
+    t.boolean  "publish",                              default: false
+    t.boolean  "rental",                                                           null: false
     t.string   "contact_name",        limit: 255,      default: "",                null: false
     t.string   "contact_phone",       limit: 255,      default: "",                null: false
     t.text     "notes",               limit: 16777215,                             null: false
     t.datetime "created_at"
     t.datetime "representative_date",                                              null: false
-    t.boolean  "billable",            limit: 1,        default: true,              null: false
-    t.boolean  "textable",            limit: 1,        default: false,             null: false
+    t.boolean  "billable",                             default: true,              null: false
+    t.boolean  "textable",                             default: false,             null: false
   end
 
   add_index "events", ["contactemail"], name: "events_contactemail_index", using: :btree
@@ -213,7 +220,7 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.text     "details",    limit: 65535,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",    limit: 1,     default: false, null: false
+    t.boolean  "defunct",                  default: false, null: false
   end
 
   create_table "members", force: :cascade do |t|
@@ -241,10 +248,10 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.string   "current_sign_in_ip",        limit: 255
     t.string   "last_sign_in_ip",           limit: 255
     t.string   "role",                      limit: 255, default: "general_member", null: false
-    t.boolean  "tracker_dev",               limit: 1,   default: false,            null: false
+    t.boolean  "tracker_dev",                           default: false,            null: false
     t.string   "reset_password_token",      limit: 255
     t.datetime "reset_password_sent_at"
-    t.boolean  "receives_comment_emails",   limit: 1,   default: false,            null: false
+    t.boolean  "receives_comment_emails",               default: false,            null: false
     t.datetime "payroll_paperwork_date"
     t.datetime "ssi_date"
     t.datetime "driving_paperwork_date"
@@ -261,7 +268,7 @@ ActiveRecord::Schema.define(version: 20151005212917) do
     t.integer  "parent_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",    limit: 1,   default: false, null: false
+    t.boolean  "defunct",                default: false, null: false
   end
 
   add_index "organizations", ["name"], name: "organizations_name_index", using: :btree
@@ -288,7 +295,7 @@ ActiveRecord::Schema.define(version: 20151005212917) do
   create_table "timecards", force: :cascade do |t|
     t.datetime "billing_date"
     t.datetime "due_date"
-    t.boolean  "submitted",    limit: 1, default: false, null: false
+    t.boolean  "submitted",    default: false, null: false
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "created_at"

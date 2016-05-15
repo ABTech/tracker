@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
   has_many :timecard_entries
   has_many :timecards, -> { distinct }, :through => :timecard_entries
   has_many :super_tics, -> { order(day: :asc) }, dependent: :destroy
+  has_many :event_role_applications
   
   accepts_nested_attributes_for :super_tics, :allow_destroy => true
   
@@ -49,7 +50,7 @@ class Member < ActiveRecord::Base
   Default_sort_key = "namelast"
 
   def fullname
-    return namefirst + " " + namelast;
+    return namefirst + " " + namelast
   end
 
   def to_s

@@ -1,0 +1,11 @@
+<%= @application.member.fullname %> has applied to be <%= @application.event_role.role %> for <%= @application.event_role.description %>.
+<% unless @notes.empty? %>
+
+Notes:
+
+<%= @notes %>
+<% end %>
+
+You can accept (<%= application_confirm_url(@application.event_role.event, @application) %>) or deny (<%= application_deny_url(@application.event_role.event, @application) %>) this application.
+
+--ABTT (ABTech Tracker)

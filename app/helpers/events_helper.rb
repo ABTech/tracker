@@ -161,4 +161,27 @@ module EventsHelper
     end, date.nil? ? nil : date.to_date.cwday), class: "supertic_add_role_select") + button_tag("Add", type: :button, class: "supertic_add_role_button")
   end
   
+  def show_run_position(er)
+    if not er.assigned? and er.applications.where(member: current_member).count > 0
+      "(applied!)"
+    elsif not er.assigned? and can? :create, er.applications.build(member: current_member)
+      link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true)
+    else
+      er.assigned_to
+    end
+  end
+  
+  def run_position_superior(er)
+    superior = er.superior
+    return "the Head of Tech" if superior.nil?
+    ser = er.roleable.event_roles.where(role: superior)
+    if ser.empty?
+      ser = er.roleable.tic
+      return "the Head of Tech" if ser.nil?
+    else
+      ser = ser.first
+    end
+    ser.member.fullname
+  end
+  
 end

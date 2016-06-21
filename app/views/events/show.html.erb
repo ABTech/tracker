@@ -30,7 +30,7 @@
                     </ul>
                   <% end %>
                   <b>Location:</b><br />
-                  <%= eventdate.locations.join("<br />").html_safe %><br />
+                  <%= eventdate.locations.sorted.join("<br />").html_safe %><br />
                   <% if !eventdate.equipment.empty? %>
                     <br />
                     <b>Equipment:</b><br />

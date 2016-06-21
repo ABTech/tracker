@@ -8,6 +8,7 @@ class Location < ActiveRecord::Base
   scope :active, -> { where(defunct: false) }
   scope :buildings, -> { active.order(building: :asc).select(:building).distinct.pluck(:building) }
   scope :building, -> (building) { active.where(building: building).order(room: :asc) }
+  scope :sorted, -> { order(id: :asc) }
 
   def to_s
     return (building + " - " + room);

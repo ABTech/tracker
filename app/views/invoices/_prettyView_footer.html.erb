@@ -23,7 +23,7 @@
     <td>Venue:</td>
     <td>
       <ul class="pdf-venue-list">
-        <% @invoice.event.locations.each do |location| %>
+        <% @invoice.event.locations.sorted.each do |location| %>
           <li><%= location %></li>
         <% end %>
       </ul>

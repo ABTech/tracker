@@ -20,7 +20,7 @@ end
 
   description << "Event: #{event.title} - #{date.description}\n";
   description << "Locations:\n";
-  date.locations.each do |loc|
+  date.locations.sorted.each do |loc|
     description << "-- " + loc.to_s() + "\n";
   end
   if(!date.equipment.empty?)

@@ -10,13 +10,13 @@
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
   adapter: mysql2
-  encoding: utf8
+  encoding: utf8mb4
   database: abtt_development_master
   pool: 5
   username: root
   password:
   socket: /tmp/mysql.sock
-  collation: utf8_unicode_ci
+  collation: utf8mb4_bin
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -33,10 +33,10 @@ test:
 
 production:
   adapter: mysql2
-  encoding: utf8
+  encoding: utf8mb4
   database: abtechtt_prod
   pool: 5
   username: root
   password:
   socket: /var/run/mysqld/mysqld.sock
-  collation: utf8_unicode_ci
+  collation: utf8mb4_bin

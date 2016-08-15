@@ -1,5 +1,5 @@
 class EmailsController < ApplicationController
-  skip_before_filter :authenticate_member!, :only => [:create]
+  skip_before_action :authenticate_member!, :only => [:create]
   load_and_authorize_resource only: [:index, :show, :update, :sent, :unread]
   protect_from_forgery except: :create
   

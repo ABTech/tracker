@@ -1,4 +1,4 @@
-class Eventdate < ActiveRecord::Base
+class Eventdate < ApplicationRecord
   belongs_to :event
   has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :timecard_entries

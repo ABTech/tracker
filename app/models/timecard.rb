@@ -1,4 +1,4 @@
-class Timecard < ActiveRecord::Base
+class Timecard < ApplicationRecord
   has_many :timecard_entries
   has_many :members, -> { order("namelast ASC").distinct }, :through => :timecard_entries
 

@@ -1,4 +1,4 @@
-class EventRoleApplication < ActiveRecord::Base
+class EventRoleApplication < ApplicationRecord
   belongs_to :event_role
   belongs_to :member
   

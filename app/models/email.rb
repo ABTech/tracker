@@ -1,4 +1,4 @@
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
   belongs_to :event
   has_many :attachments, as: :attachable
   

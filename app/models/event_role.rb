@@ -1,4 +1,4 @@
-class EventRole < ActiveRecord::Base
+class EventRole < ApplicationRecord
   belongs_to :roleable, polymorphic: true
   belongs_to :member
   has_many :applications, class_name: "EventRoleApplication"

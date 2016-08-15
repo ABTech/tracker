@@ -1,4 +1,4 @@
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   has_many :journals, -> { order "journals.date DESC" }
     
   validates_presence_of :name, :position;

@@ -1,4 +1,4 @@
-class Invoice < ActiveRecord::Base
+class Invoice < ApplicationRecord
   belongs_to :event
   has_many :invoice_lines, :dependent => :destroy, :inverse_of => :invoice
   has_one :journal_invoice, :class_name => "Journal", :foreign_key => "invoice_id", :dependent => :destroy

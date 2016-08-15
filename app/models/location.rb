@@ -1,4 +1,4 @@
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   has_and_belongs_to_many :eventdates
   
   after_save :set_eventdate_delta_flags

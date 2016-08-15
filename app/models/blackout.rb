@@ -1,4 +1,4 @@
-class Blackout < ActiveRecord::Base
+class Blackout < ApplicationRecord
   belongs_to :event
   
   attr_accessor :with_new_event

@@ -9,5 +9,6 @@ class RemoveLegacyIndexes < ActiveRecord::Migration[5.0]
     remove_index :invoice_items, :category
     remove_index :members, :namefirst
     remove_index :members, :namelast
+    remove_index :organizations, :name
   end
 end

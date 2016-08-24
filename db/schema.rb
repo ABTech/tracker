@@ -10,33 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815162731) do
+ActiveRecord::Schema.define(version: 20160824172756) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "name",       null: false
-    t.boolean  "is_credit",  null: false
-    t.integer  "position",   null: false
+    t.string   "name",       limit: 255, null: false
+    t.boolean  "is_credit",              null: false
+    t.integer  "position",               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "name",                                null: false
-    t.string   "attachment_file_name"
-    t.string   "attachment_content_type"
+    t.string   "name",                    limit: 255, null: false
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
     t.datetime "updated_at"
     t.datetime "created_at"
     t.integer  "attachable_id"
-    t.string   "attachable_type",         limit: 191
+    t.string   "attachable_type"
+    t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type", using: :btree
   end
 
   create_table "blackouts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "title"
+    t.string   "title",      limit: 255
     t.integer  "event_id"
-    t.datetime "startdate",  null: false
-    t.datetime "enddate",    null: false
+    t.datetime "startdate",              null: false
+    t.datetime "enddate",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["event_id"], name: "index_blackouts_on_event_id", using: :btree
@@ -48,10 +49,11 @@ ActiveRecord::Schema.define(version: 20160815162731) do
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["event_id"], name: "index_comments_on_event_id", using: :btree
   end
 
   create_table "email_forms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "description",                    null: false
+    t.string   "description", limit: 255,        null: false
     t.text     "contents",    limit: 4294967295, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -59,33 +61,35 @@ ActiveRecord::Schema.define(version: 20160815162731) do
 
   create_table "emails", force: :cascade, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.integer  "event_id"
-    t.string   "sender",                         default: "",    null: false
+    t.string   "sender",      limit: 255,        default: "",    null: false
     t.datetime "timestamp",                                      null: false
     t.text     "contents",    limit: 4294967295,                 null: false
-    t.string   "subject"
-    t.string   "message_id",                                     null: false
+    t.string   "subject",     limit: 255
+    t.string   "message_id",  limit: 255,                        null: false
     t.text     "headers",     limit: 4294967295,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "unread",                         default: false, null: false
     t.boolean  "sent",                           default: false, null: false
-    t.string   "in_reply_to"
+    t.string   "in_reply_to", limit: 255
     t.index ["event_id"], name: "emails_event_id_index", using: :btree
   end
 
   create_table "equipment", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "description",                 null: false
-    t.string   "shortname",                   null: false
+    t.string   "description", limit: 255,                 null: false
+    t.string   "shortname",   limit: 255,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",     default: false, null: false
-    t.string   "category",                    null: false
-    t.string   "subcategory"
+    t.boolean  "defunct",                 default: false, null: false
+    t.string   "category",    limit: 255,                 null: false
+    t.string   "subcategory", limit: 255
   end
 
   create_table "equipment_eventdates", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.integer "eventdate_id", null: false
     t.integer "equipment_id", null: false
+    t.index ["equipment_id"], name: "index_equipment_eventdates_on_equipment_id", using: :btree
+    t.index ["eventdate_id"], name: "index_equipment_eventdates_on_eventdate_id", using: :btree
   end
 
   create_table "event_role_applications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
@@ -93,18 +97,20 @@ ActiveRecord::Schema.define(version: 20160815162731) do
     t.integer  "member_id",     null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["event_role_id"], name: "index_event_role_applications_on_event_role_id", using: :btree
+    t.index ["member_id"], name: "index_event_role_applications_on_member_id", using: :btree
   end
 
   create_table "event_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.integer  "roleable_id",               null: false
+    t.integer  "roleable_id",   null: false
     t.integer  "member_id"
-    t.string   "role",          limit: 191, null: false
+    t.string   "role",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "roleable_type", limit: 191, null: false
+    t.string   "roleable_type", null: false
     t.index ["member_id"], name: "event_roles_member_id_index", using: :btree
     t.index ["role"], name: "event_roles_role_index", using: :btree
-    t.index ["roleable_id"], name: "event_roles_event_id_index", using: :btree
+    t.index ["roleable_id", "roleable_type"], name: "index_event_roles_on_roleable_id_and_roleable_type", using: :btree
   end
 
   create_table "eventdates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
@@ -113,11 +119,11 @@ ActiveRecord::Schema.define(version: 20160815162731) do
     t.datetime "enddate",                                                  null: false
     t.datetime "calldate"
     t.datetime "strikedate"
-    t.string   "description",                                              null: false
+    t.string   "description",       limit: 255,                            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "calltype",                             default: "blank",   null: false
-    t.string   "striketype",                           default: "enddate", null: false
+    t.string   "calltype",          limit: 255,        default: "blank",   null: false
+    t.string   "striketype",        limit: 255,        default: "enddate", null: false
     t.text     "email_description", limit: 4294967295,                     null: false
     t.boolean  "delta",                                default: true,      null: false
     t.text     "notes",             limit: 4294967295,                     null: false
@@ -132,36 +138,38 @@ ActiveRecord::Schema.define(version: 20160815162731) do
   end
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "title",                                  default: "",                null: false
+    t.string   "title",               limit: 255,        default: "",                null: false
     t.integer  "organization_id",                        default: 0,                 null: false
-    t.string   "status",              limit: 191,        default: "Initial Request", null: false
-    t.string   "contactemail",        limit: 191
+    t.string   "status",                                 default: "Initial Request", null: false
+    t.string   "contactemail"
     t.datetime "updated_at"
     t.boolean  "publish",                                default: false
     t.boolean  "rental",                                                             null: false
-    t.string   "contact_name",                           default: "",                null: false
-    t.string   "contact_phone",                          default: "",                null: false
+    t.string   "contact_name",        limit: 255,        default: "",                null: false
+    t.string   "contact_phone",       limit: 255,        default: "",                null: false
     t.text     "notes",               limit: 4294967295,                             null: false
     t.datetime "created_at"
     t.datetime "representative_date",                                                null: false
     t.boolean  "billable",                               default: true,              null: false
     t.boolean  "textable",                               default: false,             null: false
     t.index ["contactemail"], name: "events_contactemail_index", using: :btree
+    t.index ["organization_id"], name: "index_events_on_organization_id", using: :btree
+    t.index ["representative_date"], name: "index_events_on_representative_date", using: :btree
     t.index ["status"], name: "events_status_index", using: :btree
   end
 
   create_table "invoice_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "memo",       null: false
-    t.string   "category",   null: false
-    t.integer  "price",      null: false
+    t.string   "memo",       limit: 255, null: false
+    t.string   "category",   limit: 255, null: false
+    t.integer  "price",                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "invoice_lines", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.integer  "invoice_id",                    null: false
-    t.string   "memo",                          null: false
-    t.string   "category",                      null: false
+    t.string   "memo",       limit: 255,        null: false
+    t.string   "category",   limit: 255,        null: false
     t.float    "price",      limit: 24
     t.integer  "quantity",                      null: false
     t.text     "notes",      limit: 4294967295, null: false
@@ -173,9 +181,9 @@ ActiveRecord::Schema.define(version: 20160815162731) do
   create_table "invoices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.datetime "created_at"
     t.integer  "event_id",                         null: false
-    t.string   "status",                           null: false
-    t.string   "payment_type",                     null: false
-    t.string   "oracle_string",                    null: false
+    t.string   "status",        limit: 255,        null: false
+    t.string   "payment_type",  limit: 255,        null: false
+    t.string   "oracle_string", limit: 255,        null: false
     t.text     "memo",          limit: 4294967295, null: false
     t.datetime "updated_at"
     t.index ["event_id"], name: "invoices_event_id_index", using: :btree
@@ -184,21 +192,21 @@ ActiveRecord::Schema.define(version: 20160815162731) do
   create_table "journals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.datetime "created_at"
     t.datetime "date",                                                                        null: false
-    t.string   "memo",                                                                        null: false
+    t.string   "memo",             limit: 255,                                                null: false
     t.integer  "invoice_id"
     t.decimal  "amount",                              precision: 9, scale: 2, default: "0.0", null: false
     t.datetime "date_paid"
     t.text     "notes",            limit: 4294967295,                                         null: false
     t.integer  "account_id",                                                  default: 1,     null: false
     t.integer  "event_id"
-    t.string   "paymeth_category",                                            default: ""
+    t.string   "paymeth_category", limit: 255,                                default: ""
     t.datetime "updated_at"
     t.index ["invoice_id"], name: "journals_link_id_index", using: :btree
   end
 
   create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "building",                                      null: false
-    t.string   "room",                                          null: false
+    t.string   "building",   limit: 255,                        null: false
+    t.string   "room",       limit: 255,                        null: false
     t.text     "details",    limit: 4294967295,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -206,48 +214,48 @@ ActiveRecord::Schema.define(version: 20160815162731) do
   end
 
   create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "namefirst",                                                        null: false
-    t.string   "namelast",                                                         null: false
-    t.string   "email",                     limit: 191,                            null: false
-    t.string   "namenick",                              default: "",               null: false
-    t.string   "phone",                                                            null: false
-    t.string   "aim",                                                              null: false
+    t.string   "namefirst",                 limit: 255,                            null: false
+    t.string   "namelast",                  limit: 255,                            null: false
+    t.string   "email",                                                            null: false
+    t.string   "namenick",                  limit: 255, default: "",               null: false
+    t.string   "phone",                     limit: 255,                            null: false
+    t.string   "aim",                       limit: 255,                            null: false
     t.string   "encrypted_password",        limit: 128, default: "",               null: false
-    t.string   "password_salt",                         default: "",               null: false
+    t.string   "password_salt",             limit: 255, default: "",               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_token"
+    t.string   "remember_token",            limit: 255
     t.datetime "remember_token_expires_at"
-    t.string   "title"
-    t.string   "callsign"
+    t.string   "title",                     limit: 255
+    t.string   "callsign",                  limit: 255
     t.string   "shirt_size",                limit: 20
     t.float    "payrate",                   limit: 24
-    t.string   "ssn"
+    t.string   "ssn",                       limit: 255
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                         default: 0,                null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "role",                                  default: "general_member", null: false
+    t.string   "current_sign_in_ip",        limit: 255
+    t.string   "last_sign_in_ip",           limit: 255
+    t.string   "role",                      limit: 255, default: "general_member", null: false
     t.boolean  "tracker_dev",                           default: false,            null: false
-    t.string   "reset_password_token"
+    t.string   "reset_password_token",      limit: 255
     t.datetime "reset_password_sent_at"
     t.boolean  "receives_comment_emails",               default: false,            null: false
     t.datetime "payroll_paperwork_date"
     t.datetime "ssi_date"
     t.datetime "driving_paperwork_date"
-    t.string   "key_possession",                        default: "none",           null: false
-    t.string   "alternate_email"
+    t.string   "key_possession",            limit: 255, default: "none",           null: false
+    t.string   "alternate_email",           limit: 255
     t.index ["email"], name: "members_kerbid_index", using: :btree
   end
 
   create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
-    t.string   "name",       default: "",    null: false
+    t.string   "name",       limit: 255, default: "",    null: false
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "defunct",    default: false, null: false
+    t.boolean  "defunct",                default: false, null: false
     t.index ["name"], name: "organizations_name_index", using: :btree
   end
 
@@ -267,6 +275,9 @@ ActiveRecord::Schema.define(version: 20160815162731) do
     t.float    "payrate",      limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["eventdate_id"], name: "index_timecard_entries_on_eventdate_id", using: :btree
+    t.index ["member_id"], name: "index_timecard_entries_on_member_id", using: :btree
+    t.index ["timecard_id"], name: "index_timecard_entries_on_timecard_id", using: :btree
   end
 
   create_table "timecards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|

@@ -30,12 +30,12 @@ class ConvertTablesToRealUnicode < ActiveRecord::Migration[5.0]
       end
     end
     
-    execute "ALTER TABLE schema_migrations CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     execute "ALTER TABLE schema_migrations MODIFY version varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
+    execute "ALTER TABLE schema_migrations CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     
-    execute "ALTER TABLE ar_internal_metadata CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     execute "ALTER TABLE ar_internal_metadata MODIFY `key` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     execute "ALTER TABLE ar_internal_metadata MODIFY value varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
+    execute "ALTER TABLE ar_internal_metadata CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     
     execute "ALTER TABLE equipment_eventdates CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     execute "ALTER TABLE eventdates_locations CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"

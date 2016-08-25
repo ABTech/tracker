@@ -80,10 +80,12 @@ end
 after "deploy:finalize_update", "deploy:symlink_config_files"
 
 require "rvm/capistrano/alias_and_wrapp"
-before 'deploy', 'email:stop'
-before 'deploy', 'rvm:create_alias'
-before 'deploy', 'rvm:create_wrappers'
-after 'deploy', 'email:setup'
+['deploy', 'deploy:migrations'].each do |task|
+  before task, 'email:stop'
+  before task, 'rvm:create_alias'
+  before task, 'rvm:create_wrappers'
+  after task, 'email:setup'
+end
 after 'email:setup', 'email:start'
 after 'deploy:setup', 'email:defaults'
 after 'deploy:setup', 'deploy:shared_sphinx_folder'

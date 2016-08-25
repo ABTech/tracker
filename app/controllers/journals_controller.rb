@@ -63,8 +63,8 @@ class JournalsController < ApplicationController
     num_times.times do |i|
       key = params["njournals"] ? ("journal" + i.to_s()) : "journal"
       if(params[key]["id"] && ("" != params[key]["id"]))
+        authorize! :update, Journal.find(params[key]["id"])
         journal = Journal.update(params[key]["id"], params[key])
-        authorize! :update, journal
       else
         journal = Journal.new(params[key])
         authorize! :create, journal

@@ -29,8 +29,12 @@
                       <% end %>
                     </ul>
                   <% end %>
-                  <b>Location:</b><br />
-                  <%= eventdate.locations.sorted.join("<br />").html_safe %><br />
+                  <b>Location:</b>
+                  <ul class="es-locs">
+                    <% eventdate.locations.sorted.each do |loc| %>
+                      <li><%= loc %></li>
+                    <% end %>
+                  </ul>
                   <% if !eventdate.equipment.empty? %>
                     <br />
                     <b>Equipment:</b><br />

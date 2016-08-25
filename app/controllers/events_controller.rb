@@ -406,7 +406,7 @@ class EventsController < ApplicationController
 
     # find the eventdates relevant
     # showall=true param includes events that are unpublished (events.published == false)
-    @eventdates = Eventdate.where("('#{@startdate.strftime("%Y-%m-%d")}' < startdate) AND ('#{@enddate.strftime("%Y-%m-%d")}' > enddate)").order(startdate: :asc).includes(:event, :locations)
+    @eventdates = Eventdate.where("(? < startdate) AND (? > enddate)", @startdate, @enddate).order(startdate: :asc).includes(:event, :locations)
     if not params[:showall]
       @eventdates = @eventdates.where("events.publish = TRUE").references(:events)
     end

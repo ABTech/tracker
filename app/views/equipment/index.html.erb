@@ -30,8 +30,10 @@
   <% end %>
 </div>
 
-<% content_for :more do %>
-  <ul>
-    <li><%= link_to "Add new equipment", new_equipment_url %></li>
-  </ul>
+<% if can? :create, :equipment %>
+  <% content_for :more do %>
+    <ul>
+      <li><%= link_to "Add new equipment", new_equipment_url %></li>
+    </ul>
+  <% end %>
 <% end %>

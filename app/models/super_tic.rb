@@ -1,4 +1,4 @@
-class SuperTic < ActiveRecord::Base
+class SuperTic < ApplicationRecord
   belongs_to :member
   
   validates_uniqueness_of :day

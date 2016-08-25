@@ -43,7 +43,7 @@
           <li>
             <strong>WHAT: <%= eventdate.event.title %> - <%= eventdate.description %></strong><br/>
             <strong>WHEN: Call @ <%= email_call_text eventdate %>, Show @ <%= email_show_text eventdate %>, Strike @ <%= email_strike_text eventdate %></strong><br/>
-            <strong>WHERE: <%= eventdate.locations.map(&:to_s).join(", ") %></strong><br/>
+            <strong>WHERE: <%= eventdate.locations.sorted.map(&:to_s).join(", ") %></strong><br/>
             <strong>WHO: <%= email_who_text eventdate %></strong><br/>
             <%= eventdate.email_description %>
           </li>

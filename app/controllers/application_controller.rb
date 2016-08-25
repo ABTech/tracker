@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, prepend: true
   
   layout "events"
   
-  before_filter :authenticate_member!
+  before_action :authenticate_member!
 
   Application_Name  = "ABTT";
   Application_URL   = "https://abtt.abtech.org"

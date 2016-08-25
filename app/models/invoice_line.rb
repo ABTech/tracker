@@ -1,4 +1,4 @@
-class InvoiceLine < ActiveRecord::Base
+class InvoiceLine < ApplicationRecord
   belongs_to :invoice, :inverse_of => :invoice_lines
 
   Invoice_Categories = [  "Sound",

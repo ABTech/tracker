@@ -1,4 +1,4 @@
-Abtt::Application.routes.draw do
+Rails.application.routes.draw do
   resources :accounts do
     collection do
       post 'confirm_paid'
@@ -37,6 +37,10 @@ Abtt::Application.routes.draw do
       get 'delete_conf'
       get 'finance'
       get 'duplicate'
+      resources :applications, controller: 'event_role_applications', only: [:new, :create] do
+        get 'confirm'
+        get 'deny'
+      end
     end
     collection do
       get 'calendar'

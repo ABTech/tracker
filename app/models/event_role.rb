@@ -1,6 +1,7 @@
-class EventRole < ActiveRecord::Base
+class EventRole < ApplicationRecord
   belongs_to :roleable, polymorphic: true
   belongs_to :member
+  has_many :applications, class_name: "EventRoleApplication"
 
   Role_HoT        = "HoT"
   Role_TIC        = "TIC"
@@ -29,6 +30,7 @@ class EventRole < ActiveRecord::Base
   Role_setup      = "setup"
   Role_strike     = "strike"
   Role_food       = "food"
+  Role_airhorn    = "airhorn"
     
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
@@ -58,7 +60,8 @@ class EventRole < ActiveRecord::Base
     Role_trunk  ,          
     Role_setup  ,
     Role_strike ,
-    Role_food   ]
+    Role_food   ,
+    Role_airhorn]
 
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All
@@ -117,5 +120,25 @@ class EventRole < ActiveRecord::Base
     elsif self.roleable_type == "Eventdate"
       self.roleable.startdate
     end
+  end
+  
+  def description
+    if self.roleable_type == "Event"
+      self.roleable.title
+    elsif self.roleable_type == "Eventdate"
+      self.roleable.event.title + " - " + self.roleable.description
+    end
+  end
+  
+  def superior
+    return nil if self.role == Role_TIC
+    return Role_FoH if self.role == Role_aFoH
+    return Role_Mon if self.role == Role_aMon
+    return Role_LD if self.role == Role_aLD or self.role == Role_Lprog
+    return Role_ME if self.role == Role_aME
+    return Role_MR if self.role == Role_aMR
+    return Role_SM if self.role == Role_aSM or self.role == Role_bdSM
+    return Role_Hole if self.role == Role_aHole
+    return Role_TIC
   end
 end

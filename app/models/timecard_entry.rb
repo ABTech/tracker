@@ -1,4 +1,4 @@
-class TimecardEntry < ActiveRecord::Base
+class TimecardEntry < ApplicationRecord
   belongs_to :member
   belongs_to :eventdate
   belongs_to :timecard

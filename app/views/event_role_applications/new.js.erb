@@ -1,0 +1,22 @@
+$(".eventsmain").before('<%= j render("event_role_applications/new", application: @application) %>');
+$("#new-event-role-application").dialog({
+  resizable: false,
+  position: "center",
+  width: 720,
+  title: "Apply for Run Position",
+  modal: true,
+  buttons: {
+    "Submit": function(){
+      jQuery("#new-event-role-application form").submit();
+      jQuery("#new-event-role-application").dialog("destroy");
+      jQuery("#new-event-role-application").html("Sending application...")
+      jQuery("#new-event-role-application").dialog({
+        modal:true,
+        closeOnEscape: false,
+        title: "Don't Navigate Away!"
+      });
+      //Removing ability to close dialog
+      jQuery("#new-event-role-application").parent().find('a.ui-dialog-titlebar-close').remove();
+      jQuery("#new-event-role-application").bind('dialogbeforeclose', false);
+    }}
+});

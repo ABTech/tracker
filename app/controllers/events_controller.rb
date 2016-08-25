@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  skip_before_filter :authenticate_member!, :only => [:generate, :calendar, :callfeed, :index, :month]
+  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :callfeed, :index, :month]
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -212,10 +212,12 @@ class EventsController < ApplicationController
     authorize! :index, Event
 
     if(can? :read, Event)
-      @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+      @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?)", Time.now.utc, Event::Event_Status_Group_Completed)
     else
-      @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?) AND events.publish = true", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+      @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?) AND events.publish = true", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC")
     end
+    
+    @eventdates = @eventdates.order("startdate ASC").includes({event: [:organization]}, {event_roles: [:member]}, :locations, :equipment).references(:event)
 
     if not member_signed_in?
       render(:action => "index", :layout => "public")
@@ -225,7 +227,7 @@ class EventsController < ApplicationController
   def month
     @title = "Event List for " + Date::MONTHNAMES[params[:month].to_i] + " " + params[:year]
     authorize! :index, Event
-    if((Time.now.year > params[:year].to_i or Time.now.month > params[:month].to_i) and not can? :read, Event)
+    if((Time.now.year > params[:year].to_i or (Time.now.year == params[:year].to_i and Time.now.month > params[:month].to_i)) and not can? :read, Event)
       redirect_to new_member_session_path and return
     end
     

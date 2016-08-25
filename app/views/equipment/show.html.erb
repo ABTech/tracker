@@ -6,8 +6,10 @@
 
 <% content_for :more do %>
   <ul>
-    <li><%= link_to "Edit", edit_equipment_url(@equipment) %></li>
-    <li><%= link_to "Mark as defunct", @equipment, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this equipment as defunct?"} %></li>
+    <% if can? :update, @equipment %>
+      <li><%= link_to "Edit", edit_equipment_url(@equipment) %></li>
+      <li><%= link_to "Mark as defunct", @equipment, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this equipment as defunct?"} %></li>
+    <% end %>
     <li><%= link_to "Back to equipments index", equipment_index_url %></li>
   </ul>
 <% end %>

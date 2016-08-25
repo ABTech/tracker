@@ -1,4 +1,4 @@
-class Equipment < ActiveRecord::Base
+class Equipment < ApplicationRecord
   has_and_belongs_to_many :eventdates
 
   validates_presence_of :description, :category, :shortname

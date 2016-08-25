@@ -1,4 +1,4 @@
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   has_and_belongs_to_many :eventdates
   
   after_save :set_eventdate_delta_flags
@@ -8,6 +8,7 @@ class Location < ActiveRecord::Base
   scope :active, -> { where(defunct: false) }
   scope :buildings, -> { active.order(building: :asc).select(:building).distinct.pluck(:building) }
   scope :building, -> (building) { active.where(building: building).order(room: :asc) }
+  scope :sorted, -> { order(id: :asc) }
 
   def to_s
     return (building + " - " + room);

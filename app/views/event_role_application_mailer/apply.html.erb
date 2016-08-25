@@ -1,0 +1,10 @@
+<p><%= @application.member.fullname %> has applied to be <%= @application.event_role.role %> for <%= @application.event_role.description %>.</p>
+<% unless @notes.empty? %>
+<p><b>Notes:</b></p>
+
+<p><%= simple_format @notes %></p>
+<% end %>
+
+<p>You can <%= link_to "accept", application_confirm_url(@application.event_role.event, @application) %> or <%= link_to "deny", application_deny_url(@application.event_role.event, @application) %> this application.</p>
+
+<p>--ABTT (ABTech Tracker)</p>

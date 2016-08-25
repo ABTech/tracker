@@ -25,12 +25,12 @@
                     <b>Roles:</b><br>
                     <ul class="edp-roles">
                       <% eventdate.event_roles.sort.each do |role| %>
-                        <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+                        <li><b><%= role.role %></b>: <%= show_run_position role %></li>
                       <% end %>
                     </ul>
                   <% end %>
                   <b>Location:</b><br />
-                  <%= eventdate.locations.join("<br />").html_safe %><br />
+                  <%= eventdate.locations.sorted.join("<br />").html_safe %><br />
                   <% if !eventdate.equipment.empty? %>
                     <br />
                     <b>Equipment:</b><br />
@@ -64,7 +64,7 @@
 
       <ul>
         <% @event.event_roles.sort.each do |role| %>
-          <li><b><%= role.role %></b>: <%= role.assigned_to %></li>
+          <li><b><%= role.role %></b>: <%= show_run_position role %></li>
         <% end %>
       </ul>
     </div>

@@ -37,7 +37,7 @@
           <small class="organization"><%= event.organization.name %></small>
         </td>
         <td style="white-space: normal;">
-          <%= eventdate.locations.join("<br />").html_safe %>
+          <%= eventdate.locations.sorted.join("<br />").html_safe %>
           <% if can? :read, Event %>
             <%= "<br />".html_safe if eventdate.equipment.count >= 1 %>
             <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
@@ -57,15 +57,16 @@
             <td rowspan="<%= ed[:run] %>">
           <% end %>
           <% eventdate.full_roles.sort.each do |role| %>
-            <% if can? :read, Event %>
-              <%= role.to_s() %><br />
-            <% else %>
-              <% if role.role == EventRole::Role_TIC and not role.member.nil? %>
-                <%= role.to_s()%><br/>
-              <% end %>
-              <% if role.role == EventRole::Role_exec and not role.member.nil? and (not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TIC } or eventdate.full_roles.find { |r| r.role == EventRole::Role_TIC }.member.nil?) %>
-                <%= role.to_s()%><br/>
-              <% end %>
+            <% if can? :read, Event or
+                (not role.member.nil? and
+                  role.role == EventRole::Role_TIC or
+                  (role.role == EventRole::Role_exec and
+                    (not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TIC } or
+                    eventdate.full_roles.find { |r| r.role == EventRole::Role_TIC }.member.nil?)
+                  )
+                )
+            %>
+              <%= role.role %>: <%= show_run_position role %><br />
             <% end %>
           <% end %>
           </td>

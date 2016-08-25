@@ -1,4 +1,4 @@
-class Journal < ActiveRecord::Base
+class Journal < ApplicationRecord
   belongs_to :account, :class_name => "Account", :foreign_key => "account_id";
   belongs_to :invoice, :class_name => "Invoice", :foreign_key => "invoice_id";
   belongs_to :event, :class_name => "Event", :foreign_key => "event_id";

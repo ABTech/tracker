@@ -52,7 +52,7 @@
 	<td><%= f.text_field :ssn %></td>
 </tr>
 
-<% if can? :manage, Timecard %>
+<% if can? :payrate, @member %>
   <tr>
   	<th><%= f.label :payrate %></th>
   	<td>$<%= f.text_field :payrate %> per hour</td>

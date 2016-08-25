@@ -203,7 +203,7 @@ class MembersController < ApplicationController
         params[:member].delete(:role)
       end
       
-      if cannot? :manage, Timecard
+      if cannot? :payrate, Member
         params[:member].delete(:payrate)
       end
       

@@ -102,7 +102,7 @@ class Ability
     end
     
     if member.is_at_least? :tracker_management
-      can [:create, :read, :update, :destroy], Member
+      can [:create, :read, :update, :destroy, :payrate], Member
       can :manage, :finance
       can :manage, Account
       can :manage, Invoice

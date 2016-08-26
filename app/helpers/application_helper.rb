@@ -57,8 +57,8 @@ module ApplicationHelper
     @credit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id))
     @debit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id))
     
-    @credit_categories = Journal.select("SUM(amount) AS amount, id, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).group(:paymeth_category)
-    @debit_categories = Journal.select("SUM(amount) AS amount, id, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).group(:paymeth_category)
+    @credit_categories = Journal.select("SUM(amount) AS amount, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).group(:paymeth_category)
+    @debit_categories = Journal.select("SUM(amount) AS amount, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).group(:paymeth_category)
 
     @cat_totals = Hash.new(0)
 

@@ -73,7 +73,7 @@ class Event < ActiveRecord::Base
   scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
   def locations
-    eventdates.flat_map(&:locations).uniq
+    eventdates.flat_map(&:locations).uniq.sort_by(&:id)
   end
 
   # return an array of dates segmenting regions of dates.

@@ -26,8 +26,8 @@ class Event < ActiveRecord::Base
   after_initialize :default_values
   after_save :set_eventdate_delta_flags, :set_created_email
   
-  EmailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
-  PhoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
+  EmailRegex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/
+  PhoneRegex = /\A[0-9]{3}-[0-9]{3}-[0-9]{4}\z/
   
   Event_Status_Tentative_Date     = "Tentative Date"
   Event_Status_Initial_Request    = "Initial Request"
@@ -73,7 +73,7 @@ class Event < ActiveRecord::Base
   scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
   def locations
-    eventdates.flat_map(&:locations).uniq
+    eventdates.flat_map(&:locations).uniq.sort_by(&:id)
   end
 
   # return an array of dates segmenting regions of dates.

@@ -172,6 +172,12 @@ table.eventslist .ticless {
   border-right: none;
 }
 
+#event-schedule td.es-locequip ul.es-locs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 #event-schedule td p:first-child {
   margin-top: 0;
 }

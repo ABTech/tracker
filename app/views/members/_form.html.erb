@@ -19,17 +19,15 @@
       <dd><%= f.email_field :email, class: "wide-input" %></dd>
     </dl>
   
-    <% if not @member.new_record? %>
-      <dl>
-        <dt><%= f.label :password, "Password:" %></dt>
-        <dd><%= f.password_field :password, class: "wide-input" %></dd>
-      </dl>
-    
-      <dl>
-        <dt><%= f.label :password_confirmation, "Password confirmation:" %></dt>
-        <dd><%= f.password_field :password_confirmation, class: "wide-input" %></dd>
-      </dl>
-    <% end %>
+    <dl>
+      <dt><%= f.label :password, "Password:" %></dt>
+      <dd><%= f.password_field :password, class: "wide-input" %></dd>
+    </dl>
+
+    <dl>
+      <dt><%= f.label :password_confirmation, "Password confirmation:" %></dt>
+      <dd><%= f.password_field :password_confirmation, class: "wide-input" %></dd>
+    </dl>
   </fieldset>
 
   <fieldset>

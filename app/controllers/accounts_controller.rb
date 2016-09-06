@@ -67,14 +67,6 @@ class AccountsController < ApplicationController
     end
     @credit_accounts = Account.where(is_credit: true)
     @debit_accounts = Account.where(is_credit: false)
-    
-    @accounts_receivable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Credit_Accounts.pluck(:id), cat_filter).sum(:amount)
-    @accounts_received_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Credit_Accounts.pluck(:id), cat_filter).sum(:amount)
-    @accounts_payable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Debit_Accounts.pluck(:id), cat_filter).sum(:amount)
-    @accounts_paid_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?) and paymeth_category LIKE ?", @accstart, @accend, Account::Debit_Accounts.pluck(:id), cat_filter).sum(:amount)
-
-    @credit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?) AND paymeth_category LIKE ?", @accstart, @accend, Account::Credit_Accounts.pluck(:id), cat_filter)
-    @debit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?) AND paymeth_category LIKE ?", @accstart, @accend, Account::Debit_Accounts.pluck(:id), cat_filter)
   end
 
   def events
@@ -84,59 +76,6 @@ class AccountsController < ApplicationController
     @events = Event.includes(:eventdates, :invoices).where(["events.status IN (?)", Event::Event_Status_Event_Completed]).order("representative_date DESC").paginate(:per_page => 50, :page => params[:page])
   end
 
-  def unpaid
-    authorize! :manage, :finance
-    
-    @title = "Unpaid JEs"
-
-    @journals = Journal.where("date >= ? AND date_paid IS NULL", Account.magic_date)
-  end
-
-  def unpaid_print
-    authorize! :manage, :finance
-    
-    @title = "Unpaid JEs"
-
-    @journals = Journal.where("date >= ? AND date_paid IS NULL", Account.magic_date)
-  end
-
-  def confirm_paid
-    authorize! :manage, :finance
-    
-    date = params["date"]
-    
-    completed = 0
-    
-    date.keys.each do |key|
-      if(date[key].empty?)
-        next
-      end
-
-      rec = Journal.find(key.to_i())
-      begin
-        rec.date_paid = Date.parse(date[key], true)
-      rescue ArgumentError
-        flash[:error] = "Invalid date for event #{rec.invoice.event.id}"
-        redirect_to :action => "unpaid"
-        return
-      end
-
-      if(rec.valid?)
-        rec.save()
-        completed += 1
-      else
-        flash[:error] ||= ""
-        rec.errors.each_full do |err|
-          flash[:error] = flash[:error] + "<br/>" + err
-        end
-      end
-    end
-    
-    flash[:notice] = "#{completed} JEs marked as paid." if completed > 0
-
-    redirect_to :action => "unpaid"
-  end
-  
   private
     def account_params
       params.require(:account).permit(:name, :is_credit, :position)

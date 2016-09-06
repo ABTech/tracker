@@ -6,14 +6,14 @@ class InvoicesController < ApplicationController
   def show
     @title = "Viewing Invoice"
 
-    @invoice = Invoice.includes(:event, :journal_invoice, :invoice_lines).find(params[:id])
+    @invoice = Invoice.includes(:event, :invoice_lines).find(params[:id])
     authorize! :show, @invoice
 
     render :layout => 'events'
   end
 
   def prettyView
-    @invoice = Invoice.includes(:event, :journal_invoice, :invoice_lines).find(params[:id])
+    @invoice = Invoice.includes(:event, :invoice_lines).find(params[:id])
     authorize! :show, @invoice
     
     if params.include? :no_show_oracle
@@ -101,7 +101,7 @@ class InvoicesController < ApplicationController
   def index
     @title = "Invoice List"
     
-    @invoices = @invoices.includes(:event, :journal_invoice, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
+    @invoices = @invoices.includes(:event, :invoice_lines).paginate(:per_page => 50, :page => params[:page]).order("created_at DESC")
     
     if params[:page]
       @page = params[:page]
@@ -161,25 +161,9 @@ class InvoicesController < ApplicationController
     authorize! :email, @invoice
     
     if params[:mark_billing]
-      journal = Journal.new
-      journal.date = DateTime.now
-      journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
-      journal.account=Account::Events_Account
-      journal.invoice=@invoice
-      journal.amount=@invoice.total
-      journal.notes = ""
-      journal.save!
       @invoice.event.status= Event::Event_Status_Billing_Pending
       @invoice.event.save!
     elsif params[:mark_complete]
-      journal = Journal.new
-      journal.date = DateTime.now
-      journal.memo=@invoice.event.organization.name + " - " + @invoice.event.title
-      journal.account=Account::Events_Account
-      journal.invoice=@invoice
-      journal.amount=@invoice.total
-      journal.notes = ""
-      journal.save!
       @invoice.event.status= Event::Event_Status_Event_Completed
       @invoice.event.save!
     end
@@ -198,7 +182,7 @@ class InvoicesController < ApplicationController
   private
     def invoice_params(invoice=Invoice)
       if can? :manage, invoice
-        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :update_journal, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy], :journal_invoice_attributes => [:date, :memo, :amount, :date_paid, :notes, :account_id, :event_id, :paymeth_category, :id])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy])
       else
         if not Invoice::Invoice_Status_Group_Exec.include? params[:invoice][:status]
           params[:invoice].delete :status

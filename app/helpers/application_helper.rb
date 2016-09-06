@@ -48,27 +48,6 @@ module ApplicationHelper
   def load_account_totals
     @accstart = Account.magic_date unless @accstart
     @accend = Account.future_magic_date unless @accend
-
-    @accounts_receivable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).sum(:amount)
-    @accounts_received_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).sum(:amount)
-    @accounts_payable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).sum(:amount)
-    @accounts_paid_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).sum(:amount)
-
-    @credit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id))
-    @debit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id))
-    
-    @credit_categories = Journal.select("SUM(amount) AS amount, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).group(:paymeth_category)
-    @debit_categories = Journal.select("SUM(amount) AS amount, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).group(:paymeth_category)
-
-    @cat_totals = Hash.new(0)
-
-    @credit_categories.each do |category|
-      @cat_totals[category.paymeth_category]+=category.amount
-    end
-
-    @debit_categories.each do |category|
-      @cat_totals[category.paymeth_category]-=category.amount
-    end
   end
   
   def better_select_date(startdate, object, field)

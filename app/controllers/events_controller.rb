@@ -93,7 +93,7 @@ class EventsController < ApplicationController
         {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :_destroy],
-      :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
+      :invoices_attributes => [:status, :id],
       :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     
     if cannot? :create, Organization

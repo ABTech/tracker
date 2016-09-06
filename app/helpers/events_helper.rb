@@ -171,17 +171,4 @@ module EventsHelper
     end
   end
   
-  def run_position_superior(er)
-    superior = er.superior
-    return "the Head of Tech" if superior.nil?
-    ser = er.roleable.event_roles.where(role: superior)
-    if ser.empty?
-      ser = er.roleable.tic
-      return "the Head of Tech" if ser.nil?
-    else
-      ser = ser.first
-    end
-    ser.member.fullname
-  end
-  
 end

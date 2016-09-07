@@ -116,8 +116,8 @@ class Eventdate < ApplicationRecord
         roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_exec }
       end
       
-      if not roles.any? { |r| r.role == EventRole::Role_TIC }
-        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_TIC }
+      if not roles.any? { |r| r.role == EventRole::Role_TiC }
+        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_TiC }
       end
       
       roles
@@ -125,7 +125,7 @@ class Eventdate < ApplicationRecord
   end
   
   def tic
-    t = event_roles.where(role: EventRole::Role_TIC).first
+    t = event_roles.where(role: EventRole::Role_TiC).first
     return t.member if t
     return event.tic if event
     nil

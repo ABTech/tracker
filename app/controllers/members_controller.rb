@@ -152,7 +152,7 @@ class MembersController < ApplicationController
       end
     end
     
-    flash[:notice] = "Super TICs successfully updated."
+    flash[:notice] = "Super TiCs successfully updated."
     redirect_to super_tics_members_url
   end
   

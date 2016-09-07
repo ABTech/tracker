@@ -121,7 +121,7 @@
 
   <% if can? :manage, SuperTic and @member.is_at_least? :exec %>
     <fieldset>
-      <legend>SuperTIC</legend>
+      <legend>SuperTiC</legend>
     
       <% if SuperTic.available_for @member %>
         <%= f.fields_for :super_tics, SuperTic.days do |builder| %>
@@ -136,7 +136,7 @@
           <% end %>
         <% end %>
       <% else %>
-        <p>There are no Super TIC positions available for this member.</p>
+        <p>There are no Super TiC positions available for this member.</p>
       <% end %>
     </fieldset>
   <% end %>

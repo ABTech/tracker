@@ -1,7 +1,7 @@
 class Location < ApplicationRecord
   has_and_belongs_to_many :eventdates
   
-  after_save :set_eventdate_delta_flags
+  around_update :set_eventdate_delta_flags
 
   validates_presence_of :building, :room
   
@@ -16,9 +16,15 @@ class Location < ApplicationRecord
   
   private
     def set_eventdate_delta_flags
-      eventdates.each do |eventdate|
-        eventdate.delta = true
-        eventdate.save
+      was_changed = self.changed?
+
+      yield
+
+      if was_changed
+        eventdates.each do |eventdate|
+          eventdate.delta = true
+          eventdate.save
+        end
       end
     end
 end

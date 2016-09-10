@@ -132,7 +132,7 @@ class Event < ActiveRecord::Base
   end
   
   def tic
-    role = event_roles.where(role: EventRole::Role_TIC).first
+    role = event_roles.where(role: EventRole::Role_TiC).first
     return role.member if role
     return nil
   end
@@ -190,9 +190,9 @@ class Event < ActiveRecord::Base
     end
     
     def ensure_tic
-      if not self.event_roles.any? { |role| role.role == EventRole::Role_TIC }
+      if not self.event_roles.any? { |role| role.role == EventRole::Role_TiC }
         rl = EventRole.new
-        rl.role = EventRole::Role_TIC
+        rl.role = EventRole::Role_TiC
         self.event_roles << rl
       end
     end
@@ -219,7 +219,7 @@ class Event < ActiveRecord::Base
         
         if self.event_roles.size == 0
           rl = EventRole.new
-          rl.role = EventRole::Role_TIC
+          rl.role = EventRole::Role_TiC
           self.event_roles << rl
         end
       end

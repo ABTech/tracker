@@ -121,7 +121,7 @@ class EventsController < ApplicationController
       p.delete(:price_quote)
       p.delete(:blackout_attributes)
       
-      # If you are not TIC for the event, with regards to run positions, you
+      # If you are not TiC for the event, with regards to run positions, you
       # can only delete yourself from a run position, assign a member who isn't
       # you to be one of your assistants, or modify a run position which is one
       # of your assistants
@@ -139,9 +139,9 @@ class EventsController < ApplicationController
         end
       end
       
-      # If you are not TIC for the event, with regards to eventdates, you
-      # can only edit and delete eventdates that you are the TIC of. You cannot
-      # create a new eventdate. If you are not the TIC of an eventdate but are
+      # If you are not TiC for the event, with regards to eventdates, you
+      # can only edit and delete eventdates that you are the TiC of. You cannot
+      # create a new eventdate. If you are not the TiC of an eventdate but are
       # a run position, you may only delete yourself from a run position, assign
       # a member who isn't you to be one of your assistants, or modify a run
       # position which is one of your assistants

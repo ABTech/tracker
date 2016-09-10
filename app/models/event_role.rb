@@ -4,8 +4,8 @@ class EventRole < ApplicationRecord
   has_many :applications, class_name: "EventRoleApplication"
 
   Role_HoT        = "HoT"
-  Role_TIC        = "TIC"
-  Role_aTIC       = "aTIC"
+  Role_TiC        = "TiC"
+  Role_aTiC       = "aTiC"
   Role_exec       = "exec"
   Role_FoH        = "FoH"
   Role_aFoH       = "aFoH"
@@ -35,8 +35,8 @@ class EventRole < ApplicationRecord
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
     Role_HoT    ,
-    Role_TIC    ,
-    Role_aTIC   ,
+    Role_TiC    ,
+    Role_aTiC   ,
     Role_exec   ,
     Role_FoH    ,
     Role_aFoH   ,
@@ -95,7 +95,7 @@ class EventRole < ApplicationRecord
   end
   
   def assistants
-    return [Role_aTIC] if self.role == Role_TIC
+    return [Role_aTiC] if self.role == Role_TiC
     return [Role_aFoH] if self.role == Role_FoH
     return [Role_aMon] if self.role == Role_Mon
     return [Role_aLD, Role_Lprog] if self.role == Role_LD
@@ -131,7 +131,7 @@ class EventRole < ApplicationRecord
   end
   
   def superior
-    return nil if self.role == Role_TIC
+    return nil if self.role == Role_TiC
     return Role_FoH if self.role == Role_aFoH
     return Role_Mon if self.role == Role_aMon
     return Role_LD if self.role == Role_aLD or self.role == Role_Lprog
@@ -139,6 +139,6 @@ class EventRole < ApplicationRecord
     return Role_MR if self.role == Role_aMR
     return Role_SM if self.role == Role_aSM or self.role == Role_bdSM
     return Role_Hole if self.role == Role_aHole
-    return Role_TIC
+    return Role_TiC
   end
 end

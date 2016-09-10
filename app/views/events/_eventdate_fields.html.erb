@@ -43,7 +43,7 @@
     </dl>
     <dl class="big-field">
       <dt><%= f.label :location_ids, "Location:" %></dt>
-      <dd><%= f.select :location_ids, grouped_options_for_select(location_groups_for_select, f.object.locations.sorted.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
+      <dd><%= f.select :location_ids, grouped_options_for_select(location_groups_for_select, f.object.locations.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
     </dl>
     <dl class="big-field">
       <dt><%= f.label :equipment_ids, "Equipment:" %></dt>

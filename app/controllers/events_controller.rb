@@ -121,7 +121,7 @@ class EventsController < ApplicationController
       p.delete(:price_quote)
       p.delete(:blackout_attributes)
       
-      # If you are not TIC for the event, with regards to run positions, you
+      # If you are not TiC for the event, with regards to run positions, you
       # can only delete yourself from a run position, assign a member who isn't
       # you to be one of your assistants, or modify a run position which is one
       # of your assistants
@@ -139,9 +139,9 @@ class EventsController < ApplicationController
         end
       end
       
-      # If you are not TIC for the event, with regards to eventdates, you
-      # can only edit and delete eventdates that you are the TIC of. You cannot
-      # create a new eventdate. If you are not the TIC of an eventdate but are
+      # If you are not TiC for the event, with regards to eventdates, you
+      # can only edit and delete eventdates that you are the TiC of. You cannot
+      # create a new eventdate. If you are not the TiC of an eventdate but are
       # a run position, you may only delete yourself from a run position, assign
       # a member who isn't you to be one of your assistants, or modify a run
       # position which is one of your assistants
@@ -264,36 +264,6 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9 ]/,""), :page => params[:page], :per_page => 50, :order => "startdate DESC"
-  end
-
-  def iphone
-    authorize! :read, Event
-    
-    @startdate = params["startdate"] ? Date.parse(params["startdate"]) : Date.today 
-    @enddate   = @startdate+7
-
-    @eventdates = Eventdate.where("startdate > ? AND enddate <= ?", @startdate, @enddate).order("startdate ASC")
-
-    unless params[:showall]
-      @eventdates.reject! do |eventdate|
-        eventdate.event.publish == false
-      end
-    end
-
-    unless @eventdates.empty?
-      i = 0
-      while (@eventdates[i] and @eventdates[i+1])
-        if @eventdates[i].startdate.wday != @eventdates[i+1].startdate.wday
-          #insert tombstome for new day
-          @eventdates.insert(i+1, Date.parse(@eventdates[i+1].startdate.strftime("%F")))
-          #skip tombstone
-          i+=1
-        end
-        i += 1
-      end
-      @eventdates.insert(0, Date.parse(@eventdates[0].startdate.strftime("%F")))
-    end
-    render :layout => "iphone"
   end
 
   def calendar

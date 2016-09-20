@@ -52,10 +52,6 @@ class ApplicationController < ActionController::Base
     array
   end
 
-  def iphone_user_agent?
-    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iphone|ipod|android|blackberry)/i]
-  end
-  
   def after_sign_out_path_for(resource_or_scope)
     new_member_session_url
   end

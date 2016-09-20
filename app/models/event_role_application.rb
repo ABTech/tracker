@@ -11,7 +11,7 @@ class EventRoleApplication < ApplicationRecord
       return sup.first.member unless sup.empty?
       
       sup = event_role.roleable.tic
-      return sup unless sup.empty?
+      return sup unless sup.nil?
     end
     
     nil

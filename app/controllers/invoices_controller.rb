@@ -1,6 +1,4 @@
 class InvoicesController < ApplicationController
-  layout "finance"
-  
   load_and_authorize_resource :only => [:index, :new, :edit, :update, :destroy]
   
   def show

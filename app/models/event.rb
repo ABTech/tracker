@@ -5,7 +5,6 @@ class Event < ActiveRecord::Base
   has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
   has_many :comments, :dependent => :destroy
-  has_many :journals
   has_many :attachments, as: :attachable
   has_one :blackout, :dependent => :destroy
   
@@ -116,17 +115,7 @@ class Event < ActiveRecord::Base
       ( uniq_roles << er.member unless er.member.nil? or uniq_roles.any? { |ur| ur.id == er.member_id } ) or uniq_roles 
     end
   end
-  
-  def journals_total
-    journals.reduce(0) do |memo,journal|
-      if journal.account.is_credit?
-        memo + journal.amount
-      else
-        memo - journal.amount
-      end
-    end
-  end
-  
+    
   def total_payroll
     eventdates.map(&:total_gross).reduce(0.0, &:+)
   end

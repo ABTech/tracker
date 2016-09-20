@@ -45,11 +45,6 @@ module ApplicationHelper
     end
   end
   
-  def load_account_totals
-    @accstart = Account.magic_date unless @accstart
-    @accend = Account.future_magic_date unless @accend
-  end
-  
   def better_select_date(startdate, object, field)
       return select_year(startdate, :prefix => "#{object}[#{field}(1i)]", :discard_type => true) + 
              select_month(startdate, :prefix => "#{object}[#{field}(2i)]", :discard_type => true) + 

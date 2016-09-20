@@ -32,6 +32,8 @@
 
 <% if can? :create, InvoiceItem %>
   <% content_for :more do %>
-    <li><%= link_to 'New invoice item', :action => 'new' %></li>
+    <ul>
+      <li><%= link_to 'New invoice item', :action => 'new' %></li>
+    </ul>
   <% end %>
 <% end %>

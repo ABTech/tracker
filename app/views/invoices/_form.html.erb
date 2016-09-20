@@ -36,33 +36,6 @@
     <% end %>
   </tr>
   
-  <% if not f.object.new_record? and can? :create, Journal %>
-    <tr>
-      <td class="subheading"><%= f.label :journal_invoice, "Invoice JE" %>:</td>
-      <td>
-        <% if @invoice.journal_invoice %>
-          <%= f.check_box :update_journal %>
-          <%= f.label :update_journal, "Update JE total?" %>
-        <% else %>
-          <div id="createje"><%= link_to_create_invoice_je f %></div>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-  
-  <% if f.object.journal_invoice and can? :update, f.object.journal_invoice %>
-    <tr>
-      <td class="subheading">Invoice Paid JE:</td>
-      <td>
-        <% if @invoice.journal_invoice.date_paid %>
-          yes
-        <% else %>
-          <div id="markje"><%= link_to_mark_invoice_paid f %></div>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-  
   <tr>
     <td class="subheading"><%= f.label :payment_type, "Payment Type" %>:</td>
     <td><%= f.select :payment_type, Invoice::Payment_Types %></td>

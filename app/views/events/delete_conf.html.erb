@@ -17,7 +17,7 @@
   <ul>
     <li><input type="checkbox" name="cond1" onChange="boxUpdate()"> Deletion should only be done on events that were mistakenly created. Events with actual data should use the "status" field for modifications.</li>
     <li> Deleted items <strong>CANNOT</strong> be recovered. Seriously, there's no way. <input type="checkbox" name="cond2" onChange="boxUpdate()"> None at all. Don't mess up.</li>
-    <li> Deletion of this record will also delete all associated event_dates, location mappings, equipment mappings, event roles, invoices (and the invoice's associated lines and journal entries.) <input type="checkbox" name="cond3" onChange="boxUpdate()"> Really, don't do this.</li>
+    <li> Deletion of this record will also delete all associated event_dates, location mappings, equipment mappings, event roles, and invoices (and the invoice's associated lines). <input type="checkbox" name="cond3" onChange="boxUpdate()"> Really, don't do this.</li>
     <li> If you mess up, delete something, and then want it back, don't email Saagar and ask, because he can't do anything for you.<input type="checkbox" name="cond4" onChange="boxUpdate()"></li>
   </ul>
 

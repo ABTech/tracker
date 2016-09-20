@@ -1,14 +1,4 @@
 Rails.application.routes.draw do
-  resources :accounts do
-    collection do
-      post 'confirm_paid'
-      get 'events'
-      get 'list'
-      get 'unpaid'
-      get 'unpaid_print'
-    end
-  end
-
   resources :attachments, only: [:destroy, :index]
   
   resources :blackouts, except: [:show]
@@ -63,16 +53,6 @@ Rails.application.routes.draw do
   end  
 
   resources :invoice_items, except: [:show]
-
-  resources :journals, except: [:show, :update] do
-    collection do
-      get 'list'
-      post 'save'
-    end
-    member do
-      get 'view'
-    end
-  end
 
   resources :locations
 

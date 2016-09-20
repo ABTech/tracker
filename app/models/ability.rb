@@ -77,12 +77,10 @@ class Ability
     if member.is_at_least? :exec
       # Almost read only finance
       can :read, :finance
-      can :read, Account
       can :read, Invoice
       can :create, Invoice
       can :update, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
-      can :read, Journal
       can :read, InvoiceItem
       can [:read, :view], Timecard
       
@@ -104,9 +102,7 @@ class Ability
     if member.is_at_least? :tracker_management
       can [:create, :read, :update, :destroy, :payrate], Member
       can :manage, :finance
-      can :manage, Account
       can :manage, Invoice
-      can :manage, Journal
       can :manage, InvoiceItem
       can :manage, Equipment
       can :manage, Location

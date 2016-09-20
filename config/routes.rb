@@ -44,8 +44,6 @@ Rails.application.routes.draw do
     end
     collection do
       get 'calendar'
-      get 'iphone'
-      post 'iphone'
       get 'mobile'
       get 'months/:year/:month', action: :month, as: :month
       get 'past'
@@ -109,8 +107,6 @@ Rails.application.routes.draw do
   get 'calendar' => 'events#calendar'
   get 'calendar/callfeed' => 'events#callfeed'
   get 'mobile' => 'events#mobile'
-  get 'iphone' => 'events#iphone'
-  get 'i' => 'events#iphone'
 
   root to: 'events#index'
 end

@@ -56,8 +56,6 @@ Rails.application.routes.draw do
 
   resources :locations
 
-  resources :member_filter, only: [:edit, :new, :save]
-
   devise_for :members
   resources :members do
     collection do

@@ -33,10 +33,6 @@ module ApplicationHelper
     end
   end
 
-  def iphone_user_agent?
-    controller.iphone_user_agent?
-  end
-
   def app_version
     begin
       %x{git log --pretty=format:"%h"  -n1}

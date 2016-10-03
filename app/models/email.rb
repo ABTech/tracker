@@ -117,7 +117,7 @@ class Email < ApplicationRecord
       if mail.in_reply_to
         prev = Email.where("message_id = ? OR (sender = ? AND LCASE(subject) IN (?))", mail.in_reply_to, mail.from[0], subjects).first
       else
-        prev = Email.where("sender = ? AND LCASE(subject) IN (?)", mail.from[0], subjects).first
+        prev = Email.where("(sender = ?) AND (LCASE(subject) IN (?)) AND (timestamp > ?)", mail.from[0], subjects, message.timestamp - 180.days).first
       end
     
       if prev

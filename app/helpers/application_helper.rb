@@ -19,6 +19,14 @@ module ApplicationHelper
     link_to title, url, :method => :delete, :data => { :confirm => "Are you sure you want to delete this? This action is irreversible." } if can? action, model
   end
   
+  def text_with_conditional_link_to(title, url, action, model)
+    if can? action, model
+      link_to title, url
+    else
+      title
+    end
+  end
+  
   def show_admin_link
     can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm or can? :read, Blackout
   end
@@ -31,10 +39,6 @@ module ApplicationHelper
       return (Date.today-self).to_s+" days ago" if Date.today-self > 0
       return "in "+(self-Date.today).to_s+" days" if Date.today-self < 0
     end
-  end
-
-  def iphone_user_agent?
-    controller.iphone_user_agent?
   end
 
   def app_version

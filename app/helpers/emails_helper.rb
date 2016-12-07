@@ -23,8 +23,8 @@ module EmailsHelper
   end
   
   def email_who_text(eventdate)
-    if eventdate.tic
-      "TiC - " + eventdate.tic.fullname
+    if !eventdate.tic.empty?
+      "TiC - " + eventdate.tic.map(&:fullname).join(", ")
     elsif eventdate.exec
       "Exec - " + eventdate.exec.fullname
     else

@@ -51,7 +51,7 @@ class Ability
       can :create, Email
       
       can :tic, Event do |event|
-        event.tic == member
+        event.tic.include? member
       end
       
       can :update, Event do |event|
@@ -59,7 +59,7 @@ class Ability
       end
       
       can :tic, Eventdate do |ed|
-        (!ed.event.nil? and ed.event.tic == member) or ed.tic == member
+        (!ed.event.nil? and ed.event.tic.include? member) or ed.tic.include? member
       end
       
       can :update, Email do |email|
@@ -70,7 +70,7 @@ class Ability
       
       can :create, EventRoleApplication, :member_id => member.id
       can :update, EventRoleApplication do |app|
-        app.event_role.event.tic == member or app.event_role.roleable.run_positions_for(member).map(&:assistants).flatten.include? app.event_role.role
+        app.event_role.event.tic.include? member or app.event_role.roleable.run_positions_for(member).map(&:assistants).flatten.include? app.event_role.role
       end
     end
     

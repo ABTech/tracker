@@ -49,6 +49,11 @@
       $(this).children(".year").val(starttime.children(".year").val())
       setDateMonths($(this))
       $(this).children(".day").val(starttime.children(".day").val())
+    $(this).siblings(".field_with_errors").each ->
+      $(this).children(".month").val(starttime.children(".month").val())
+      $(this).children(".year").val(starttime.children(".year").val())
+      setDateMonths($(this))
+      $(this).children(".day").val(starttime.children(".day").val())
   ed.find(".call-time-field, .strike-time-field").each ->
     parent = $(this)
     if parent.prev().val() == "literal"

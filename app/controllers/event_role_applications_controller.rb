@@ -40,9 +40,10 @@ class EventRoleApplicationsController < ApplicationController
     else
       @application.event_role.member = @application.member
       @application.event_role.save!
-    
+
+      EventRoleApplicationMailer.accept(@application).deliver_now
       @application.destroy
-    
+
       flash[:notice] = "#{@application.event_role.member.fullname} is now #{@application.event_role.description} #{@application.event_role.role}."
     end
     

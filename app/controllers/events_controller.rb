@@ -149,7 +149,7 @@ class EventsController < ApplicationController
         p[:eventdates_attributes].each do |key,ed|
           if ed[:id]
             red = Eventdate.find(ed[:id])
-            if red.tic.id != current_member.id
+            if !red.tic.include? current_member
               p[:eventdates_attributes][key].delete(:_destroy)
               p[:eventdates_attributes][key].delete(:startdate)
               p[:eventdates_attributes][key].delete(:description)
@@ -264,36 +264,6 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9 ]/,""), :page => params[:page], :per_page => 50, :order => "startdate DESC"
-  end
-
-  def iphone
-    authorize! :read, Event
-    
-    @startdate = params["startdate"] ? Date.parse(params["startdate"]) : Date.today 
-    @enddate   = @startdate+7
-
-    @eventdates = Eventdate.where("startdate > ? AND enddate <= ?", @startdate, @enddate).order("startdate ASC")
-
-    unless params[:showall]
-      @eventdates.reject! do |eventdate|
-        eventdate.event.publish == false
-      end
-    end
-
-    unless @eventdates.empty?
-      i = 0
-      while (@eventdates[i] and @eventdates[i+1])
-        if @eventdates[i].startdate.wday != @eventdates[i+1].startdate.wday
-          #insert tombstome for new day
-          @eventdates.insert(i+1, Date.parse(@eventdates[i+1].startdate.strftime("%F")))
-          #skip tombstone
-          i+=1
-        end
-        i += 1
-      end
-      @eventdates.insert(0, Date.parse(@eventdates[0].startdate.strftime("%F")))
-    end
-    render :layout => "iphone"
   end
 
   def calendar

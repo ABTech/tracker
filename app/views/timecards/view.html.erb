@@ -4,7 +4,7 @@
 <p>Download a pdf of <%= link_to 'all timecards', view_timecard_path(:id => @timecard, :format => 'pdf') %> from this period.</p>
 
 <% @timecard.members.each do |member| %>
-  <h2>Timecard for <%= link_to member.fullname, member %> (<%= number_to_currency member.payrate %>/hr)</h2>
+  <h2>Timecard for <%= text_with_conditional_link_to member.fullname, member, :read, member %> (<%= number_to_currency member.payrate %>/hr)</h2>
 <%= render :partial => 'timecard', :object => @timecard, :locals => {:member => member, :details => false} %>
 <% end %>
 

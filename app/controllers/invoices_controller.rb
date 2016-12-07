@@ -120,8 +120,8 @@ class InvoicesController < ApplicationController
       @email_cc= "tiffanypriester@cmu.edu,abtech+billing@andrew.cmu.edu"
     else
       @email_cc = "abtech@andrew.cmu.edu"
-      if @invoice.event.tic
-        @email_cc += "," + @invoice.event.tic.email
+      @invoice.event.tic.each do |tic|
+        @email_cc += "," + tic.email
       end
     end
     

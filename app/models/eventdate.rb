@@ -125,10 +125,10 @@ class Eventdate < ApplicationRecord
   end
   
   def tic
-    t = event_roles.where(role: EventRole::Role_TiC).first
-    return t.member if t
+    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).all
+    return t unless t.empty?
     return event.tic if event
-    nil
+    []
   end
   
   def exec

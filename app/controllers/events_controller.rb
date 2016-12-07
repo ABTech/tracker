@@ -149,7 +149,7 @@ class EventsController < ApplicationController
         p[:eventdates_attributes].each do |key,ed|
           if ed[:id]
             red = Eventdate.find(ed[:id])
-            if red.tic.id != current_member.id
+            if !red.tic.include? current_member
               p[:eventdates_attributes][key].delete(:_destroy)
               p[:eventdates_attributes][key].delete(:startdate)
               p[:eventdates_attributes][key].delete(:description)

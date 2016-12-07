@@ -47,8 +47,8 @@ namespace :email do
                 unless Email.create_from_mail(mail)
                   logger.error("Could not pull message #{mail.message_id}")
                 end
-              rescue
-                logger.error("Exception while loading message #{mail.message_id}")
+              rescue Exception => e
+                logger.error("Exception while loading message #{mail.message_id}: " + e.to_s + "\n" + e.backtrace.join("\n"))
               end
             end
           end

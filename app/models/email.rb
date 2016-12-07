@@ -109,10 +109,11 @@ class Email < ApplicationRecord
     # threading
     if mail.subject
       subject_stripped = mail.subject
+      
       while subject_stripped.downcase.start_with? "re: "
         subject_stripped = subject_stripped[4..-1]
       end
-    
+
       subjects = [mail.subject, "Re: " + mail.subject, subject_stripped, "Re: " + subject_stripped].collect(&:downcase).uniq
       if mail.in_reply_to
         prev = Email.where("message_id = ? OR (sender = ? AND LCASE(subject) IN (?))", mail.in_reply_to, mail.from[0], subjects).first
@@ -122,6 +123,13 @@ class Email < ApplicationRecord
     
       if prev
         message.event_id = prev.event_id
+      elsif mail.subject.start_with? "[AB Tech] Request | "
+        repdate = Date.strptime(mail.subject[mail.subject.size - 10, 10], "%m/%d/%Y")
+        event = Event.where("title = ? AND representative_date >= ? AND representative_date <= ?", mail.subject[20, mail.subject.size - 31], repdate - 1.day, repdate + 2.day).first
+
+        if event
+          message.event_id = event.id
+        end
       end
     else
       # no subject!

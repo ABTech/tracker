@@ -24,6 +24,16 @@ class Eventdate < ApplicationRecord
   extend Enumerize
   enumerize :calltype, in: ["literal", "blank", "startdate"]
   enumerize :striketype, in: ["literal", "enddate", "none", "blank"]
+  
+  scope :call_between, ->(starttime, endtime) do
+    where(calldate: starttime..endtime, calltype: "literal")
+    .or(where(startdate: starttime..endtime, calltype: "startdate"))
+  end
+  
+  scope :strike_between, ->(starttime, endtime) do
+    where(strikedate: starttime..endtime, striketype: "literal")
+    .or(where(enddate: starttime..endtime, striketype: "enddate"))
+  end
 
   def dates
     if startdate and enddate

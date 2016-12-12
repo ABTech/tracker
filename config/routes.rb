@@ -105,7 +105,6 @@ Rails.application.routes.draw do
 
   get 'calendar/generate.:format' => 'events#generate'
   get 'calendar' => 'events#calendar'
-  get 'calendar/callfeed' => 'events#callfeed'
   get 'mobile' => 'events#mobile'
 
   root to: 'events#index'

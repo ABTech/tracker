@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :callfeed, :index, :month]
+  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month]
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -61,7 +61,7 @@ class EventsController < ApplicationController
     end
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
+      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
@@ -86,7 +86,7 @@ class EventsController < ApplicationController
     authorize! :update, @event
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
         :email_description, :notes, {:location_ids => []}, {:equipment_ids => []},
@@ -397,14 +397,6 @@ class EventsController < ApplicationController
       flash[:error] = "Please select a valid format.";
       redirect_to(:action => "index");
       return;
-    end
-  end
-  
-  def callfeed
-    @calls = Eventdate.where("events.textable = TRUE").where("(calldate < ?) AND (calldate > ?)", 30.minutes.from_now, 2.hours.ago).includes(:event).references(:event)
-    
-    respond_to do |format|
-      format.rss { render :layout => false }
     end
   end
 end

@@ -10,7 +10,7 @@ namespace :groupme do
     config = YAML.load_file(Rails.root.join("config", "groupme.yml"))
     
     logger.info("Logging into GroupMe")
-    client = GroupMe::Client.new(:token => config[:access_token])
+    client = GroupMe::Client.new(:token => "TEST")
     
     startdate = DateTime.now
     enddate = 1.hour.from_now

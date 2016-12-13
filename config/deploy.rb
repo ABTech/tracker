@@ -46,8 +46,7 @@ set :assets_roles, [:app]
 set :whenever_command, "bundle exec whenever"
 
 # foreman
-# Remember that you need a group-writeable /etc/init/sites
-set :foreman_export_format, 'systemd'
-set :foreman_export_app, -> { "sites/#{fetch(:application)}" }
-#after :'deploy:publishing', :'foreman:restart'
-#append :rvm_map_bins, "foreman"
+after :'deploy:publishing', :'foreman_systemd:restart'
+set :foreman_systemd_user, "abtech"
+append :rvm_map_bins, "foreman"
+append :bundle_bins, "foreman"

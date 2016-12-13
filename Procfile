@@ -1,1 +1,1 @@
-mail_room: bundle exec rails email:idle
+mail_room: RAILS_ENV=production bundle exec rails email:idle

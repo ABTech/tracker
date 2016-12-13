@@ -15,7 +15,7 @@
       <% if can? :read, Event %>
         <%= link_to "#{eventdate.event.title} - #{eventdate.description}", eventdate.event %>
       <% else %>
-        <%= event.title %> - <%= eventdate.description %>
+        <%= eventdate.event.title %> - <%= eventdate.description %>
       <% end %>
       <br />
       <small class="organization"><%= eventdate.event.organization.name %></small>

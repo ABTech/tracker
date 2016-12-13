@@ -4,4 +4,12 @@
   <span id="event-sel-time"><%= link_to "Future", events_url %> | <%= link_to "Past", past_events_url %></span>
 </div>
 
-<%= eventslist @eventdates %>
+<%= render partial: "list_header" %>
+
+<% if @eventruns.empty? %>
+  <tr><td colspan="6" style="text-align: center; padding: 10px 0">No events found!</td></tr>
+<% else %>
+  <%= render partial: "run", collection: @eventruns %>
+<% end %>
+
+<%= render partial: "list_footer" %>

@@ -1,0 +1,66 @@
+<% run.each_with_index do |eventdate, run_i| %>
+  <tr class="<%= eventdate.event.status.delete(' ').underscore %>">
+    <td>&nbsp;</td>
+    <td>
+      <% if eventdate.startdate.year == Date.today.year %>
+        <%= eventdate.startdate.strftime("%A, %B %d") %>
+      <% else %>
+        <%= eventdate.startdate.strftime("%A, %B %d, %Y") %>
+      <% end %><br />
+      <% if can? :read, Event %>
+        <small class="published">(<%= eventdate.event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
+      <% end %>
+    </td>
+    <td>
+      <% if can? :read, Event %>
+        <%= link_to "#{eventdate.event.title} - #{eventdate.description}", eventdate.event %>
+      <% else %>
+        <%= event.title %> - <%= eventdate.description %>
+      <% end %>
+      <br />
+      <small class="organization"><%= eventdate.event.organization.name %></small>
+    </td>
+    <td style="white-space: normal;">
+      <ul class="eventslist-data-list">
+        <% eventdate.locations.sorted.each do |location| %>
+          <li><%= location %></li>
+        <% end %>
+        
+        <% if can? :read, Event and not eventdate.equipment.empty? %>
+          <li><%= eventdate.equipment.map(&:shortname).join(", ") %></li>
+        <% end %>
+      </ul>
+    </td>
+    <td>
+      <small>
+        C: <%= render_eventdate_call eventdate %><br/>
+        E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
+        S: <%= render_eventdate_strike eventdate %>
+      </small>
+    </td>
+    
+    <%# This ensures that roles are only printed once per run of events %>
+    <% if run_i == 0 %>
+      <% if can? :read, Event and eventdate.tic.blank? %>
+        <td class="ticless" rowspan="<%= run.length %>">
+      <% else %>
+        <td rowspan="<%= run.length %>">
+      <% end %>
+      
+      <% eventdate.full_roles.sort.each do |role| %>
+        <% if can? :read, Event or
+            (not role.member.nil? and
+              role.role == EventRole::Role_TiC or
+              (role.role == EventRole::Role_exec and
+                (not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TiC } or
+                eventdate.full_roles.find { |r| r.role == EventRole::Role_TiC }.member.nil?)
+              )
+            )
+        %>
+          <%= role.role %>: <%= show_run_position role %><br />
+        <% end %>
+      <% end %>
+      </td>
+    <% end %>
+  </tr>
+<% end %>

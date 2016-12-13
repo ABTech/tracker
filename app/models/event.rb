@@ -132,7 +132,7 @@ class Event < ActiveRecord::Base
   end
   
   def tic
-    event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).all.map(&:member)
+    event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
   end
   
   def exec

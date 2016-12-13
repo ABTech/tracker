@@ -62,7 +62,7 @@ gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
-gem 'thinking-sphinx', '~> 3.2.0'
+gem 'thinking-sphinx', '~> 3.3.0'
 gem 'whenever'
 gem 'amoeba'
 gem 'web-console', '~> 3.0', group: [:development]

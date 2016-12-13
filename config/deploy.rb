@@ -50,3 +50,6 @@ after :'deploy:publishing', :'foreman_systemd:restart'
 set :foreman_systemd_user, "abtech"
 append :rvm_map_bins, "foreman"
 append :bundle_bins, "foreman"
+
+# sphinx
+set :thinking_sphinx_roles, :app

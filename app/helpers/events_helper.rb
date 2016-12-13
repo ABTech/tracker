@@ -135,4 +135,14 @@ module EventsHelper
     end
   end
   
+  def weeks_from_now(weeks)
+    if weeks == 1
+      "next week"
+    elsif weeks == 2
+      "week after next"
+    else
+      "#{weeks} weeks from now"
+    end
+  end
+  
 end

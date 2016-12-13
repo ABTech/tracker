@@ -32,10 +32,13 @@ table.eventslist {
   .eventslist-week-marker {
     td {
       border: 0;
-      text-align: center;
-      padding: 4px !important;
-      color: gray;
-      font-style: italic;
+      
+      &.marker {
+        text-align: center;
+        padding: 6px 0 2px;
+        color: gray;
+        font-style: italic;
+      }
     }
   }
 }

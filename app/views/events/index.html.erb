@@ -11,7 +11,8 @@
   <% @eventweeks.each do |week| %>
     <% if can? :read, Event and week[:weeks_away] > 0 %>
       <tr class="eventslist-week-marker">
-        <td colspan="6"><%= week[:weeks_away] %> weeks from now</td>
+        <td>&nbsp;</td>
+        <td class="marker"><%= weeks_from_now week[:weeks_away] %></td>
       </tr>
     <% end %>
     

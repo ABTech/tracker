@@ -3,7 +3,24 @@
   <span id="event-sel-time"><b>Future (<%= @eventdates.count %>)</b> | <%= link_to "Past", past_events_url %></span>
 </div>
 
-<%= eventslist @eventdates %>
+<%= render partial: "list_header" %>
+
+<% if @eventweeks.empty? %>
+  <tr><td colspan="6" style="text-align: center; padding: 10px 0">No events found!</td></tr>
+<% else %>
+  <% @eventweeks.each do |week| %>
+    <% if can? :read, Event and week[:weeks_away] > 0 %>
+      <tr class="eventslist-week-marker">
+        <td>&nbsp;</td>
+        <td class="marker"><%= weeks_from_now week[:weeks_away] %></td>
+      </tr>
+    <% end %>
+    
+    <%= render partial: "run", collection: week[:eventruns] %>
+  <% end %>
+<% end %>
+
+<%= render partial: "list_footer" %>
 
 <% if can? :read, Event %>
   <% content_for :more do %>

@@ -7,7 +7,7 @@ class EventRoleApplication < ApplicationRecord
   def superior
     position = event_role.superior
     unless position.nil?
-      sup = event_role.roleable.event_roles.where(role: position)
+      sup = event_role.roleable.event_roles.where(role: position).where.not(member: nil)
       return sup.map(&:member) unless sup.empty?
       
       sup = event_role.roleable.tic

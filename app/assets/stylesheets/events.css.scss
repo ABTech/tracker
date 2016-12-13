@@ -18,6 +18,29 @@ table.eventsmain > tbody > tr > td {
 table.eventslist {
 	width: 99%;
 	margin: 0 20px 0 0;
+  
+  .eventslist-data-list {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    
+    li {
+      list-style-type: none;
+    }
+  }
+  
+  .eventslist-week-marker {
+    td {
+      border: 0;
+      
+      &.marker {
+        text-align: center;
+        padding: 6px 0 2px;
+        color: gray;
+        font-style: italic;
+      }
+    }
+  }
 }
 
 .eventslist td:first-child
@@ -31,7 +54,7 @@ table.eventslist > tbody > tr > th {
 }
 table.eventslist > tbody > tr > td {
 	border: 1px solid #BBBBBB;
-	padding: 0px 7px;
+	padding: 4px 7px;
 	white-space: nowrap;
 }
 table.eventslist tr.list_header, table.eventslist tr.list_footer {

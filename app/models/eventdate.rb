@@ -135,7 +135,7 @@ class Eventdate < ApplicationRecord
   end
   
   def tic
-    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).all
+    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all
     return t unless t.empty?
     return event.tic if event
     []
@@ -154,6 +154,25 @@ class Eventdate < ApplicationRecord
   
   def run_positions_for(member)
     self.event_roles.where(member: member)
+  end
+  
+  def self.runify(eventdates)
+    eventdates.chunk do |ed|
+      ed.full_roles
+    end.map do |roles, run|
+      run
+    end
+  end
+  
+  def self.weekify(eventdates)
+    eventdates.chunk do |ed|
+      TimeDifference.between(DateTime.now, ed.startdate).in_weeks.floor
+    end.map do |weeks, eds|
+      {
+        :weeks_away => weeks,
+        :eventruns => Eventdate.runify(eds)
+      }
+    end
   end
   
   private

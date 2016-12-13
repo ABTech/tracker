@@ -1,0 +1,1 @@
+mail_room: bundle exec rails email:idle

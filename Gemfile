@@ -36,7 +36,15 @@ end
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', '~> 2.1', group: :development, require: false
+group :development do
+  gem 'capistrano', '~> 3.0', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-foreman', require: false
+  gem 'capistrano-passenger', require: false
+  gem 'highline', require: false
+end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
@@ -54,8 +62,6 @@ gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
-gem 'rvm-capistrano'
-gem 'net-ssh', '~> 2.7.0'
 gem 'thinking-sphinx', '~> 3.2.0'
 gem 'whenever'
 gem 'amoeba'
@@ -65,3 +71,4 @@ gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'groupme'
 gem 'time_difference'
+gem 'foreman'

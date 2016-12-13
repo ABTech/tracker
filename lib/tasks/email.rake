@@ -43,8 +43,12 @@ namespace :email do
             mail = Mail.new(msg.attr["BODY[]"])
             
             unless Email.where(message_id: mail.message_id).exists?
-              unless Email.create_from_mail(mail)
-                logger.error("Could not pull message #{mail.message_id}")
+              begin
+                unless Email.create_from_mail(mail)
+                  logger.error("Could not pull message #{mail.message_id}")
+                end
+              rescue Exception => e
+                logger.error("Exception while loading message #{mail.message_id}: " + e.to_s + "\n" + e.backtrace.join("\n"))
               end
             end
           end

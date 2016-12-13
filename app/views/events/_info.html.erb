@@ -10,9 +10,19 @@
     <% end %>
   </div>
 
-  <p><b><%= event.status %></b>,
-  <%= event.rental ? "Rental" : "Full Event" %>,
-  <%= event.publish ? "Published" : "Not Published" %></p>
+  <ul id="event-flags">
+    <li><b><%= event.status %></b></li>
+    <li><%= event.rental ? "Rental" : "Full Event" %></li>
+    <li><%= event.publish ? "Published" : "Not Published" %></li>
+    <% if can? :tic, event %>
+      <% if event.billable %>
+        <li>Billable</li>
+      <% end %>
+      <% if event.textable %>
+        <li>Textable</li>
+      <% end %>
+    <% end %>
+  </ul>
   
   <% if event.blackout %>
     <p>Blackout from <b><%= event.blackout.startdate.strftime("%b %d, %Y") %></b> to <b><%= event.blackout.enddate.strftime("%b %d, %Y") %></b>.</p>

@@ -23,3 +23,4 @@ config/development.sphinx.conf
 db/sphinx/*
 log/development.sphinx.pid
 config/email.yml
+config/groupme.yml

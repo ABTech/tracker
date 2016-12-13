@@ -121,9 +121,7 @@ class Event < ActiveRecord::Base
   end
   
   def tic
-    role = event_roles.where(role: EventRole::Role_TiC).first
-    return role.member if role
-    return nil
+    event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
   end
   
   def exec

@@ -166,7 +166,7 @@ class MembersController < ApplicationController
       if params[:zero_payrate] == "1"
         member.payrate = 0.0
       elsif params[:increase_payrate] == "1"
-        member.payrate = [8.0, member.payrate + 0.25].min
+        member.payrate = [9.0, member.payrate + 0.25].min
       end
       
       if params[:set_role] == "1"

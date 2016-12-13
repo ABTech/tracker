@@ -24,6 +24,16 @@ class Eventdate < ApplicationRecord
   extend Enumerize
   enumerize :calltype, in: ["literal", "blank", "startdate"]
   enumerize :striketype, in: ["literal", "enddate", "none", "blank"]
+  
+  scope :call_between, ->(starttime, endtime) do
+    where(calldate: starttime..endtime, calltype: "literal")
+    .or(where(startdate: starttime..endtime, calltype: "startdate"))
+  end
+  
+  scope :strike_between, ->(starttime, endtime) do
+    where(strikedate: starttime..endtime, striketype: "literal")
+    .or(where(enddate: starttime..endtime, striketype: "enddate"))
+  end
 
   def dates
     if startdate and enddate
@@ -125,10 +135,10 @@ class Eventdate < ApplicationRecord
   end
   
   def tic
-    t = event_roles.where(role: EventRole::Role_TiC).first
-    return t.member if t
+    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all
+    return t unless t.empty?
     return event.tic if event
-    nil
+    []
   end
   
   def exec
@@ -144,6 +154,25 @@ class Eventdate < ApplicationRecord
   
   def run_positions_for(member)
     self.event_roles.where(member: member)
+  end
+  
+  def self.runify(eventdates)
+    eventdates.chunk do |ed|
+      ed.full_roles
+    end.map do |roles, run|
+      run
+    end
+  end
+  
+  def self.weekify(eventdates)
+    eventdates.chunk do |ed|
+      TimeDifference.between(DateTime.now, ed.startdate).in_weeks.floor
+    end.map do |weeks, eds|
+      {
+        :weeks_away => weeks,
+        :eventruns => Eventdate.runify(eds)
+      }
+    end
   end
   
   private

@@ -1,6 +1,6 @@
 <div id="new-event-role-application">
   <%= form_for application, url: applications_path(application.event_role.event) do |builder| %>
-    Interested in being <%= application.event_role.role %> for <%= application.event_role.description %>? This form will send an email to <%= application.superior_name %> letting them know of your interest.
+    Interested in being <%= application.event_role.role %> for <%= application.event_role.description %>? This form will send an email to <%= application.superior_name.to_sentence %> letting them know of your interest.
     <p><b>Any questions or comments?</b><br/><%= text_area_tag :notes, nil, class: "notes", rows: 6 %></p>
     <%= builder.hidden_field :event_role_id %>
     <%= builder.hidden_field :member_id %>

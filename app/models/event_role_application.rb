@@ -7,25 +7,25 @@ class EventRoleApplication < ApplicationRecord
   def superior
     position = event_role.superior
     unless position.nil?
-      sup = event_role.roleable.event_roles.where(role: position)
-      return sup.first.member unless sup.empty?
+      sup = event_role.roleable.event_roles.where(role: position).where.not(member: nil)
+      return sup.map(&:member) unless sup.empty?
       
       sup = event_role.roleable.tic
-      return sup unless sup.nil?
+      return sup unless sup.empty?
     end
     
-    nil
+    []
   end
   
   def superior_name
     sup = superior
-    return sup.fullname unless sup.nil?
-    "the Head of Tech"
+    return sup.map(&:fullname) unless sup.empty?
+    ["the Head of Tech"]
   end
   
   def superior_email
     sup = superior
-    return sup.email unless sup.nil?
-    "abtech@andrew.cmu.edu"
+    return sup.map(&:email) unless sup.empty?
+    ["abtech@andrew.cmu.edu"]
   end
 end

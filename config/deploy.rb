@@ -43,6 +43,7 @@ namespace :deploy do
   task :symlink_config_files do
     run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/secrets.yml #{ release_path }/config/secrets.yml"
     run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/email.yml #{ release_path }/config/email.yml"
+    run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/groupme.yml #{ release_path }/config/groupme.yml"
   end
   
   desc "Create shared Thinking Sphinx folder"

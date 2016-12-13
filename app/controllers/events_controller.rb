@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :callfeed, :index, :month]
+  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month]
 
   ### generate formats (for calendar view)
   Format_ScheduleFile = "schedule";
@@ -61,7 +61,7 @@ class EventsController < ApplicationController
     end
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
+      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
@@ -86,7 +86,7 @@ class EventsController < ApplicationController
     authorize! :update, @event
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
         :email_description, :notes, {:location_ids => []}, {:equipment_ids => []},
@@ -149,7 +149,7 @@ class EventsController < ApplicationController
         p[:eventdates_attributes].each do |key,ed|
           if ed[:id]
             red = Eventdate.find(ed[:id])
-            if red.tic.id != current_member.id
+            if !red.tic.include? current_member
               p[:eventdates_attributes][key].delete(:_destroy)
               p[:eventdates_attributes][key].delete(:startdate)
               p[:eventdates_attributes][key].delete(:description)
@@ -218,6 +218,7 @@ class EventsController < ApplicationController
     end
     
     @eventdates = @eventdates.order("startdate ASC").includes({event: [:organization]}, {event_roles: [:member]}, :locations, :equipment).references(:event)
+    @eventweeks = Eventdate.weekify(@eventdates)
 
     if not member_signed_in?
       render(:action => "index", :layout => "public")
@@ -239,6 +240,8 @@ class EventsController < ApplicationController
     else
       @eventdates = Eventdate.where("enddate >= ? AND startdate <= ? AND events.publish = true", @startdate.utc, enddate.utc).order("startdate ASC").includes(:event).references(:event)
     end
+    
+    @eventruns = Eventdate.runify(@eventdates)
 
     if not member_signed_in?
       render(:action => "month", :layout => "public")
@@ -250,6 +253,7 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
+    @eventruns = Eventdate.runify(@eventdates)
   end
   
   def past
@@ -257,6 +261,7 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.where("startdate <= ?", Time.now.utc).order("startdate DESC").paginate(:per_page => 50, :page => params[:page])
+    @eventruns = Eventdate.runify(@eventdates)
   end
   
   def search
@@ -264,6 +269,7 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9 ]/,""), :page => params[:page], :per_page => 50, :order => "startdate DESC"
+    @eventruns = Eventdate.runify(@eventdates)
   end
 
   def calendar
@@ -397,14 +403,6 @@ class EventsController < ApplicationController
       flash[:error] = "Please select a valid format.";
       redirect_to(:action => "index");
       return;
-    end
-  end
-  
-  def callfeed
-    @calls = Eventdate.where("events.textable = TRUE").where("(calldate < ?) AND (calldate > ?)", 30.minutes.from_now, 2.hours.ago).includes(:event).references(:event)
-    
-    respond_to do |format|
-      format.rss { render :layout => false }
     end
   end
 end

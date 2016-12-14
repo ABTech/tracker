@@ -17,7 +17,7 @@
   <tr>
     <td><%= link_to a.name, a.attachment.url %></td>
     <td>
-      <% if can? :read, a.attachable %>
+      <% if not a.attachable_type == "Journal" and can? :read, a.attachable %>
         <%= link_to a.attachable, a.attachable %>
       <% end %>
     </td>

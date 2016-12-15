@@ -44,7 +44,7 @@ class EventRoleApplicationsController < ApplicationController
       EventRoleApplicationMailer.accept(@application).deliver_now
       @application.destroy
 
-      flash[:notice] = "#{@application.event_role.member.fullname} is now #{@application.event_role.description} #{@application.event_role.role}."
+      flash[:notice] = "#{@application.event_role.member.display_name} is now #{@application.event_role.description} #{@application.event_role.role}."
     end
     
     redirect_to @application.event_role.event

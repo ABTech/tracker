@@ -13,8 +13,8 @@
       <td><%= members.length %></td>
       <td>
         <ul>
-          <% members.collect do |m| %>
-            <li><%=m%></li>
+          <% members.each do |m| %>
+            <li><%= m.display_name %></li>
           <% end %> 
         </ul>
       </td>

@@ -5,7 +5,7 @@
   <table width="50%" border="0" class="generic">
     <tr>
       <td class="subheading">From:</td>
-      <td><%= current_member.fullname %> &lt;<%= current_member.email %>&gt;</td>
+      <td><%= current_member.display_name %> &lt;<%= current_member.email %>&gt;</td>
     </tr>
     
     <tr>
@@ -30,7 +30,7 @@
     
     <tr>
       <td class="subheading"><%= label_tag :outro_blurb, "Outro Blurb" %>:</td>
-      <td><%= text_area_tag :outro_blurb, "Sincerely,\n" + current_member.fullname, size: "80x10" %></td>
+      <td><%= text_area_tag :outro_blurb, "Sincerely,\n" + current_member.display_name, size: "80x10" %></td>
     </tr>
   </table>
   

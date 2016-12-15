@@ -20,7 +20,7 @@ class EventRoleApplication < ApplicationRecord
   
   def superior_name
     sup = superior
-    return sup.map(&:fullname) unless sup.empty?
+    return sup.map(&:display_name) unless sup.empty?
     ["the Head of Tech"]
   end
   

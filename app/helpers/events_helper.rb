@@ -54,8 +54,8 @@ module EventsHelper
   
   def members_for_select(role)
     members = [["unassigned", [["unassigned", ""]]]]
-    members << ["Active Members", Member.active.alphabetical.map {|m| [m.fullname, m.id]}]
-    members << ["Alumni", Member.where(role: "alumni").alphabetical.map {|m| [m.fullname, m.id]}]
+    members << ["Active Members", Member.active.alphabetical.map {|m| [m.display_name, m.id]}]
+    members << ["Alumni", Member.where(role: "alumni").alphabetical.map {|m| [m.display_name, m.id]}]
   end
   
   def month_links(cur=nil,count=nil)
@@ -131,9 +131,9 @@ module EventsHelper
     elsif er.appliable and not er.assigned? and can? :create, er.applications.build(member: current_member)
       link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true)
     elsif current_member
-      er.assigned_to
+      er.assigned_to use_display_name: true
     else
-      er.emojiless_assigned_to
+      er.assigned_to
     end
   end
   

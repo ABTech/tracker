@@ -53,10 +53,14 @@ class Member < ApplicationRecord
     "#{namefirst} #{namelast}"
   end
   
-  def emojiless_fullname
-    fullname.gsub(/[\u{1F300}-\u{1F6FF}]/, "")
+  def display_name
+    if not namenick.blank?
+      namenick
+    else
+      fullname
+    end
   end
-
+  
   def to_s
     "#{fullname}"
   end

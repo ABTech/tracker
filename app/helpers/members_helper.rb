@@ -20,7 +20,7 @@ module MembersHelper
   def bulk_members_for_select
     Member.role.values.reverse.map do |role|
       [Member.new(:role => role).role_text, Member.with_role(role).alphabetical.map do |m|
-        [m.fullname, m.id]
+        [m.display_name, m.id]
       end]
     end.reject do |role|
       role[1].size == 0

@@ -67,7 +67,7 @@ class EventRole < ApplicationRecord
   validates_inclusion_of :role, :in => Roles_All
 
   def assigned?
-    return (member != nil);
+    not member.nil?
   end
 
   def to_s

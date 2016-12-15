@@ -184,9 +184,9 @@ class EventsController < ApplicationController
     authorize! :destroy, @event
     
     flash[:notice] = "Deleted event " + @event.title + "."
-    @event.destroy()
+    @event.destroy
 
-    redirect_to(:action => "index")
+    redirect_to events_url
   end
 
   def delete_conf

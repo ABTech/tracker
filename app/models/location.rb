@@ -11,7 +11,7 @@ class Location < ApplicationRecord
   scope :sorted, -> { order(id: :asc) }
 
   def to_s
-    return (building + " - " + room);
+    "#{building} - #{room}"
   end
   
   private

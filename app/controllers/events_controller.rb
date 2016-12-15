@@ -46,7 +46,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     
     @event.eventdates.each do |ed|
-      ed.event_roles.build
+      ed.event_roles.build if ed.event_roles.empty?
     end
     
     authorize! :update, @event

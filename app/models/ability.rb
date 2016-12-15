@@ -94,6 +94,8 @@ class Ability
       can :destroy, Comment
       can :manage, Blackout
       can :update, EventRoleApplication
+      can :supertic, Event
+      can :supertic, Eventdate
       
       # Read only tracker management
       can :read, Equipment

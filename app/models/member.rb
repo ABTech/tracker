@@ -50,7 +50,11 @@ class Member < ApplicationRecord
   Default_sort_key = "namelast"
 
   def fullname
-    return namefirst + " " + namelast
+    "#{namefirst} #{namelast}"
+  end
+  
+  def emojiless_fullname
+    fullname.gsub(/[\u{1F300}-\u{1F6FF}]/, "")
   end
 
   def to_s

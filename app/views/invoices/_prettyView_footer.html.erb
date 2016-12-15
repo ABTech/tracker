@@ -13,7 +13,7 @@
   </td></tr>
   <tr><td>Date:</td><td><%= Time.now.strftime("%B %d, %Y") %></td></tr>
   <tr><td>Invoice Number:</td><td><%= @invoice.id %></td></tr>
-  <tr><td>Prepared By:</td><td><%=  current_member().fullname %></td></tr>
+  <tr><td>Prepared By:</td><td><%= current_member.emojiless_fullname %></td></tr>
   </table>
 </td>
 <tr><td>

@@ -81,6 +81,14 @@ class EventRole < ApplicationRecord
       "(unassigned)"
     end
   end
+  
+  def emojiless_assigned_to
+    if assigned?
+      member.emojiless_fullname
+    else
+      "(unassigned)"
+    end
+  end
 
   def sort_index 
     Roles_All.each_index { |role_index| return role_index if Roles_All[role_index] == role }

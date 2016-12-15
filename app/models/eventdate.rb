@@ -135,7 +135,7 @@ class Eventdate < ApplicationRecord
   end
   
   def tic
-    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all
+    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
     return t unless t.empty?
     return event.tic if event
     []

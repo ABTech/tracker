@@ -59,6 +59,9 @@
           <tr>
             <th>Role</th>
             <th>Techie</th>
+            <% if can? :tic, @event or can? :tic, f.object or not f.object.run_positions_for(current_member).flat_map(&:assistants).empty? %>
+              <th>Appliable?</th>
+            <% end %>
           </tr>
         </thead>
     

@@ -92,6 +92,9 @@
         <tr>
           <th>Role</th>
           <th>Techie</th>
+          <% if can? :tic, @event or not @event.run_positions_for(current_member).flat_map(&:assistants).empty? %>
+            <th>Appliable?</th>
+          <% end %>
         </tr>
       </thead>
       

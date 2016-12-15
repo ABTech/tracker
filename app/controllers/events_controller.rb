@@ -64,8 +64,8 @@ class EventsController < ApplicationController
       :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
-        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
-      :event_roles_attributes => [:role, :member_id],
+        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id, :appliable]}],
+      :event_roles_attributes => [:role, :member_id, :appliable],
       :attachments_attributes => [:attachment, :name],
       :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
     
@@ -90,9 +90,9 @@ class EventsController < ApplicationController
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
         :email_description, :notes, {:location_ids => []}, {:equipment_ids => []},
-        {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
+        {:event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
-      :event_roles_attributes => [:id, :role, :member_id, :_destroy],
+      :event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy],
       :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
       :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     

@@ -126,9 +126,9 @@ module EventsHelper
   end
   
   def show_run_position(er)
-    if not er.assigned? and er.applications.where(member: current_member).count > 0
+    if er.appliable and not er.assigned? and er.applications.where(member: current_member).count > 0
       "(applied!)"
-    elsif not er.assigned? and can? :create, er.applications.build(member: current_member)
+    elsif er.appliable and not er.assigned? and can? :create, er.applications.build(member: current_member)
       link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true)
     else
       er.assigned_to

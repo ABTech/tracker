@@ -124,6 +124,16 @@ table.generic tr:hover td {
   background-color: #A6FFA6 !important;
 }
 
+table.generic ul.flat {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+table.generic ul.flat li {
+  list-style-type: none;
+}
+
 th img.order {
   border-width: 0;
   margin: 0 0 -2px 0; 

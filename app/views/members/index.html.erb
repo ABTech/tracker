@@ -2,21 +2,21 @@
   <p>See also: <a href="https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList">https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList</a></p>
 <table class="generic" width="100%">
   <tr>
-    <th><%= table_order_link( "kerbid",   "email",     @order) %></th>
-    <th><%= table_order_link( "Name",     "namelast",  @order) %></th>
-    <th><%= table_order_link( "Nickname", "namenick",   @order) %></th>
-    <th><%= table_order_link( "Phone",    "phone",      @order) %></th>
-    <th><%= table_order_link( "Callsign",    "callsign",      @order) %></th>
-    <th><%= table_order_link( "Shirt Size",    "shirt_size",      @order) %></th>
+    <th><%=   table_order_link "kerbid",              "email",                  @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Name",                "namelast",               @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Nickname",            "namenick",               @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Phone",               "phone",                  @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Callsign",            "callsign",               @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Shirt Size",          "shirt_size",             @order, @order_desc, @query %></th>
     <% if can? :hot, Member %>
-      <th><%= table_order_link "Payroll Submission", "payroll_paperwork_date", @order %></th>
-      <th><%= table_order_link "SSI Submission", "ssi_date", @order %></th>
-      <th><%= table_order_link "Key Possession", "key_possession", @order %></th>
+      <th><%= table_order_link "Payroll Submission",  "payroll_paperwork_date", @order, @order_desc, @query %></th>
+      <th><%= table_order_link "SSI Submission",      "ssi_date",               @order, @order_desc, @query %></th>
+      <th><%= table_order_link "Key Possession",      "key_possession",         @order, @order_desc, @query %></th>
     <% end %>
-    <%- if can? :show, Member -%>
+    <% if can? :show, Member %>
       <th><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></th>
-      <th><%= table_order_link( "Joined",  "created_at", @order) %></th>
-    <%- end -%>
+      <th><%= table_order_link "Joined",              "created_at",             @order, @order_desc, @query %></th>
+    <% end %>
   </tr>
   
 <% for member in @members %>

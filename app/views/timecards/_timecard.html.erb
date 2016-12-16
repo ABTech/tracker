@@ -1,7 +1,7 @@
 <% if details %>
   <p>
-    This timecard is for the period ending on 
-    <%= timecard.billing_date.strftime("%b %d, %Y") %> and 
+    This timecard is for the period ending on
+    <%= timecard.billing_date.strftime("%b %d, %Y") %> and
     <% timecard.submitted? ? "was" : "is" %> due on
     <%= timecard.due_date.strftime("%b %d, %Y") %>.
     This timecard is only for events between <%= timecard.start_date.strftime("%b %d") %> and <%= timecard.end_date.strftime("%b %d") %>.
@@ -10,7 +10,7 @@
 
 <table class="generic" border="1">
   <tr>
-    <th>Event</th> <th>Start Date/Time</th> <th>Hours</th> <% unless !details or timecard.submitted %><th></th><% end %>
+    <th>Event</th> <th>Start Date/Time</th> <th>Hours</th> <% unless !details or timecard.submitted or timecard.entries(member).empty? %><th></th><% end %>
   </tr>
 
   <% timecard.entries(member).each do |t| %>

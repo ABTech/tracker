@@ -170,6 +170,7 @@ table.calendarmain > tbody > tr > td {
 /* generic calendar attributes */
 table.calendar {
 	width: 175px;
+  margin-bottom: 1em;
 }
 table.calendar table {
 	width: 100%;
@@ -383,4 +384,19 @@ td.subheading {
     font-weight: bold;
     font-size: larger;
     color: green;
+}
+
+#search {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input.search_empty {
+  color: #BBBBBB;
+  border: 1px solid #BBBBBB;
+}
+
+input.search_full {
+  color: #000000;
+  border: 1px solid #666666;
 }

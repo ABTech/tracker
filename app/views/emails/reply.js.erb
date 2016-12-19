@@ -1,4 +1,4 @@
-$(".eventsmain").before('<%= j render(partial: "emails/reply", object: @reply) %>');
+$("#eventsmain").before('<%= j render(partial: "emails/reply", object: @reply) %>');
 $("#reply-dialog").dialog({
   resizable: false,
   position: "center",

@@ -2,16 +2,29 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-table.eventsmain {
+#eventsmain {
 	max-width: 1280px;
   margin: 0 auto;
 	margin-top: 10px;
-  padding-right: 2em;
   margin-bottom: 2em;
+  display: table;
 }
 
-table.eventsmain > tbody > tr > td {
-	vertical-align: top;
+#sidebar {
+  padding: 0 20px;
+  display: table-cell;
+  vertical-align: top;
+  
+  form {
+    margin-bottom: 1em;
+  }
+}
+
+#eventsbody {
+  width: 100%;
+  padding-right: 1em;
+  display: table-cell;
+  vertical-align: top;
 }
 
 /* generic event list attributes */

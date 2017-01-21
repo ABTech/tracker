@@ -43,7 +43,7 @@ set :migration_role, :app
 set :assets_roles, [:app]
 
 # whenever
-set :whenever_command, "bundle exec whenever"
+set :whenever_roles, :app
 
 # foreman
 after :'deploy:publishing', :'foreman_systemd:restart'

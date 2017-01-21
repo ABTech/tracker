@@ -1,0 +1,1 @@
+mail_room: RAILS_ENV=production bundle exec rails email:idle

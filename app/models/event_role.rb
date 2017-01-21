@@ -67,21 +67,25 @@ class EventRole < ApplicationRecord
   validates_inclusion_of :role, :in => Roles_All
 
   def assigned?
-    return (member != nil);
+    not member.nil?
   end
 
   def to_s
     role + ": " + assigned_to
   end
   
-  def assigned_to
+  def assigned_to(options = {})
     if assigned?
-      member.fullname
+      if options[:use_display_name]
+        member.display_name
+      else
+        member.fullname
+      end
     else
       "(unassigned)"
     end
   end
-
+  
   def sort_index 
     Roles_All.each_index { |role_index| return role_index if Roles_All[role_index] == role }
     return -1 

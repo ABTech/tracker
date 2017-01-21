@@ -76,33 +76,6 @@ class Event < ActiveRecord::Base
     eventdates.flat_map(&:locations).uniq.sort_by(&:id)
   end
 
-  # return an array of dates segmenting regions of dates.
-  def date_regions
-    times = eventdates.collect{|dt| [dt.startdate, dt.enddate]}.flatten().uniq().sort();
-    dates = eventdates().sort_by{|k| k.startdate};
-
-    contents = [];
-    working_set = [];
-    headers = [];
-
-    times.each do |time|
-      working_set.reject! {|date| !((date.startdate <= time) && (date.enddate > time))};
-
-      while(!dates.empty? && (dates.first.startdate <= time) && (dates.first.enddate > time))
-        working_set << dates.shift();
-      end
-    
-      if(!working_set.empty?)
-        headers << time;
-        contents << Array.new(working_set);
-      end
-    end
-
-    return headers, contents;
-  end
-
-  # method to resort event_roles by a given key
-  # @param by is a field of event_role, but this behavior is not yet implemented
   def sort_roles
     event_roles.to_a.sort!
   end

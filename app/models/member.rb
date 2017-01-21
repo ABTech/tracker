@@ -50,9 +50,17 @@ class Member < ApplicationRecord
   Default_sort_key = "namelast"
 
   def fullname
-    return namefirst + " " + namelast
+    "#{namefirst} #{namelast}"
   end
-
+  
+  def display_name
+    if not namenick.blank?
+      namenick
+    else
+      fullname
+    end
+  end
+  
   def to_s
     "#{fullname}"
   end

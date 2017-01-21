@@ -1,11 +1,4 @@
 module ApplicationHelper
-  def ajax_link_to(text, options)
-    return "<a href=\"javascript:doAndReload('" +
-           url_for(options) +
-           "')\">" +
-           text +
-           "</a>";
-  end
   
   def conditional_link_to(title, url, action, model)
     link_to title, url if can? action, model

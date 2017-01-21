@@ -200,3 +200,11 @@ $ ->
 
 $ ->
   setupForms()
+
+$ ->
+  $("#search.search_empty").focus ->
+    $(this).removeClass("search_empty")
+    $(this).addClass("search_full")
+  $("#search.search_full").blur ->
+    $(this).removeClass("search_full")
+    $(this).addClass("search_empty")

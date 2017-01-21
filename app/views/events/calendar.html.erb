@@ -4,7 +4,11 @@
   <% num_rows.times do |i| %>
     <tr>
       <% num_cols.times do |j| %>
-        <td><%= monthview @selected_month[i*num_cols+j], :published => true, :blackouts => true %></td>
+        <% if can? :read, Event %>
+          <td><%= monthview @selected_month[i*num_cols+j], :blackouts => true %></td>
+        <% else %>
+          <td><%= monthview @selected_month[i*num_cols+j], :published => true, :blackouts => true %></td>
+        <% end %>
       <% end %>
     </tr>
   <% end %>

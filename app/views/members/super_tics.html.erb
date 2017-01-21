@@ -18,7 +18,7 @@
       <tr>
         <th><%= d.dayname %></th>
         <td>
-          <%= select_tag "super_tics[#{d.day}]", options_from_collection_for_select(Member.can_be_supertic, :id, :fullname, d.member_id), :include_blank => "" %>
+          <%= select_tag "super_tics[#{d.day}]", options_from_collection_for_select(Member.can_be_supertic, :id, :display_name, d.member_id), :include_blank => "" %>
         </td>
       </tr>
     <% end %>

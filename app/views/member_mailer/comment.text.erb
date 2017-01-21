@@ -1,6 +1,6 @@
-<%= @member.fullname %>,
+<%= @member.display_name %>,
 
-<%= @comment.member.fullname %> has posted a new comment on the event <%= @comment.event.title %> (link below). You are receiving this email because you hold a run position either on the event or on one of its subevents. Here is the comment:
+<%= @comment.member.display_name %> has posted a new comment on the event <%= @comment.event.title %> (link below). You are receiving this email because you hold a run position either on the event or on one of its subevents. Here is the comment:
 
 <%= @comment.content.lines.map {|l| "> " + l}.join("") %>
 

@@ -1,5 +1,7 @@
-<% content_for :sidebar do %>
-  <% load_account_totals %>
+<% content_for :body do %>
+  <div id="eventsmain">
+    <div id="sidebar">
+      <% load_account_totals %>
 <fieldset class="account-totals">
   <legend>Totals</legend>
 
@@ -42,6 +44,12 @@
         <%= yield :more %>
       <% end %>
     </ul>
+  </div>
+    </div>
+  
+    <div id="eventsbody">
+      <%= yield %>
+    </div>
   </div>
 <% end %>
 

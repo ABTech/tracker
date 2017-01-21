@@ -135,7 +135,7 @@ class Eventdate < ApplicationRecord
   end
   
   def tic
-    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all
+    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
     return t unless t.empty?
     return event.tic if event
     []
@@ -166,7 +166,7 @@ class Eventdate < ApplicationRecord
   
   def self.weekify(eventdates)
     eventdates.chunk do |ed|
-      TimeDifference.between(DateTime.now, ed.startdate).in_weeks.floor
+      TimeDifference.between(DateTime.now.beginning_of_week, ed.startdate).in_weeks.floor
     end.map do |weeks, eds|
       {
         :weeks_away => weeks,

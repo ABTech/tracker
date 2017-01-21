@@ -4,12 +4,14 @@ class MembersController < ApplicationController
   def index
     @title = "Member List"
     @order = Member.new.has_attribute?(params[:order]) ? params[:order] : Member::Default_sort_key
+    
     if params[:desc] == "1"
-      @order += " DESC" 
-      @order_desc = true 
+      @members = @members.order(@order => :desc)
+      @order_desc = true
+    else
+      @members = @members.order(@order)
     end
-
-    @members = @members.order(@order)
+    
     if params[:active_only] == "1"
       @members = @members.active
     end
@@ -37,6 +39,8 @@ class MembersController < ApplicationController
 
       @members = @members.where(role: roles_array)
     end
+    
+    @query = params.permit(:active_only, :filter, :suspended, :alumni, :general_member, :exec, :tracker_management, :head_of_tech, :order, :desc)
 
     respond_to do |format|
       format.html

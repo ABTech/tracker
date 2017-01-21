@@ -22,7 +22,7 @@ gem 'coffee-rails', '~> 4.2.0'
 gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+# gem 'jbuilder'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -36,7 +36,15 @@ end
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', '~> 2.1', group: :development, require: false
+group :development do
+  gem 'capistrano', '~> 3.0', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-foreman-systemd', require: false, github: "hatkirby/capistrano-foreman-systemd"
+  gem 'capistrano-passenger', require: false
+  gem 'highline', require: false
+end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
@@ -54,9 +62,7 @@ gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
-gem 'rvm-capistrano'
-gem 'net-ssh', '~> 2.7.0'
-gem 'thinking-sphinx', '~> 3.2.0'
+gem 'thinking-sphinx', '~> 3.3.0'
 gem 'whenever'
 gem 'amoeba'
 gem 'web-console', '~> 3.0', group: [:development]
@@ -65,3 +71,4 @@ gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'groupme'
 gem 'time_difference'
+gem 'foreman'

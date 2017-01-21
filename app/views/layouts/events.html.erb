@@ -13,7 +13,7 @@
 
       <% if member_signed_in? %>
         <%= form_tag search_events_url, method: :get do %>
-          <%= text_field_tag :q, "Search", id: "search", class: "search_empty" %>
+          <%= text_field_tag :q, "", placeholder: "Search", id: "search", class: "search_empty" %>
         <% end %>
       <% end %>
       

@@ -96,7 +96,11 @@
   <% if can? :tic, @event %>
     <dl>
       <dt>Delete?</dt>
-      <dd><%= link_to_remove_fields image_tag("cross.png"), f %></dd>
+      <% if @event.new_record? %>
+        <dd><%= link_to_remove_fields image_tag("cross.png"), f, true %></dd>
+      <% else %>
+        <dd><%= link_to_remove_fields image_tag("cross.png"), f %></dd>
+      <% end %>
     </dl>
   <% end %>
 </div>

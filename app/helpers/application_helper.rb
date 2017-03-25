@@ -74,8 +74,12 @@ module ApplicationHelper
              select_day(startdate, :prefix => "#{object}[#{field}(3i)]", :discard_type => true)
   end
   
-  def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to(name, "#", class: "delete_field", onClick: "return false")
+  def link_to_remove_fields(name, f, destroyable=false)
+    if destroyable
+      f.hidden_field(:_destroy) + link_to(name, "#", class: "destroyable delete_field", onClick: "return false")
+    else
+      f.hidden_field(:_destroy) + link_to(name, "#", class: "undestroyable delete_field", onClick: "return false")
+    end
   end
   
   def link_to_add_fields(name, f, association, extra="", controller="", locals={})

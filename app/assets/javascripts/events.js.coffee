@@ -12,9 +12,11 @@
   return str
 
 @setUpDeleteFields = () ->
-  $("a.delete_field").click ->
+  $("a.delete_field.undestroyable").click ->
     $(this).prev("input[type=hidden]").val("1")
     $(this).closest(".fields").hide()
+  $("a.delete_field.destroyable").click ->
+    $(this).closest(".fields").remove()
     
 @setUpSuperTicAdd = (parent) ->
   parent.find(".supertic_add_role_button").click ->
@@ -77,10 +79,11 @@
       prev = $(this).parents("#event-form-dates").children(".event-date-form").last()
       $(this).parent().before($(this).data("content").replace(regexp, new_id))
       added = $(this).parents("#event-form-dates").children(".event-date-form").last()
-      setDateMonths(added.find(".call-time-field"), prev.find(".call-time-field"))
-      setDateMonths(added.find(".start-time-field"), prev.find(".start-time-field"))
-      setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
-      setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
+      if prev.length > 0
+        setDateMonths(added.find(".call-time-field"), prev.find(".call-time-field"))
+        setDateMonths(added.find(".start-time-field"), prev.find(".start-time-field"))
+        setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
+        setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
       added.find(".eventdate_locations").val(prev.find(".eventdate_locations").val())
       setUpEventDate(added)
       setUpSuperTicAdd(added)

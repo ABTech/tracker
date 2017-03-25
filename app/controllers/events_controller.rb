@@ -24,6 +24,7 @@ class EventsController < ApplicationController
   def duplicate
     @old_event = Event.find(params[:id])
     @event = @old_event.amoeba_dup
+    @event.status = Event::Event_Status_Initial_Request
     
     @title = "Duplicate Event #" + @event.id.to_s
     authorize! :create, @event
@@ -81,7 +82,7 @@ class EventsController < ApplicationController
         {:event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy],
-      :invoices_attributes => [:status, :journal_invoice_attributes, :update_journal, :id],
+      :invoices_attributes => [:status, :id],
       :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     
     if cannot? :create, Organization

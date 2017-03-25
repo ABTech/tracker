@@ -62,11 +62,6 @@
       <dt><%= f.label :phone, "Phone:" %></dt>
       <dd><%= f.phone_field :phone %></dd>
     </dl>
-
-    <dl>
-    	<dt><%= f.label :ssn, "Last 4 digits of SSN:" %></dt>
-    	<dd><%= f.text_field :ssn %></dd>
-    </dl>
   
     <% if can? :hot, @member or @member == current_member %>
       <dl>
@@ -146,23 +141,8 @@
       <legend>Administrivia</legend>
      
       <dl>
-        <dt><%= f.label :payroll_paperwork_date, "Payroll paperwork submission date:" %></dt>
-        <dd><%= f.date_select :payroll_paperwork_date, { :include_blank => true, :default => nil } %></dd>
-      </dl>
-    
-      <dl>
-        <dt><%= f.label :ssi_date, "SSI submission date:" %></dt>
-        <dd><%= f.date_select :ssi_date, { :include_blank => true, :default => nil } %></dd>
-      </dl>
-    
-      <dl>
-        <dt><%= f.label :driving_paperwork_date, "Driving paperwork submission date:" %></dt>
-        <dd><%= f.date_select :driving_paperwork_date, { :include_blank => true, :default => nil } %></dd>
-      </dl>
-    
-      <dl>
-        <dt><%= f.label :key_possession, "Key possession:" %></dt>
-        <dd><%= f.select :key_possession, options_for_select(["none", "bottom", "top"], f.object.key_possession) %></dd>
+        <dt><%= f.label :on_payroll, "Is on payroll?" %></dt>
+        <dd><%= f.check_box :on_payroll %></dd>
       </dl>
     </fieldset>
   <% end %>

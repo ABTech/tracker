@@ -35,36 +35,14 @@ module ApplicationHelper
   end
 
   def app_version
-    begin
-      %x{git log --pretty=format:"%h"  -n1}
-    rescue
-      "?"
-    end
-  end
-  
-  def load_account_totals
-    @accstart = Account.magic_date unless @accstart
-    @accend = Account.future_magic_date unless @accend
-
-    @accounts_receivable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).sum(:amount)
-    @accounts_received_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).sum(:amount)
-    @accounts_payable_total = Journal.where("date >= ? AND date < ? AND date_paid IS NULL AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).sum(:amount)
-    @accounts_paid_total = Journal.where("date >= ? AND date < ? AND date_paid IS NOT NULL AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).sum(:amount)
-
-    @credit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id))
-    @debit_JEs = Journal.where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id))
-    
-    @credit_categories = Journal.select("SUM(amount) AS amount, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Credit_Accounts.pluck(:id)).group(:paymeth_category)
-    @debit_categories = Journal.select("SUM(amount) AS amount, paymeth_category").where("date >= ? AND date < ? AND account_id in (?)", @accstart, @accend, Account::Debit_Accounts.pluck(:id)).group(:paymeth_category)
-
-    @cat_totals = Hash.new(0)
-
-    @credit_categories.each do |category|
-      @cat_totals[category.paymeth_category]+=category.amount
-    end
-
-    @debit_categories.each do |category|
-      @cat_totals[category.paymeth_category]-=category.amount
+    if Rails.env.development?
+      begin
+        %x{git log --pretty=format:"%h"  -n1}
+      rescue
+        "?"
+      end
+    else
+      File.read(Rails.root.join("REVISION"))[0..6]
     end
   end
   
@@ -74,8 +52,12 @@ module ApplicationHelper
              select_day(startdate, :prefix => "#{object}[#{field}(3i)]", :discard_type => true)
   end
   
-  def link_to_remove_fields(name, f)
-    f.hidden_field(:_destroy) + link_to(name, "#", class: "delete_field", onClick: "return false")
+  def link_to_remove_fields(name, f, destroyable=false)
+    if destroyable
+      f.hidden_field(:_destroy) + link_to(name, "#", class: "destroyable delete_field", onClick: "return false")
+    else
+      f.hidden_field(:_destroy) + link_to(name, "#", class: "undestroyable delete_field", onClick: "return false")
+    end
   end
   
   def link_to_add_fields(name, f, association, extra="", controller="", locals={})

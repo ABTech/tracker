@@ -45,7 +45,7 @@ ABTT includes a rake task called `email:idle` which will connect to a Gmail acco
    Make sure to replace CLIENT_ID and CLIENT\_SECRET with the appropriate values.
 5. Among the output will be a value labeled "refresh token". Use this and the client ID and secret to create a configuration file (which should be located at `config/email.yml`):
 
-```yaml`
+```yaml
 ---
   :email: "user@gmail.com"
   :name: "inbox"
@@ -61,7 +61,7 @@ ABTT includes a rake task called `email:idle` which will connect to a Gmail acco
 
 ABTT can send text messages to a GroupMe chat about upcoming calls and strikes for events that have a "textable" flag set. To enable this, you must set up a [GroupMe bot](https://dev.groupme.com/) and put the bot ID string in a configuration file, which should be located at `config/groupme.yml`:
 
-```yaml`
+```yaml
 ---
   :bot_id: "BOT_ID"
 ```

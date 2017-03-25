@@ -12,11 +12,7 @@ class InvoiceLine < ApplicationRecord
   validates_inclusion_of :category, :in => Invoice_Categories
 
   def total
-    if (price and quantity)
-      return price * quantity;
-    else
-      return 0
-    end
+    price * quantity
   end
 
   def <=> (il)

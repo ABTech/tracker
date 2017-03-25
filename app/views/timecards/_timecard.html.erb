@@ -32,7 +32,3 @@
     </tr>
   </tfoot>
 </table>
-<% if details %>
-<%= link_to 'Print timecard', timecard_path(:id => timecard, :format => 'pdf') %>
-<%= link_to 'View timecard', timecard_path(:id => timecard, :format => 'txt') %>
-<% end %>

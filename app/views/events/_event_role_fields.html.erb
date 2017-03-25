@@ -3,12 +3,12 @@
     <td><%= f.select :role, EventRole::Roles_All, :include_blank => true %></td>
     <td><%= f.select :member_id, members_for_select(f.object) %></td>
     <td><%= f.check_box :appliable %></td>
-    <td><%= link_to_remove_fields image_tag("cross.png"), f %></td>
+    <td><%= link_to_remove_fields image_tag("cross.png"), f, f.object.new_record? %></td>
   <% elsif f.object.new_record? or parent.run_positions_for(current_member).flat_map(&:assistants).include? f.object.role %>
     <td><%= f.select :role, parent.run_positions_for(current_member).flat_map(&:assistants) %></td>
     <td><%= f.select :member_id, members_for_select(f.object) %></td>
     <td><%= f.check_box :appliable %></td>
-    <td><%= link_to_remove_fields image_tag("cross.png"), f %></td>
+    <td><%= link_to_remove_fields image_tag("cross.png"), f, f.object.new_record? %></td>
   <% elsif f.object.member == current_member %>
     <td><%= f.object.role %></td>
     <td><%= f.object.assigned_to use_display_name: true %></td>

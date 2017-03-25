@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170325182408) do
+ActiveRecord::Schema.define(version: 20170325194913) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.string   "name",       limit: 255, null: false
@@ -220,7 +220,6 @@ ActiveRecord::Schema.define(version: 20170325182408) do
     t.string   "email",                                                            null: false
     t.string   "namenick",                  limit: 255, default: "",               null: false
     t.string   "phone",                     limit: 255,                            null: false
-    t.string   "aim",                       limit: 255, default: "",               null: false
     t.string   "encrypted_password",        limit: 128, default: "",               null: false
     t.string   "password_salt",             limit: 255, default: "",               null: false
     t.datetime "created_at"
@@ -231,7 +230,6 @@ ActiveRecord::Schema.define(version: 20170325182408) do
     t.string   "callsign",                  limit: 255
     t.string   "shirt_size",                limit: 20
     t.float    "payrate",                   limit: 24,  default: 8.25
-    t.string   "ssn",                       limit: 255
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                         default: 0,                null: false
     t.datetime "current_sign_in_at"

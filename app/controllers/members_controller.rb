@@ -221,7 +221,7 @@ class MembersController < ApplicationController
       
       params.require(:member).permit(
         :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
-        :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev, :receives_comment_emails,
+        :shirt_size, :phone, :payrate, :role, :tracker_dev, :receives_comment_emails,
         :on_payroll,
         :super_tics_attributes => [:id, :_destroy, :day]
       )

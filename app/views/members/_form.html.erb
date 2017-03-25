@@ -62,11 +62,6 @@
       <dt><%= f.label :phone, "Phone:" %></dt>
       <dd><%= f.phone_field :phone %></dd>
     </dl>
-
-    <dl>
-    	<dt><%= f.label :ssn, "Last 4 digits of SSN:" %></dt>
-    	<dd><%= f.text_field :ssn %></dd>
-    </dl>
   
     <% if can? :hot, @member or @member == current_member %>
       <dl>

@@ -8,23 +8,9 @@ class TimecardsController < ApplicationController
   def show
     @member = current_member
     @past = current_member.timecards.where(submitted: true)
-    if params[:format] == 'txt'
-      headers['Content-Type'] = 'text/plain'
-      headers['Content-Disposition'] = 'inline'
-      render :layout => false, :partial => 'formatted_timecard', :locals => { :timecard => @timecard, :member => @member}
-    elsif params[:format] == 'pdf'
-      headers['Content-Type'] = 'application/pdf'
-      headers['Content-Disposition'] = "inline; filename=\"timecard-#{@member.fullname.gsub(/\s/, '-')}.pdf\""
-      render :layout => false, :action => 'print'
-    end
   end
 
   def view
-    if params[:format] == 'pdf'
-      headers['Content-Type'] = 'application/pdf'
-      headers['Content-Disposition'] = "inline; filename=\"timecards-#{@timecard.billing_date.strftime("%Y-%m-%d")}.pdf\""
-      render :layout => false, :action => 'print_collection'
-    end
   end
 
   DAY = 24*60*60

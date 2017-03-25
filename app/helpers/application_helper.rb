@@ -35,10 +35,14 @@ module ApplicationHelper
   end
 
   def app_version
-    begin
-      %x{git log --pretty=format:"%h"  -n1}
-    rescue
-      "?"
+    if Rails.env.development?
+      begin
+        %x{git log --pretty=format:"%h"  -n1}
+      rescue
+        "?"
+      end
+    else
+      File.read(Rails.root.join("REVISION"))[0..7]
     end
   end
   

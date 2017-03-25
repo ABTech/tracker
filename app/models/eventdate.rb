@@ -16,7 +16,6 @@ class Eventdate < ApplicationRecord
   validate :dates, :validate_call, :validate_strike
 
   before_validation :prune_roles
-  after_initialize :default_values
   after_save :synchronize_representative_date
 
   Event_Span_Days       = 2;
@@ -181,12 +180,4 @@ class Eventdate < ApplicationRecord
       self.event_roles = self.event_roles.reject { |er| er.role.blank? }
     end
 
-    def default_values
-      if self.new_record?
-        self.calldate = Time.now
-        self.startdate = Time.now
-        self.enddate = Time.now
-        self.strikedate = Time.now
-      end
-    end
 end

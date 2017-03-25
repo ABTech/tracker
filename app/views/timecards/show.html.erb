@@ -1,3 +1,19 @@
 <% @title = 'Viewing Timecard' %>
 <h1>Showing timecard</h1>
 <%= render :partial => 'timecard', :object => @timecard, :locals => {:member => @member, :details => true} %>
+
+<% content_for :more do %>
+  <ul>
+    <li>View <%= link_to 'current timecard', timecard_entries_path %></li>
+  </ul>
+<% end %>
+
+<% if not @past.empty? %>
+  <% content_for :extra do %>
+    <div class="event-box">
+      <h4>Submitted timecards</h4>
+
+      <%= select_tag :timecard_selection, options_for_select(timecards_for_select(@past)), id: "timecard-dropdown" %>
+    </div>
+  <% end %>
+<% end %>

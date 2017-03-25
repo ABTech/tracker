@@ -33,13 +33,9 @@
 <% if not @past.empty? %>
   <% content_for :extra do %>
     <div class="event-box">
-      <h4>Past timecards</h4>
+      <h4>Submitted timecards</h4>
       
-      <ul class="simple">
-        <% @past.each do |timecard| %>
-          <li><%= link_to timecard.billing_date.strftime("%b %d"), timecard %></li>
-        <% end %>
-      </ul>
+      <%= select_tag :timecard_selection, options_for_select(timecards_for_select(@past)), id: "timecard-dropdown" %>
     </div>
   <% end %>
 <% end %>

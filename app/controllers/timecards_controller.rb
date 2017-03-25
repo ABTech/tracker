@@ -7,6 +7,7 @@ class TimecardsController < ApplicationController
 
   def show
     @member = current_member
+    @past = current_member.timecards.where(submitted: true)
     if params[:format] == 'txt'
       headers['Content-Type'] = 'text/plain'
       headers['Content-Disposition'] = 'inline'

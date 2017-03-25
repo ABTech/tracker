@@ -177,16 +177,12 @@ class MembersController < ApplicationController
         member.role = params[:set_role_to]
       end
       
-      if params[:reset_ssi] == "1"
-        member.ssi_date = nil
-      end
-      
-      if params[:reset_driving] == "1"
-        member.driving_paperwork_date = nil
-      end
-      
-      if params[:set_key] == "1"
-        member.key_possession = params[:set_key_to]
+      if params[:set_on_payroll] == "1"
+        if params[:set_on_payroll_to] == "1"
+          member.on_payroll = true
+        else
+          member.on_payroll = false
+        end
       end
       
       member.save!
@@ -220,16 +216,13 @@ class MembersController < ApplicationController
       end
       
       if cannot? :hot, Member
-        params[:member].delete(:payroll_paperwork_date)
-        params[:member].delete(:ssi_date)
-        params[:member].delete(:driving_paperwork_date)
-        params[:member].delete(:key_possession)
+        params[:member].delete(:on_payroll)
       end
       
       params.require(:member).permit(
         :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
         :shirt_size, :phone, :aim, :ssn, :payrate, :role, :tracker_dev, :receives_comment_emails,
-        :payroll_paperwork_date, :ssi_date, :driving_paperwork_date, :key_possession,
+        :on_payroll,
         :super_tics_attributes => [:id, :_destroy, :day]
       )
     end

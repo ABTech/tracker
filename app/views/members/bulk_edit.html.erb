@@ -21,9 +21,7 @@
       <% end %>
     </li>
     <% if can? :hot, Member %>
-      <li><%= check_box_tag "reset_ssi" %> Reset SSI submission date</li>
-      <li><%= check_box_tag "reset_driving" %> Reset driving paperwork submission date</li>
-      <li><%= check_box_tag "set_key" %> Set key possession to <%= select_tag "set_key_to", options_for_select(Member.key_possession.values.map { |c| [c,c] }) %></li>
+      <li><%= check_box_tag "set_on_payroll" %> Set "is on payroll" to <%= select_tag "set_on_payroll_to", options_for_select([["Yes", 1], ["No", 0]]) %></li>
     <% end %>
   </ul>
   

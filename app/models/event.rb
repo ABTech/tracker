@@ -98,9 +98,7 @@ class Event < ActiveRecord::Base
   end
   
   def exec
-    role = event_roles.where(role: EventRole::Role_exec).first
-    return role.member if role
-    return nil
+    event_roles.where(role: EventRole::Role_exec).where.not(member: nil).all.map(&:member)
   end
   
   def synchronize_representative_date

@@ -142,10 +142,10 @@ class Eventdate < ApplicationRecord
   end
 
   def exec
-    t = event_roles.where(role: EventRole::Role_exec).first
-    return t.member if t
+    t = event_roles.where(role: EventRole::Role_exec).where.not(member: nil).all.map(&:member)
+    return t unless t.empty?
     return event.exec if event
-    nil
+    []
   end
 
   def has_run_position?(member)

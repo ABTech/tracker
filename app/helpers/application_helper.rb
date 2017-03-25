@@ -42,7 +42,7 @@ module ApplicationHelper
         "?"
       end
     else
-      File.read(Rails.root.join("REVISION"))[0..7]
+      File.read(Rails.root.join("REVISION"))[0..6]
     end
   end
   

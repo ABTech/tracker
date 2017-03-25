@@ -12,9 +12,9 @@
       <td><%= size %></td>
       <td><%= members.length %></td>
       <td>
-        <ul>
-          <% members.collect do |m| %>
-            <li><%=m%></li>
+        <ul class="flat">
+          <% members.each do |m| %>
+            <li><%= m.display_name %></li>
           <% end %> 
         </ul>
       </td>

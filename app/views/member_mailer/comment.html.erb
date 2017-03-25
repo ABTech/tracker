@@ -1,6 +1,6 @@
-<p><%= @member.fullname %>,</p>
+<p><%= @member.display_name %>,</p>
 
-<p><%= @comment.member.fullname %> has posted a new comment on the event <%= link_to @comment.event.title, @comment.event %>. You are receiving this email because you hold a run position either on the event or on one of its subevents. Here is the comment:</p>
+<p><%= @comment.member.display_name %> has posted a new comment on the event <%= link_to @comment.event.title, @comment.event %>. You are receiving this email because you hold a run position either on the event or on one of its subevents. Here is the comment:</p>
 
 <blockquote><%= auto_link simple_format @comment.content %></blockquote>
 

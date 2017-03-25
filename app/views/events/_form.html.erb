@@ -92,6 +92,9 @@
         <tr>
           <th>Role</th>
           <th>Techie</th>
+          <% if can? :tic, @event or not @event.run_positions_for(current_member).flat_map(&:assistants).empty? %>
+            <th>Appliable?</th>
+          <% end %>
         </tr>
       </thead>
       
@@ -106,12 +109,14 @@
           </tr>
         <% end %>
       </tbody>
-        
-      <tfoot>
-        <tr>
-          <td colspan=2>Add SuperTiC: <%= supertic_add_role(f, @event.representative_date) %></td>
-        </tr>
-      </tfoot>
+      
+      <% if can? :supertic, @event %>
+        <tfoot>
+          <tr>
+            <td colspan=2>Add SuperTiC: <%= supertic_add_role(f, @event.representative_date) %></td>
+          </tr>
+        </tfoot>
+      <% end %>
     </table>
   </fieldset>
   

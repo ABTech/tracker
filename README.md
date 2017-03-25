@@ -29,7 +29,7 @@ ABTT does not currently have a database seed, so if you are not provided with a 
 Member.create(namefirst: "First Name", namelast: "Last Name", email: "abtech@andrew.cmu.edu", phone: "5555555555", aim: "", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
 ```
 
-You must install Sphinx if you wish to use the event search feature. You can then generate an index by running the command `rake ts:rebuild`.
+You must install Sphinx if you wish to use the event search feature. You can then generate an index by running the command `rails ts:rebuild` on the server.
 
 You must install Postfix if you wish to send emails from ABTT. No configuration for Postfix is required.
 
@@ -45,7 +45,7 @@ ABTT includes a rake task called `email:idle` which will connect to a Gmail acco
    Make sure to replace CLIENT_ID and CLIENT\_SECRET with the appropriate values.
 5. Among the output will be a value labeled "refresh token". Use this and the client ID and secret to create a configuration file (which should be located at `config/email.yml`):
 
-```yaml`
+```yaml
 ---
   :email: "user@gmail.com"
   :name: "inbox"
@@ -57,13 +57,24 @@ ABTT includes a rake task called `email:idle` which will connect to a Gmail acco
   :client_secret: "CLIENT_SECRET"
 ```
 
+### GroupMe notifications
+
+ABTT can send text messages to a GroupMe chat about upcoming calls and strikes for events that have a "textable" flag set. To enable this, you must set up a [GroupMe bot](https://dev.groupme.com/) and put the bot ID string in a configuration file, which should be located at `config/groupme.yml`:
+
+```yaml
+---
+  :bot_id: "BOT_ID"
+```
+
 ## Deployment
 
-Capistrano is used for deployment. A `deploy.rb` file is included in source control which can be used for deployment to [tracker-dev](http://tracker-dev.abtech.org); the only change required is an authorized username in the `:user` field. The `deploy.rb` file can also be used to deploy to production by changing the domain to `tracker.abtech.org` and changing the branch to `production`.
+Capistrano is used for deployment. Configuration is included in source control which can be used for deployment to both [the staging server](https://tracker-dev.abtech.org) and [production](https://tracker.abtech.org). The canonical servers deploy under the `abtech` account, which you must be able to login to via public-key authentication.
 
+Examples of commands:
 ```shell
-cap deploy             # This will perform a normal deploy
-cap deploy:migrations  # This will perform a deploy with migrations
-                       #  (required if any database changes
-                       #   occurred since last deploy)
+cap staging deploy                        # Deploy the master branch to tracker-dev
+cap production deploy                     # Deploy the production branch to tracker
+cap production thinking_sphinx:rebuild    # Rebuild the production search index
+cap production thinking_sphinx:restart    # Restart the production search daemon
+cap production foreman_systemd:restart    # Restart the production email pulling daemon
 ```

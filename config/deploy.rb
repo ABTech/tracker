@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.7.0"
+lock "3.7.1"
 
 set :application, "abtt"
 set :repo_url, "https://github.com/ABTech/abtt.git"
@@ -43,10 +43,13 @@ set :migration_role, :app
 set :assets_roles, [:app]
 
 # whenever
-set :whenever_command, "bundle exec whenever"
+set :whenever_roles, :app
 
 # foreman
 after :'deploy:publishing', :'foreman_systemd:restart'
 set :foreman_systemd_user, "abtech"
 append :rvm_map_bins, "foreman"
 append :bundle_bins, "foreman"
+
+# sphinx
+set :thinking_sphinx_roles, :app

@@ -7,13 +7,6 @@ class ApplicationController < ActionController::Base
   
   before_action :authenticate_member!
 
-  Application_Name  = "ABTT";
-  Application_URL   = "https://abtt.abtech.org"
-
-  Mode_View = "View";
-  Mode_Edit = "Edit";
-  Mode_New  = "Create";
-  
   def current_ability
     @current_ability ||= Ability.new(current_member)
   end

@@ -1,18 +1,6 @@
 class EventsController < ApplicationController
   skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month]
 
-  ### generate formats (for calendar view)
-  Format_ScheduleFile = "schedule";
-  Format_ICS          = "ics";
-  Generate_Formats = [Format_ScheduleFile, Format_ICS];
-
-  # currently, the range can't span years (ie, November -> January)
-  Generate_Periods = {        # start        end
-                    "f" => ['August 10 ', 'December 31 '],
-                    "s" => ['January 1 ', 'May 31 '     ],
-                    "u" => ['June 1 ',    'August 9 '   ]
-                     };
-
   helper :members
 
   def show
@@ -36,6 +24,7 @@ class EventsController < ApplicationController
   def duplicate
     @old_event = Event.find(params[:id])
     @event = @old_event.amoeba_dup
+    @event.status = Event::Event_Status_Initial_Request
     
     @title = "Duplicate Event #" + @event.id.to_s
     authorize! :create, @event
@@ -46,7 +35,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     
     @event.eventdates.each do |ed|
-      ed.event_roles.build
+      ed.event_roles.build if ed.event_roles.empty?
     end
     
     authorize! :update, @event
@@ -64,8 +53,8 @@ class EventsController < ApplicationController
       :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
-        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id]}],
-      :event_roles_attributes => [:role, :member_id],
+        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id, :appliable]}],
+      :event_roles_attributes => [:role, :member_id, :appliable],
       :attachments_attributes => [:attachment, :name],
       :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
     
@@ -90,9 +79,9 @@ class EventsController < ApplicationController
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
         :email_description, :notes, {:location_ids => []}, {:equipment_ids => []},
-        {:event_roles_attributes => [:id, :role, :member_id, :_destroy]}],
+        {:event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
-      :event_roles_attributes => [:id, :role, :member_id, :_destroy],
+      :event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy],
       :invoices_attributes => [:status, :id],
       :blackout_attributes => [:startdate, :enddate, :id, :_destroy])
     
@@ -196,9 +185,9 @@ class EventsController < ApplicationController
     authorize! :destroy, @event
     
     flash[:notice] = "Deleted event " + @event.title + "."
-    @event.destroy()
+    @event.destroy
 
-    redirect_to(:action => "index")
+    redirect_to events_url
   end
 
   def delete_conf
@@ -296,113 +285,83 @@ class EventsController < ApplicationController
   # All parameters are optional. Default behavior is to give today's events.
   def generate
     # Determine date period
-    if(params['startdate'] && params['enddate'])
-      # use those dates as ranges
+    if params[:startdate] and params[:enddate]
       begin
-        @startdate = Date.parse(params['startdate']);
+        @startdate = Date.parse(params['startdate'])
       rescue
-        flash[:error] = "Start date format not valid.";
-        index();
-        render :action => 'index'
-        return;
+        render text: "Start date is not valid." and return
       end
 
       begin
-        @enddate = Date.parse(params['enddate']);
+        @enddate = Date.parse(params['enddate'])
       rescue
-        flash[:error] = "End date format not valid.";
-        index();
-        render :action => 'index'
-        return;
+        render text: "End date is not valid." and return
       end
-
-    elsif(params['period'] &&
-        ((params['period'].length() == 3) ||
-         (params['period'].length() == 5)) )
-      # a string such as 'f05' or 's01' or 'u09' [summer]
-      period = params['period'].downcase();
-      year   = period.slice(1..period.length());
-
-      # if it's a two-digit year, expand
-      if(year.length() == 2)
-        year = "20" + year;
-      end
-
-      # find a relevant period, first
-      range = Generate_Periods[period.slice(0..0)];
-      if(!range)
-        flash[:error] = "Invalid period prefix #{period.slice(0..0)}.";
-        index();
-        render :action => 'index'
-        return;
-      end
-
-      @startdate = Date.parse(range.first + year);
-      @enddate   = Date.parse(range.last  + year);
-    elsif params['period'] == 'soon'
-      #soon period is from 1 week ago through 3 months from now.
-      #this is good for syncing a calendar
+    elsif params[:period] == "soon"
+      # "Soon" is from 1 week ago through 3 months from now.
+      # This is good for syncing a calendar.
       @startdate = 1.week.ago
       @enddate = 3.months.from_now
-    elsif params['matchdate']
-      @startdate = Date.parse(params['matchdate'])
-      @enddate = @startdate + 3.months
+    elsif params[:period]
+      # a string such as 'f2005' or 'S01' or 'u09' [summer]
+      if not (params[:period].length == 3 or params[:period].length == 5)
+        render text: "Badly formatted period." and return
+      end
+      
+      year = params[:period][1..-1]
+      if year.length == 2
+        year = "20" + year
+      end
+      
+      period = params[:period][0].downcase
+      if period == "f"
+        @startdate = Date.new(year.to_i, 8, 10)
+        @enddate = Date.new(year.to_i, 12, 31)
+      elsif period == "s"
+        @startdate = Date.new(year.to_i, 1, 1)
+        @enddate = Date.new(year.to_i, 5, 31)
+      elsif period == "u"
+        @startdate = Date.new(year.to_i, 6, 1)
+        @enddate = Date.new(year.to_i, 8, 9)
+      else
+        render text: "Invalid period." and return
+      end
     else
-      #assume the period is the current one if parsing the params has failed
-      year = DateTime.now().year().to_s();
-      matchdate = DateTime.now();
-      if(params['matchdate'])
+      # Assume the period is the current one if parsing the params has failed.
+      reference = Date.today
+      if params[:matchdate]
         begin
-          matchdate = Date.parse(params['matchdate']);
+          reference = Date.parse(params[:matchdate])
         rescue
+          render text: "Match date is not valid." and return
         end
       end
-
-      @startdate = nil;
-
-      Generate_Periods.keys.each do |period|
-        range = Generate_Periods[period];
-        rangestart = Date.parse(range.first + year);
-        rangeend   = Date.parse(range.last  + year);
-
-        if((rangestart.ajd() < matchdate.ajd()) &&
-           (matchdate.ajd()  < rangeend.ajd()) )
-          @startdate = rangestart;
-          @enddate   = rangeend;
-        end
-      end
-
-      if(!@startdate)
-        flash[:error] = "No period matching today's date.";
-        index();
-        render :action => 'index'
-        return;
+      
+      year = reference.year
+      
+      case reference
+      when Date.new(year, 8, 10)..Date.new(year, 12, 31)
+        @startdate = Date.new(year, 8, 10)
+        @enddate = Date.new(year, 12, 31)
+      when Date.new(year, 1, 1)..Date.new(year, 5, 31)
+        @startdate = Date.new(year, 1, 1)
+        @enddate = Date.new(year, 5, 31)
+      else
+        @startdate = Date.new(year, 6, 1)
+        @enddate = Date.new(year, 8, 9)
       end
     end
 
-    # find the eventdates relevant
-    # showall=true param includes events that are unpublished (events.published == false)
     @eventdates = Eventdate.where("(? < startdate) AND (? > enddate)", @startdate, @enddate).order(startdate: :asc).includes(:event, :locations)
+    
+    # showall=true param includes unpublished events
     if not params[:showall]
       @eventdates = @eventdates.where("events.publish = TRUE").references(:events)
     end
-
-    format = params['format'];
-    if(!format || (format == ""))
-      format = Format_ScheduleFile;
-    end
-
-    # flash[:notice] = "startdate: #{@startdate.to_s()}\nenddate: #{enddate.to_s()}";
-
-    case(format)
-    when Format_ScheduleFile
-      render(:action => "generateschedule", :layout => false, :content_type => "text/plain");
-    when Format_ICS
-      render(:action => "generateics", :layout => false, :content_type => "text/calendar");
-    else
-      flash[:error] = "Please select a valid format.";
-      redirect_to(:action => "index");
-      return;
+    
+    respond_to do |format|
+      format.schedule
+      format.ics
     end
   end
 end

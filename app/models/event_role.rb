@@ -1,7 +1,7 @@
 class EventRole < ApplicationRecord
   belongs_to :roleable, polymorphic: true
   belongs_to :member
-  has_many :applications, class_name: "EventRoleApplication"
+  has_many :applications, class_name: "EventRoleApplication", :dependent => :destroy
 
   Role_HoT        = "HoT"
   Role_TiC        = "TiC"

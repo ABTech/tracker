@@ -31,6 +31,16 @@ test:
   socket: /var/run/mysqld/mysqld.sock
   collation: utf8_unicode_ci
 
+staging:
+  adapter: mysql2
+  encoding: utf8mb4
+  database: abtechtt_staging
+  pool: 5
+  username: root
+  password:
+  socket: /var/run/mysqld/mysqld.sock
+  collation: utf8mb4_bin
+
 production:
   adapter: mysql2
   encoding: utf8mb4

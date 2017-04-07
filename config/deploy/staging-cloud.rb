@@ -11,9 +11,6 @@ set :deploy_to, '/srv/rails/abtt/staging'
 set :rvm_ruby_version, '2.3.1@abtt-staging'
 set :rails_env, 'staging'
 
-set :passenger_environment_variables, { path: '/usr/local/rvm/gems/ruby-2.4.0/gems/passenger-5.1.2/bin:$PATH' }
-set :passenger_rvm_ruby_version, '2.4.0'
-
 # role-based syntax
 # ==================
 

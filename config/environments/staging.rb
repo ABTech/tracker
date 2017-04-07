@@ -90,4 +90,5 @@ Rails.application.configure do
   }
   
   config.action_mailer.default_url_options = { :host => 'tracker.abtech.org' }
+  config.action_controller.relative_url_root = "/tracker-staging"
 end

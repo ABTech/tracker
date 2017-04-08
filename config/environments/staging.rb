@@ -89,6 +89,6 @@ Rails.application.configure do
     :openssl_verify_mode => 'none'
   }
   
-  config.action_mailer.default_url_options = { :host => 'tracker.abtech.org' }
+  config.action_mailer.default_url_options = { :host => 'abtech.andrew.cmu.edu' }
   config.action_controller.relative_url_root = "/tracker-staging"
 end

@@ -15,8 +15,8 @@ namespace :groupme do
     startdate = DateTime.now
     enddate = 1.hour.from_now
     
-    calls = Eventdate.where(events: {textable: true}).call_between(startdate, enddate).includes(:event).references(:event)
-    strikes = Eventdate.where(events: {textable: true}).strike_between(startdate, enddate).includes(:event).references(:event)
+    calls = Eventdate.where(events: {textable: true, status: Event::Event_Status_Group_Not_Cancelled}).call_between(startdate, enddate).includes(:event).references(:event)
+    strikes = Eventdate.where(events: {textable: true, status: Event::Event_Status_Group_Not_Cancelled}).strike_between(startdate, enddate).includes(:event).references(:event)
     
     messages = calls.collect do |eventdate|
       "Call for " + eventdate.event.title + " - " + eventdate.description + " is at " + eventdate.effective_call.strftime("%H:%M")

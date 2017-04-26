@@ -1,7 +1,7 @@
 class Attachment < ApplicationRecord
   belongs_to :attachable, polymorphic: true
 
-  has_attached_file :attachment, :url => "/system/attachments/:id/:style/:filename", :path => ":rails_root/public/system/attachments/:id/:style/:filename"
+  has_attached_file :attachment, :url => Rails.application.config.action_controller.relative_url_root.to_s+"/system/attachments/:id/:style/:filename", :path => ":rails_root/public/system/attachments/:id/:style/:filename"
   do_not_validate_attachment_file_type :attachment
   validates_attachment_presence :attachment
   

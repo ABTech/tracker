@@ -1,6 +1,15 @@
 development:
   charset_table: "0..9, A..Z->a..z, _, a..z"
   sql_sock: /tmp/mysql.sock
+
+staging:
+  charset_table: "0..9, A..Z->a..z, _, a..z"
+  pid_file: /srv/rails/abtt/staging/shared/pids/searchd.pid
+  indices_location: /srv/rails/abtt/staging/shared/sphinx
+  configuration_file: /srv/rails/abtt/staging/shared/config/staging.sphinx.conf
+  binlog_path: /srv/rails/abtt/staging/shared/binlog
+  sql_sock: /var/run/mysqld/mysqld.sock
+
 production:
   charset_table: "0..9, A..Z->a..z, _, a..z"
   pid_file: /srv/rails/abtt/shared/pids/searchd.pid

@@ -6,8 +6,12 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server "tracker.abtech.org", user: "abtech", roles: %w{app}
+server 'www-01.abtech.org', user: 'deploy', roles: %w{app db web}
+set :deploy_to, '/srv/rails/abtt/production'
+set :rvm_ruby_version, '2.4.0@abtt-production'
+set :rails_env, 'production'
 
+set :passenger_rvm_ruby_version, '2.4.0'
 
 # role-based syntax
 # ==================
@@ -31,6 +35,7 @@ server "tracker.abtech.org", user: "abtech", roles: %w{app}
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 set :branch, "production"
+
 
 
 # Custom SSH Options

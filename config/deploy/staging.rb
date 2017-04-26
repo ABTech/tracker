@@ -6,8 +6,12 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server "tracker-dev.abtech.org", user: "abtech", roles: %w{app}
+server 'www-01.abtech.org', user: 'deploy', roles: %w{app db web}
+set :deploy_to, '/srv/rails/abtt/staging'
+set :rvm_ruby_version, '2.4.0@abtt-staging'
+set :rails_env, 'staging'
 
+set :passenger_rvm_ruby_version, '2.4.0'
 
 # role-based syntax
 # ==================

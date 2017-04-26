@@ -12,8 +12,9 @@ staging:
 
 production:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  pid_file: /srv/rails/abtt/shared/pids/searchd.pid
-  indices_location: /srv/rails/abtt/shared/sphinx
-  configuration_file: /srv/rails/abtt/shared/config/production.sphinx.conf
-  binlog_path: /srv/rails/abtt/shared/binlog
+  port: 9307
+  pid_file: /srv/rails/abtt/production/shared/pids/searchd.pid
+  indices_location: /srv/rails/abtt/production/shared/sphinx
+  configuration_file: /srv/rails/abtt/production/shared/config/production.sphinx.conf
+  binlog_path: /srv/rails/abtt/production/shared/binlog
   sql_sock: /var/run/mysqld/mysqld.sock

@@ -4,6 +4,7 @@ development:
 
 staging:
   charset_table: "0..9, A..Z->a..z, _, a..z"
+  mysql41: 9307
   pid_file: /srv/rails/abtt/staging/shared/pids/searchd.pid
   indices_location: /srv/rails/abtt/staging/shared/sphinx
   configuration_file: /srv/rails/abtt/staging/shared/config/staging.sphinx.conf
@@ -12,7 +13,6 @@ staging:
 
 production:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  mysql141: 9307
   pid_file: /srv/rails/abtt/production/shared/pids/searchd.pid
   indices_location: /srv/rails/abtt/production/shared/sphinx
   configuration_file: /srv/rails/abtt/production/shared/config/production.sphinx.conf

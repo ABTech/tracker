@@ -10,7 +10,7 @@
   <%# <meta name="apple-mobile-web-app-status-bar-style" content="black" /> %>
   <link rel="apple-touch-icon" href="<%= image_url("webclip.png") %>" />
   <style type="text/css">
-  body { 
+  body {
     font-family: "Verdana";
     margin: 0 6px;
     padding: 0;
@@ -67,7 +67,7 @@
   }
   .type {
     font-size: 50%;
-    
+
   }
   .location {
     font-style: italic;
@@ -110,19 +110,19 @@
 
   </style>
   <title>
-    ABTech Tool
+    AB Tech Tool
   </title>
 </head>
 <body>
   <% if ENV["RAILS_ENV"] != "production" %>
     <div style="font-size: 14pt; width: auto; text-align:center; margin: auto; background-color: black; color: red;"><%= ENV["RAILS_ENV"].upcase%> ENVIRONMENT</div>
   <% end %>
-  
+
   <div>
     <a href="<%= events_path %>"><%= image_tag("header.png", width: "95%") %></a>
   </div>
 <%= yield %>
-<div style="text-align: center; margin: 1em; "> 
+<div style="text-align: center; margin: 1em; ">
   <%= link_to "Full Site", events_path %>
 </div>
 </body>

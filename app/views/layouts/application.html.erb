@@ -27,8 +27,8 @@
     <% else %>
       <div class="login">
         <br/>(not logged in)
-        <br/><%= link_to "Login with andrew.cmu.edu account", member_omniauth_authorize_url(:shibboleth) %>
-        <br/><%= link_to "Login with abtech.andrew.cmu.edu account", new_member_session_url %>
+        <br/><%= link_to "Login with andrew account", member_shibboleth_omniauth_authorize_path() %>
+        <br/><%= link_to "Login with tracker account", new_member_session_url %>
         <br/>
       </div>
     <% end %>

@@ -54,7 +54,10 @@ Rails.application.routes.draw do
 
   resources :locations
 
-  devise_for :members
+  devise_for :members, controllers: {
+    omniauth_callbacks: 'members/omniauth_callbacks'
+  }
+  
   resources :members do
     collection do
       get 'tshirts'

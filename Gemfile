@@ -69,6 +69,8 @@ gem 'web-console', '~> 3.0', group: [:development]
 gem 'responders', '~> 2.0'
 gem 'gmail_xoauth'
 gem 'oauth2'
+gem 'omniauth'
+gem 'omniauth-shibboleth'
 gem 'groupme'
 gem 'time_difference'
 gem 'foreman'

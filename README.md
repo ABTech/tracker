@@ -68,7 +68,7 @@ ABTT can send text messages to a GroupMe chat about upcoming calls and strikes f
 
 ## Deployment
 
-Capistrano is used for deployment. Configuration is included in source control which can be used for deployment to both [the staging server](https://tracker-dev.abtech.org) and [production](https://tracker.abtech.org). The canonical servers deploy under the `abtech` account, which you must be able to login to via public-key authentication.
+Capistrano is used for deployment. Configuration is included in source control which can be used for deployment to both [the staging server](https://abtech.andrew.cmu.edu/tracker-staging/) and [production](https://abtech.andrew.cmu.edu/tracker/). The canonical servers deploy under the `abtech` account, which you must be able to login to via public-key authentication.
 
 Examples of commands:
 ```shell

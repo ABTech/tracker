@@ -65,7 +65,20 @@ class MembersController < ApplicationController
     @member = Member.new(member_params)
     authorize! :create, @member
     
+    password = SecureRandom.hex(64)
+    @member.password = password
+    @member.password_confirmation = password
+    
     if @member.save
+      if not @member.andrew?
+        raw_token, hashed_token = Devise.token_generator.generate(Member, :reset_password_token)
+        @member.reset_password_token = hashed_token
+        @member.reset_password_sent_at = Time.now.utc
+        @member.save
+        
+        MemberMailer.new_alumni_account(@member, raw_token).deliver_now
+      end
+      
       flash[:notice] = 'Member was successfully created.'
       redirect_to members_path
     else

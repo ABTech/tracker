@@ -31,13 +31,22 @@ h1 a:hover { text-decoration: underline; color: #3333FF }
 
 /* =======================  HEADER ======================= */
 
-div.login {
+div.loggedin {
 	float: right;
 	margin-top: -29px;
 	margin-right: 7px;
 	text-align: right;
 	color: #666666;
 }
+
+div.login {
+	float: right;
+	margin-top: -53px;
+	margin-right: 7px;
+	text-align: right;
+	color: #666666;
+}
+
 
 div.header {
 	background: #F3F3F3;

@@ -39,6 +39,13 @@
                     <%= link_to "Forgot your password?", new_password_path(Member) %><br />
                   </td>
                 </tr>
+                
+                <tr>
+                  <td></td>
+                  <td>
+                    <%= link_to "Login with andrew.cmu.edu account", member_shibboleth_omniauth_authorize_path() %>
+                  </td>
+                </tr>
             </table>
         <% end %>
     </td></tr>

@@ -15,7 +15,7 @@
     <td class="subheading"><%= f.label :memo, "Memo" %>:</td>
     <td><%= f.text_field :memo, size: 35 %></td>
   </tr>
-  
+
   <tr>
     <td class="subheading"><%= f.label :event_id, "Event" %>:</td>
     <% if not f.object.event.nil? and f.object.event.representative_date < Account.magic_date %>
@@ -24,7 +24,7 @@
       <td><%= f.select :event_id, options_from_collection_for_select(Event.current_year.order("title ASC"), "id", "title", f.object.event_id) %></td>
     <% end %>
   </tr>
-  
+
   <tr>
     <td class="subheading"><%= f.label :status, "Status" %>:</td>
     <% if can? :status, f.object %>
@@ -35,12 +35,12 @@
       <td><%= f.object.status %></td>
     <% end %>
   </tr>
-  
+
   <tr>
     <td class="subheading"><%= f.label :payment_type, "Payment Type" %>:</td>
     <td><%= f.select :payment_type, Invoice::Payment_Types %></td>
   </tr>
-  
+
   <% if f.object.payment_type == "Oracle" %>
   <tr id="oracleString">
   <% else %>
@@ -53,7 +53,7 @@
 
 <p>
   <p id="loan-agreement-notice" <%= raw 'style="display: none"' unless f.object.status == "Loan Agreement" %>>
-    Each item must have the current condition of the item listed in its description (click the arrow next to the memo box to access the description box) as well as the item's replacement cost (the amount of reimbursement ABTech would require if the borrower of the equipment were to damage it).
+    Each item must have the current condition of the item listed in its description (click the arrow next to the memo box to access the description box) as well as the item's replacement cost (the amount of reimbursement AB Tech would require if the borrower of the equipment were to damage it).
   </p>
 </p>
 
@@ -66,11 +66,11 @@
     <th>Quantity</th>
     <th></th>
   </tr>
-  
+
   <%= f.fields_for :invoice_lines, @invoice.invoice_lines.sort do |builder| %>
     <%= render :partial => 'invoice_line_fields', :locals => {:f => builder} %>
   <% end %>
-  
+
   <tr>
     <td colspan=6><%= link_to_add_fields "Add another line", f, :invoice_lines, "2", "invoices" %></td>
   </tr>

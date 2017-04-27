@@ -1,7 +1,7 @@
 namespace :member do
   desc "Create a new member interactively."
   task(:new => :environment) do
-    puts "This script will add a new user to the ABTech tracker in the #{ENV["RAILS_ENV"]} environment."
+    puts "This script will add a new user to the AB Tech tracker in the #{ENV["RAILS_ENV"]} environment."
     puts "Please give the following information about the new user."
     m = Member.new
     m.role = :general_member

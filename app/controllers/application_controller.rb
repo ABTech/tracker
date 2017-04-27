@@ -46,6 +46,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    new_member_session_url
+    root_url
   end
 end

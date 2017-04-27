@@ -1,5 +1,5 @@
 class Member < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :encryptable, :encryptor => :restful_authentication_sha1, :authentication_keys => [:login]
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :encryptable, :omniauthable, :omniauth_providers => [:shibboleth], :encryptor => :restful_authentication_sha1, :authentication_keys => [:login]
   
   has_many :event_roles
   has_many :comments
@@ -77,5 +77,9 @@ class Member < ApplicationRecord
   
   def ability
     @ability ||= Ability.new(self)
+  end
+  
+  def andrew?
+    email.end_with? "@andrew.cmu.edu"
   end
 end

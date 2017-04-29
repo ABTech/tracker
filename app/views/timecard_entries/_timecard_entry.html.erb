@@ -1,3 +1,3 @@
-<td><%=timecard_entry.eventdate.event.title %> - <%=timecard_entry.eventdate.description %></td>
+<td><%= link_to timecard_entry.eventdate.event.title, timecard_entry.eventdate.event %> - <%=timecard_entry.eventdate.description %></td>
 <td><%=timecard_entry.eventdate.startdate.strftime("%H:%M:%S %a, %b %d, %Y") %></td>
 <td><%=timecard_entry.hours %></td>

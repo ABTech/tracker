@@ -57,9 +57,9 @@
                   <% if date[:blackout] %>
                     Blackout:
                     <% if not date[:blackout].title.blank? and not date[:blackout].event.blank? %>
-                      <%= link_to date[:blackout].event.title, date[:blackout].event %> - <%= date[:blackout].title %>
+                      <%= text_with_conditional_link_to date[:blackout].event.title, date[:blackout].event, :read, Event %> - <%= date[:blackout].title %>
                     <% elsif not date[:blackout].event.blank? %>
-                      <%= link_to date[:blackout].event.title, date[:blackout].event %>
+                      <%= text_with_conditional_link_to date[:blackout].event.title, date[:blackout].event, :read, Event %>
                     <% else %>
                       <%= date[:blackout].title %>
                     <% end %>

@@ -66,11 +66,7 @@
                     <br />
                   <% end %>
                   <% date[:events].each do |evtdate| %>
-                    <% if can? :read, Event %>                    
-                      <%= link_to evtdate.event.title + " - " + evtdate.description, evtdate.event %>
-                    <% else %>
-                      <%= "#{evtdate.event.title} - #{evtdate.description}" %>
-                    <% end %>
+                    <%= text_with_conditional_link_to evtdate.event.title + " - " + evtdate.description, evtdate.event, :read, Event %>
                     <span>&rarr; <%= evtdate.startdate.strftime("%I:%M %p") %> - <%= evtdate.enddate.strftime("%I:%M %p") %></span><br />
                   <% end %>
                 </span>

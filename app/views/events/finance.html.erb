@@ -1,8 +1,8 @@
 <div id="event-container">
   <h2>Payroll for "<%= link_to @event.title, @event %>"</h2>
   
-  <p>Total payroll cost: <%= number_to_currency @event.total_payroll %>.</p>
-
+  <p>Total payroll cost: <%= number_to_currency @event.total_payroll %></p>
+  <p>Total payroll hours: <%= @event.total_hours %></p>
   <table width="50%" class="generic">
     <% @event.eventdates.each do |ed| %>
       <% if not ed.timecard_entries.empty? %>

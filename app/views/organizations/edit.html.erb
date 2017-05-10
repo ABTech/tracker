@@ -1,2 +1,7 @@
-<h2>Edit Organization</h2>
-<%= render :partial => "organization_form" %>
+<h1>Editing member</h1>
+
+<%= render :partial => 'form', :locals => { :submit => 'Edit'} %>
+
+<% content_for :more do %>
+  <%= link_to "Back", organizations_path %>
+<% end %>

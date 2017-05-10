@@ -1,6 +1,7 @@
-<h2>New Organization</h2>
-<%= form_tag '/organizations', :method => :post do -%>
-  Name:
-  <input type="text"  name="organization[name]" value="<%= h @org.name %>" name=/>
-  <%= submit_tag "Submit" %>
-<%- end %>
+<h1>New organization</h1>
+
+<%= render :partial => 'form', :locals => { :submit => 'Create' } %>
+
+<% content_for :more do %>
+  <%= link_to "Back", organizations_path %>
+<% end %>

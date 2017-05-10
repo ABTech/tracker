@@ -1,0 +1,39 @@
+<%= form_for @org, html: {class: "member-form"} do |f| %>
+  <% if @org.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@org.errors.count, "error") %> prohibited
+        this organization from being saved:</h2>
+      <ul>
+      <% @org.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend>Details</legend>
+    
+    <dl class="required-field">
+      <dt><%= f.label :name, "Name:" %></dt>
+      <dd><%= f.text_field :name, class: "wide-input" %></dd>
+    </dl>
+  </fieldset>
+  
+  <% if not @org.new_record? and can? :destroy, @org %>
+    <fieldset>
+      <legend>Status</legend>
+      
+      <dl>
+        <dt><%= f.check_box :defunct %></dt>
+        <dd><%= f.label :defunct, "Mark as defunct" %></dd>
+      </dl>
+    </fieldset>
+  <% end %>
+  
+  <fieldset>
+    <dl>
+      <dd><%= f.submit %></dd>
+    </dt>
+  </fieldset>
+<% end %>

@@ -125,15 +125,7 @@ class EmailsController < ApplicationController
   end
   
   def send_weekly
-    @eventdates = Eventdate.where(startdate: DateTime.current.beginning_of_day..(DateTime.current.beginning_of_day + 7.days)).to_a
-    @eventdates.select! { |eventdate| params["eventdate_include" + eventdate.id.to_s] == "1" }
-    
-    @eventdates.each do |eventdate|
-      eventdate.email_description = params["eventdate_description" + eventdate.id.to_s]
-      eventdate.save
-    end
-    
-    EmailMailer.weekly_events(current_member, params[:to], params[:bcc], params[:subject], params[:intro_blurb], params[:outro_blurb], @eventdates).deliver_now
+    EmailMailer.weekly_events(current_member, params[:to], params[:bcc], params[:subject], params[:body]).deliver_now
     
     flash[:notice] = "Email Sent"
     respond_to do |format|

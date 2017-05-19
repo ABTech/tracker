@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       post 'email'
       get 'email_confirm'
       get 'prettyView'
+      get 'duplicate'
     end
   end  
 

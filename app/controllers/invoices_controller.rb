@@ -85,6 +85,21 @@ class InvoicesController < ApplicationController
       render :edit
     end
   end
+
+  def duplicate
+    @old_invoice = Invoice.includes(:event, :invoice_lines).find(params[:id])
+    @invoice = @old_invoice.amoeba_dup
+    
+    authorize! :create, @invoice
+
+    if @invoice.save
+      flash[:notice] = "Invoice duplicated successfully!"
+    else
+      flash[:alert] = "Invoice duplicated unsuccessfully!"
+    end
+    redirect_to @invoice.event
+  end
+
   
   def destroy
     @invoice.destroy

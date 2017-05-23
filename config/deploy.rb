@@ -47,7 +47,7 @@ set :whenever_roles, :app
 
 # foreman
 after :'deploy:publishing', :'foreman_systemd:restart'
-set :foreman_systemd_user, "abtech"
+set :foreman_systemd_user, "deploy"
 append :rvm_map_bins, "foreman"
 append :bundle_bins, "foreman"
 

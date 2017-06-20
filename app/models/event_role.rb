@@ -29,6 +29,7 @@ class EventRole < ApplicationRecord
   Role_trunk      = "truck"
   Role_setup      = "setup"
   Role_strike     = "strike"
+  Role_supervise  = "supervise"
   Role_food       = "food"
   Role_airhorn    = "airhorn"
     
@@ -60,6 +61,7 @@ class EventRole < ApplicationRecord
     Role_trunk  ,          
     Role_setup  ,
     Role_strike ,
+    Role_supervise,
     Role_food   ,
     Role_airhorn]
 

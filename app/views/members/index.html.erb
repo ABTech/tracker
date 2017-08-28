@@ -5,6 +5,7 @@
     <th><%=   table_order_link "kerbid",              "email",                  @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Name",                "namelast",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Nickname",            "namenick",               @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Pronouns",            "pronouns",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Phone",               "phone",                  @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Callsign",            "callsign",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Shirt Size",          "shirt_size",             @order, @order_desc, @query %></th>
@@ -22,6 +23,7 @@
     <td><%= member.email %></td>
     <td><%= link_to_if (can? :show, member), member.fullname, member %></td>
     <td><%= member.namenick %></td>
+    <td><%= member.pronouns %></td>
     <td><%= pretty_phone member.phone %></td>
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%= member.shirt_size %></td>

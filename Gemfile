@@ -41,7 +41,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-foreman-systemd', require: false, github: "hatkirby/capistrano-foreman-systemd"
+  gem 'capistrano-foreman-systemd', require: false, git: "https://github.com/hatkirby/capistrano-foreman-systemd.git"
   gem 'capistrano-passenger', require: false
   gem 'highline', require: false
 end

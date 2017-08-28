@@ -93,6 +93,10 @@ class Event < ActiveRecord::Base
     eventdates.map(&:total_gross).reduce(0.0, &:+)
   end
   
+  def total_hours
+    eventdates.map(&:total_hours).reduce(0.0, &:+)
+  end
+
   def tic
     event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
   end

@@ -26,7 +26,7 @@ class EventRole < ApplicationRecord
   Role_Hole       = "Hole"
   Role_aHole      = "aHole"
   Role_car        = "car"
-  Role_trunk      = "truck"
+  Role_truck      = "truck"
   Role_setup      = "setup"
   Role_strike     = "strike"
   Role_supervise  = "supervise"
@@ -58,7 +58,7 @@ class EventRole < ApplicationRecord
     Role_Hole   ,            
     Role_aHole  ,            
     Role_car    ,     
-    Role_trunk  ,          
+    Role_truck  ,          
     Role_setup  ,
     Role_strike ,
     Role_supervise,

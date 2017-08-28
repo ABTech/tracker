@@ -34,12 +34,12 @@ class OrganizationsController < ApplicationController
   def edit
     @title = "Edit an Organization"
     
-    @org = Organization.active.find(params[:id])
+    @org = Organization.find(params[:id])
     authorize! :update, @org
   end
 
   def update
-    @org = Organization.active.find(params[:id])
+    @org = Organization.find(params[:id])
     authorize! :update, @org
     
     if @org.update_attributes(org_params)
@@ -54,17 +54,7 @@ class OrganizationsController < ApplicationController
     @org = Organization.find(params[:id])
     authorize! :destroy, @org
     
-    if not @org.defunct
-      @org.defunct = true
-      
-      if @org.save
-        flash[:notice] = "Organization \"#{@org.name}\" has been marked as defunct."
-      else
-        flash[:error] = "Error marking organization \"#{@org.name}\" as defunct."
-      end
-      
-      redirect_to @org
-    elsif @org.events.empty?
+    if @org.events.empty?
       @org.destroy
       
       if @org.save
@@ -82,6 +72,10 @@ class OrganizationsController < ApplicationController
   
   private
     def org_params
-      params.require(:organization).permit(:name)
+      if can? :destroy, @org
+        params.require(:organization).permit(:name, :defunct)
+      else
+        params.require(:organization).permit(:name)
+      end
     end
 end

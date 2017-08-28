@@ -11,10 +11,8 @@
 
 <% content_for :more do %>
   <ul>
-    <% if not @org.defunct %>
-      <li><%= conditional_link_to "Edit", edit_organization_path(@org), :update, @org %></li>
-      <li><%= link_to "Mark as Defunct", @org, :method => :delete, :data => {:confirm => "Are you sure you want to mark this organization as defunct?" } if can? :destroy, @org %></li>
-    <% elsif @org.events.empty? %>
+    <li><%= conditional_link_to "Edit", edit_organization_path(@org), :update, @org %></li>
+    <% if @org.defunct and @org.events.empty? %>
       <li><%= link_to "Delete", @org, :method => :delete, :data => {:confirm => "Are you sure you want to delete this organization?" } if can? :destroy, @org %>
     <% end %>
     <li><%= link_to "Back to list of organizations", organizations_path %></li>

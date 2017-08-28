@@ -21,7 +21,11 @@ class InvoicesController < ApplicationController
     @title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
     if params[:format] == 'pdf'
       headers['Content-Type'] = 'application/pdf'
-      headers['Content-Disposition'] = "inline;"
+      if params.include? :download
+        headers['Content-Disposition'] = "attachment;"
+      else
+        headers['Content-Disposition'] = "inline;"
+      end
       render :pdf => @title, :layout => false
     else
       render :layout=>false

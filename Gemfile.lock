@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/hatkirby/capistrano-foreman-systemd.git
+  remote: https://github.com/hatkirby/capistrano-foreman-systemd.git
   revision: cc93e81954f49603ef8571106d38de7be8a23072
   specs:
     capistrano-foreman-systemd (1.0.0)

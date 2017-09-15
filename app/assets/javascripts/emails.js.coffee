@@ -63,7 +63,7 @@ $ ->
   $(".email-reply-link").click ->
     setupAjaxLoader()
     $.ajax({
-      url: "/emails/reply.js",
+      url: window.reply_email_path,
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"
@@ -71,7 +71,7 @@ $ ->
   $(".email-new-event-link").click ->
     setupAjaxLoader()
     $.ajax({
-      url: "/emails/new_event.js",
+      url: window.new_event_email_path,
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"
@@ -79,7 +79,7 @@ $ ->
   $(".email-existing-event-link").click ->
     setupAjaxLoader()
     $.ajax({
-      url: "/emails/existing_event.js",
+      url: window.existing_event_email_path,
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"

@@ -1,7 +1,6 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-<% self.class.include Rails.application.routes.url_helpers %>
 
 @setupAjaxLoader = () ->
   $.ajaxSetup({
@@ -64,7 +63,7 @@ $ ->
   $(".email-reply-link").click ->
     setupAjaxLoader()
     $.ajax({
-      url: "<%= reply_emails_path(format: :js) %>",
+      url: window.reply_email_path,
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"
@@ -72,7 +71,7 @@ $ ->
   $(".email-new-event-link").click ->
     setupAjaxLoader()
     $.ajax({
-      url: "<%= new_event_emails_path(format: :js) %>",
+      url: window.new_event_email_path,
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"
@@ -80,7 +79,7 @@ $ ->
   $(".email-existing-event-link").click ->
     setupAjaxLoader()
     $.ajax({
-      url: "<%= existing_event_emails_path(format: :js) %>",
+      url: window.existing_event_email_path,
       data: "id=" + $(this).data("email-id"),
       dataType: "script",
       success: "success"

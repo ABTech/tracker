@@ -95,8 +95,10 @@ class Ability
       can :supertic, Event
       can :supertic, Eventdate
       
+      # Manage equipment
+      can :manage, Equipment
+
       # Read only tracker management
-      can :read, Equipment
       can :read, Location
       can :read, EmailForm
 
@@ -109,7 +111,6 @@ class Ability
       can :manage, :finance
       can :manage, Invoice
       can :manage, InvoiceItem
-      can :manage, Equipment
       can :manage, Location
       can :manage, Organization
       can :manage, EmailForm

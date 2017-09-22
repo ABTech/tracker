@@ -99,6 +99,9 @@ class Ability
       can :read, Equipment
       can :read, Location
       can :read, EmailForm
+
+      # Delegated member creation
+      can :create, Member
     end
     
     if member.is_at_least? :tracker_management

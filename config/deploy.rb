@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.7.1"
+lock "3.10.1"
 
 set :application, "abtt"
 set :repo_url, "https://github.com/ABTech/abtt.git"

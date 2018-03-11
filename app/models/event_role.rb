@@ -20,6 +20,7 @@ class EventRole < ApplicationRecord
   Role_aMR        = "aMR"
   Role_SM         = "SM"
   Role_aSM        = "aSM"
+  Role_Media      = "Media"
   Role_bdSM       = "bdSM"
   Role_SpotOp     = "SpotOp"
   Role_Runner     = "Runner"
@@ -51,7 +52,8 @@ class EventRole < ApplicationRecord
     Role_MR     ,            
     Role_aMR    ,            
     Role_SM     ,            
-    Role_aSM    ,            
+    Role_aSM    ,
+    Role_Media
     Role_bdSM   ,            
     Role_SpotOp ,            
     Role_Runner ,            

@@ -21,6 +21,8 @@ class EventRole < ApplicationRecord
   Role_SM         = "SM"
   Role_aSM        = "aSM"
   Role_bdSM       = "bdSM"
+  Role_Media      = "Media"
+  Role_aMedia     = "aMedia"
   Role_SpotOp     = "SpotOp"
   Role_Runner     = "Runner"
   Role_Hole       = "Hole"
@@ -53,6 +55,8 @@ class EventRole < ApplicationRecord
     Role_SM     ,            
     Role_aSM    ,            
     Role_bdSM   ,            
+    Role_Media  ,            
+    Role_aMedia ,            
     Role_SpotOp ,            
     Role_Runner ,            
     Role_Hole   ,            
@@ -108,6 +112,7 @@ class EventRole < ApplicationRecord
     return [Role_aME] if self.role == Role_ME
     return [Role_aMR] if self.role == Role_MR
     return [Role_aSM, Role_bdSM] if self.role == Role_SM
+    return [Role_aMedia] if self.role == Role_Media
     return [Role_aHole] if self.role == Role_Hole
     return []
   end
@@ -144,6 +149,7 @@ class EventRole < ApplicationRecord
     return Role_ME if self.role == Role_aME
     return Role_MR if self.role == Role_aMR
     return Role_SM if self.role == Role_aSM or self.role == Role_bdSM
+    return Role_Media if self.role == Role_aMedia
     return Role_Hole if self.role == Role_aHole
     return Role_TiC
   end

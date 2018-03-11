@@ -44,6 +44,7 @@ set :assets_roles, [:app]
 
 # whenever
 set :whenever_roles, :app
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 # foreman
 after :'deploy:publishing', :'foreman_systemd:restart'

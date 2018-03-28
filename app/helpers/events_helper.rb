@@ -83,15 +83,31 @@ module EventsHelper
   
   def render_eventdate_call(ed)
     if ed.has_call?
-      ed.effective_call.strftime("%H:%M")
+      if ed.effective_call.to_date == ed.startdate.to_date
+        ed.effective_call.strftime("%H:%M")
+      else
+        ed.effective_call.strftime("%H:%M <em>(%b %d)</em>").html_safe
+      end
     elsif ed.calltype == "blank"
       "<span class='unknown'>unknown</span>".html_safe
+    end
+  end
+
+  def render_eventdate_event(ed)
+    if ed.enddate.to_date == ed.startdate.to_date or ed.enddate - ed.startdate < 6.hours
+      "#{ed.startdate.strftime('%H:%M')} - #{ed.enddate.strftime('%H:%M')}"
+    else
+      "#{ed.startdate.strftime('%H:%M')} - #{ed.enddate.strftime('%H:%M <em>(%b %d)</em>')}".html_safe
     end
   end
   
   def render_eventdate_strike(ed)
     if ed.has_strike?
-      ed.effective_strike.strftime("%H:%M")
+      if ed.effective_strike.to_date == ed.startdate.to_date or ed.effective_strike - ed.startdate < 6.hours
+        ed.effective_strike.strftime("%H:%M")
+      else
+        ed.effective_strike.strftime("%H:%M <em>(%b %d)</em>").html_safe
+      end
     elsif ed.striketype == "blank"
       "<span class='unknown'>unknown</span>".html_safe
     elsif ed.striketype == "none"

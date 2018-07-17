@@ -4,7 +4,7 @@
 <% end %>
 <p><b><%= @org.events.length %> Events:</b></p>
 <ul>
-  <% @org.events.each do |e| %>
+  <% @org.events.order(representative_date: :desc).each do |e| %>
     <li><%= link_to e.to_s, e %> - <%= e.representative_date.strftime("%D") %></li>
   <% end %>
 </ul>

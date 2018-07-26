@@ -11,8 +11,8 @@ class EventRole < ApplicationRecord
   Role_aFoH       = "aFoH"
   Role_Mon        = "Mon"
   Role_aMon       = "aMon"
-  Role_SndDes     = "SndDes"
-  Role_aSndDes    = "aSndDes"
+  Role_SD         = "SD"
+  Role_aSD        = "aSD"
   Role_LD         = "LD"
   Role_aLD        = "aLD"
   Role_Lprog      = "Lprog"
@@ -47,8 +47,8 @@ class EventRole < ApplicationRecord
     Role_aFoH   ,
     Role_Mon    ,
     Role_aMon   ,
-    Role_SndDes ,
-    Role_aSndDes,    
+    Role_SD     ,
+    Role_aSD    ,
     Role_LD     ,
     Role_aLD    ,
     Role_Lprog  ,
@@ -112,7 +112,7 @@ class EventRole < ApplicationRecord
     return [Role_aTiC] if self.role == Role_TiC
     return [Role_aFoH] if self.role == Role_FoH
     return [Role_aMon] if self.role == Role_Mon
-    return [Role_aSndDes] if self.role == Role_SndDes
+    return [Role_aSD] if self.role == Role_SD
     return [Role_aLD, Role_Lprog] if self.role == Role_LD
     return [Role_aME] if self.role == Role_ME
     return [Role_aMR] if self.role == Role_MR
@@ -150,7 +150,7 @@ class EventRole < ApplicationRecord
     return nil if self.role == Role_TiC
     return Role_FoH if self.role == Role_aFoH
     return Role_Mon if self.role == Role_aMon
-    return Role_SndDes if self.role == Role_aSndDes
+    return Role_SD if self.role == Role_aSD
     return Role_LD if self.role == Role_aLD or self.role == Role_Lprog
     return Role_ME if self.role == Role_aME
     return Role_MR if self.role == Role_aMR

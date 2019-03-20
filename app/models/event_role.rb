@@ -35,7 +35,8 @@ class EventRole < ApplicationRecord
   Role_strike     = "strike"
   Role_supervise  = "supervise"
   Role_food       = "food"
-  Role_airhorn    = "airhorn"
+  Role_airhorn    = "aIRHORN"
+  Role_aairhorn    = "aAIRHORN"
     
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
@@ -71,7 +72,8 @@ class EventRole < ApplicationRecord
     Role_strike ,
     Role_supervise,
     Role_food   ,
-    Role_airhorn]
+    Role_airhorn,
+    Role_aairhorn]
 
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All
@@ -119,6 +121,7 @@ class EventRole < ApplicationRecord
     return [Role_aSM, Role_bdSM] if self.role == Role_SM
     return [Role_aMedia] if self.role == Role_Media
     return [Role_aHole] if self.role == Role_Hole
+    return [Role_aairhorn] if self.role == Role_airhorn
     return []
   end
   
@@ -157,6 +160,7 @@ class EventRole < ApplicationRecord
     return Role_SM if self.role == Role_aSM or self.role == Role_bdSM
     return Role_Media if self.role == Role_aMedia
     return Role_Hole if self.role == Role_aHole
+    return Role_airhorn if self.role == Role_aairhorn
     return Role_TiC
   end
 end

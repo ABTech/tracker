@@ -2,7 +2,7 @@
 lock "3.10.1"
 
 set :application, "abtt"
-set :repo_url, "https://github.com/ABTech/abtt.git"
+set :repo_url, "https://github.com/ABTech/tracker.git"
 
 # Default branch is :master
 # set :branch, :master

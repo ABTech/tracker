@@ -21,7 +21,7 @@ set :deploy_to, "/srv/rails/abtt"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/email.yml", "config/groupme.yml", "config/secrets.yml"
+append :linked_files, "config/email.yml", "config/groupme.yml", "config/secrets.yml", "config/slack.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"

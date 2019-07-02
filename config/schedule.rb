@@ -3,5 +3,5 @@ every 7.days do
 end
 
 every :hour do
-  rake "groupme:notify"
+  rake "slack:notify"
 end

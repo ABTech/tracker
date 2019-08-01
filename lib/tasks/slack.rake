@@ -31,7 +31,7 @@ namespace :slack do
       message = messages.join("\n")
       
       logger.info("Sending message")
-      client.chat_postMessage(channel: '#announcements', text: message, as_user: true)
+      client.chat_postMessage(channel: '#events', text: message, as_user: true)
     end
   end
 end

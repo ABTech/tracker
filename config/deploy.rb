@@ -54,3 +54,6 @@ append :bundle_bins, "foreman"
 
 # sphinx
 set :thinking_sphinx_roles, :app
+
+# passenger
+set :passenger_restart_with_touch, true

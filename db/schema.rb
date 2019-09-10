@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828142257) do
+ActiveRecord::Schema.define(version: 20190910113930) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.string   "name",       limit: 255, null: false
@@ -90,6 +90,18 @@ ActiveRecord::Schema.define(version: 20170828142257) do
     t.integer "equipment_id", null: false
     t.index ["equipment_id"], name: "index_equipment_eventdates_on_equipment_id", using: :btree
     t.index ["eventdate_id"], name: "index_equipment_eventdates_on_eventdate_id", using: :btree
+  end
+
+  create_table "equipment_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "equipment_id"
+    t.integer  "event_id"
+    t.integer  "quantity"
+    t.integer  "eventdate_start_id"
+    t.integer  "eventdate_end_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["equipment_id"], name: "index_equipment_events_on_equipment_id", using: :btree
+    t.index ["event_id"], name: "index_equipment_events_on_event_id", using: :btree
   end
 
   create_table "event_role_applications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|

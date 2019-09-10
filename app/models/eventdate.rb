@@ -122,8 +122,8 @@ class Eventdate < ApplicationRecord
         roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_HoT }
       end
 
-      if not roles.any? { |r| r.role == EventRole::Role_exec }
-        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_exec }
+      if not roles.any? { |r| r.role == EventRole::Role_supervise }
+        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_supervise }
       end
 
       if not roles.any? { |r| r.role == EventRole::Role_TiC }
@@ -141,10 +141,10 @@ class Eventdate < ApplicationRecord
     []
   end
 
-  def exec
-    t = event_roles.where(role: EventRole::Role_exec).where.not(member: nil).all.map(&:member)
+  def supervise
+    t = event_roles.where(role: EventRole::Role_supervise).where.not(member: nil).all.map(&:member)
     return t unless t.empty?
-    return event.exec if event
+    return event.supervise if event
     []
   end
 

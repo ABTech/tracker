@@ -101,8 +101,8 @@ class Event < ActiveRecord::Base
     event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
   end
   
-  def exec
-    event_roles.where(role: EventRole::Role_exec).where.not(member: nil).all.map(&:member)
+  def supervise
+    event_roles.where(role: EventRole::Role_supervise).where.not(member: nil).all.map(&:member)
   end
   
   def synchronize_representative_date

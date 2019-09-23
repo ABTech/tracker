@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     collection do
       get 'sent'
       get 'unread'
+      get 'mark_all_as_read'
       get 'reply'
       post 'reply', action: "send_reply"
       get 'new_event'

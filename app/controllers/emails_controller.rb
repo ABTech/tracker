@@ -1,6 +1,6 @@
 class EmailsController < ApplicationController
   skip_before_action :authenticate_member!, :only => [:create]
-  load_and_authorize_resource only: [:index, :show, :update, :sent, :unread]
+  load_and_authorize_resource only: [:index, :show, :update, :sent, :unread, :mark_all_as_read]
   protect_from_forgery except: :create
   
   def index
@@ -16,6 +16,12 @@ class EmailsController < ApplicationController
   def unread
     @emails = @emails.unread.paginate(:per_page => 20, :page => params[:page])
     @title = "Unread Emails"
+  end 
+
+  def mark_all_as_read
+    @emails.update_all(:unread => false)
+    flash[:notice] = "Marked all emails as read."
+    redirect_to emails_url
   end
   
   def reply

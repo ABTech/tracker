@@ -26,7 +26,7 @@ A Devise configuration file is required for the membership model. One can be gen
 ABTT does not currently have a database seed, so if you are not provided with a copy of the production database, you need to create a database yourself. The only data required for running the app is a member object that you can log in as. After you have configured the `config/database.yml` file to point to a local empty MySQL database, you can run the command `rake db:schema:load` to create the required tables, and you can use `rails c` to load a console with which you can create a Member object. The syntax for doing so is similar to the following:
 
 ```ruby
-Member.create(namefirst: "First Name", namelast: "Last Name", email: "abtech@andrew.cmu.edu", phone: "5555555555", aim: "", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
+Member.create(namefirst: "First Name", namelast: "Last Name", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
 ```
 
 You must install Sphinx if you wish to use the event search feature. You can then generate an index by running the command `rails ts:rebuild` on the server.

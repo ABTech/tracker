@@ -1,6 +1,6 @@
 <table class="generic">
-<tr><td>Billing Date:</td><td><%= date_select :timecard, :billing_date %></td><td>This is the pay period end date that is printed on the timecard. This field defaults to 2 weeks after the previous billing date.</td></tr>
-<tr><td>Due Date:</td><td><%= date_select :timecard, :due_date %></td><td>The date printed on the timecard indicating when it is due, usually a Friday. This field defaults to 2 weeks after the previous due date.</td></tr>
-<tr><td>Start Date:</td><td><%= date_select :timecard, :start_date %></td><td>This date is used to determine what events are valid to be billed on this timecard: only events that start after this date are included. This defaults to 2 weeks after the previous start date.</tr>
-<tr><td>End Date:</td><td><%= date_select :timecard, :end_date %></td><td>Only events that start before the beginning of this date are valid for this timecard. This defaults to 2 weeks after the previous timecard's end date.</tr>
+<tr><td>Billing Date:</td><td><%= date_select :timecard, :billing_date %></td><td>This is the pay period end date that is printed on the timecard. This field defaults to 1 week after the previous billing date.</td></tr>
+<tr><td>Due Date:</td><td><%= date_select :timecard, :due_date %></td><td>The date printed on the timecard indicating when it is due, usually a Friday. This field defaults to 1 week after the previous due date.</td></tr>
+<tr><td>Start Date:</td><td><%= date_select :timecard, :start_date %></td><td>This date is used to determine what events are valid to be billed on this timecard: only events that start after this date are included. This defaults to 1 week after the previous start date.</tr>
+<tr><td>End Date:</td><td><%= date_select :timecard, :end_date %></td><td>Only events that start before the beginning of this date are valid for this timecard. This defaults to 1 week after the previous timecard's end date.</tr>
 </table>

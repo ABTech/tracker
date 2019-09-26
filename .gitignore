@@ -24,3 +24,6 @@ db/sphinx/*
 log/development.sphinx.pid
 config/email.yml
 config/groupme.yml
+config/slack.yml
+.ruby-gemset
+.ruby-version

@@ -1,8 +1,8 @@
 # config valid only for current version of Capistrano
-lock "3.7.1"
+lock "3.10.1"
 
 set :application, "abtt"
-set :repo_url, "https://github.com/ABTech/abtt.git"
+set :repo_url, "https://github.com/ABTech/tracker.git"
 
 # Default branch is :master
 # set :branch, :master
@@ -21,7 +21,7 @@ set :deploy_to, "/srv/rails/abtt"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/email.yml", "config/groupme.yml", "config/secrets.yml"
+append :linked_files, "config/email.yml", "config/groupme.yml", "config/secrets.yml", "config/slack.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
@@ -44,12 +44,16 @@ set :assets_roles, [:app]
 
 # whenever
 set :whenever_roles, :app
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 # foreman
 after :'deploy:publishing', :'foreman_systemd:restart'
-set :foreman_systemd_user, "abtech"
+set :foreman_systemd_user, "deploy"
 append :rvm_map_bins, "foreman"
 append :bundle_bins, "foreman"
 
 # sphinx
 set :thinking_sphinx_roles, :app
+
+# passenger
+set :passenger_restart_with_touch, true

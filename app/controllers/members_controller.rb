@@ -183,7 +183,7 @@ class MembersController < ApplicationController
       if params[:zero_payrate] == "1"
         member.payrate = 0.0
       elsif params[:increase_payrate] == "1"
-        member.payrate = [9.0, member.payrate + 0.25].min
+        member.payrate = [10.0, member.payrate + 0.25].min
       end
       
       if params[:set_role] == "1"
@@ -235,7 +235,7 @@ class MembersController < ApplicationController
       params.require(:member).permit(
         :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
         :shirt_size, :phone, :payrate, :role, :tracker_dev, :receives_comment_emails,
-        :on_payroll,
+        :on_payroll, :pronouns,
         :super_tics_attributes => [:id, :_destroy, :day]
       )
     end

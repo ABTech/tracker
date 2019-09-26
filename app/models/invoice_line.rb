@@ -3,6 +3,7 @@ class InvoiceLine < ApplicationRecord
 
   Invoice_Categories = [  "Sound",
                           "Lighting",
+                          "Media",
                           "Reimbursement",
                           "Itemized",
                           "Labor",

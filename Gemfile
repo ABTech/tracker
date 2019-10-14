@@ -64,7 +64,7 @@ gem 'cancancan'
 gem 'sanitize'
 gem 'thinking-sphinx', '~> 3.3.0'
 gem 'whenever'
-gem 'amoeba'
+gem 'amoeba' , '~> 3.0.0'
 gem 'web-console', '~> 3.0', group: [:development]
 gem 'responders', '~> 2.0'
 gem 'gmail_xoauth'

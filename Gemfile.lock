@@ -47,7 +47,7 @@ GEM
       tzinfo (~> 1.1)
     airbrussh (1.3.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    amoeba (3.1.0)
+    amoeba (3.0.0)
       activerecord (>= 3.2.6)
     arel (7.1.4)
     bcrypt (3.1.11)
@@ -286,7 +286,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amoeba
+  amoeba (~> 3.0.0)
   cancancan
   capistrano (~> 3.0)
   capistrano-bundler

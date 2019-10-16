@@ -7,7 +7,7 @@
         <% if can? :read, Event %>
           <%= monthview Time.zone.now, :full_month => true, blackouts: true %>
         <% else %>
-          <%= monthview Time.zone.now, :full_month => true, published: true %>
+          <%= monthview Time.zone.now, :full_month => true, blackouts: true%>
         <% end %>
       <% end %>
 

@@ -223,6 +223,10 @@ class MembersController < ApplicationController
       if not current_member.tracker_dev?
         params[:member].delete(:tracker_dev)
       end
+
+      if params[:member][:officer_position] and (not current_member.is_at_least? :exec or cannot? :update, Member) and not current_member.tracker_dev?
+        params[:member].delete(:officer_position)
+      end
       
       if cannot? :manage, SuperTic
         params[:member].delete(:super_tics_attributes)
@@ -235,7 +239,7 @@ class MembersController < ApplicationController
       params.require(:member).permit(
         :password, :password_confirmation, :email, :namefirst, :namelast, :namenick, :title, :callsign,
         :shirt_size, :phone, :payrate, :role, :tracker_dev, :receives_comment_emails,
-        :on_payroll, :pronouns,
+        :on_payroll, :pronouns, :favorite_entropy_drink, :major, :grad_year, :interests, :officer_position,
         :super_tics_attributes => [:id, :_destroy, :day]
       )
     end

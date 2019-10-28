@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190910113930) do
+ActiveRecord::Schema.define(version: 20191025045851) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.string   "name",       limit: 255, null: false
@@ -256,6 +256,11 @@ ActiveRecord::Schema.define(version: 20190910113930) do
     t.string   "alternate_email",           limit: 255
     t.boolean  "on_payroll",                            default: false,            null: false
     t.string   "pronouns"
+    t.string   "favorite_entropy_drink"
+    t.string   "major"
+    t.string   "grad_year"
+    t.string   "interests"
+    t.string   "officer_position"
     t.index ["email"], name: "members_kerbid_index", using: :btree
   end
 

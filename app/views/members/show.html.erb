@@ -51,6 +51,18 @@
         <td><%= @member.shirt_size %></td>
       </tr>
       <tr>
+        <th>Entropy Drink</td>
+        <td><%= @member.favorite_entropy_drink %></td>
+      </tr>
+      <tr>
+        <th>Major</td>
+        <td><%= @member.major %></td>
+      </tr>
+      <tr>
+        <th>Graduation Year</td>
+        <td><%= @member.grad_year %></td>
+      </tr>
+      <tr>
         <th>Payrate</td>
         <td>$<%= @member.payrate %>/hr</td>
       </tr>
@@ -62,6 +74,10 @@
             (Tracker Dev)
           <% end %>
         </td>
+      </tr>
+      <tr>
+        <th>Officer Position</td>
+        <td><%= @member.officer_position %></td>
       </tr>
       <% if @member.is_at_least? :exec %>
       <tr>
@@ -91,6 +107,10 @@
           <td><%= @member.alternate_email %></td>
         </tr>
       <% end %>
+      <tr>
+        <th>Interests</td>
+        <td><%= @member.interests %></td>
+      </tr>
       </table>
     </td>
     <% if can? :read, Timecard %>

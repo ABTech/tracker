@@ -133,7 +133,7 @@ class InvoicesController < ApplicationController
     @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
     @email_to =  @invoice.event.contactemail
     if @invoice.status == "Invoice"
-      @email_cc= "aborkows@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
+      @email_cc= "vrbranch@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
     else
       @email_cc = "abtech@andrew.cmu.edu"
       @invoice.event.tic.each do |tic|
@@ -147,14 +147,14 @@ class InvoicesController < ApplicationController
       @email_content = "Attached is the quote for your event with AB Tech.  Please read the contract terms, and let us know if you have any questions.  Please reply with the signed contract attached, return the contract to 5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213, or fax to 412-268-5938 ATTN:  AB Tech."
     elsif @invoice.status == "Invoice"
       if @invoice.payment_type == "StuAct"
-        @email_content = "Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know.  Otherwise the total amount will automatically be deducted from your account by Adrienne Borkowski (aborkows@andrew.cmu.edu) within two weeks."
+        @email_content = "Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know.  Otherwise the total amount will automatically be deducted from your account by Vanessa Branch (vrbranch@andrew.cmu.edu) within two weeks."
       elsif @invoice.payment_type == "Check"
         @email_content = "Attached is the final invoice for your event with AB Tech.  Please make all checks payable to Carnegie Mellon University, with AB Tech listed in the memo field. Checks should be sent to 5000 Forbes Ave. UC Box 73. Pittsburgh, PA 15213."
       elsif @invoice.payment_type == "Oracle"
         if @invoice.oracle_string.empty?
-          @email_content = "Attached is the final invoice for your event with AB Tech.  We need your Oracle string to complete payment.  Please reply all to this email with your Oracle String and the total amount will automatically be deducted from your account by Adrienne Borkowski (aborkows@andrew.cmu.edu) within two weeks."
+          @email_content = "Attached is the final invoice for your event with AB Tech.  We need your Oracle string to complete payment.  Please reply all to this email with your Oracle String and the total amount will automatically be deducted from your account by Vanessa Branch (vrbranch@andrew.cmu.edu) within two weeks."
         else
-          @email_content = "Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Adrienne Borkowski (aborkows@andrew.cmu.edu) within two weeks."
+          @email_content = "Attached is the final invoice for your event with AB Tech.  If you have any questions please let us know. Otherwise the total amount will automatically be deducted from your account by Vanessa Branch (vrbranch@andrew.cmu.edu) within two weeks."
         end
       end
     elsif @invoice.status == "Received"
@@ -198,13 +198,13 @@ class InvoicesController < ApplicationController
   private
     def invoice_params(invoice=Invoice)
       if can? :manage, invoice
-        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :line_no, :memo, :category, :price, :quantity, :notes, :_destroy])
       else
         if not Invoice::Invoice_Status_Group_Exec.include? params[:invoice][:status]
           params[:invoice].delete :status
         end
 
-        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :line_no, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
       end
     end
 end

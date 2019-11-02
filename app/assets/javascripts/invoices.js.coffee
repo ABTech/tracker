@@ -32,6 +32,16 @@ $ ->
     note.css("display","none")
     link.html("V")
 
+@indexList = () ->
+  $('input.index').each( (i) ->
+    $(this).val(i))
+
+$ ->
+  indexList()
+
+$ ->
+  $('#sortable').sortable({stop: indexList});
+
 $ ->
   $("a.replace_field").click ->
     new_id = new Date().getTime()

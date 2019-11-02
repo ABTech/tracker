@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191025045851) do
+ActiveRecord::Schema.define(version: 20191101223816) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.string   "name",       limit: 255, null: false
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 20191025045851) do
     t.text     "notes",      limit: 16777215, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "line_no"
     t.index ["invoice_id"], name: "invoice_lines_invoice_id_index", using: :btree
   end
 

@@ -198,13 +198,13 @@ class InvoicesController < ApplicationController
   private
     def invoice_params(invoice=Invoice)
       if can? :manage, invoice
-        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :memo, :category, :price, :quantity, :notes, :_destroy])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :line_no, :memo, :category, :price, :quantity, :notes, :_destroy])
       else
         if not Invoice::Invoice_Status_Group_Exec.include? params[:invoice][:status]
           params[:invoice].delete :status
         end
 
-        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
+        params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :line_no, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
       end
     end
 end

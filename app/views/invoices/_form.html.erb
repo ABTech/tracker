@@ -57,21 +57,26 @@
   </p>
 </p>
 
+
 <table class="generic">
-  <tr>
-    <th>Preset</th>
-    <th>Category</th>
-    <th>Memo</th>
-    <th>Unit Price</th>
-    <th>Quantity</th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Preset</th>
+      <th>Category</th>
+      <th>Memo</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="sortable">
+    <%= f.fields_for :invoice_lines, @invoice.invoice_lines.order('line_no').sort do |builder| %>
+      <%= render :partial => 'invoice_line_fields', :locals => {:f => builder} %>
+    <% end %>
+  </tbody>
 
-  <%= f.fields_for :invoice_lines, @invoice.invoice_lines.sort do |builder| %>
-    <%= render :partial => 'invoice_line_fields', :locals => {:f => builder} %>
-  <% end %>
-
   <tr>
-    <td colspan=6><%= link_to_add_fields "Add another line", f, :invoice_lines, "2", "invoices" %></td>
+    <td colspan=7 onclick="indexList()"><%= link_to_add_fields "Add another line", f, :invoice_lines, "2", "invoices" %></td>
   </tr>
 </table>

@@ -1,7 +1,7 @@
 <tr id="invoice-line-<%= f.index %>" class="fields association-<%= f.index %>">
   <td>&#8801;</td>
   <td class="hide">
-    <%= f.hidden_field :line_no, :class => "index", :value => 2 %>
+    <%= f.hidden_field :line_no, :class => "index"%>
   </td>
   <td>
     <select id="invoice-line-preset-<%= f.index %>" onChange="chooseLinePreset(<%= f.index %>)">

@@ -44,7 +44,7 @@
 <table class=prettyBorder align=center width=100% >
 <tr><th>Qty</th><th>Category</th><th>Description</th><th>Unit Price</th><th>Extended Price</th></tr>
 <% sum = 0 %>
-<% @invoice.invoice_lines.order('line_no').sort.each do |line| %>
+<% @invoice.invoice_lines.sort_by(&:line_no).sort.each do |line| %>
   <tr>
     <td><%=line.quantity %></td>
     <td><%=line.category %></td>

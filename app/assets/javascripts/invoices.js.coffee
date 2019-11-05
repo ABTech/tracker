@@ -40,7 +40,7 @@ $ ->
   indexList()
 
 $ ->
-  $('#sortable').sortable({stop: indexList});
+  $('#sortable').sortable({stop: indexList, items: 'tr.fields'});
 
 $ ->
   $("a.replace_field").click ->

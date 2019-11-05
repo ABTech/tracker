@@ -41,6 +41,7 @@
       <%= conditional_link_to "Finance", invoices_url, :read, :finance %>
       <%= conditional_link_to "Members", members_url, :index, Member %>
       <%= conditional_link_to "Timecards", timecard_entries_url, :read, TimecardEntry %>
+      <%= link_to "Radio Checkout", 'https://bit.ly/techradios', target: :_blank  if can? :read, Event%>
       
       <% if member_signed_in? %>
         <%= link_to "Miscellaneous", "#", class: "toggle-div", data: {div: "misc-menu"} %>

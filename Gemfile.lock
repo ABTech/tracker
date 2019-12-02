@@ -129,7 +129,7 @@ GEM
       railties (>= 3.2.16)
     json (1.8.6)
     jwt (1.5.6)
-    loofah (2.1.1)
+    loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)

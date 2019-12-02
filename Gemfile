@@ -51,7 +51,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'wkhtmltopdf-binary'
-gem "paperclip", "~> 5.0"
+gem "paperclip", "~> 5.2"
 gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
 gem 'rails_autolink'

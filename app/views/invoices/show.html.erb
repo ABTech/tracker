@@ -46,7 +46,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @invoice.invoice_lines.order('line_no').sort.each do |line| %>
+      <% @invoice.invoice_lines.sort_by(&:line_no).sort.each do |line| %>
         <tr>
           <td><%= line.category %></td>
           <td>

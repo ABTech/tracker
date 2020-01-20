@@ -31,6 +31,7 @@
   </tr>
   <tr><td>Event Date:</td><td><%= @invoice.event.eventdates[0].startdate.strftime("%B %d, %Y") %></td></tr>
   <tr><td>Event Contact:</td><td><%= @invoice.event.contact_name %></td></tr>
+  <tr><td>Phone:</td><td><%= @invoice.event.contact_phone %></td></tr>
   <tr><td>Organization:</td><td><%= @invoice.event.organization.name %></td></tr>
   <tr><td>Bill to Account:</td><td><b>
     <%= if @invoice.payment_type == "Oracle" and not @no_show_oracle then

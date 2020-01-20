@@ -67,7 +67,7 @@ class Ability
       end
       
       can :read, Invoice, :event_id => member.event_roles.pluck(:roleable_id)
-      can :readprice, Invoice, :event_id => member.event_roles.where(role: EventRole::Role_TiC, roleable_type: "event").pluck(:roleable_id)
+      can :readprice, Invoice, :event_id => member.event_roles.where(role: EventRole::Role_TiC, roleable_type: "Event").pluck(:roleable_id)
       
       can :create, EventRoleApplication, :member_id => member.id
       can :update, EventRoleApplication do |app|

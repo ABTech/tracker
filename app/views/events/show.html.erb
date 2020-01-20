@@ -73,7 +73,7 @@
       </ul>
     </div>
   
-    <% if can? :read, @event.invoices %>
+    <% if can? :create, Invoice.new(event: @event) or not @event.invoices.accessible_by(current_ability).empty? %>
       <div id="event-invoices">
         <table class="event-finance">
           <tr>
@@ -85,7 +85,7 @@
             <th>Status</th>
             <% if can? :update, @event.invoices %>
               <th>Actions</th>
-            <% elsif can? :readprice, @event %>
+            <% elsif can? :readprice, @event or can? :tic, @event %>
               <th>Amount</th>
             <% end %>
           </tr>
@@ -110,7 +110,7 @@
                     <%= invoice.status %>
                   <% end %>
                 </td>
-                <% if can? :readprice, @event %>
+                <% if can? :readprice, invoice %>
                   <td>
                     <% if can? :update, invoice %>
                       <ul class="simple">

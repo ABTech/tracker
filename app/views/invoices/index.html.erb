@@ -17,7 +17,11 @@
       <td class="list">
     <%= link_to(invoice.event.title, event_path(invoice.event)) %> (<%= invoice.event.status %>)
     </td>
-      <td class="list"><%= number_to_currency invoice.total %></td>
+      <% if can? :readprice, invoice %>
+        <td class="list"><%= number_to_currency invoice.total %></td>
+      <% else %>
+        <td></td>
+      <% end %>
   </tr>
   <% end %>
 </table>

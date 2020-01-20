@@ -27,10 +27,12 @@
     <td><%= @invoice.payment_type %> <%= @invoice.oracle_string %></td>
   </tr>
   
-  <tr>
-    <td class="subheading">Invoice Total:</td>
-    <td><%= number_to_currency @invoice.total %></td>
-  </tr>
+  <% if can? :readprice, @invoice %>
+    <tr>
+      <td class="subheading">Invoice Total:</td>
+      <td><%= number_to_currency @invoice.total %></td>
+    </tr>
+  <% end %>
 </table>
 
 <% if not @invoice.invoice_lines.empty? %>

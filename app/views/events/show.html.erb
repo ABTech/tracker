@@ -73,7 +73,7 @@
       </ul>
     </div>
   
-    <% if can? :create, Invoice.new(event: @event) or not @event.invoices.accessible_by(current_ability).empty? %>
+    <% if can? :read, @event.invoices %>
       <div id="event-invoices">
         <table class="event-finance">
           <tr>
@@ -85,7 +85,7 @@
             <th>Status</th>
             <% if can? :update, @event.invoices %>
               <th>Actions</th>
-            <% else %>
+            <% elsif can? :readprice, @event %>
               <th>Amount</th>
             <% end %>
           </tr>
@@ -110,20 +110,22 @@
                     <%= invoice.status %>
                   <% end %>
                 </td>
-                <td>
-                  <% if can? :update, invoice %>
-                    <ul class="simple">
-                      <li><%= conditional_link_to "Edit", edit_invoice_url(invoice), :update, invoice %></li>
-                      <li><%= conditional_link_to "Preview", prettyView_invoice_url(invoice), :read, invoice %></li>
-                      <li><%= conditional_link_to "Print", prettyView_invoice_url(invoice, :format => :pdf), :read, invoice %></li>
-                      <li><%= conditional_link_to "Download", prettyView_invoice_url(invoice, :download => 1, :format => :pdf), :read, invoice %></li>
-                      <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(invoice, :format => :js), :email, invoice %></li>
-                      <li><%= conditional_link_to "Duplicate", duplicate_invoice_url(invoice), :create, invoice %></li>
-                    </ul>
-                  <% else %>
-                    <%= number_to_currency invoice.total %>
-                  <% end %>
+                <% if can? :readprice, @event %>
+                  <td>
+                    <% if can? :update, invoice %>
+                      <ul class="simple">
+                        <li><%= conditional_link_to "Edit", edit_invoice_url(invoice), :update, invoice %></li>
+                        <li><%= conditional_link_to "Preview", prettyView_invoice_url(invoice), :read, invoice %></li>
+                        <li><%= conditional_link_to "Print", prettyView_invoice_url(invoice, :format => :pdf), :read, invoice %></li>
+                        <li><%= conditional_link_to "Download", prettyView_invoice_url(invoice, :download => 1, :format => :pdf), :read, invoice %></li>
+                        <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(invoice, :format => :js), :email, invoice %></li>
+                        <li><%= conditional_link_to "Duplicate", duplicate_invoice_url(invoice), :create, invoice %></li>
+                      </ul>
+                    <% else %>
+                      <%= number_to_currency invoice.total %>
+                    <% end %>
                 </td>
+                <% end %>
               </tr>
             <% end %>
           <% end %>

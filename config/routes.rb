@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     end
     collection do
       get 'calendar'
+      get 'reference'
       get 'mobile'
       get 'months/:year/:month', action: :month, as: :month
       get 'past'

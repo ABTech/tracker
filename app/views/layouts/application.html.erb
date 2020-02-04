@@ -37,6 +37,7 @@
     <div id="menu" class="main-nav">
       <%= conditional_link_to "Events", events_url, :index, Event %>
       <%= conditional_link_to "Calendar", calendar_events_url, :index, Event %>
+      <%= conditional_link_to "Reference", reference_events_url, :index, Event %>
       <%= conditional_link_to "Email (#{Email.where(unread: true).count})", emails_url, :read, Email %>
       <%= conditional_link_to "Finance", invoices_url, :read, :finance %>
       <%= conditional_link_to "Members", members_url, :index, Member %>

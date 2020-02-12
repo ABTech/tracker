@@ -39,7 +39,7 @@ Tracker includes a rake task called `email:idle` which will connect to a Gmail a
 
 1. Go to the [Google APIs console](https://code.google.com/apis/console/), select "APIs & auth > Credentials", and click Create new Client ID.
 2. Choose "Installed Application", and then "Other". If you are requested to set up a Consent screen, enter an email address and a product name, and continue.
-3. Once you have a Client ID and Client secret, download the [oauth2.py tool](http://code.google.com/p/google-mail-oauth2-tools/wiki/OAuth2DotPyRunThrough).
+3. Once you have a Client ID and Client secret, download the [oauth2.py tool](https://github.com/google/gmail-oauth2-tools/wiki/OAuth2DotPyRunThrough).
 4. `python oauth2.py --generate_oauth2_token --client_id=CLIENT_ID --client_secret=CLIENT_SECRET`
    
    Make sure to replace CLIENT_ID and CLIENT\_SECRET with the appropriate values.

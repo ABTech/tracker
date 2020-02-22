@@ -71,7 +71,10 @@
 
 </table>
 </table>
-<% if @invoice.status == "Invoice" then %>
+<% if @invoice.status == "Quote" then %>
+  <p align=left style="text-indent:20px">
+  All quotes are estimates and subject to change as event needs change or unforeseen circumstances arise."</p>
+<% elsif @invoice.status == "Invoice" then %>
   <% if @invoice.payment_type == "Check" %>
     <p align=left style="text-indent:20px">
       Please make all checks payable to Carnegie Mellon University,

@@ -13,13 +13,19 @@ class TimecardsController < ApplicationController
   def view
   end
 
-  DAY = 24*60*60
-  WEEK = 7*DAY
   def new
-    @timecard.billing_date = Timecard.latest_dates.billing_date + WEEK
-    @timecard.due_date = Timecard.latest_dates.due_date + WEEK
-    @timecard.start_date = Timecard.latest_dates.start_date + WEEK
-    @timecard.end_date = Timecard.latest_dates.end_date + WEEK
+    interval = 1.week
+    if not Timecard.latest_dates.nil?
+      @timecard.billing_date = Timecard.latest_dates.billing_date + interval
+      @timecard.due_date = Timecard.latest_dates.due_date + interval
+      @timecard.start_date = Timecard.latest_dates.start_date + interval
+      @timecard.end_date = Timecard.latest_dates.end_date + interval
+    else
+      @timecard.billing_date = Date.today + interval
+      @timecard.due_date = Date.today + interval
+      @timecard.start_date = Date.today
+      @timecard.end_date = Date.today + interval
+    end
   end
 
   def create

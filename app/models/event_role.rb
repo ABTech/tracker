@@ -35,8 +35,8 @@ class EventRole < ApplicationRecord
   Role_strike     = "strike"
   Role_attend     = "attend"
   Role_food       = "food"
-  Role_airhorn    = "aIRHORN"
-  Role_aairhorn   = "aAIRHORN"
+  Role_airhorn    = "airhorn"
+  Role_aairhorn   = "aAirhorn"
     
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [

@@ -166,7 +166,11 @@ class Eventdate < ApplicationRecord
 
   def self.weekify(eventdates)
     eventdates.chunk do |ed|
-      TimeDifference.between(DateTime.now.beginning_of_week, ed.startdate).in_weeks.floor
+      if ed.startdate < DateTime.now.beginning_of_week
+        0
+      else
+        TimeDifference.between(DateTime.now.beginning_of_week, ed.startdate).in_weeks.floor
+      end
     end.map do |weeks, eds|
       {
         :weeks_away => weeks,

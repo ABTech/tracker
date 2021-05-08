@@ -133,7 +133,7 @@ class InvoicesController < ApplicationController
     @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
     @email_to =  @invoice.event.contactemail
     if @invoice.status == "Invoice"
-      @email_cc= "klreynol@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
+      @email_cc= "klreynol@andrew.cmu.edu,SLICEfinance@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
     else
       @email_cc = "abtech@andrew.cmu.edu"
       @invoice.event.tic.each do |tic|

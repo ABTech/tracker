@@ -31,6 +31,7 @@
   </tr>
   <tr><td>Event Date:</td><td><%= @invoice.event.eventdates[0].startdate.strftime("%B %d, %Y") %></td></tr>
   <tr><td>Event Contact:</td><td><%= @invoice.event.contact_name %></td></tr>
+  <tr><td>Phone:</td><td><%= @invoice.event.contact_phone %></td></tr>
   <tr><td>Organization:</td><td><%= @invoice.event.organization.name %></td></tr>
   <tr><td>Bill to Account:</td><td><b>
     <%= if @invoice.payment_type == "Oracle" and not @no_show_oracle then
@@ -44,7 +45,7 @@
 <table class=prettyBorder align=center width=100% >
 <tr><th>Qty</th><th>Category</th><th>Description</th><th>Unit Price</th><th>Extended Price</th></tr>
 <% sum = 0 %>
-<% @invoice.invoice_lines.sort.each do |line| %>
+<% @invoice.invoice_lines.sort_by(&:line_no).sort.each do |line| %>
   <tr>
     <td><%=line.quantity %></td>
     <td><%=line.category %></td>
@@ -70,7 +71,10 @@
 
 </table>
 </table>
-<% if @invoice.status == "Invoice" then %>
+<% if @invoice.status == "Quote" then %>
+  <p align=left style="text-indent:20px">
+  All quotes are estimates and subject to change as event needs change or unforeseen circumstances arise.</p>
+<% elsif @invoice.status == "Invoice" then %>
   <% if @invoice.payment_type == "Check" %>
     <p align=left style="text-indent:20px">
       Please make all checks payable to Carnegie Mellon University,
@@ -80,7 +84,7 @@
   <% else %>
   <p align=left style="text-indent:20px">
   If there are no issues with this invoice the above amount will automatically
-  be transfered from your Oracle account by Adrienne Borkowski (aborkows@andrew.cmu.edu) within two weeks.</p>
+  be transfered from your Oracle account by Kimberly L. Reynolds (klreynol@andrew.cmu.edu) within two weeks.</p>
   <% end %>
   <p align=left style="text-indent:20px">
   AB Tech believes that fostering dialog between our clients and ourselves both before and after an event is the best way to

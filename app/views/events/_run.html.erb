@@ -34,7 +34,7 @@
     <td>
       <small>
         C: <%= render_eventdate_call eventdate %><br/>
-        E: <%= eventdate.startdate.strftime("%H:%M") %> - <%= eventdate.enddate.strftime("%H:%M") %><br/>
+        E: <%= render_eventdate_event eventdate %><br/>
         S: <%= render_eventdate_strike eventdate %>
       </small>
     </td>
@@ -51,7 +51,7 @@
         <% if can? :read, Event or
             (not role.member.nil? and
               role.role == EventRole::Role_TiC or
-              (role.role == EventRole::Role_exec and
+              (role.role == EventRole::Role_supervise and
                 (not eventdate.full_roles.any? { |r| r.role == EventRole::Role_TiC } or
                 eventdate.full_roles.find { |r| r.role == EventRole::Role_TiC }.member.nil?)
               )

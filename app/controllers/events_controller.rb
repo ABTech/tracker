@@ -280,6 +280,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def reference
+    @title = "Reference"
+  end
+
   # Some documentation for generate (accessed with url /calendar/generate.(ics|calendar)
   # URL Parameters: [startdate (parsed date string), enddate, | matchdate] [showall (true|false),] [period (like f05 s01 u09 or fa05 sp02 su09 or soon)]
   # All parameters are optional. Default behavior is to give today's events.

@@ -48,7 +48,10 @@
                 day_class = "more_events"
               end
             %>
-            <td width="14%" <%= "class='".html_safe + day_class + "'".html_safe if day_class %> <% if !(date[:events].empty? and not date[:blackout]) %>onmouseover="this.getElementsByTagName('span')[0].className='show'" onmouseout="this.getElementsByTagName('span')[0].className='hide'"<% end %>>
+            <td width="14%" <%= "class='".html_safe + day_class + "'".html_safe if day_class %> <% if !(date[:events].empty? and not date[:blackout]) %>
+              <% if(can? :read, Event) %>
+              onmouseover="this.getElementsByTagName('span')[0].className='show'"
+              onmouseout="this.getElementsByTagName('span')[0].className='hide'" <% end %><% end %>>
               <%= date[:date].mday %>
 
               <% if not (date[:events].empty? and not date[:blackout]) %>
@@ -57,20 +60,16 @@
                   <% if date[:blackout] %>
                     Blackout:
                     <% if not date[:blackout].title.blank? and not date[:blackout].event.blank? %>
-                      <%= link_to date[:blackout].event.title, date[:blackout].event %> - <%= date[:blackout].title %>
+                      <%= text_with_conditional_link_to date[:blackout].event.title, date[:blackout].event, :read, Event %> - <%= date[:blackout].title %>
                     <% elsif not date[:blackout].event.blank? %>
-                      <%= link_to date[:blackout].event.title, date[:blackout].event %>
+                      <%= text_with_conditional_link_to date[:blackout].event.title, date[:blackout].event, :read, Event %>
                     <% else %>
                       <%= date[:blackout].title %>
                     <% end %>
                     <br />
                   <% end %>
                   <% date[:events].each do |evtdate| %>
-                    <% if can? :read, Event %>                    
-                      <%= link_to evtdate.event.title + " - " + evtdate.description, evtdate.event %>
-                    <% else %>
-                      <%= "#{evtdate.event.title} - #{evtdate.description}" %>
-                    <% end %>
+                    <%= text_with_conditional_link_to evtdate.event.title + " - " + evtdate.description, evtdate.event, :read, Event %>
                     <span>&rarr; <%= evtdate.startdate.strftime("%I:%M %p") %> - <%= evtdate.enddate.strftime("%I:%M %p") %></span><br />
                   <% end %>
                 </span>

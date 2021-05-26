@@ -1,15 +1,12 @@
 class EmailMailer < ActionMailer::Base
   add_template_helper(EmailsHelper)
   
-  def weekly_events(sender, to, bcc, subject, intro_blurb, outro_blurb, eventdates)
-    @intro_blurb = intro_blurb
-    @outro_blurb = outro_blurb
-    @eventdates = eventdates.chunk { |eventdate| eventdate.startdate.beginning_of_day }
-    
+  def weekly_events(sender, to, bcc, subject, body)
     mail  :to => to,
           :from => sender.email,
           :bcc => bcc,
-          :subject => subject
+          :subject => subject,
+          :body => body
   end
   
   def reply(email)

@@ -6,7 +6,7 @@ class EventRole < ApplicationRecord
   Role_HoT        = "HoT"
   Role_TiC        = "TiC"
   Role_aTiC       = "aTiC"
-  Role_exec       = "exec"
+  Role_supervise  = "supervise"
   Role_FoH        = "FoH"
   Role_aFoH       = "aFoH"
   Role_Mon        = "Mon"
@@ -33,47 +33,47 @@ class EventRole < ApplicationRecord
   Role_truck      = "truck"
   Role_setup      = "setup"
   Role_strike     = "strike"
-  Role_supervise  = "supervise"
+  Role_attend     = "attend"
   Role_food       = "food"
-  Role_airhorn    = "aIRHORN"
-  Role_aairhorn    = "aAIRHORN"
+  Role_airhorn    = "airhorn"
+  Role_aairhorn   = "aAirhorn"
     
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
-    Role_HoT    ,
-    Role_TiC    ,
-    Role_aTiC   ,
-    Role_exec   ,
-    Role_FoH    ,
-    Role_aFoH   ,
-    Role_Mon    ,
-    Role_aMon   ,
-    Role_SD     ,
-    Role_aSD    ,
-    Role_LD     ,
-    Role_aLD    ,
-    Role_Lprog  ,
-    Role_ME     ,
-    Role_aME    ,            
-    Role_MR     ,            
-    Role_aMR    ,            
-    Role_SM     ,            
-    Role_aSM    ,            
-    Role_bdSM   ,            
-    Role_Media  ,            
-    Role_aMedia ,
-    Role_SpotOp ,            
-    Role_Runner ,            
-    Role_Hole   ,            
-    Role_aHole  ,            
-    Role_car    ,     
-    Role_truck  ,          
-    Role_setup  ,
-    Role_strike ,
+    Role_HoT      ,
+    Role_TiC      ,
+    Role_aTiC     ,
     Role_supervise,
-    Role_food   ,
-    Role_airhorn,
-    Role_aairhorn]
+    Role_FoH      ,
+    Role_aFoH     ,
+    Role_Mon      ,
+    Role_aMon     ,
+    Role_SD       ,
+    Role_aSD      ,
+    Role_LD       ,
+    Role_aLD      ,
+    Role_Lprog    ,
+    Role_ME       ,
+    Role_aME      ,            
+    Role_MR       ,            
+    Role_aMR      ,            
+    Role_SM       ,            
+    Role_aSM      ,            
+    Role_bdSM     ,            
+    Role_Media    ,            
+    Role_aMedia   ,
+    Role_SpotOp   ,            
+    Role_Runner   ,            
+    Role_Hole     ,            
+    Role_aHole    ,            
+    Role_car      ,     
+    Role_truck    ,          
+    Role_setup    ,
+    Role_strike   ,
+    Role_attend   ,
+    Role_food     ,
+    Role_airhorn  ,
+    Role_aairhorn ]
 
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All

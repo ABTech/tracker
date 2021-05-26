@@ -27,52 +27,68 @@
     <td><%= @invoice.payment_type %> <%= @invoice.oracle_string %></td>
   </tr>
   
-  <tr>
-    <td class="subheading">Invoice Total:</td>
-    <td><%= number_to_currency @invoice.total %></td>
-  </tr>
+  <% if can? :readprice, @invoice %>
+    <tr>
+      <td class="subheading">Invoice Total:</td>
+      <td><%= number_to_currency @invoice.total %></td>
+    </tr>
+  <% end %>
 </table>
 
 <% if not @invoice.invoice_lines.empty? %>
+
   <table class="generic" width="50%">
-    <tr>
-      <th>Category</th>
-      <th>Memo</th>
-      <th>Unit Price</th>
-      <th>Quantity</th>
-      <th>Total</th>
-    </tr>
-  
-    <% @invoice.invoice_lines.sort.each do |line| %>
+    <thead>
       <tr>
-        <td><%= line.category %></td>
-        <td>
-          <%= line.memo %>
-          <% if line.notes and not line.notes.empty? %>
-            <%= simple_format line.notes %>
-          <% end %>
-        </td>
-        <td><%= number_to_currency line.price %></td>
-        <td><%= line.quantity %></td>
-        <td><%= number_to_currency line.total %></td>
+        <th>Category</th>
+        <th>Memo</th>
+        <% if can? :readprice, @invoice %>
+          <th>Unit Price</th>
+        <% end %>
+        <th>Quantity</th>
+        <% if can? :readprice, @invoice %>
+          <th>Total</th>
+        <% end %>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% @invoice.invoice_lines.sort_by(&:line_no).sort.each do |line| %>
+        <tr>
+          <td><%= line.category %></td>
+          <td>
+            <%= line.memo %>
+            <% if line.notes and not line.notes.empty? %>
+              <%= simple_format line.notes %>
+            <% end %>
+          </td>
+          <% if can? :readprice, @invoice %>
+            <td><%= number_to_currency line.price %></td>
+          <% end %>
+          <td><%= line.quantity %></td>
+          <% if can? :readprice, @invoice %>
+            <td><%= number_to_currency line.total %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 <% end %>
 
 <% content_for :more do %>
-  <ul>
-    <li><%= conditional_link_to "Edit", edit_invoice_url(@invoice), :edit, @invoice %></li>
-    <li><%= conditional_link_to "Preview", prettyView_invoice_url(@invoice), :show, @invoice %></li>
-    <li><%= conditional_link_to "Print", prettyView_invoice_url(@invoice, :format => "pdf"), :show, @invoice %></li>
-    <% if @invoice.payment_type == "Oracle" %>
-    <li><%= conditional_link_to "Print without Oracle string", prettyView_invoice_url(@invoice, :no_show_oracle => 1, :format => "pdf"), :show, @invoice %></li>
-    <% end %>
-    <li><%= conditional_link_to "Download", prettyView_invoice_url(@invoice, :download => 1, :format => "pdf"), :show, @invoice %></li>
-    <% if @invoice.payment_type == "Oracle" %>
-    <li><%= conditional_link_to "Download without Oracle string", prettyView_invoice_url(@invoice, :download => 1, :no_show_oracle => 1, :format => "pdf"), :show, @invoice %></li>
-    <% end %>
-    <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(@invoice, :format => :js), :email, @invoice %></li>
-    <li><%= conditional_link_to_delete "Delete", @invoice, :destroy, @invoice %></li>
-  </ul>
+  <% if can? :readprice, @invoice %>
+    <ul>
+      <li><%= conditional_link_to "Edit", edit_invoice_url(@invoice), :edit, @invoice %></li>
+      <li><%= conditional_link_to "Preview", prettyView_invoice_url(@invoice), :show, @invoice %></li>
+      <li><%= conditional_link_to "Print", prettyView_invoice_url(@invoice, :format => "pdf"), :show, @invoice %></li>
+      <% if @invoice.payment_type == "Oracle" %>
+      <li><%= conditional_link_to "Print without Oracle string", prettyView_invoice_url(@invoice, :no_show_oracle => 1, :format => "pdf"), :show, @invoice %></li>
+      <% end %>
+      <li><%= conditional_link_to "Download", prettyView_invoice_url(@invoice, :download => 1, :format => "pdf"), :show, @invoice %></li>
+      <% if @invoice.payment_type == "Oracle" %>
+      <li><%= conditional_link_to "Download without Oracle string", prettyView_invoice_url(@invoice, :download => 1, :no_show_oracle => 1, :format => "pdf"), :show, @invoice %></li>
+      <% end %>
+      <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(@invoice, :format => :js), :email, @invoice %></li>
+      <li><%= conditional_link_to_delete "Delete", @invoice, :destroy, @invoice %></li>
+    </ul>
+  <% end %>
 <% end %>

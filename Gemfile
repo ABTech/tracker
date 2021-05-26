@@ -20,6 +20,7 @@ gem 'coffee-rails', '~> 4.2.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder'
@@ -50,7 +51,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'wkhtmltopdf-binary'
-gem "paperclip", "~> 5.0"
+gem "paperclip", "~> 5.2"
 gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0'
 gem 'rails_autolink'
@@ -64,7 +65,7 @@ gem 'cancancan'
 gem 'sanitize'
 gem 'thinking-sphinx', '~> 3.3.0'
 gem 'whenever'
-gem 'amoeba'
+gem 'amoeba' , '~> 3.0.0'
 gem 'web-console', '~> 3.0', group: [:development]
 gem 'responders', '~> 2.0'
 gem 'gmail_xoauth'

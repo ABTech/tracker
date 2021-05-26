@@ -1,6 +1,6 @@
 class EmailsController < ApplicationController
   skip_before_action :authenticate_member!, :only => [:create]
-  load_and_authorize_resource only: [:index, :show, :update, :sent, :unread]
+  load_and_authorize_resource only: [:index, :show, :update, :sent, :unread, :mark_all_as_read]
   protect_from_forgery except: :create
   
   def index
@@ -16,6 +16,12 @@ class EmailsController < ApplicationController
   def unread
     @emails = @emails.unread.paginate(:per_page => 20, :page => params[:page])
     @title = "Unread Emails"
+  end 
+
+  def mark_all_as_read
+    @emails.update_all(:unread => false)
+    flash[:notice] = "Marked all emails as read."
+    redirect_to emails_url
   end
   
   def reply
@@ -125,15 +131,7 @@ class EmailsController < ApplicationController
   end
   
   def send_weekly
-    @eventdates = Eventdate.where(startdate: DateTime.current.beginning_of_day..(DateTime.current.beginning_of_day + 7.days)).to_a
-    @eventdates.select! { |eventdate| params["eventdate_include" + eventdate.id.to_s] == "1" }
-    
-    @eventdates.each do |eventdate|
-      eventdate.email_description = params["eventdate_description" + eventdate.id.to_s]
-      eventdate.save
-    end
-    
-    EmailMailer.weekly_events(current_member, params[:to], params[:bcc], params[:subject], params[:intro_blurb], params[:outro_blurb], @eventdates).deliver_now
+    EmailMailer.weekly_events(current_member, params[:to], params[:bcc], params[:subject], params[:body]).deliver_now
     
     flash[:notice] = "Email Sent"
     respond_to do |format|

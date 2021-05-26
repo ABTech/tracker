@@ -64,6 +64,7 @@
       <dt><%= f.label :shirt_size, "Shirt size:" %></dt>
       <dd><%= f.select :shirt_size, Member.shirt_size.values, include_blank: true %></dd>
     </dl>
+
   
     <dl>
       <dt><%= f.label :phone, "Phone:" %></dt>
@@ -76,6 +77,27 @@
         <dd><%= f.email_field :alternate_email, class: "wide-input" %></dd>
       </dl>
     <% end %>
+
+    <dl>
+      <dt><%= f.label :major, "Major:" %></dt>
+      <dd><%= f.text_field :major %></dd>
+    </dl>
+
+    <dl>
+      <dt><%= f.label :grad_year, "Graduation Year (undergrad):" %></dt>
+      <dd><%= f.text_field :grad_year %></dd>
+    </dl>
+
+    <dl>
+      <dt><%= f.label :favorite_entropy_drink, "Favorite (Default) Entropy Drink:" %></dt>
+      <dd><%= f.text_field :favorite_entropy_drink %></dd>
+    </dl>
+
+    <dl>
+      <dt><%= f.label :interests, "Interests:" %></dt>
+      <dd><%= f.text_field :interests, class: "wide-input" %></dd>
+    </dl>
+
   </fieldset>
 
   <fieldset>
@@ -118,6 +140,16 @@
       	<dt><%= f.label :payrate, "Payrate ($/hour):" %></dt>
       	<dd><%= f.number_field :payrate, step: 'any' %></dd>
       </dl>
+    </fieldset>
+  <% end %>
+
+  <% if @member.is_at_least? :exec %>
+    <fieldset>
+      <legend>Officer Position</legend>
+        <dl>
+          <dt><%= f.label :officer_position, "Officer Position:" %></dt>
+          <dd><%= f.text_field :officer_position %></dd>
+        </dl>
     </fieldset>
   <% end %>
 

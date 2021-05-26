@@ -14,7 +14,7 @@ development:
   database: abtt_development_master
   pool: 5
   username: root
-  password:
+  password: nachoes
   socket: /tmp/mysql.sock
   collation: utf8mb4_bin
 
@@ -27,8 +27,7 @@ test:
   database: abtt_test
   pool: 5
   username: root
-  password:
-  socket: /var/run/mysqld/mysqld.sock
+  password: nachoes
   collation: utf8_unicode_ci
 
 staging:

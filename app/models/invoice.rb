@@ -2,6 +2,10 @@ class Invoice < ApplicationRecord
   belongs_to :event
   has_many :invoice_lines, :dependent => :destroy, :inverse_of => :invoice
 
+  amoeba do
+    include_association [:invoice_lines]
+  end
+
   Payment_Types = ["StuAct", "Check", "Oracle"]
   Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received","Loan Agreement"]
   Invoice_Status_Group_Exec = ["New", "Quote"]

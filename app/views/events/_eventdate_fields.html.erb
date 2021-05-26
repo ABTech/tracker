@@ -1,5 +1,5 @@
 <div class="event-date-form fields association-<%= f.index %>">
-  <% if can? :tic, @event %>
+  <% if can? :tic, @event or can? :tic, f.object %>
     <dl>
       <dt><%= f.label :description, "Description:" %></dt>
       <dd><%= f.text_field :description, class: "event-form-full-input" %></dd>

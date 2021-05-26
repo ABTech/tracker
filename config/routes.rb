@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     collection do
       get 'sent'
       get 'unread'
+      get 'mark_all_as_read'
       get 'reply'
       post 'reply', action: "send_reply"
       get 'new_event'
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
     end
     collection do
       get 'calendar'
+      get 'reference'
       get 'mobile'
       get 'months/:year/:month', action: :month, as: :month
       get 'past'
@@ -47,6 +49,7 @@ Rails.application.routes.draw do
       post 'email'
       get 'email_confirm'
       get 'prettyView'
+      get 'duplicate'
     end
   end  
 

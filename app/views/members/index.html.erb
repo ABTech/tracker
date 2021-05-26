@@ -6,9 +6,13 @@
     <th><%=   table_order_link "Name",                "namelast",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Nickname",            "namenick",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Pronouns",            "pronouns",               @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Major",               "major",                  @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Grad Year",           "grad_year",              @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Phone",               "phone",                  @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Callsign",            "callsign",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Shirt Size",          "shirt_size",             @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Entropy Drink",       "favorite_entropy_drink", @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Officer Position",    "officer_position",       @order, @order_desc, @query %></th>
     <% if can? :hot, Member %>
       <th><%= table_order_link "Is on payroll?",  "on_payroll", @order, @order_desc, @query %></th>
     <% end %>
@@ -24,9 +28,13 @@
     <td><%= link_to_if (can? :show, member), member.fullname, member %></td>
     <td><%= member.namenick %></td>
     <td><%= member.pronouns %></td>
+    <td><%= member.major %></td>
+    <td><%= member.grad_year %></td>
     <td><%= pretty_phone member.phone %></td>
     <td><%= link_to h(member.callsign), "http://aprs.fi/?q=#{h(member.callsign)}".html_safe %></td>
     <td><%= member.shirt_size %></td>
+    <td><%= member.favorite_entropy_drink %></td>
+    <td><%= member.officer_position %></td>
     <% if can? :hot, member %>
       <td><%= member.on_payroll ? "YES" : "NO" %></td>
     <% end %>

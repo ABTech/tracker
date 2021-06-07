@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
+
   resources :email_forms, except: [:show]
 
   resources :equipment
@@ -41,6 +42,7 @@ Rails.application.routes.draw do
       get 'past'
       get 'incomplete'
       get 'search'
+      post 'request'
     end
   end
 

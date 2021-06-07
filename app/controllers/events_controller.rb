@@ -40,6 +40,34 @@ class EventsController < ApplicationController
     
     authorize! :update, @event
   end
+
+  def request
+    @title = "Create New Event"
+
+    if cannot? :create, Organization
+      params[:event].delete(:org_type)
+      params[:event].delete(:org_new)
+    end
+    
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
+      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
+      :eventdates_attributes =>
+        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
+        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id, :appliable]}],
+      :event_roles_attributes => [:role, :member_id, :appliable],
+      :attachments_attributes => [:attachment, :name],
+      :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
+    
+    @event = Event.new(p)
+    authorize! :create, @event
+    
+    if @event.save
+      flash[:notice] = "Event created successfully!"
+      redirect_to "https://www.abtech.org/request/success", status: 303
+    else
+      redirect_to "https://www.abtech.org/request/error", status: 303
+    end
+  end
   
   def create
     @title = "Create New Event"

@@ -73,10 +73,10 @@ class EventsController < ApplicationController
   def create
     @title = "Create New Event"
     
-    # if cannot? :create, Organization
-    #   params[:event].delete(:org_type)
-    #   params[:event].delete(:org_new)
-    # end
+    if cannot? :create, Organization
+      params[:event].delete(:org_type)
+      params[:event].delete(:org_new)
+    end
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
       :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,

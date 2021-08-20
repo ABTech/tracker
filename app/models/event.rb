@@ -68,6 +68,7 @@ class Event < ActiveRecord::Base
   validates_inclusion_of    :status, :in => Event_Status_Group_All
   validates_associated      :organization, :emails, :event_roles, :eventdates
   validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true
+  # validate :eventdate_valid?
   
   scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
@@ -199,6 +200,12 @@ class Event < ActiveRecord::Base
         mail = Email.find(created_email)
         mail.event = self
         mail.save
+      end
+    end
+
+    def eventdate_valid?
+      if representative_date < Account.magic_date
+       errors.add(:representative_date, "Requested date out of range") 
       end
     end
 end

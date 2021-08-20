@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month]
+  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month, :eventrequest]
+  skip_before_action :verify_authenticity_token, :only => [:eventrequest]
 
   helper :members
 
@@ -39,6 +40,38 @@ class EventsController < ApplicationController
     end
     
     authorize! :update, @event
+  end
+
+  def eventrequest
+    @title = "Create New Event"
+ 
+    if cannot? :create, Organization
+      params[:event].delete(:org_type)
+      params[:event].delete(:org_new)
+    end
+
+
+    
+    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :contact_name, :contactemail, :contact_phone, :notes,
+      :eventdates_attributes =>
+        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
+        {:location_ids => []}])
+
+    # Adding default values manually
+    p[:billable] = 1
+    p[:textable] = 0
+    p[:rental] = 0
+    p[:publish] = 0
+    
+    @event = Event.new(p)
+    #authorize! :create, @event
+    
+    if @event.save
+      flash[:notice] = "Event created successfully!"
+      head 200
+    else
+      head 400, @event.errors
+    end
   end
   
   def create

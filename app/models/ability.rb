@@ -32,6 +32,7 @@ class Ability
     member ||= Member.new(:role => :suspended)
 
     can :index, Event
+    can :eventrequest, Event
 
     if not member.suspended?
       can :read, Event

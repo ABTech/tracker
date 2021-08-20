@@ -68,9 +68,9 @@ class EventsController < ApplicationController
     
     if @event.save
       flash[:notice] = "Event created successfully!"
-      redirect_to "https://www.abtech.org/request/success", status: 303
+      head 200
     else
-      redirect_to "https://www.abtech.org/request/error", status: 303
+      head 400, @event.errors
     end
   end
   

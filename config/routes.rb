@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       get 'past'
       get 'incomplete'
       get 'search'
-      post 'request'
+      post 'eventrequest'
     end
   end
 

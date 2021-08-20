@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month]
+  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month, :eventrequest]
+  skip_before_action :verify_authenticity_token, :only => [:eventrequest]
 
   helper :members
 
@@ -41,9 +42,9 @@ class EventsController < ApplicationController
     authorize! :update, @event
   end
 
-  def request
+  def eventrequest
     @title = "Create New Event"
-
+ 
     if cannot? :create, Organization
       params[:event].delete(:org_type)
       params[:event].delete(:org_new)
@@ -59,7 +60,7 @@ class EventsController < ApplicationController
       :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
     
     @event = Event.new(p)
-    authorize! :create, @event
+    #authorize! :create, @event
     
     if @event.save
       flash[:notice] = "Event created successfully!"
@@ -72,10 +73,10 @@ class EventsController < ApplicationController
   def create
     @title = "Create New Event"
     
-    if cannot? :create, Organization
-      params[:event].delete(:org_type)
-      params[:event].delete(:org_new)
-    end
+    # if cannot? :create, Organization
+    #   params[:event].delete(:org_type)
+    #   params[:event].delete(:org_new)
+    # end
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
       :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,

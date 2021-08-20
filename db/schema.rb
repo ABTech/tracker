@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191101223816) do
+ActiveRecord::Schema.define(version: 20200706231040) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.string   "name",       limit: 255, null: false
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20191101223816) do
     t.datetime "updated_at"
     t.string   "roleable_type",                null: false
     t.boolean  "appliable",     default: true, null: false
+    t.string   "level"
     t.index ["member_id"], name: "event_roles_member_id_index", using: :btree
     t.index ["role"], name: "event_roles_role_index", using: :btree
     t.index ["roleable_id", "roleable_type"], name: "index_event_roles_on_roleable_id_and_roleable_type", using: :btree

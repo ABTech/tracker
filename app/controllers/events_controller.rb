@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month, :eventrequest]
+  skip_before_action :authenticate_member!, :only => [:generate, :calendar, :index, :month, :eventrequest, :reference]
   skip_before_action :verify_authenticity_token, :only => [:eventrequest]
 
   helper :members

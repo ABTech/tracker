@@ -160,6 +160,8 @@ GEM
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
+    puma (5.5.2)
+      nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -289,6 +291,7 @@ DEPENDENCIES
   omniauth-shibboleth
   paperclip (~> 5.2)
   prawn
+  puma
   rails (~> 5.2.6)
   rails_autolink
   responders (~> 2.0)

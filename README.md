@@ -2,7 +2,7 @@
 
 The tech tracker is a specialized web application used internally by Carnegie Mellon University's Activities Board Technical Committee. Its major features are event planning/organization, incoming email management, financial tracking, and membership management (including payroll and timecard generation). It was originally written in ~2003 in perl-style Rails 1.x, and through the years has been taken over and upgraded by various techies.
 
-The current version of Tracker uses Ruby 2.3.1 and Rails 5.0.0.1. Postfix is used for sending emails, and Sphinx is used for searching events.
+The current version of Tracker uses Ruby 2.5.0 and Rails 5.2.6. Postfix is used for sending emails, and Sphinx is used for searching events.
 
 ## Development Notes
 

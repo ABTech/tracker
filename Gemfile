@@ -53,7 +53,7 @@ end
 gem 'wkhtmltopdf-binary'
 gem "paperclip", "~> 5.2"
 gem "wicked_pdf"
-gem 'will_paginate', '~> 3.0'
+gem 'will_paginate', '~> 3.1.8'
 gem 'rails_autolink'
 gem 'prawn'
 gem 'icalendar'

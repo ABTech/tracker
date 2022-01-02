@@ -285,7 +285,7 @@ GEM
     whenever (0.10.0)
       chronic (>= 0.6.3)
     wicked_pdf (1.1.0)
-    will_paginate (3.1.6)
+    will_paginate (3.1.8)
     wkhtmltopdf-binary (0.12.3.1)
     zeitwerk (2.5.3)
 
@@ -327,7 +327,7 @@ DEPENDENCIES
   webpacker (~> 5.4)
   whenever
   wicked_pdf
-  will_paginate (~> 3.0)
+  will_paginate (~> 3.1.8)
   wkhtmltopdf-binary
 
 BUNDLED WITH

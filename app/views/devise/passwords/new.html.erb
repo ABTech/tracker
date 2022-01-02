@@ -10,7 +10,7 @@
           </tr>
           <tr>
             <td></td>
-            <td><%= devise_error_messages! %></td>
+            <td><%= render "devise/shared/error_messages", resource: resource %></td>
           </tr>
           <tr>
             <td><%= f.label :email %>:</td>

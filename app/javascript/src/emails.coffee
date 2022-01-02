@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-@setupAjaxLoader = () ->
+window.setupAjaxLoader = () ->
   $.ajaxSetup({
     beforeSend: ->
       $('#loader').show();
@@ -11,7 +11,7 @@
     , success: ->
   })
 
-@hideOptionsMenu = (menu) ->
+window.hideOptionsMenu = (menu) ->
   menu.removeClass("visible")
   menu.parent().children(".email-options-link").removeClass("invisible")
 
@@ -25,24 +25,24 @@ $ ->
       $(this).data("clicked", "no")
       $(this).text("Show Hidden Headers")
       $(this).parent().parent().find(".hidden-header").css("display", "none")
-    hideOptionsMenu($(this).parent())
+    window.hideOptionsMenu($(this).parent())
   $(".email-contents-quote-mode").click ->
     contents = $(this).parent().parent().parent().find(".the-content")
     contents.data("quote-mode", $(this).data("quote-mode"))
-    contents.html(simpleFormat(contents.data($(this).data("quote-mode"))))
+    contents.html(window.simpleFormat(contents.data($(this).data("quote-mode"))))
     $(this).parent().children(".email-contents-quote-mode").removeClass("active")
     $(this).addClass("active")
-    hideOptionsMenu($(this).parent())
+    window.hideOptionsMenu($(this).parent())
   $(".email-options-link").click ->
     $(this).addClass("invisible")
     $(this).parent().children(".email-options").addClass("visible")
   $(".close-options").click ->
-    hideOptionsMenu($(this).parent())
+    window.hideOptionsMenu($(this).parent())
   $(".email-unread-toggle").click ->
     if $(this).data("clicked") == "no"
       $(this).text("Mark Read")
       $(this).data("clicked","yes")
-      setupAjaxLoader()
+      window.setupAjaxLoader()
       $.ajax({
         url: $(this).data("url"),
         type: "put",
@@ -50,7 +50,7 @@ $ ->
       })
     else
       link = $(this)
-      setupAjaxLoader()
+      window.setupAjaxLoader()
       $.ajax({
         url: $(this).data("url"),
         type: "put",
@@ -59,9 +59,9 @@ $ ->
           link.text("Mark Unread")
           link.data("clicked","no")
       })
-    hideOptionsMenu($(this).parent())
+    window.hideOptionsMenu($(this).parent())
   $(".email-reply-link").click ->
-    setupAjaxLoader()
+    window.setupAjaxLoader()
     $.ajax({
       url: window.reply_email_path,
       data: "id=" + $(this).data("email-id"),
@@ -69,7 +69,7 @@ $ ->
       success: "success"
     })
   $(".email-new-event-link").click ->
-    setupAjaxLoader()
+    window.setupAjaxLoader()
     $.ajax({
       url: window.new_event_email_path,
       data: "id=" + $(this).data("email-id"),
@@ -77,7 +77,7 @@ $ ->
       success: "success"
     })
   $(".email-existing-event-link").click ->
-    setupAjaxLoader()
+    window.setupAjaxLoader()
     $.ajax({
       url: window.existing_event_email_path,
       data: "id=" + $(this).data("email-id"),
@@ -85,7 +85,7 @@ $ ->
       success: "success"
     })
   $(".email-unfile-link").click ->
-    setupAjaxLoader()
+    window.setupAjaxLoader()
     $.ajax({
       url: $(this).data("url"),
       type: "put",

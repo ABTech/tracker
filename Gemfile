@@ -1,19 +1,19 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 6.0.4.4'
 
 # Use mysql as the database for Active Record
-gem 'mysql2', '~> 0.4.4'
+gem 'mysql2', '~> 0.5.3'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.0'
+gem 'sass-rails', '~> 5.0.8'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 3.0.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.2.0'
+gem 'coffee-rails', '~> 4.2.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -53,12 +53,12 @@ end
 gem 'wkhtmltopdf-binary'
 gem "paperclip", "~> 5.2"
 gem "wicked_pdf"
-gem 'will_paginate', '~> 3.0'
+gem 'will_paginate', '~> 3.1.8'
 gem 'rails_autolink'
 gem 'prawn'
 gem 'icalendar'
 gem 'mail'
-gem 'devise' , '~> 4.4.3'
+gem 'devise' , '~> 4.8.1'
 gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancancan'
@@ -67,14 +67,15 @@ gem 'thinking-sphinx', '~> 3.3.0'
 gem 'whenever'
 gem 'amoeba' , '~> 3.0.0'
 gem 'web-console', '~> 3.0', group: [:development]
-gem 'responders', '~> 2.0'
+gem 'responders', '~> 3.0.1'
 gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-shibboleth'
 gem 'groupme'
 gem 'time_difference'
-gem 'foreman'
 gem 'slack-ruby-client'
 gem "bootsnap"  # Rails 5.2
 gem "puma"
+
+gem "webpacker", "~> 5.4"

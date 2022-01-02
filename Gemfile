@@ -77,3 +77,5 @@ gem 'time_difference'
 gem 'slack-ruby-client'
 gem "bootsnap"  # Rails 5.2
 gem "puma"
+
+gem "webpacker", "~> 5.4"

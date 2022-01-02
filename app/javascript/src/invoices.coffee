@@ -14,7 +14,7 @@ $ ->
     else
       $('#loan-agreement-notice').hide('Blind')
 
-@chooseLinePreset = (id) ->
+window.chooseLinePreset = (id) ->
   if $("#invoice-line-preset-" + id).val() != ""
     selected = $("#invoice-line-preset-" + id + " option:selected").first()
     $("#invoice_invoice_lines_attributes_" + id + "_category").val(selected.data('category'))
@@ -22,7 +22,7 @@ $ ->
     $("#invoice_invoice_lines_attributes_" + id + "_quantity").val("1")
     $("#invoice_invoice_lines_attributes_" + id + "_price").val(selected.data('price'))
 
-@toggleNotes = (id) ->
+window.toggleNotes = (id) ->
   note = $("#notes" + id)
   link = $("#notesToggle" + id)
   if note.css("display") == "none"
@@ -32,15 +32,15 @@ $ ->
     note.css("display","none")
     link.html("V")
 
-@indexList = () ->
+window.indexList = () ->
   $('input.index').each( (i) ->
     $(this).val(i))
 
 $ ->
-  indexList()
+  window.indexList()
 
 $ ->
-  $('#sortable').sortable({stop: indexList, items: 'tr.fields'});
+  $('#sortable').sortable({stop: window.indexList, items: 'tr.fields'});
 
 $ ->
   $("a.replace_field").click ->

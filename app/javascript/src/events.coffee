@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-@simpleFormat = (str) ->
+window.simpleFormat = (str) ->
   str = str.replace(/\r\n?/, "\n")
   str = $.trim(str)
   if str.length > 0
@@ -11,14 +11,14 @@
     str = '<p>' + str + '</p>'
   return str
 
-@setUpDeleteFields = () ->
+window.setUpDeleteFields = () ->
   $("a.delete_field.undestroyable").click ->
     $(this).prev("input[type=hidden]").val("1")
     $(this).closest(".fields").hide()
   $("a.delete_field.destroyable").click ->
     $(this).closest(".fields").remove()
     
-@setUpSuperTicAdd = (parent) ->
+window.setUpSuperTicAdd = (parent) ->
   parent.find(".supertic_add_role_button").click ->
     new_id = new Date().getTime()
     regexp = new RegExp("new_event_roles", "g")
@@ -28,7 +28,7 @@
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
       
-@setUpSuperTicEdit = (ed,roles) ->
+window.setUpSuperTicEdit = (ed,roles) ->
   ed.find(".start-time-field").children(".day, .month, .year").change ->
     day = parseInt($(this).parent().children(".day").val())
     month = parseInt($(this).parent().children(".month").val())-1
@@ -38,23 +38,23 @@
       dayOfWeek = 7
     roles.find(".supertic_add_role_select").val(dayOfWeek)
     
-@setUpEventDate = (ed) ->
+window.setUpEventDate = (ed) ->
   ed.find(".datetime_select").each ->
     parent = $(this)
-    setDateMonths(parent)
+    window.setDateMonths(parent)
     $(this).children(".month, .year").change ->
-      setDateMonths(parent)
+      window.setDateMonths(parent)
   ed.find(".copy_start_time").click ->
     starttime = $(this).parents(".event-date-form").find(".start-time-field")
     $(this).parent().each ->
       $(this).children(".month").val(starttime.children(".month").val())
       $(this).children(".year").val(starttime.children(".year").val())
-      setDateMonths($(this))
+      window.setDateMonths($(this))
       $(this).children(".day").val(starttime.children(".day").val())
     $(this).siblings(".field_with_errors").each ->
       $(this).children(".month").val(starttime.children(".month").val())
       $(this).children(".year").val(starttime.children(".year").val())
-      setDateMonths($(this))
+      window.setDateMonths($(this))
       $(this).children(".day").val(starttime.children(".day").val())
   ed.find(".call-time-field, .strike-time-field").each ->
     parent = $(this)
@@ -67,10 +67,10 @@
         parent.show()
       else
         parent.hide()
-  setUpSuperTicEdit(ed, ed.find(".event-form-roles"))
+  window.setUpSuperTicEdit(ed, ed.find(".event-form-roles"))
   ed.find(".eventdate_big_select").chosen({width: "95%"})
 
-@setUpAddFields = () ->
+window.setUpAddFields = () ->
   $("a.add_field").click ->
     new_id = new Date().getTime()
     regexp = new RegExp("new_" + $(this).data("association"), "g")
@@ -80,30 +80,30 @@
       $(this).parent().before($(this).data("content").replace(regexp, new_id))
       added = $(this).parents("#event-form-dates").children(".event-date-form").last()
       if prev.length > 0
-        setDateMonths(added.find(".call-time-field"), prev.find(".call-time-field"))
-        setDateMonths(added.find(".start-time-field"), prev.find(".start-time-field"))
-        setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
-        setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
+        window.setDateMonths(added.find(".call-time-field"), prev.find(".call-time-field"))
+        window.setDateMonths(added.find(".start-time-field"), prev.find(".start-time-field"))
+        window.setDateMonths(added.find(".end-time-field"), prev.find(".end-time-field"))
+        window.setDateMonths(added.find(".strike-time-field"), prev.find(".strike-time-field"))
       added.find(".eventdate_locations").val(prev.find(".eventdate_locations").val())
-      setUpEventDate(added)
-      setUpSuperTicAdd(added)
+      window.setUpEventDate(added)
+      window.setUpSuperTicAdd(added)
     else
       $(this).parent().before($(this).data("content").replace(regexp, new_id))
       
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
-    setUpAddFields()
+    window.setUpAddFields()
   $("a.add_field2").click ->
     new_id = new Date().getTime()
     regexp = new RegExp("new_" + $(this).data("association"), "g")
     $(this).parent().parent().before($(this).data("content").replace(regexp, new_id))
     $(".association-" + new_id + " a.delete_field").click ->
       $(this).closest(".fields").remove()
-    setUpAddFields()
+    window.setUpAddFields()
   $("a.add_field").removeClass("add_field")
   $("a.add_field2").removeClass("add_field2")
 
-@setDateMonths = (parent, other = null) ->
+window.setDateMonths = (parent, other = null) ->
   if other == null
     year = parseInt(parent.children(".year").children(":selected").val())
     month = parseInt(parent.children(".month").children(":selected").val())
@@ -125,7 +125,7 @@
     else
       day_select.append("<option value=\"" + d + "\">" + d + "</option>")
 
-@updateCalendarExportLink = () ->
+window.updateCalendarExportLink = () ->
   param = $("#gencalex_form input[name=gen_param]:checked").val()
   root = $("#gencalex_root").val()
   output = ""
@@ -159,9 +159,9 @@
   $("#gencalex_text_result").html("<a href=\"" + root + "calendar/generate.schedule" + output + "\">" + root + "calendar/generate.schedule" + output + "</a>")
       
 $ ->
-  updateCalendarExportLink()
+  window.updateCalendarExportLink()
   $("#gencalex_form input, #gencalex_form select").change ->
-    updateCalendarExportLink()
+    window.updateCalendarExportLink()
 
 $ ->
   $("#event-emails h5").click ->
@@ -174,14 +174,14 @@ $ ->
       $(this).children(".arrow").html("&#9660;")
     email.toggle("blind")
 
-@setupForms = () ->
-  setUpAddFields()
-  setUpDeleteFields()
+window.setupForms = () ->
+  window.setUpAddFields()
+  window.setUpDeleteFields()
   $(".event-form-roles").each ->
-    setUpSuperTicAdd($(this))
+    window.setUpSuperTicAdd($(this))
   $(".event-date-form").each ->
-    setUpEventDate($(this))
-  setUpSuperTicEdit($(".event-date-form").first(), $("fieldset.event-form-roles"))
+    window.setUpEventDate($(this))
+  window.setUpSuperTicEdit($(".event-date-form").first(), $("fieldset.event-form-roles"))
   $(".eventdate_big_select").chosen({width: "95%"})
   if $("#event_blackout_attributes__destroy").prop("checked")
     $(".event-blackout-fields").show()
@@ -202,7 +202,7 @@ $ ->
       $("#event_organization_id").show()
 
 $ ->
-  setupForms()
+  window.setupForms()
 
 $ ->
   $("#search.search_empty").focus ->

@@ -18,4 +18,3 @@
 //= require moment.min
 //= require fullcalendar.min
 //= require jquery.multi-select
-//= require_tree .

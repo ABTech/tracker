@@ -27,3 +27,12 @@ config/groupme.yml
 config/slack.yml
 .ruby-gemset
 .ruby-version
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+/config/master.key

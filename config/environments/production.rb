@@ -116,5 +116,4 @@ Rails.application.configure do
   }
   
   config.action_mailer.default_url_options = { :host => 'abtech.andrew.cmu.edu' }
-  config.action_controller.relative_url_root = "/tracker"
 end

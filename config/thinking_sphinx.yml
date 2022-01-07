@@ -1,20 +1,19 @@
 development:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  sql_sock: /tmp/mysql.sock
+  sql_sock: /var/run/mysqld/mysqld.sock
 
 staging:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  mysql41: 9307
-  pid_file: /srv/rails/abtt/staging/shared/pids/searchd.pid
-  indices_location: /srv/rails/abtt/staging/shared/sphinx
-  configuration_file: /srv/rails/abtt/staging/shared/config/staging.sphinx.conf
-  binlog_path: /srv/rails/abtt/staging/shared/binlog
+  pid_file: <%= "#{Rails.root}/../pids/searchd.pid %>
+  indices_location: <%= "#{Rails.root}/../shared/sphinx %>
+  configuration_file: <%= "#{Rails.root}/config/staging.sphinx.conf %>
+  binlog_path: <%= "#{Rails.root}/../shared/binlog %>
   sql_sock: /var/run/mysqld/mysqld.sock
 
 production:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  pid_file: /srv/rails/abtt/production/shared/pids/searchd.pid
-  indices_location: /srv/rails/abtt/production/shared/sphinx
-  configuration_file: /srv/rails/abtt/production/shared/config/production.sphinx.conf
-  binlog_path: /srv/rails/abtt/production/shared/binlog
+  pid_file: <%= "#{Rails.root}/../pids/searchd.pid %>
+  indices_location: <%= "#{Rails.root}/../shared/sphinx %>
+  configuration_file: <%= "#{Rails.root}/config/production.sphinx.conf %>
+  binlog_path: <%= "#{Rails.root}/../shared/binlog %>
   sql_sock: /var/run/mysqld/mysqld.sock

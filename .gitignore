@@ -9,6 +9,7 @@ log/development.sphinx.pid
 config/email.yml
 config/groupme.yml
 config/slack.yml
+/config/master.key
 
 # BEGIN Rails gitignore
 # https://github.com/github/gitignore/blob/96d68766538413194aabd55e3622734cd501e715/Rails.gitignore

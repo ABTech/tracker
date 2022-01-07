@@ -68,13 +68,24 @@ Tracker can send text messages to a GroupMe chat about upcoming calls and strike
 
 ## Deployment
 
-Capistrano is used for deployment. Configuration is included in source control which can be used for deployment to both [the staging server](https://abtech.andrew.cmu.edu/tracker-staging/) and [production](https://abtech.andrew.cmu.edu/tracker/). The canonical servers deploy under the `abtech` account, which you must be able to login to via public-key authentication.
-
-Examples of commands:
-```shell
-cap staging deploy                        # Deploy the master branch to tracker-dev
-cap production deploy                     # Deploy the production branch to tracker
-cap production thinking_sphinx:rebuild    # Rebuild the production search index
-cap production thinking_sphinx:restart    # Restart the production search daemon
-cap production foreman_systemd:restart    # Restart the production email pulling daemon
+The intended directory structure is as follows. `/srv/abtech-tracker` may be moved anywhere, and the `production` and `staging` may be any name (these are the instance names).
 ```
+/srv
+├── abtech-tracker
+│   ├── production-01
+│   │   ├── pids
+│   │   ├── rbenv
+│   │   ├── repo
+│   │   ├── run
+│   │   ├── shared
+│   │   └── tracker.env
+│   └── staging-01
+│       ├── pids
+│       ├── rbenv
+│       ├── repo
+│       ├── run
+│       ├── shared
+│       └── tracker.env
+```
+
+TBD

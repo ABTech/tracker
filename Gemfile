@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby File.read(".ruby-version").strip
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.4.4'
 
@@ -33,20 +35,6 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# group :development do
-#   gem 'capistrano', '~> 3.0', require: false
-#   gem 'capistrano-rvm', require: false
-#   gem 'capistrano-rails', require: false
-#   gem 'capistrano-bundler', require: false
-#   gem 'capistrano-foreman-systemd', require: false, git: "https://github.com/hatkirby/capistrano-foreman-systemd.git"
-#   gem 'capistrano-passenger', require: false
-#   gem 'highline', require: false
-# end
-
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
@@ -77,5 +65,6 @@ gem 'time_difference'
 gem 'slack-ruby-client'
 gem "bootsnap"  # Rails 5.2
 gem "puma"
+gem "sd_notify"
 
 gem "webpacker", "~> 5.4"

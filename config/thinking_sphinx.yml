@@ -4,16 +4,16 @@ development:
 
 staging:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  pid_file: <%= "#{Rails.root}/../pids/searchd.pid %>
-  indices_location: <%= "#{Rails.root}/../shared/sphinx %>
-  configuration_file: <%= "#{Rails.root}/config/staging.sphinx.conf %>
-  binlog_path: <%= "#{Rails.root}/../shared/binlog %>
+  pid_file: <%= Rails.root.join("../pids/searchd.pid") %>
+  indices_location: <%= Rails.root.join("../shared/sphinx") %>
+  configuration_file: <%= Rails.root.join("config/staging.sphinx.conf") %>
+  binlog_path: <%= Rails.root.join("../shared/binlog") %>
   sql_sock: /var/run/mysqld/mysqld.sock
 
 production:
   charset_table: "0..9, A..Z->a..z, _, a..z"
-  pid_file: <%= "#{Rails.root}/../pids/searchd.pid %>
-  indices_location: <%= "#{Rails.root}/../shared/sphinx %>
-  configuration_file: <%= "#{Rails.root}/config/production.sphinx.conf %>
-  binlog_path: <%= "#{Rails.root}/../shared/binlog %>
+  pid_file: <%= Rails.root.join("../pids/searchd.pid") %>
+  indices_location: <%= Rails.root.join("../shared/sphinx") %>
+  configuration_file: <%= Rails.root.join("config/production.sphinx.conf") %>
+  binlog_path: <%= Rails.root.join("../shared/binlog") %>
   sql_sock: /var/run/mysqld/mysqld.sock

@@ -68,7 +68,7 @@ Tracker can send text messages to a GroupMe chat about upcoming calls and strike
 
 ## Deployment
 
-The intended directory structure is as follows. `/srv/abtech-tracker` may be moved anywhere, and the `production` and `staging` may be any name (these are the instance names).
+The intended directory structure is as follows. `/srv/abtech-tracker` may be moved anywhere if you override the systemd service/socket files, and the `production-01` and `staging-01` may be any name (these are the instance names).
 ```
 /srv
 ├── abtech-tracker
@@ -88,4 +88,31 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
 │       └── tracker.env
 ```
 
-TBD
+1. Determine an instance name (like `production-01`) and create the above directory path. Clone into the `repo` folder and change to that directory.
+2. Copy [`tracker.env`](./deploy/tracker.env) to the parent of `repo`. Change any variables inside that need to be changed.
+3. From the `repo` directory as root: `set -o allexport; source ../tracker.env; set +o allexport`
+4. `rbenv install`
+5. `../rbenv/shims/gem install --no-document bundler`
+6. `rbenv rehash`
+7. Create a user `deploy-abtech-tracker`. This user does not need `sudo`, a home folder, or a default shell.
+8. Create a MySQL user `deploy-abtech-tracker` authenticated via UNIX socket. Create a database `abtech_tracker_<instance name>`. Grant all permissions on the database to the user.
+9. Now login as the `deploy-abtech-tracker` user: `sudo -u deploy-abtech-tracker` /bin/bash
+10. As deploy-abtech-tracker: `set -o allexport; source ../tracker.env; set +o allexport`
+11. As deploy-abtech-tracker: `../rbenv/shims/bundle config set --local deployment 'true'`
+12. As deploy-abtech-tracker: `../rbenv/shims/bundle install`
+13. As deploy-abtech-tracker: `EDITOR=nano ../rbenv/shims/bundle exec rails credentials:edit`
+14. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:environment:set RAILS_ENV=production`
+15. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:create` (may already exist)
+16. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:schema:load`
+17. As deploy-abtech-tracker: `yarn install`
+18. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails assets:precompile`
+19. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails c`
+    ```ruby
+    Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
+    exit
+    ```
+20. Now as `root`: `systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service`
+21. As `root`: `systemctl start abtech-tracker@production-01.socket abtech-tracker@production-01.service`
+
+TODO: Sphinx, email, secrets, and Slack instructions
+

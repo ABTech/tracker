@@ -27,14 +27,15 @@ WorkingDirectory=/srv/abtech-tracker/%i/repo
 # Service User
 # ============
 # This user will run Tracker. Preferably configure a non-privileged user that
-# does not need edit access to the rbenv root.
+# does not need edit access to the rbenv root. If you override this, then you
+# also need to change the associated systemd socket file.
 User=deploy-abtech-tracker
 
 # Puma Application Socket
 # =======================
 # This is the UNIX socket that Tracker will listen on. If you override this,
 # then you also need to change the associated systemd socket file.
-Environment=PUMA_BIND="/srv/abtech-tracker/%i/run/puma.sock"
+Environment=PUMA_BIND="unix:///srv/abtech-tracker/%i/run/puma.sock"
 
 # Puma Control URL
 # ================
@@ -42,7 +43,6 @@ Environment=PUMA_BIND="/srv/abtech-tracker/%i/run/puma.sock"
 # If you override this, then you also need to change the associated systemd
 # socket file.
 Environment=PUMA_CONTROL_URL="unix:///srv/abtech-tracker/%i/run/puma-ctl.sock"
-Environment=PUMA_BIND="/srv/abtech-tracker/%i/run/puma.sock"
 
 # Puma FILE
 # =========
@@ -69,7 +69,7 @@ Type=notify
 # If your Puma process locks up, systemd's watchdog will restart it within seconds.
 WatchdogSec=10
 
-ExecStart=/bin/sh -c "$RBENV_ROOT/shims/bundle exec --keep-file-descriptors puma -C $PUMA_FILE --bind $PUMA_BIND --control-url $PUMA_CONTROL_URL $PUMA_ADDITIONAL_ARGS"
+ExecStart=/srv/abtech-tracker/%i/rbenv/shims/bundle exec --keep-file-descriptors puma -C $PUMA_FILE --bind $PUMA_BIND $PUMA_ADDITIONAL_ARGS
 
 Restart=always
 

@@ -4,7 +4,6 @@ After=network.target
 
 # Uncomment for socket activation (see below)
 Requires=abtech-tracker@.socket
-Requires=abtech-tracker-ctl@.socket
 
 [Service]
 # *

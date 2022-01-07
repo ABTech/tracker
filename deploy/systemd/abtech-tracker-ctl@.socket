@@ -7,7 +7,7 @@ Description=AB Tech Tracker Puma HTTP Control Server Accept Sockets
 
 # AF_UNIX domain socket
 # SocketUser, SocketGroup, etc. may be needed for Unix domain sockets
-ListenStream=%I/run/puma-ctl.sock
+ListenStream=/srv/abtech-tracker/%i/run/puma-ctl.sock
 
 # Socket options matching Puma defaults
 NoDelay=true

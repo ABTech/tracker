@@ -18,12 +18,12 @@ Requires=abtech-tracker-ctl@.socket
 # Tracker Environment File
 # ========================
 # The working directory should be the location of the repo.
-EnvironmentFile=%I/tracker.env
+EnvironmentFile=/srv/abtech-tracker/%i/tracker.env
 
 # Service Working Directory
 # =========================
 # The working directory should be the location of the repo.
-WorkingDirectory=%I/repo
+WorkingDirectory=/srv/abtech-tracker/%i/repo
 
 # Service User
 # ============
@@ -35,15 +35,15 @@ User=deploy-abtech-tracker
 # =======================
 # This is the UNIX socket that Tracker will listen on. If you override this,
 # then you also need to change the associated systemd socket file.
-Environment=PUMA_BIND="%I/run/puma.sock"
+Environment=PUMA_BIND="/srv/abtech-tracker/%i/run/puma.sock"
 
 # Puma Control URL
 # ================
 # This is the UNIX or TCP socket that The Puma control interface will bind to.
 # If you override this, then you also need to change the associated systemd
 # socket file.
-Environment=PUMA_CONTROL_URL="unix://%I/run/puma-ctl.sock"
-Environment=PUMA_BIND="%I/run/puma.sock"
+Environment=PUMA_CONTROL_URL="unix:///srv/abtech-tracker/%i/run/puma-ctl.sock"
+Environment=PUMA_BIND="/srv/abtech-tracker/%i/run/puma.sock"
 
 # Puma FILE
 # =========

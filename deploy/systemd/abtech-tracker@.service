@@ -51,6 +51,11 @@ Environment=PUMA_BIND="%I/run/puma.sock"
 # is config/puma.rb.
 Environment=PUMA_FILE="config/puma.rb"
 
+# Puma Additional Arguments
+# =========================
+# This variable may be overriden to call Puma with additional arguments.
+Environment=PUMA_ADDITIONAL_ARGS=""
+
 # *
 # * END TRACKER CONFIG DEFAULTS
 # *

@@ -7,7 +7,10 @@ namespace :slack do
     
     logger = Logger.new(STDOUT)
     
-    env_config = YAML.load_file(Rails.root.join("config", "slack.yml"))
+
+    Rails.application.credentials.fetch(:slack) { raise 'Could not find `slack` credentials!' }
+    Rails.application.credentials.slack.fetch(:token) { raise 'Could not find `token` in `slack` credentials!' }
+    env_config = Rails.application.credentials.slack
     
     logger.info("Logging into Slack")
     Slack.configure do |config|

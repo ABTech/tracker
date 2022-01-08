@@ -8,7 +8,16 @@ namespace :email do
     logger = Logger.new(STDOUT)
     logger.level = Logger::INFO
     
-    config = YAML.load_file(Rails.root.join("config", "email.yml"))
+    Rails.application.credentials.fetch(:email) { raise 'Could not find `email` credentials!' }
+    Rails.application.credentials.email.fetch(:email) { raise 'Could not find `email` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:name) { raise 'Could not find `name` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:port) { raise 'Could not find `port` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:ssl) { raise 'Could not find `ssl` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:client_id) { raise 'Could not find `client_id` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:client_secret) { raise 'Could not find `client_secret` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:client_secret_test) { raise 'Could not find `client_secret_test` in `email` credentials!' }
+    config = Rails.application.credentials.email
     
     reconnectSleep = 1
     

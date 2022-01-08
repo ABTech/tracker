@@ -6,9 +6,9 @@ mkmf.log
 /config/*.sphinx.conf
 db/sphinx/*
 log/development.sphinx.pid
-config/email.yml
-config/slack.yml
 /config/master.key
+/config/credentials/staging.key
+/config/credentials/production.key
 
 # BEGIN Rails gitignore
 # https://github.com/github/gitignore/blob/96d68766538413194aabd55e3622734cd501e715/Rails.gitignore
@@ -164,3 +164,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # END Windows gitignore
+
+/config/credentials/production.key

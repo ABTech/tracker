@@ -2,6 +2,8 @@
 Description=AB Tech Tracker Puma HTTP Server
 After=network.target
 
+Wants=abtech-tracker-ts@.service
+
 # Uncomment for socket activation (see below)
 Requires=abtech-tracker@.socket
 

@@ -106,6 +106,7 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
 16. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:schema:load`
 17. As deploy-abtech-tracker: `yarn install`
 18. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails assets:precompile`
+18. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails ts:index`
 19. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails c`
     ```ruby
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)

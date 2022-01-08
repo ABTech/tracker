@@ -3,7 +3,7 @@ mkmf.log
 *.swo
 *.sassc
 .sass-cache
-config/development.sphinx.conf
+/config/*.sphinx.conf
 db/sphinx/*
 log/development.sphinx.pid
 config/email.yml

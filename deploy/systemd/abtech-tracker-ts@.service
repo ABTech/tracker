@@ -42,9 +42,9 @@ PIDFile=/srv/abtech-tracker/%i/pids/searchd.pid
 # * END TRACKER THINKING SPHINX CONFIG DEFAULTS
 # *
 
-Type=forking
+Type=simple
 
-ExecStart=/srv/abtech-tracker/%i/rbenv/shims/bundle exec --keep-file-descriptors rails ts:start
+ExecStart=/srv/abtech-tracker/%i/rbenv/shims/bundle exec --keep-file-descriptors rails ts:start NODETACH=true
 
 Restart=always
 

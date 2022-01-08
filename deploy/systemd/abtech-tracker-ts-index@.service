@@ -3,7 +3,8 @@ Description=AB Tech Tracker Thinking Sphinx Server Index Task
 After=network.target
 
 # Sphinx service doesn't actually need to be running. If it is, then it
-# automatically sends a SIGHUP to reload it
+# automatically sends a SIGHUP to reload it. Note that this IS required for
+# realtime indices.
 # Requires=abtech-tracker-ts@.service
 
 # Only run if associated Rails is running, otherwise it might be down for

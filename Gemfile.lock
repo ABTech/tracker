@@ -64,7 +64,6 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     cancancan (3.3.0)
-    chronic (0.10.2)
     climate_control (0.2.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
@@ -283,8 +282,6 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    whenever (0.10.0)
-      chronic (>= 0.6.3)
     wicked_pdf (1.1.0)
     will_paginate (3.1.8)
     wkhtmltopdf-binary (0.12.3.1)
@@ -327,13 +324,12 @@ DEPENDENCIES
   uglifier (>= 3.0.0)
   web-console (~> 3.0)
   webpacker (~> 5.4)
-  whenever
   wicked_pdf
   will_paginate (~> 3.1.8)
   wkhtmltopdf-binary
 
 RUBY VERSION
-   ruby 2.5.0p0
+   ruby 2.5.8p224
 
 BUNDLED WITH
    2.3.4

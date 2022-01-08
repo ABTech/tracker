@@ -52,7 +52,6 @@ gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
 gem 'thinking-sphinx', '~> 4.4.1'
-gem 'whenever'
 gem 'amoeba' , '~> 3.0.0'
 gem 'web-console', '~> 3.0', group: [:development]
 gem 'responders', '~> 3.0.1'

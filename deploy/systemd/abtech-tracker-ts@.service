@@ -30,12 +30,6 @@ WorkingDirectory=/srv/abtech-tracker/%i/repo
 # also need to change the associated systemd socket file.
 User=deploy-abtech-tracker
 
-# Sphinx Application Socket
-# =========================
-# This is the UNIX socket that Sphinx will listen on. If you override this,
-# then you also need to change the associated systemd socket file.
-Environment=SPHINX_BIND="unix:///srv/abtech-tracker/%i/run/searchd.sock"
-
 # Sphinx PID File
 # ===============
 # Location to place the Thinking Sphinx PID file. This prevents multiple

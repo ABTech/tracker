@@ -57,15 +57,6 @@ Tracker includes a rake task called `email:idle` which will connect to a Gmail a
   :client_secret: "CLIENT_SECRET"
 ```
 
-### GroupMe notifications
-
-Tracker can send text messages to a GroupMe chat about upcoming calls and strikes for events that have a "textable" flag set. To enable this, you must set up a [GroupMe bot](https://dev.groupme.com/) and put the bot ID string in a configuration file, which should be located at `config/groupme.yml`:
-
-```yaml
----
-  :bot_id: "BOT_ID"
-```
-
 ## Deployment
 
 The intended directory structure is as follows. `/srv/abtech-tracker` may be moved anywhere if you override the systemd service/socket files, and the `production-01` and `staging-01` may be any name (these are the instance names).

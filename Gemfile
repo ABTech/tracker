@@ -59,7 +59,6 @@ gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-shibboleth'
-gem 'groupme'
 gem 'time_difference'
 gem 'slack-ruby-client'
 gem "bootsnap"  # Rails 5.2

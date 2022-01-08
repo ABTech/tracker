@@ -1,5 +1,5 @@
 class Eventdate < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, optional: true
   has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :timecard_entries
   has_and_belongs_to_many :locations

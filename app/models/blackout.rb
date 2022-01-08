@@ -1,5 +1,5 @@
 class Blackout < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, optional: true
   
   attr_accessor :with_new_event
   

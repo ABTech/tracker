@@ -112,8 +112,8 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
     exit
     ```
-20. Now as `root`: `systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service`
-21. As `root`: `systemctl start abtech-tracker@production-01.socket abtech-tracker@production-01.service`
+20. Now as `root`: `systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-ts@production-01.service abtech-tracker-ts-index@production-01.timer abtech-tracker-slack-notify@production-01.timer`
+21. As `root`: `systemctl start abtech-tracker-ts@production-01.service abtech-tracker@production-01.socket abtech-tracker@production-01.service`
 
-TODO: Sphinx, email, secrets, and Slack instructions
+TODO: Email, secrets, and Slack instructions
 

@@ -1,8 +1,9 @@
 [Unit]
-Description=AB Tech Tracker Thinking Sphinx
+Description=AB Tech Tracker Thinking Sphinx Server
 After=network.target
 
-Requires=abtech-tracker-ts@.socket
+# Cannot use systemd socket because Sphinx tries to unlink it.
+# Requires=abtech-tracker-ts@.socket
 
 [Service]
 # *

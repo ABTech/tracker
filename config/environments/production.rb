@@ -115,5 +115,5 @@ Rails.application.configure do
     :openssl_verify_mode => 'none'
   }
   
-  config.action_mailer.default_url_options = { :host => 'abtech.andrew.cmu.edu' }
+  config.action_mailer.default_url_options = { :host => ENV.fetch("ACTION_MAILER_DEFAULT_URL_HOST") { 'tracker.abtech.org' } }
 end

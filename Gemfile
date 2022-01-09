@@ -51,7 +51,7 @@ gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
 gem 'thinking-sphinx', '~> 4.4.1'
-gem 'amoeba' , '~> 3.0.0'
+gem 'amoeba'
 gem 'web-console', '~> 3.0', group: [:development]
 gem 'responders', '~> 3.0.1'
 gem 'gmail_xoauth'

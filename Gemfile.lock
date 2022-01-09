@@ -56,8 +56,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    amoeba (3.0.0)
-      activerecord (>= 3.2.6)
+    amoeba (3.2.0)
+      activerecord (>= 4.2.0)
     bcrypt (3.1.16)
     bindex (0.5.0)
     bootsnap (1.9.3)
@@ -279,7 +279,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amoeba (~> 3.0.0)
+  amoeba
   bootsnap
   cancancan
   coffee-rails (~> 4.2.2)

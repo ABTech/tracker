@@ -1,10 +1,6 @@
 [Unit]
 Description=AB Tech Tracker Slack Notification Task Timer
 
-# Only run if associated Rails is running, otherwise it might be down for
-# development
-After=abtech-tracker@.service
-
 [Timer]
 # *
 # * BEGIN TRACKER SLACK NOTIFICATION TASK TIMER CONFIG DEFAULTS

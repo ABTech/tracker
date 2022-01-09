@@ -1,8 +1,8 @@
-<% @title = "Reset Password" %>
+<% @title = "Forgot your Password?" %>
 
 <table width="100%" height="100%" class="login-box" style="padding-right: 40px">
     <tr><td align="center" valign="middle">
-      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
         <table>
           <tr>
             <td></td>
@@ -14,7 +14,7 @@
           </tr>
           <tr>
             <td><%= f.label :email %>:</td>
-            <td><%= f.email_field :email, :autofocus => true, size: 32 %></td>
+            <td><%= f.email_field :email, :autofocus => true, autocomplete: "email", size: 32 %></td>
           </tr>
           <tr>
             <td>&nbsp;</td>
@@ -28,3 +28,5 @@
     </td>
   </tr>
 </table>
+
+<%= render "devise/shared/links" %>

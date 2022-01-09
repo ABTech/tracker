@@ -1,8 +1,8 @@
-<% @title = "Reset Password" %>
+<% @title = "Change your password" %>
 
 <table width="100%" height="100%" class="login-box" style="padding-right: 40px">
     <tr><td align="center" valign="middle">
-      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
         <%= f.hidden_field :reset_password_token %>
         <table>
           <tr>
@@ -15,12 +15,15 @@
           </tr>
           <tr>
             <td align="right"><%= f.label :password, "New password:" %></td>
-            <td><%= f.password_field :password, :autofocus => true, size: 32 %></td>
+            <td><%= f.password_field :password, autofocus: true, autocomplete: "new-password", size: 32 %></td>
           </tr>
           <tr>
             <td><%= f.label :password_confirmation, "Confirm new password:" %></td>
-            <td><%= f.password_field :password_confirmation, size: 32 %></td>
+            <td><%= f.password_field :password_confirmation, autocomplete: "new-password", size: 32 %></td>
           </tr>
+          <% if @minimum_password_length %><tr>
+            <td><em>(<%= @minimum_password_length %> characters minimum)</em></td>
+          </tr><% end %>
           <tr>
             <td>&nbsp;</td>
           </tr>
@@ -33,3 +36,5 @@
     </tr>
   </td>
 </table>
+
+<%= render "devise/shared/links" %>

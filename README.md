@@ -69,7 +69,7 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
 10. As deploy-abtech-tracker: `set -o allexport; source ../tracker.env; set +o allexport`
 11. As deploy-abtech-tracker: `../rbenv/shims/bundle config set --local deployment 'true'`
 12. As deploy-abtech-tracker: `../rbenv/shims/bundle install`
-13. As deploy-abtech-tracker: Copy in the production or staging master key and run `EDITOR=nano ../rbenv/shims/bundle exec rails credentials:edit --environment production` (or staging) and make sure it looks right. Ensure it is up to date with the example at [config/credentials/credentials.example.yml](./config/credentials/credentials.example.yml).
+13. As deploy-abtech-tracker: Copy in the production or staging master key and run `EDITOR=nano ../rbenv/shims/bundle exec rails credentials:edit --environment production` (or staging) and make sure it looks right. Ensure it is up to date with the example at [config/credentials/example.yml](./config/credentials/example.yml).
 14. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:environment:set RAILS_ENV=production`
 15. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:create` (may already exist)
 16. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:schema:load`
@@ -83,11 +83,11 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
     ```
 20. Now as `root`:
     ```
-    systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-ts@production-01.service abtech-tracker-ts-index@production-01.timer abtech-tracker-slack-notify@production-01.timer
+    systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-ts@production-01.service abtech-tracker-email-idle@production-01.service abtech-tracker-ts-index@production-01.timer abtech-tracker-slack-notify@production-01.timer
     ```
 21. As `root`:
     ```
-    systemctl start abtech-tracker-ts@production-01.service abtech-tracker@production-01.socket abtech-tracker@production-01.service
+    systemctl start abtech-tracker-ts@production-01.service abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-email-idle@production-01.service
     ```
 
 ### Email pulling
@@ -100,4 +100,4 @@ Tracker includes a rake task called `email:idle` which will connect to a Gmail a
 4. `python oauth2.py --generate_oauth2_token --client_id=CLIENT_ID --client_secret=CLIENT_SECRET`
    
    Make sure to replace CLIENT_ID and CLIENT\_SECRET with the appropriate values.
-5. Among the output will be a value labeled "refresh token". Use this and the client ID and secret to update your secrets file (see the `credentials:edit` task in the development and deployment instructions above). An example can be found at [config/credentials/credentials.example.yml](./config/credentials/credentials.example.yml).
+5. Among the output will be a value labeled "refresh token". Use this and the client ID and secret to update your secrets file (see the `credentials:edit` task in the development and deployment instructions above). An example can be found at [config/credentials/example.yml](./config/credentials/example.yml).

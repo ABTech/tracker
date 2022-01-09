@@ -12,6 +12,7 @@ namespace :email do
     Rails.application.credentials.email.fetch(:email) { raise 'Could not find `email` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:name) { raise 'Could not find `name` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:port) { raise 'Could not find `port` in `email` credentials!' }
+    Rails.application.credentials.email.fetch(:host) { raise 'Could not find `host` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:ssl) { raise 'Could not find `ssl` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:client_id) { raise 'Could not find `client_id` in `email` credentials!' }

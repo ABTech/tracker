@@ -15,6 +15,9 @@ class EventRoleApplication < ApplicationRecord
     sup = event_role.roleable.tic
     return sup unless sup.empty?
 
+    sup = event_role.roleable.aTiC
+    return sup unless sup.empty?
+
     sup = event_role.roleable.supervise
     return sup unless sup.empty?
 

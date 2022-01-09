@@ -245,7 +245,7 @@ GEM
       joiner (>= 0.2.0)
       middleware (>= 0.1.0)
       riddle (~> 2.3)
-    thor (1.1.0)
+    thor (1.2.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
     time_difference (0.5.0)
@@ -283,7 +283,7 @@ DEPENDENCIES
   bootsnap
   cancancan
   coffee-rails (~> 4.2.2)
-  devise (~> 4.8.1)
+  devise
   devise-encryptable
   enumerize
   gmail_xoauth

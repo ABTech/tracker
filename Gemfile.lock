@@ -299,7 +299,7 @@ DEPENDENCIES
   puma
   rails (~> 6.0.4.4)
   rails_autolink
-  responders (~> 3.0.1)
+  responders
   sanitize
   sass-rails (~> 5.0.8)
   sd_notify

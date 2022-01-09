@@ -53,7 +53,7 @@ gem 'sanitize'
 gem 'thinking-sphinx', '~> 4.4.1'
 gem 'amoeba'
 gem 'web-console', group: [:development]
-gem 'responders', '~> 3.0.1'
+gem 'responders'
 gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'omniauth'

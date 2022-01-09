@@ -43,7 +43,6 @@ gem "paperclip", "~> 5.2"
 gem "wicked_pdf"
 gem 'will_paginate'
 gem 'rails_autolink'
-gem 'prawn'
 gem 'icalendar'
 gem 'mail'
 gem 'devise' , '~> 4.8.1'

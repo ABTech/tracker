@@ -84,7 +84,7 @@ GEM
       warden (~> 1.2.3)
     devise-encryptable (0.2.0)
       devise (>= 2.1.0)
-    enumerize (2.1.2)
+    enumerize (2.5.0)
       activesupport (>= 3.2)
     erubi (1.10.0)
     execjs (2.8.1)

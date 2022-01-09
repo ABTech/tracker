@@ -36,7 +36,7 @@ User=deploy-abtech-tracker
 # * END TRACKER EMAIL IDLE TASK CONFIG DEFAULTS
 # *
 
-Type=oneshot
+Type=simple
 
 ExecStart=/srv/abtech-tracker/%i/rbenv/shims/bundle exec --keep-file-descriptors rails email:idle
 

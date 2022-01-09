@@ -220,7 +220,7 @@ class MembersController < ApplicationController
         params[:member].delete(:payrate)
       end
       
-      if not current_member.tracker_dev?
+      if not current_member.tracker_dev? and cannot? :hot, Member
         params[:member].delete(:tracker_dev)
       end
 

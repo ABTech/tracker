@@ -113,7 +113,7 @@
     <fieldset>
       <legend>Permissions</legend>
     
-      <% if current_member.tracker_dev? %>
+      <% if can? :hot, @member or current_member.tracker_dev? %>
         <dl>
           <dt><%= f.label :role, "Role:" %></dt>
           <dd><%= f.select :role, Member.role.values.map { |c| [Member.new(:role => c).role_text, c] } %></dd>

@@ -126,7 +126,10 @@
       <% else %>
         <dl>
           <dt><%= f.label :role, "Role:" %></dt>
-          <dd><%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %></dd>
+          <dd>
+            <%= f.select :role, Member.role.values.select { |c| current_member.is_at_least? c }.map { |c| [Member.new(:role => c).role_text, c] } %>
+            <p><strong>WARNING:</strong> Tracker Devs have more permissions than the Heads of Tech on Tracker, including some potentially destructive and irreversible actions. Tracker Devs can see all of the information on Tracker that the Heads of Tech can. Use the staging server as much as possible and avoid requiring many Tracker Devs in production.</p>
+          </dd>
         </dl>
       <% end %>
     </fieldset>

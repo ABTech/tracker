@@ -17,7 +17,6 @@ namespace :email do
     Rails.application.credentials.email.fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:client_id) { raise 'Could not find `client_id` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:client_secret) { raise 'Could not find `client_secret` in `email` credentials!' }
-    Rails.application.credentials.email.fetch(:client_secret_test) { raise 'Could not find `client_secret_test` in `email` credentials!' }
     config = Rails.application.credentials.email
     
     reconnectSleep = 1

@@ -11,17 +11,17 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="right"><%= f.label :login %></td>
+                    <td align="right"><%= f.label :login, 'user:' %></td>
                     <td><%= f.text_field :login, :size => 30, :autofocus => true %></td>
                 </tr>
                 <tr>
-                    <td align="right"><%= f.label :password %></td>
+                    <td align="right"><%= f.label :password, 'password:' %></td>
                     <td><%= f.password_field :password, :size => 30 %></td>
                 </tr>
                 <% if devise_mapping.rememberable? %><tr>
                     <td align="right">cookies:</td>
-                    <td><%= f.radio_button "remember_me", "1", :checked => true %> Yes, please.<br/>
-                        <%= f.radio_button "remember_me", "0" %> Are you calling me fat?!</td>
+                    <td><%= f.radio_button "remember_me", "1", :checked => true %> <%= f.label :remember_me, 'Yes, please.', :value => '1' %><br/>
+                        <%= f.radio_button "remember_me", "0" %> <%= f.label :remember_me, 'Are you calling me fat?!', :value => '0' %></td>
                         </td>
                 </tr><% end %>
 

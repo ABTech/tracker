@@ -22,8 +22,8 @@ class Eventdate < ApplicationRecord
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
 
   extend Enumerize
-  enumerize :calltype, in: ["literal", "blank", "startdate"]
-  enumerize :striketype, in: ["literal", "enddate", "none", "blank"]
+  enumerize :calltype, in: ["literal", "blank_call", "startdate"], default: "blank_call"
+  enumerize :striketype, in: ["literal", "enddate", "none", "blank_strike"], default: "enddate"
 
   scope :call_between, ->(starttime, endtime) do
     where(calldate: starttime..endtime, calltype: "literal")

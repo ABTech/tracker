@@ -88,7 +88,7 @@ module EventsHelper
       else
         ed.effective_call.strftime("%H:%M <em>(%b %d)</em>").html_safe
       end
-    elsif ed.calltype == "blank"
+    elsif ed.calltype == "blank_call"
       "<span class='unknown'>unknown</span>".html_safe
     end
   end
@@ -108,7 +108,7 @@ module EventsHelper
       else
         ed.effective_strike.strftime("%H:%M <em>(%b %d)</em>").html_safe
       end
-    elsif ed.striketype == "blank"
+    elsif ed.striketype == "blank_strike"
       "<span class='unknown'>unknown</span>".html_safe
     elsif ed.striketype == "none"
       "none"

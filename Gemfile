@@ -57,6 +57,7 @@ gem 'responders'
 gem 'gmail_xoauth'
 gem 'oauth2'
 gem 'omniauth'
+gem "omniauth-rails_csrf_protection"
 gem 'omniauth-shibboleth'
 gem 'time_difference'
 gem 'slack-ruby-client'

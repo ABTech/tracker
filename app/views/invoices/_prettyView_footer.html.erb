@@ -72,7 +72,7 @@
 </table>
 </table>
 <% if @invoice.status == "Quote" then %>
-  <p align=left style="text-indent:20px">
+  <p align=left>
   All quotes are estimates and subject to change as event needs change or unforeseen circumstances arise.</p>
 <% elsif @invoice.status == "Invoice" then %>
   <% if @invoice.payment_type == "Check" %>

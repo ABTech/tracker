@@ -26,7 +26,7 @@ class InvoicesController < ApplicationController
       else
         headers['Content-Disposition'] = "inline;"
       end
-      render :pdf => @title, :layout => false
+      render pdf: @title, layout: false, page_size: 'Letter', zoom: 1.3
     else
       render :layout=>false
     end

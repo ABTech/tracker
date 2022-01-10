@@ -60,8 +60,8 @@ gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-shibboleth'
 gem 'slack-ruby-client'
-gem "bootsnap"  # Rails 5.2
-gem "puma"
-gem "sd_notify"
+gem 'bootsnap'
+gem 'puma'
+gem 'sd_notify'
 
-gem "webpacker", "~> 5.4"
+gem 'webpacker', '~> 5.4'

@@ -165,5 +165,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # END Windows gitignore
-
-/config/credentials/production.key

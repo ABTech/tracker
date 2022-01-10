@@ -2,7 +2,7 @@
 
 The tech tracker is a specialized web application used internally by Carnegie Mellon University's Activities Board Technical Committee. Its major features are event planning/organization, incoming email management, financial tracking, and membership management (including payroll and timecard generation). It was originally written in ~2003 in perl-style Rails 1.x, and through the years has been taken over and upgraded by various techies.
 
-The current version of Tracker uses Ruby 2.5.8 and Rails 6.0.4.4. Postfix is used for sending emails, and Sphinx is used for searching events.
+The current version of Tracker uses Ruby 2.7.5 and Rails 6.1.4.4. The OS sendmail is used for sending emails, and Sphinx is used for searching events.
 
 ## Development Notes
 
@@ -12,7 +12,7 @@ A Devise configuration file is required for the membership model. One can be gen
 
 You must install Sphinx if you wish to use the event search feature. You can then generate an index by running the command `rails ts:index` on the server.
 
-You must install Postfix if you wish to send emails from Tracker. No configuration for Postfix is required.
+You must install and conifgure a sendmail provider if you wish to send emails from Tracker.
 
 ## Development Setup
 

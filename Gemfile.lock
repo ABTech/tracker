@@ -256,11 +256,11 @@ GEM
       sprockets (>= 3.0.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
-    thinking-sphinx (4.4.1)
-      activerecord (>= 3.1.0)
+    thinking-sphinx (5.4.0)
+      activerecord (>= 4.2.0)
       builder (>= 2.1.2)
       innertube (>= 1.0.2)
-      joiner (>= 0.2.0)
+      joiner (>= 0.3.4)
       middleware (>= 0.1.0)
       riddle (~> 2.3)
     thor (1.2.1)
@@ -321,7 +321,7 @@ DEPENDENCIES
   sd_notify
   sdoc
   slack-ruby-client
-  thinking-sphinx (~> 4.4.1)
+  thinking-sphinx (~> 5)
   uglifier (>= 3.0.0)
   web-console
   webpacker (~> 5.4)

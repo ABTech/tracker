@@ -10,6 +10,8 @@ class Location < ApplicationRecord
   scope :building, -> (building) { active.where(building: building).order(room: :asc) }
   scope :sorted, -> { order(id: :asc) }
 
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
+
   def to_s
     "#{building} - #{room}"
   end

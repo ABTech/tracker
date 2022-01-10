@@ -72,6 +72,8 @@ class Event < ActiveRecord::Base
   
   scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
+
   def locations
     eventdates.flat_map(&:locations).uniq.sort_by(&:id)
   end

@@ -47,7 +47,7 @@ gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
-gem 'thinking-sphinx', '~> 4.4.1'
+gem 'thinking-sphinx', '~> 5'
 gem 'amoeba'
 gem 'web-console', group: [:development]
 gem 'responders'

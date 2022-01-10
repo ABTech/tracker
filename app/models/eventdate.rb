@@ -35,6 +35,8 @@ class Eventdate < ApplicationRecord
     .or(where(enddate: starttime..endtime, striketype: "enddate"))
   end
 
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])
+
   def dates
     if startdate and enddate
       errors[:base] << "We're not a time machine. (End Date can't be before Start Date)" unless startdate < enddate

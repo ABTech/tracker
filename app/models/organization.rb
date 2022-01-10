@@ -6,6 +6,8 @@ class Organization < ApplicationRecord
   validates_presence_of :name
   
   scope :active, -> { where(defunct: false) }
+
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
   
   private
     def set_eventdate_delta_flags

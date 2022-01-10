@@ -1,5 +1,5 @@
 class EmailMailer < ActionMailer::Base
-  add_template_helper(EmailsHelper)
+  helper(EmailsHelper)
   
   def weekly_events(sender, to, bcc, subject, body)
     mail  :to => to,

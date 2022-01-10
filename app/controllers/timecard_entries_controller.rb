@@ -56,7 +56,7 @@ class TimecardEntriesController < ApplicationController
       redirect_to :action => :index
     end
     
-    if @timecard_entry.update_attributes(timecard_entry_params)
+    if @timecard_entry.update(timecard_entry_params)
       flash[:notice] = 'Timecard entry successfully updated.'
       redirect_to :action => :index and return
     else

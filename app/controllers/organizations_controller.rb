@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
     @org = Organization.find(params[:id])
     authorize! :update, @org
     
-    if @org.update_attributes(org_params)
+    if @org.update(org_params)
       flash[:notice] = "Organization (#{@org.name}) was successfully updated."
       redirect_to(organizations_path)
     else

@@ -38,7 +38,7 @@ class LocationsController < ApplicationController
   def update
     @location = Location.active.find(params[:id])
     authorize! :update, @location
-    if @location.update_attributes(location_params)
+    if @location.update(location_params)
       flash[:notice] = 'Location was successfully updated.'
       redirect_to @location
     else

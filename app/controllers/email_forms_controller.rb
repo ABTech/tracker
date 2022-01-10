@@ -26,7 +26,7 @@ class EmailFormsController < ApplicationController
   end
 
   def update
-    if @email_form.update_attributes(email_form_params)
+    if @email_form.update(email_form_params)
       flash[:notice] = 'Form Email was successfully updated.'
       redirect_to email_forms_url
     else

@@ -91,7 +91,7 @@ class MembersController < ApplicationController
   end
 
   def update
-    if @member.update_attributes(member_params)
+    if @member.update(member_params)
       if can? :show, Member
         flash[:notice] = 'Member was successfully updated.'
         redirect_to(:action => 'show', :id => @member)

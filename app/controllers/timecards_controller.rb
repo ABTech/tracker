@@ -43,7 +43,7 @@ class TimecardsController < ApplicationController
   end
 
   def update
-    if @timecard.update_attributes(timecard_params)
+    if @timecard.update(timecard_params)
       flash[:notice] = 'Timecard updated successfully'
       redirect_to :action => 'view'
     else

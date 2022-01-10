@@ -66,7 +66,7 @@ class EquipmentController < ApplicationController
   def update
     @equipment = Equipment.active.find(params[:id])
     authorize! :update, @equipment
-    if @equipment.update_attributes(equipment_params)
+    if @equipment.update(equipment_params)
       flash[:notice] = 'Equipment was successfully updated.'
       redirect_to @equipment
     else

@@ -30,7 +30,7 @@ class BlackoutsController < ApplicationController
   def update
     @title = "Editing Blackout"
     
-    if @blackout.update_attributes(blackout_params)
+    if @blackout.update(blackout_params)
       flash[:notice] = "Blackout updated successfully."
       redirect_to blackouts_url
     else

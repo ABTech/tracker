@@ -59,7 +59,6 @@ gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-shibboleth'
-gem 'time_difference'
 gem 'slack-ruby-client'
 gem "bootsnap"  # Rails 5.2
 gem "puma"

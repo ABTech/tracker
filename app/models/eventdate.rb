@@ -169,7 +169,7 @@ class Eventdate < ApplicationRecord
       if ed.startdate < DateTime.now.beginning_of_week
         0
       else
-        TimeDifference.between(DateTime.now.beginning_of_week, ed.startdate).in_weeks.floor
+        DateTime.now.beginning_of_week.upto(ed.startdate.to_datetime).count.fdiv(7).floor  # https://stackoverflow.com/a/35092981
       end
     end.map do |weeks, eds|
       {

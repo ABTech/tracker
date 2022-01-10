@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :eventdate, :with => :active_record, :delta => true do
+ThinkingSphinx::Index.define :eventdate, :with => :active_record, :delta => !Rails.env.development? do
   # fields
   indexes description, :sortable => true
   indexes event.title, :as => :event

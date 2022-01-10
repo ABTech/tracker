@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_09_220901) do
+ActiveRecord::Schema.define(version: 2022_01_10_045342) do
 
-  create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
     t.boolean "is_credit", null: false
     t.integer "position", null: false
@@ -20,7 +20,35 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.datetime "updated_at"
   end
 
-  create_table "attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "attachments", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
     t.string "attachment_file_name", limit: 255
     t.string "attachment_content_type", limit: 255
@@ -33,7 +61,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type"
   end
 
-  create_table "blackouts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "blackouts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "title", limit: 255
     t.integer "event_id"
     t.datetime "startdate", null: false
@@ -43,7 +71,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["event_id"], name: "index_blackouts_on_event_id"
   end
 
-  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "comments", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "member_id"
     t.text "content", size: :medium, null: false
     t.integer "event_id"
@@ -52,14 +80,14 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["event_id"], name: "index_comments_on_event_id"
   end
 
-  create_table "email_forms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "email_forms", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "description", limit: 255, null: false
     t.text "contents", size: :medium, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "emails", options: "ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "emails", charset: "utf8mb4", collation: "utf8mb4_bin", options: "ENGINE=MyISAM", force: :cascade do |t|
     t.integer "event_id"
     t.string "sender", limit: 255, default: "", null: false
     t.datetime "timestamp", null: false
@@ -75,7 +103,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["event_id"], name: "emails_event_id_index"
   end
 
-  create_table "equipment", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "equipment", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "description", limit: 255, null: false
     t.string "shortname", limit: 255, null: false
     t.datetime "created_at"
@@ -85,14 +113,14 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.string "subcategory", limit: 255
   end
 
-  create_table "equipment_eventdates", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "equipment_eventdates", id: false, charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "eventdate_id", null: false
     t.integer "equipment_id", null: false
     t.index ["equipment_id"], name: "index_equipment_eventdates_on_equipment_id"
     t.index ["eventdate_id"], name: "index_equipment_eventdates_on_eventdate_id"
   end
 
-  create_table "equipment_events", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "equipment_events", charset: "latin1", force: :cascade do |t|
     t.integer "equipment_id"
     t.integer "event_id"
     t.integer "quantity"
@@ -104,7 +132,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["event_id"], name: "index_equipment_events_on_event_id"
   end
 
-  create_table "event_role_applications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "event_role_applications", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "event_role_id", null: false
     t.integer "member_id", null: false
     t.datetime "created_at", null: false
@@ -113,7 +141,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["member_id"], name: "index_event_role_applications_on_member_id"
   end
 
-  create_table "event_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "event_roles", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "roleable_id", null: false
     t.integer "member_id"
     t.string "role", null: false
@@ -127,7 +155,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["roleable_id", "roleable_type"], name: "index_event_roles_on_roleable_id_and_roleable_type"
   end
 
-  create_table "eventdates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "eventdates", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "event_id", null: false
     t.datetime "startdate", null: false
     t.datetime "enddate", null: false
@@ -146,12 +174,12 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["startdate"], name: "eventdates_startdate_index"
   end
 
-  create_table "eventdates_locations", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "eventdates_locations", id: false, charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "eventdate_id", null: false
     t.integer "location_id", null: false
   end
 
-  create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "events", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "title", limit: 255, default: "", null: false
     t.integer "organization_id", default: 0, null: false
     t.string "status", default: "Initial Request", null: false
@@ -172,7 +200,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["status"], name: "events_status_index"
   end
 
-  create_table "invoice_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "invoice_items", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "memo", limit: 255, null: false
     t.string "category", limit: 255, null: false
     t.integer "price", null: false
@@ -180,7 +208,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.datetime "updated_at"
   end
 
-  create_table "invoice_lines", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "invoice_lines", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "invoice_id", null: false
     t.string "memo", limit: 255, null: false
     t.string "category", limit: 255, null: false
@@ -193,7 +221,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["invoice_id"], name: "invoice_lines_invoice_id_index"
   end
 
-  create_table "invoices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "invoices", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.datetime "created_at"
     t.integer "event_id", null: false
     t.string "status", limit: 255, null: false
@@ -204,7 +232,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["event_id"], name: "invoices_event_id_index"
   end
 
-  create_table "journals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "journals", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "date", null: false
     t.string "memo", limit: 255, null: false
@@ -219,7 +247,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["invoice_id"], name: "journals_link_id_index"
   end
 
-  create_table "locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "locations", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "building", limit: 255, null: false
     t.string "room", limit: 255, null: false
     t.text "details", size: :medium, null: false
@@ -228,7 +256,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.boolean "defunct", default: false, null: false
   end
 
-  create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "members", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "namefirst", limit: 255, null: false
     t.string "namelast", limit: 255, null: false
     t.string "email", null: false
@@ -266,7 +294,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["email"], name: "members_kerbid_index"
   end
 
-  create_table "organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "organizations", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, default: "", null: false
     t.integer "parent_id"
     t.datetime "created_at"
@@ -274,7 +302,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.boolean "defunct", default: false, null: false
   end
 
-  create_table "super_tics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "super_tics", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "member_id"
     t.integer "day"
     t.datetime "created_at"
@@ -282,7 +310,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["member_id"], name: "index_super_tics_on_member_id"
   end
 
-  create_table "timecard_entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "timecard_entries", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "member_id"
     t.float "hours"
     t.integer "eventdate_id"
@@ -295,7 +323,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.index ["timecard_id"], name: "index_timecard_entries_on_timecard_id"
   end
 
-  create_table "timecards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "timecards", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.datetime "billing_date"
     t.datetime "due_date"
     t.boolean "submitted", default: false, null: false
@@ -305,4 +333,6 @@ ActiveRecord::Schema.define(version: 2022_01_09_220901) do
     t.datetime "updated_at"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

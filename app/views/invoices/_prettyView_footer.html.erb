@@ -1,4 +1,4 @@
-  <br>
+<br>
   <b>Activities Board Technical Committee</b><br>
   5000 Forbes Avenue<br>
   UC Suite 103, Box 73<br>
@@ -17,7 +17,7 @@
   </table>
 </td>
 <tr><td>
-  <table style="float:right;" class=prettyBorder >
+    <table style="float:right;" class=prettyBorder >
   <tr><td>Event:</td><td><%= @invoice.event.title  %></td></tr>
   <tr>
     <td>Venue:</td>
@@ -42,11 +42,11 @@
   </table>
 </td></tr>
 <tr><td colspan=2>
-<table class=prettyBorder align=center width=100% >
+    <table class=prettyBorder align=center width=100% >
 <tr><th>Qty</th><th>Category</th><th>Description</th><th>Unit Price</th><th>Extended Price</th></tr>
 <% sum = 0 %>
 <% @invoice.invoice_lines.sort_by(&:line_no).sort.each do |line| %>
-  <tr>
+  <tr style="page-break-inside: avoid;">
     <td><%=line.quantity %></td>
     <td><%=line.category %></td>
     <td>
@@ -68,7 +68,6 @@
   <td><b>TOTAL:</b></td>
   <td><b><%= number_to_currency(sum) %></b></td>
 </tr>
-
 </table>
 </table>
 <% if @invoice.status == "Quote" then %>

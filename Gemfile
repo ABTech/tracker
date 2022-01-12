@@ -35,9 +35,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'wkhtmltopdf-binary'
 gem "paperclip", "~> 5.2"
-gem "wicked_pdf"
 gem 'will_paginate'
 gem 'rails_autolink'
 gem 'icalendar'
@@ -62,3 +60,5 @@ gem 'puma'
 gem 'sd_notify'
 
 gem 'webpacker', '~> 5.4'
+
+gem "grover", "~> 1.1"

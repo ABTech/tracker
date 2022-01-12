@@ -2,6 +2,8 @@ require_relative 'boot'
 
 require 'rails/all'
 
+require 'grover'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -23,6 +25,13 @@ module Abtt
     config.to_prepare do
       Devise::SessionsController.layout "application"
       Devise::PasswordsController.layout "application"
+    end
+
+    config.middleware.use Grover::Middleware
+    Grover.configure do |config|
+      config.use_png_middleware = false
+      config.use_jpeg_middleware = false
+      config.use_pdf_middleware = false
     end
   end
 end

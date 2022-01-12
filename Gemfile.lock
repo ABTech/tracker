@@ -69,6 +69,9 @@ GEM
     builder (3.2.4)
     cancancan (3.3.0)
     climate_control (0.2.0)
+    combine_pdf (1.0.22)
+      matrix
+      ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     devise (4.8.1)
@@ -114,6 +117,9 @@ GEM
       activesupport (>= 5.0)
     gmail_xoauth (0.4.2)
       oauth (>= 0.3.6)
+    grover (1.1.0)
+      combine_pdf (~> 1.0)
+      nokogiri (~> 1.0)
     hashie (5.0.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
@@ -136,6 +142,7 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (1.0.2)
+    matrix (0.4.2)
     method_source (1.0.0)
     middleware (0.1.0)
     mime-types (3.4.1)
@@ -226,6 +233,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     riddle (2.4.3)
+    ruby-rc4 (0.1.5)
     ruby2_keywords (0.0.5)
     sanitize (6.0.0)
       crass (~> 1.0.2)
@@ -288,10 +296,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    wicked_pdf (2.1.0)
-      activesupport
     will_paginate (3.3.1)
-    wkhtmltopdf-binary (0.12.6.5)
     zeitwerk (2.5.3)
 
 PLATFORMS
@@ -305,6 +310,7 @@ DEPENDENCIES
   devise-encryptable
   enumerize
   gmail_xoauth
+  grover (~> 1.1)
   icalendar
   jquery-rails
   jquery-ui-rails
@@ -328,9 +334,7 @@ DEPENDENCIES
   uglifier (>= 3.0.0)
   web-console
   webpacker (~> 5.4)
-  wicked_pdf
   will_paginate
-  wkhtmltopdf-binary
 
 RUBY VERSION
    ruby 2.7.5p203

@@ -1,5 +1,6 @@
 class InvoicesController < ApplicationController
   load_and_authorize_resource :only => [:index, :new, :edit, :update, :destroy]
+  helper_method :prettyViewPdfStr
 
   def show
     @title = "Viewing Invoice"
@@ -8,6 +9,15 @@ class InvoicesController < ApplicationController
     authorize! :show, @invoice
 
     render :layout => 'events'
+  end
+
+  def prettyViewPdfStr
+    html = render_to_string :template=>'invoices/prettyView.html.erb', :layout=>false
+    pdf = Grover.new(html,
+                     format: 'Letter',
+                     cache: false,
+                     margin: { top: "0.5in", right: "0.5in", bottom: "0.5in", left: "0.5in" }
+                    ).to_pdf
   end
 
   def prettyView
@@ -19,16 +29,18 @@ class InvoicesController < ApplicationController
     end
 
     @title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}"
-    if params[:format] == 'pdf'
-      headers['Content-Type'] = 'application/pdf'
-      if params.include? :download
-        headers['Content-Disposition'] = "attachment;"
-      else
-        headers['Content-Disposition'] = "inline;"
+    respond_to do |format|
+      format.html do
+        render :layout=>false
       end
-      render pdf: @title, layout: false, page_size: 'Letter', zoom: 1.3
-    else
-      render :layout=>false
+      format.pdf do
+        pdf = prettyViewPdfStr
+        if params.include? :download
+          send_data pdf, filename: "#{@title}.pdf", type: 'application/pdf', disposition: 'attachment'
+        else
+          send_data pdf, filename: "#{@title}.pdf", type: 'application/pdf', disposition: 'inline'
+        end
+      end
     end
   end
 
@@ -184,10 +196,7 @@ class InvoicesController < ApplicationController
       @invoice.event.save!
     end
 
-    #You need the template line so it uses the .pdf version not the .html
-    #version
-
-    attachment=render_to_string :pdf=>"output", :template => 'invoices/prettyView.pdf.erb', :layout=>false
+    attachment = prettyViewPdfStr
     InvoiceMailer.invoice(@invoice,attachment,params).deliver_now
     flash[:notice] = "Email Sent"
     respond_to do |format|

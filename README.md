@@ -12,7 +12,7 @@ A Devise configuration file is required for the membership model. One can be gen
 
 You must install Sphinx if you wish to use the event search feature. You can then generate an index by running the command `rails ts:index` on the server.
 
-You must install and conifgure a sendmail provider if you wish to send emails from Tracker.
+You must install and configure a sendmail provider if you wish to send emails from Tracker.
 
 ## Development Setup
 

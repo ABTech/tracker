@@ -45,8 +45,12 @@
 <table class=prettyBorder align=center width=100% >
 <tr><th>Qty</th><th>Category</th><th>Description</th><th>Unit Price</th><th>Extended Price</th></tr>
 <% sum = 0 %>
-<% @invoice.invoice_lines.sort_by(&:line_no).sort.each do |line| %>
-  <tr>
+<% @invoice.invoice_lines.sort_by(&:line_no).sort.each_with_index do |line, index| %>
+  <% if index==0 %>
+    <tr style="break-inside: auto">
+      <% else %>
+    <tr style="break-inside: avoid">
+  <% end %>
     <td><%=line.quantity %></td>
     <td><%=line.category %></td>
     <td>

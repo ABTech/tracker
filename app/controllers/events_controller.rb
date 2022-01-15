@@ -42,35 +42,62 @@ class EventsController < ApplicationController
     authorize! :update, @event
   end
 
+  # This method used for request form on abtech.org
   def eventrequest
-    @title = "Create New Event"
- 
-    if cannot? :create, Organization
-      params[:event].delete(:org_type)
-      params[:event].delete(:org_new)
-    end
-
-
+    @title = "Request New Event"
     
-    p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :contact_name, :contactemail, :contact_phone, :notes,
-      :eventdates_attributes =>
-        [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
-        {:location_ids => []}])
+    input = params.require([:event_name, :organization, :contact_name,
+                            :contact_email, :contact_phone, :start_date,
+                            :start_time, :end_date, :end_time, :location,
+                            :details])
+    puts params.inspect
+    puts input.inspect
 
-    # Adding default values manually
-    p[:billable] = 1
-    p[:textable] = 0
-    p[:rental] = 0
-    p[:publish] = 0
-    
+    startdate = Time.zone.parse(params[:start_date] + " " + params[:start_time]).to_datetime
+    enddate = Time.zone.parse(params[:end_date] + " " + params[:end_time]).to_datetime
+    p = ActionController::Parameters.new({
+      event: {
+        title: params[:event_name],
+        organization_id: 1,
+        status: Event::Event_Status_Initial_Request,
+        billable: 1,
+        rental: 0,
+        textable: 0,
+        publish: 0,
+        contact_name: params[:contact_name],
+        contactemail: params[:contact_email],
+        contact_phone: params[:contact_phone],
+        notes: params[:details],
+        eventdates_attributes: [{
+          startdate: startdate,
+          description: "Show",
+          enddate: enddate,
+          email_description: params[:details],
+          notes: "",
+          location_ids: [1]
+        }]
+      }
+    })
+    p = p.require(:event).permit(:title, :organization_id, :status, :billable,
+                                 :rental, :textable, :publish, :contact_name,
+                                  :contactemail, :contact_phone, :notes,
+                                  :eventdates_attributes =>
+                                    [:startdate, :description, :enddate,
+                                     :email_description, :notes,
+                                     {:location_ids => []}])
+    puts p.inspect
+
     @event = Event.new(p)
-    #authorize! :create, @event
     
     if @event.save
       flash[:notice] = "Event created successfully!"
       head 200
     else
-      head 400, @event.errors
+      puts @event.errors.messages
+      puts @event.errors.full_messages
+      form_error = @event.errors.full_messages.join("<br>")
+      puts form_error
+      render plain: form_error, status: 400
     end
   end
   

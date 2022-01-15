@@ -11,16 +11,6 @@ class InvoicesController < ApplicationController
     render :layout => 'events'
   end
 
-  def prettyViewPdfStr
-    html = render_to_string :template=>'invoices/prettyView.html.erb', :layout=>false
-    pdf = Grover.new(html,
-                     format: 'Letter',
-                     cache: false,
-                     margin: { top: "0.5in", right: "0.5in", bottom: "0.5in", left: "0.5in" },
-                     raise_on_request_failure: true
-                    ).to_pdf
-  end
-
   def prettyView
     @invoice = Invoice.includes(:event, :invoice_lines).find(params[:id])
     authorize! :show, @invoice
@@ -216,5 +206,15 @@ class InvoicesController < ApplicationController
 
         params.require(:invoice).permit(:event_id, :status, :payment_type, :oracle_string, :memo, :invoice_lines_attributes => [:id, :line_no, :invoice, :memo, :category, :price, :quantity, :notes, :_destroy])
       end
+    end
+
+    def prettyViewPdfStr
+      html = render_to_string :template=>'invoices/prettyView.html.erb', :layout=>false
+      pdf = Grover.new(html,
+                       format: 'Letter',
+                       cache: false,
+                       margin: { top: "0.5in", right: "0.5in", bottom: "0.5in", left: "0.5in" },
+                       raise_on_request_failure: true
+                      ).to_pdf
     end
 end

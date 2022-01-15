@@ -62,3 +62,5 @@ gem 'sd_notify'
 gem 'webpacker', '~> 5.4'
 
 gem "grover", "~> 1.1"
+
+gem "rack-cors", "~> 1.1"

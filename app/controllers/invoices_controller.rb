@@ -16,7 +16,8 @@ class InvoicesController < ApplicationController
     pdf = Grover.new(html,
                      format: 'Letter',
                      cache: false,
-                     margin: { top: "0.5in", right: "0.5in", bottom: "0.5in", left: "0.5in" }
+                     margin: { top: "0.5in", right: "0.5in", bottom: "0.5in", left: "0.5in" },
+                     raise_on_request_failure: true
                     ).to_pdf
   end
 

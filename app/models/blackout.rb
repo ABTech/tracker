@@ -8,10 +8,10 @@ class Blackout < ApplicationRecord
   
   private
     def chronologicality
-      errors[:enddate] << "can't be before Start Date." if startdate > enddate
+      errors.add(:enddate, "can't be before Start Date.") if startdate > enddate
     end
     
     def informative
-      errors[:base] << "Blackout must have at least a title or an associated event." if self.title.blank? and self.event.blank? and not self.with_new_event
+      errors.add(:base, "Blackout must have at least a title or an associated event.") if self.title.blank? and self.event.blank? and not self.with_new_event
     end
 end

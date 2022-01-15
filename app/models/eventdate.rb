@@ -39,7 +39,7 @@ class Eventdate < ApplicationRecord
 
   def dates
     if startdate and enddate
-      errors[:base] << "We're not a time machine. (End Date can't be before Start Date)" unless startdate < enddate
+      errors.add(:base, "We're not a time machine. (End Date can't be before Start Date)") unless startdate < enddate
     end
   end
 

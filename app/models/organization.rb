@@ -21,7 +21,7 @@ class Organization < ApplicationRecord
     end
 
     def organization_do_not_modify_default
-      if self.id == 0
+      if (self.changed? or self.new_record?) and self.id == 0
         errors.add(:base, "Change of default organization is not allowed!")
       end
     end

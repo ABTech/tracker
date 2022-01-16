@@ -17,6 +17,7 @@
       <td><%= location.details %></td>
       <% if can? :update, Location or can? :destroy, Location %>
         <td>
+          <%= link_to 'Show', location %>
           <% if location.id != 0 %>
             <%= conditional_link_to "Edit", edit_location_url(location), :update, location %>
             <%= link_to("Delete", location, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this location as defunct?"}) if can? :destroy, location %>

@@ -4,7 +4,7 @@
 </p>
 <% end %>
 
-<% if can? :update, @location %>
+<% if @location.id != 0 and can? :update, @location %>
   <%= link_to 'Edit', edit_location_path(@location) %> |
 <% end %>
 <%= link_to 'Back', locations_path %>

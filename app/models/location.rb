@@ -32,7 +32,7 @@ class Location < ApplicationRecord
     end
 
     def location_do_not_modify_default
-      if self.id == 0
+      if (self.changed? or self.new_record?) and self.id == 0
         errors.add(:base, "Change of default location is not allowed!")
       end
     end

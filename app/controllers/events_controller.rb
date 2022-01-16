@@ -50,15 +50,13 @@ class EventsController < ApplicationController
                             :contact_email, :contact_phone, :start_date,
                             :start_time, :end_date, :end_time, :location,
                             :details])
-    puts params.inspect
-    puts input.inspect
 
     startdate = Time.zone.parse(params[:start_date] + " " + params[:start_time]).to_datetime
     enddate = Time.zone.parse(params[:end_date] + " " + params[:end_time]).to_datetime
     p = ActionController::Parameters.new({
       event: {
         title: params[:event_name],
-        organization_id: 1,
+        organization_id: 0,
         status: Event::Event_Status_Initial_Request,
         billable: 1,
         rental: 0,
@@ -74,7 +72,7 @@ class EventsController < ApplicationController
           enddate: enddate,
           email_description: params[:details],
           notes: "",
-          location_ids: [1]
+          location_ids: [0]
         }]
       }
     })
@@ -85,7 +83,6 @@ class EventsController < ApplicationController
                                     [:startdate, :description, :enddate,
                                      :email_description, :notes,
                                      {:location_ids => []}])
-    puts p.inspect
 
     @event = Event.new(p)
     
@@ -93,10 +90,7 @@ class EventsController < ApplicationController
       flash[:notice] = "Event created successfully!"
       head 200
     else
-      puts @event.errors.messages
-      puts @event.errors.full_messages
-      form_error = @event.errors.full_messages.join("<br>")
-      puts form_error
+      form_error = @event.errors.full_messages.join("\n")
       render plain: form_error, status: 400
     end
   end

@@ -30,12 +30,13 @@ You must install and configure a sendmail provider if you wish to send emails fr
 12. `RAILS_ENV=development rails assets:precompile`
 13. Create MySQL databases `abtt_development_master` and `abtt_test`. Use an existing user or create a new user and give it access to these databases. Update `config/database.yml` to match your local install for both the `development` and `test` environments. **Be sure not to commit this file with your specific environmental changes.**
 14. `RAILS_ENV=development rails db:schema:load`
-15. Run the rails console to create an initial user: `RAILS_ENV=development rails c`
+15. `RAILS_ENV=development rails db:seed`
+16. Run the rails console to create an initial user: `RAILS_ENV=development rails c`
     ```ruby
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
     exit
     ```
-16. Start the development server: `RAILS_ENV=development puma`
+17. Start the development server: `RAILS_ENV=development puma`
 
 ## Deployment
 
@@ -73,19 +74,20 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
 14. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:environment:set RAILS_ENV=production`
 15. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:create` (may already exist)
 16. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:schema:load`
-17. As deploy-abtech-tracker: `yarn install`
-18. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails assets:precompile`
-18. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails ts:index`
-19. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails c`
+17. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:seed`
+18. As deploy-abtech-tracker: `yarn install`
+19. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails assets:precompile`
+20. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails ts:index`
+21. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails c`
     ```ruby
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
     exit
     ```
-20. Now as `root`:
+22. Now as `root`:
     ```
     systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-ts@production-01.service abtech-tracker-email-idle@production-01.service abtech-tracker-ts-index@production-01.timer abtech-tracker-slack-notify@production-01.timer
     ```
-21. As `root`:
+23. As `root`:
     ```
     systemctl start abtech-tracker-ts@production-01.service abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-email-idle@production-01.service
     ```

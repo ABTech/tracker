@@ -4,6 +4,7 @@ class Organization < ApplicationRecord
   after_save :set_eventdate_delta_flags
 
   validates_presence_of :name
+  validate :organization_do_not_modify_default
   
   scope :active, -> { where(defunct: false) }
 
@@ -16,6 +17,12 @@ class Organization < ApplicationRecord
           eventdate.delta = true
           eventdate.save
         end
+      end
+    end
+
+    def organization_do_not_modify_default
+      if self.id == 0
+        errors.add(:base, "Change of default organization is not allowed!")
       end
     end
 end

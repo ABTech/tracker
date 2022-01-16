@@ -4,6 +4,7 @@ class Location < ApplicationRecord
   around_update :set_eventdate_delta_flags
 
   validates_presence_of :building, :room
+  validate :location_do_not_modify_default
   
   scope :active, -> { where(defunct: false) }
   scope :buildings, -> { active.order(building: :asc).select(:building).distinct.pluck(:building) }
@@ -27,6 +28,12 @@ class Location < ApplicationRecord
           eventdate.delta = true
           eventdate.save
         end
+      end
+    end
+
+    def location_do_not_modify_default
+      if self.id == 0
+        errors.add(:base, "Change of default location is not allowed!")
       end
     end
 end

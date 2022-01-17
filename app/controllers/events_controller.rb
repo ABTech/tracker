@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:eventrequest]
 
   helper :members
+  helper_method :event_request_notes
 
   def show
     @title = "Viewing Event"
@@ -56,6 +57,11 @@ class EventsController < ApplicationController
 
     minDate = DateTime.now - 2.years
 
+    notes = event_request_notes(params[:event_name], params[:organization],
+                                params[:contact_name], params[:contact_email],
+                                params[:contact_phone], startdate, enddate,
+                                params[:location], params[:details])
+
     p = ActionController::Parameters.new({
       event: {
         title: params[:event_name],
@@ -68,12 +74,12 @@ class EventsController < ApplicationController
         contact_name: params[:contact_name],
         contactemail: params[:contact_email],
         contact_phone: params[:contact_phone],
-        notes: params[:details],
+        notes: "Requested via event request form. See Email Description for original request notes.",
         eventdates_attributes: [{
           startdate: startdate,
           description: "Request",
           enddate: enddate,
-          email_description: params[:details],
+          email_description: "Please preserve this request text when editting this event:\n\n" + notes,
           notes: "",
           location_ids: [0]
         }]
@@ -93,7 +99,16 @@ class EventsController < ApplicationController
       render json: form_error, status: 400
     else
       if @event.save
-        head 200
+        begin
+          request_email = EventRequestMailer.event_request(@event, notes).deliver_now
+          EventRequestMailer.event_created(@event, request_email.message_id).deliver_now
+        rescue
+          @event.notes += "\n\nNOTE: FAILED TO SEND CONFIRMATION AND/OR LINK EMAIL!"
+          @event.save
+          head 500
+        else
+          head 200
+        end
       else
         form_error = @event.errors.full_messages
         render json: form_error, status: 400
@@ -428,4 +443,21 @@ class EventsController < ApplicationController
       format.ics
     end
   end
+
+  private
+
+    def event_request_notes(name, org, contact, email, phone, startdate, enddate, location, details)
+      <<~EOF
+      Event Name: #{name}
+      Organization: #{org}
+      Event Contact: #{contact}
+      Email: #{email}
+      Phone: #{phone}
+      Start Date: #{startdate.strftime("%m/%d/%Y at %l:%M %p")}
+      End Date: #{enddate.strftime("%m/%d/%Y at %l:%M %p")}
+      Location: #{location}
+      Details:
+      #{details}
+      EOF
+    end
 end

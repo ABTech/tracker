@@ -53,6 +53,9 @@ class EventsController < ApplicationController
 
     startdate = Time.zone.parse(params[:start_date] + " " + params[:start_time]).to_datetime
     enddate = Time.zone.parse(params[:end_date] + " " + params[:end_time]).to_datetime
+
+    minDate = DateTime.now - 2.years
+
     p = ActionController::Parameters.new({
       event: {
         title: params[:event_name],
@@ -68,7 +71,7 @@ class EventsController < ApplicationController
         notes: params[:details],
         eventdates_attributes: [{
           startdate: startdate,
-          description: "Show",
+          description: "Request",
           enddate: enddate,
           email_description: params[:details],
           notes: "",
@@ -85,13 +88,16 @@ class EventsController < ApplicationController
                                      {:location_ids => []}])
 
     @event = Event.new(p)
-    
-    if @event.save
-      flash[:notice] = "Event created successfully!"
-      head 200
+    if startdate < minDate or enddate < minDate
+      form_error = ["Event takes place in the past! Please double check your requested dates."]
+      render json: form_error, status: 400
     else
-      form_error = @event.errors.full_messages.join("\n")
-      render plain: form_error, status: 400
+      if @event.save
+        head 200
+      else
+        form_error = @event.errors.full_messages
+        render json: form_error, status: 400
+      end
     end
   end
   

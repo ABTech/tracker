@@ -43,9 +43,10 @@ Rails.application.routes.draw do
       get 'past'
       get 'incomplete'
       get 'search'
-      post 'eventrequest'
     end
   end
+
+  post 'eventrequest' => 'events#eventrequest'
 
   resources :invoices do
     member do

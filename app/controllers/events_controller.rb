@@ -47,10 +47,10 @@ class EventsController < ApplicationController
   def eventrequest
     @title = "Request New Event"
     
-    input = params.require([:event_name, :organization, :contact_name,
-                            :contact_email, :contact_phone, :start_date,
-                            :start_time, :end_date, :end_time, :location,
-                            :details])
+    input = params.require([:event_name, :organization, :oracle_string,
+                            :contact_name, :contact_email, :contact_phone,
+                            :start_date, :start_time, :end_date, :end_time,
+                            :location, :details])
 
     startdate = Time.zone.parse(params[:start_date] + " " + params[:start_time]).to_datetime
     enddate = Time.zone.parse(params[:end_date] + " " + params[:end_time]).to_datetime
@@ -58,9 +58,10 @@ class EventsController < ApplicationController
     minDate = DateTime.now - 2.years
 
     notes = event_request_notes(params[:event_name], params[:organization],
-                                params[:contact_name], params[:contact_email],
-                                params[:contact_phone], startdate, enddate,
-                                params[:location], params[:details])
+                                params[:oracle_string], params[:contact_name],
+                                params[:contact_email], params[:contact_phone],
+                                startdate, enddate, params[:location],
+                                params[:details])
 
     p = ActionController::Parameters.new({
       event: {
@@ -446,10 +447,11 @@ class EventsController < ApplicationController
 
   private
 
-    def event_request_notes(name, org, contact, email, phone, startdate, enddate, location, details)
+    def event_request_notes(name, org, oracle_string, contact, email, phone, startdate, enddate, location, details)
       <<~EOF
       Event Name: #{name}
       Organization: #{org}
+      Oracle String: #{oracle_string}
       Event Contact: #{contact}
       Email: #{email}
       Phone: #{phone}

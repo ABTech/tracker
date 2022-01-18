@@ -19,6 +19,8 @@ class EventRequestMailer < ActionMailer::Base
         dev =
           if Rails.env.development?
             " DEVELOPMENT TEST"
+          elsif Rails.env.staging?
+            " STAGING TEST"
           else
             ""
           end

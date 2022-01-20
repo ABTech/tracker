@@ -46,7 +46,7 @@ module ApplicationHelper
         "?"
       end
     else
-      File.read(Rails.root.join("REVISION"))[0..6]
+      File.read(Rails.root.join(".git/FETCH_HEAD"))[0..6]
     end
   end
   

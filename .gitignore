@@ -9,7 +9,6 @@ log/development.sphinx.pid
 /config/master.key
 /config/credentials/staging.key
 /config/credentials/production.key
-/REVISION
 
 # BEGIN Rails gitignore
 # https://github.com/github/gitignore/blob/96d68766538413194aabd55e3622734cd501e715/Rails.gitignore

@@ -48,6 +48,8 @@ Rails.application.routes.draw do
 
   post 'eventrequest' => 'events#eventrequest'
 
+  post 'joinrequest' => 'join#joinrequest'
+
   resources :invoices do
     member do
       post 'email'

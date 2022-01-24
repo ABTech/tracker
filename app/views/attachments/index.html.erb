@@ -15,7 +15,7 @@
 <tbody>
 <% @attachments.each do |a| %>
   <tr>
-    <td><%= link_to a.name, a.attachment.url %></td>
+    <td><%= link_to a.name, asset_url(a.attachment.url(:style)) %></td>
     <td>
       <% if not a.attachable_type == "Journal" and can? :read, a.attachable %>
         <%= link_to a.attachable, a.attachable %>

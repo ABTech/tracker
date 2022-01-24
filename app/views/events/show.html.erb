@@ -146,7 +146,7 @@
       
         <ul>
           <% @event.attachments.each do |a| %>
-            <li><%= link_to a.name, a.attachment.url %> - <%= a.friendly_size %></li>
+            <li><%= link_to a.name, asset_url(a.attachment.url(:style)) %> - <%= a.friendly_size %></li>
           <% end %>
         </ul>
       </div>

@@ -42,7 +42,7 @@
     <% unless email.attachments.empty? %>
     <ul class="the-attachments">
       <% email.attachments.each do |a| %>
-      <li><%= image_tag "link.png" %><%= link_to "#{a.name} (#{a.friendly_size})", a.attachment.url %></li>
+      <li><%= image_tag "link.png" %><%= link_to "#{a.name} (#{a.friendly_size})", asset_url(a.attachment.url(:style)) %></li>
       <% end %>
     </ul>
     <% end %>

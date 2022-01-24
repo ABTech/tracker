@@ -15,7 +15,7 @@
 <tbody>
 <% @attachments.each do |a| %>
   <tr>
-    <td><%= link_to a.name, asset_url(a.attachment.url(:style)) %></td>
+    <td><%= link_to a.name, rails_blob_path(a.attachment, disposition: "attachment") %></td>
     <td>
       <% if not a.attachable_type == "Journal" and can? :read, a.attachable %>
         <%= link_to a.attachable, a.attachable %>

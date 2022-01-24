@@ -35,7 +35,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem "paperclip", "~> 5.2"
+gem "paperclip", "~> 6.1"
 gem 'will_paginate'
 gem 'rails_autolink'
 gem 'icalendar'
@@ -64,3 +64,5 @@ gem 'webpacker', '~> 5.4'
 gem "grover", "~> 1.1"
 
 gem "rack-cors", "~> 1.1"
+
+gem 'active_storage_validations'

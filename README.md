@@ -45,12 +45,14 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
 /srv
 ├── abtech-tracker
 │   ├── production-01
+│   │   ├── corepack
 │   │   ├── pids
 │   │   ├── rbenv
 │   │   ├── repo
 │   │   ├── run
 │   │   └── tracker.env
 │   └── staging-01
+│       ├── corepack
 │       ├── pids
 │       ├── rbenv
 │       ├── repo

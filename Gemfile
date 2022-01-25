@@ -35,7 +35,6 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem "paperclip", "~> 6.1"
 gem 'will_paginate'
 gem 'rails_autolink'
 gem 'icalendar'

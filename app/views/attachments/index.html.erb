@@ -15,14 +15,20 @@
 <tbody>
 <% @attachments.each do |a| %>
   <tr>
-    <td><%= link_to a.name, rails_blob_path(a.attachment, disposition: "attachment") %></td>
+    <td>
+      <% if !a.attachment.attached? %>
+        <% a.name %> (missing when transitioned from Paperclip)
+      <% else %>
+        <%= link_to a.name, rails_blob_path(a.attachment, disposition: "attachment") %>
+      <% end %>
+    </td>
     <td>
       <% if not a.attachable_type == "Journal" and can? :read, a.attachable %>
         <%= link_to a.attachable, a.attachable %>
       <% end %>
     </td>
     <td><%= a.attachment.content_type %></td>
-	  <td><%= a.friendly_size %></td>
+	  <td><% if !a.attachment.attached? %>???<% else %><%= a.friendly_size %><% end %></td>
     <% if can? :manage, Attachment %>
       <td><%= link_to "Destroy", attachment_path(a), :method => "delete", :confirm => "Are you sure? This is irreversible." %></td>
     <% end %>
@@ -31,3 +37,5 @@
 </tbody>
 </table>
 <p>Go to an event to upload a new attachment.</p>
+
+<%= will_paginate @attachments %>

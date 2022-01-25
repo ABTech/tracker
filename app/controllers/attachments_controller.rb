@@ -3,6 +3,7 @@ class AttachmentsController < ApplicationController
   
   # GET /attachments/
   def index
+    @attachments = @attachments.paginate(:per_page => 50, :page => params[:page])
     @title = "Attachments List"
 
     respond_to do |format|

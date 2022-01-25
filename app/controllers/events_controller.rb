@@ -75,12 +75,12 @@ class EventsController < ApplicationController
         contact_name: params[:contact_name],
         contactemail: params[:contact_email],
         contact_phone: params[:contact_phone],
-        notes: "Requested via event request form. See Email Description for original request notes.",
+        notes: "Requested via event request form. Please preserve this request text when editing this event:\n\n" + notes,
         eventdates_attributes: [{
           startdate: startdate,
           description: "Request",
           enddate: enddate,
-          email_description: "Please preserve this request text when editting this event:\n\n" + notes,
+          email_description: "",
           notes: "",
           location_ids: [0]
         }]

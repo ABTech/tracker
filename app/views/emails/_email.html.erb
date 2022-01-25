@@ -42,7 +42,14 @@
     <% unless email.attachments.empty? %>
     <ul class="the-attachments">
       <% email.attachments.each do |a| %>
-      <li><%= image_tag "link.png" %><%= link_to "#{a.name} (#{a.friendly_size})", rails_blob_path(a.attachment, disposition: "attachment") %></li>
+      <li>
+        <%= image_tag "link.png" %>
+        <% if !a.attachment.attached? %>
+          <% a.name %> (missing when transitioned from Paperclip)
+        <% else %>
+          <%= link_to "#{a.name} (#{a.friendly_size})", rails_blob_path(a.attachment, disposition: "attachment") %>
+        <% end %>
+      </li>
       <% end %>
     </ul>
     <% end %>

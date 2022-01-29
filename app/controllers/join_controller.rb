@@ -5,12 +5,13 @@ class JoinController < ApplicationController
   def joinrequest
     input = params.require([:andrew_id, :preferred_name, :last_name])
 
+    andrewid = params['andrew_id'].downcase
     regex = /\A[a-z0-9]+\z/
     form_error = []
       
-    if params['andrew_id'].blank?
+    if andrewid.blank?
       form_error << "Please enter your Andrew ID."
-    elsif (params['andrew_id'] =~ regex).nil? || params['andrew_id'].length > 8 || params['andrew_id'].length < 3 # MAKE LOWER
+    elsif (andrewid =~ regex).nil? || andrewid.length > 8 || andrewid.length < 3
       form_error << "Invalid Andrew ID!"
     end
 
@@ -22,7 +23,7 @@ class JoinController < ApplicationController
       render json: form_error, status: 400
     else
       begin
-        #  JoinRequestMailer.join_request(params['andrew_id'], params['preferred_name'], params['last_name']).deliver_now
+         JoinRequestMailer.join_request(andrewid, params['preferred_name'], params['last_name']).deliver_now
       rescue
          head 500
       else

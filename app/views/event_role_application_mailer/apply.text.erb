@@ -1,4 +1,4 @@
-<%= @application.member.display_name %> has applied to be <%= @application.event_role.role %> for <%= @application.event_role.description %>.
+<%= @application.member.display_name %> (mailto:<%= @application.member.email %>) has applied to be <%= @application.event_role.role %> for <%= @application.event_role.description %>.
 <% unless @notes.empty? %>
 
 Notes:

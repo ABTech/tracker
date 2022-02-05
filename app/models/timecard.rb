@@ -27,6 +27,17 @@ class Timecard < ApplicationRecord
     Eventdate.where("startdate >= ? AND startdate <= ? AND events.status IN (?) AND events.billable = ?", start_date, end_date, Event::Event_Status_Group_Not_Cancelled, true).order("startdate DESC").includes(:event).references(:event)
   end
 
+  def self.valid_eventdates_and_parts
+    dates = self.valid_eventdates
+    dates_and_parts = []
+    dates.each do |date|
+      dates_and_parts.append({ eventdate: date, eventpart: "call"}) if date.billable_call?
+      dates_and_parts.append({ eventdate: date, eventpart: "show"}) if date.billable_show?
+      dates_and_parts.append({ eventdate: date, eventpart: "strike"}) if date.billable_strike?
+    end
+    dates_and_parts
+  end
+
   def entries(member=nil)
     timecard_entries.where(member: member).order("eventdates.startdate ASC").includes(:eventdate).references(:eventdate) unless timecard_entries.nil?
   end
@@ -62,5 +73,16 @@ class Timecard < ApplicationRecord
 
   def valid_eventdates
     Eventdate.where("startdate >= ? AND startdate <= ? AND events.billable = ?", start_date, end_date, true).includes(:event).references(:event)
+  end
+
+  def valid_eventdates_and_parts
+    dates = valid_eventdates
+    dates_and_parts = []
+    dates.each do |date|
+      dates_and_parts.append({ eventdate: date, eventpart: "call"}) if date.billable_call
+      dates_and_parts.append({ eventdate: date, eventpart: "show"}) if date.billable_show
+      dates_and_parts.append({ eventdate: date, eventpart: "strike"}) if date.billable_strike
+    end
+    dates_and_parts
   end
 end

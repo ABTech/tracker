@@ -13,7 +13,7 @@ class TimecardEntriesController < ApplicationController
     authorize! :create, @timecard_entry
     
     @timecard_entry.eventdate_id = params[:eventdate_id]
-    @eventdates = Timecard.valid_eventdates
+    @eventdates_and_parts = Timecard.valid_eventdates_and_parts
     @timecards = Timecard.valid_timecards
   end
 
@@ -28,7 +28,7 @@ class TimecardEntriesController < ApplicationController
       redirect_to :action => :index
     else
       flash[:notice] = "Error saving entry"
-      @eventdates = Timecard.valid_eventdates
+      @eventdates_and_parts = Timecard.valid_eventdates_and_parts
       @timecards = Timecard.valid_timecards
       render :action => :new
     end
@@ -43,7 +43,7 @@ class TimecardEntriesController < ApplicationController
       redirect_to :action => :index and return
     end
 
-    @eventdates = Timecard.valid_eventdates
+    @eventdates_and_parts = Timecard.valid_eventdates_and_parts
     @timecards = Timecard.valid_timecards
   end
 
@@ -60,7 +60,7 @@ class TimecardEntriesController < ApplicationController
       flash[:notice] = 'Timecard entry successfully updated.'
       redirect_to :action => :index and return
     else
-      @eventdates = Timecard.valid_eventdates
+      @eventdates_and_parts = Timecard.valid_eventdates_and_parts
       @timecards = Timecard.valid_timecards
       render :action => :edit
     end
@@ -76,6 +76,6 @@ class TimecardEntriesController < ApplicationController
   
   private
     def timecard_entry_params
-      params.require(:timecard_entry).permit(:hours, :eventdate_id, :timecard_id)
+      params.require(:timecard_entry).permit(:hours, :eventdate_id_and_eventpart, :timecard_id)
     end
 end

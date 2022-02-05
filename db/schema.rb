@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_030941) do
+ActiveRecord::Schema.define(version: 2022_02_05_164045) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -169,6 +169,9 @@ ActiveRecord::Schema.define(version: 2022_01_25_030941) do
     t.text "email_description", size: :medium, null: false
     t.boolean "delta", default: true, null: false
     t.text "notes", size: :medium, null: false
+    t.boolean "billable_call", default: false
+    t.boolean "billable_show", default: true
+    t.boolean "billable_strike", default: false
     t.index ["enddate"], name: "eventdates_enddate_index"
     t.index ["event_id"], name: "eventdates_event_id_index"
     t.index ["startdate"], name: "eventdates_startdate_index"
@@ -318,6 +321,7 @@ ActiveRecord::Schema.define(version: 2022_01_25_030941) do
     t.float "payrate"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "eventpart"
     t.index ["eventdate_id"], name: "index_timecard_entries_on_eventdate_id"
     t.index ["member_id"], name: "index_timecard_entries_on_member_id"
     t.index ["timecard_id"], name: "index_timecard_entries_on_timecard_id"

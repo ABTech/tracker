@@ -1,7 +1,7 @@
 <table class="generic">
   <tr>
     <td align="right" class="list"><strong>Event:</strong></td>
-    <td class="list"><%= select :timecard_entry, :eventdate_id, @eventdates.collect{|e| [e.event.title + ' - ' + e.description, e.id]} %></td>
+    <td class="list"><%= select :timecard_entry, :eventdate_id_and_eventpart, @eventdates_and_parts.collect{|e| [e[:eventdate].event.title + ' - ' + e[:eventdate].description + ' - ' + TimecardEntry.eventpart.options.rassoc(e[:eventpart]).first, e[:eventdate].id.to_s + "-" + e[:eventpart]]} %></td>
   </tr>
   <tr>
     <td align="right" class="list"><strong>Hours:</strong></td>

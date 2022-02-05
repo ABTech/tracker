@@ -8,6 +8,18 @@
       <dt><%= f.label :email_description, "Weekly Email Description:" %></dt>
       <dd><%= f.text_area :email_description %></dd>
     </dl>
+    <dl class="big-field">
+      <dt><%= f.label :billable_call, "Call Billable:" %></dt>
+      <dd><%= f.check_box :billable_call %></dd>
+    </dl>
+    <dl class="big-field">
+      <dt><%= f.label :billable_show, "Show Billable:" %></dt>
+      <dd><%= f.check_box :billable_show %></dd>
+    </dl>
+    <dl class="big-field">
+      <dt><%= f.label :billable_strike, "Strike Billable:" %></dt>
+      <dd><%= f.check_box :billable_strike %></dd>
+    </dl>
     <dl>
       <dt><%= f.label :calldate, "Call:" %></dt>
       <dd>

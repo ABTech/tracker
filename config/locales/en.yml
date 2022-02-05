@@ -48,3 +48,8 @@ en:
         tracker_management: "Tracker Management"
         general_member: "General Member"
         head_of_tech: "Head of Tech"
+    timecard_entry:
+      eventpart:
+        call: "Call"
+        show: "Show"
+        strike: "Strike"

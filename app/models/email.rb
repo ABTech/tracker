@@ -144,7 +144,7 @@ class Email < ApplicationRecord
             f.flush
             f.rewind
           
-            message.attachments.create!(attachment: f)
+            message.attachments.create!(attachment: f.blob)
           end
         end
       end

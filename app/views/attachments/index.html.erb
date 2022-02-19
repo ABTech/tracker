@@ -7,6 +7,7 @@
     <th>Association</th>
     <th>Content Type</th>
     <th>Size</th>
+    <th>Created At</th>
     <% if can? :manage, Attachment %>
       <th></th>
     <% end %>
@@ -17,7 +18,7 @@
   <tr>
     <td>
       <% if !a.attachment.attached? %>
-        <% a.name %> (missing when transitioned from Paperclip)
+        <%= a.name %> (missing when transitioned from Paperclip)
       <% else %>
         <%= link_to a.name, rails_blob_path(a.attachment, disposition: "attachment") %>
       <% end %>
@@ -29,6 +30,7 @@
     </td>
     <td><%= a.attachment.content_type %></td>
 	  <td><% if !a.attachment.attached? %>???<% else %><%= a.friendly_size %><% end %></td>
+	  <td><%= a.created_at.strftime("%b %d, %Y") %> <%= a.created_at.strftime("%I:%M %p") %></td>
     <% if can? :manage, Attachment %>
       <td><%= link_to "Destroy", attachment_path(a), :method => "delete", :confirm => "Are you sure? This is irreversible." %></td>
     <% end %>

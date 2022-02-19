@@ -57,11 +57,17 @@ class EventsController < ApplicationController
 
     minDate = DateTime.now - 2.years
 
+    if params.has_key?(:includes)
+      includes = params[:includes]
+    else
+      includes = []
+    end
+
     notes = event_request_notes(params[:event_name], params[:organization],
                                 params[:oracle_string], params[:contact_name],
                                 params[:contact_email], params[:contact_phone],
                                 startdate, enddate, params[:location],
-                                params[:details])
+                                includes, params[:details])
 
     p = ActionController::Parameters.new({
       event: {
@@ -452,7 +458,24 @@ class EventsController < ApplicationController
 
   private
 
-    def event_request_notes(name, org, oracle_string, contact, email, phone, startdate, enddate, location, details)
+    def event_request_notes(name, org, oracle_string, contact, email, phone, startdate, enddate, location, includes, details)
+      event_includes = ""
+      event_includes += "Media Services, " if includes.include?("media_services")
+      event_includes += "cmuTV, " if includes.include?("cmutv")
+      event_includes += "Outside Vendors, " if includes.include?("outside_av_vendors")
+      event_includes += "Additional Staging, " if includes.include?("additional_staging")
+      event_includes += "Zoom, " if includes.include?("zoom")
+      event_includes += "Live Streaming, " if includes.include?("live_streaming")
+      event_includes += "Recording, " if includes.include?("recording")
+      event_includes += "Presentation Slides, " if includes.include?("presentation_slides")
+      event_includes += "Video Playback, " if includes.include?("video_playback")
+      event_includes += "Non-CMU Affiliates Performing, " if includes.include?("non_cmu_affiliates_performing")
+      if event_includes.to_s.empty?
+        event_includes = "None"
+      else
+        event_includes = event_includes[0...-2] unless event_includes.to_s.empty?
+      end
+
       <<~EOF
       Event Name: #{name}
       Organization: #{org}
@@ -463,6 +486,7 @@ class EventsController < ApplicationController
       Start Date: #{startdate.strftime("%m/%d/%Y at %l:%M %p")}
       End Date: #{enddate.strftime("%m/%d/%Y at %l:%M %p")}
       Location: #{location}
+      Event Includes: #{event_includes}
       Details:
       #{details}
       EOF

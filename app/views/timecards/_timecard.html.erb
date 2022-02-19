@@ -29,6 +29,7 @@
       <td><strong>Total</strong></td>
       <td></td>
       <td><%= timecard.entries(member).map(&:hours).reduce(0.0, &:+).round(1) %></td>
+      <% unless timecard.entries(member).empty? %><th></th><% end %>
     </tr>
   </tfoot>
 </table>

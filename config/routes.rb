@@ -98,4 +98,6 @@ Rails.application.routes.draw do
   get 'mobile' => 'events#mobile'
 
   root to: 'events#index'
+
+  post 'slack_ret', to: proc { [200, {}, ['']] }
 end

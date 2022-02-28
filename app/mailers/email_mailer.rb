@@ -16,7 +16,7 @@ class EmailMailer < ActionMailer::Base
           :bcc => email.bcc,
           :subject => email.subject,
           :in_reply_to => email.in_reply_to do |format|
-      format.text { render text: email.contents }
+      format.text { render plain: email.contents }
     end
   end
   

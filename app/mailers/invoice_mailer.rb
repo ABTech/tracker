@@ -7,7 +7,7 @@ class InvoiceMailer < ActionMailer::Base
          :from => "abtech+billing@andrew.cmu.edu",
          :reply_to => "abtech+billing@andrew.cmu.edu",
          :subject => params[:subject] do |format|
-      format.text { render text: params[:content] }
+      format.text { render plain: params[:content] }
     end
   end
 end

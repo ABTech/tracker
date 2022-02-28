@@ -3,6 +3,8 @@ require 'logger'
 namespace :slack do
   desc "Notify the Slack about upcoming calls and strikes"
   task :notify => :environment do
+    Rails.application.routes.default_url_options = Rails.application.config.action_mailer.default_url_options
+
     STDOUT.sync = true
     
     logger = Logger.new(STDOUT)
@@ -17,24 +19,64 @@ namespace :slack do
         config.token = env_config[:token]
     end
     client = Slack::Web::Client.new
-    
+
+    channel =
+      if Rails.env.development?
+        "#bot-testing"
+      elsif Rails.env.staging?
+        "#bot-testing"
+      else
+        "#events"
+      end
+
     startdate = DateTime.now
     enddate = 1.hour.from_now
     
     calls = Eventdate.where(events: {textable: true, status: Event::Event_Status_Group_Not_Cancelled}).call_between(startdate, enddate).includes(:event).references(:event)
     strikes = Eventdate.where(events: {textable: true, status: Event::Event_Status_Group_Not_Cancelled}).strike_between(startdate, enddate).includes(:event).references(:event)
-    
-    messages = calls.collect do |eventdate|
-      "Call for " + eventdate.event.title + " - " + eventdate.description + " is at " + eventdate.effective_call.strftime("%H:%M")
-    end + strikes.collect do |eventdate|
-      "Strike for " + eventdate.event.title + " - " + eventdate.description + " is at " + eventdate.effective_strike.strftime("%H:%M")
+
+    def meassge_gen(msg, event_url, eventdate)
+      [
+        msg,
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: msg + "\n_" + eventdate.locations.join(", ") + "_"
+          },
+          accessory: {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "View on Tracker",
+              emoji: true,
+            },
+            url: event_url
+          }
+        }
+      ]
     end
+
+    messages = []
+    calls.each do |eventdate|
+      event_url = Rails.application.routes.url_helpers.url_for(eventdate.event).to_s
+      msg = "Call for <" + event_url + "|" + eventdate.event.title + "> - " + eventdate.description + " is at " + eventdate.effective_call.strftime("%H:%M")
+      messages.push(meassge_gen(msg, event_url, eventdate))
+    end
+    strikes.each do |eventdate|
+      event_url = Rails.application.routes.url_helpers.url_for(eventdate.event).to_s
+      msg = "Strike for <" + event_url + "|" + eventdate.event.title + "> - " + eventdate.description + " is at " + eventdate.effective_strike.strftime("%H:%M")
+      messages.push(meassge_gen(msg, event_url, eventdate))
+    end
+
+    messages_text = messages.map { |msg| msg[0] }
+    messages_blocks = messages.map { |msg| msg[1] }
     
     unless messages.empty?
-      message = messages.join("\n")
+      message_text = messages_text.join("\n")
       
       logger.info("Sending message")
-      client.chat_postMessage(channel: '#events', text: message, as_user: true)
+      client.chat_postMessage(channel: channel, text: message_text, as_user: true, blocks: messages_blocks)
     end
   end
 end

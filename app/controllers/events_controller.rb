@@ -104,6 +104,9 @@ class EventsController < ApplicationController
     if startdate < minDate or enddate < minDate
       form_error = ["Event takes place in the past! Please double check your requested dates."]
       render json: form_error, status: 400
+    elsif startdate.minute % 5 != 0 or enddate.minute % 5 != 0
+      form_error = ["Event times must be on five minute intervals. Please double check your requested times."]
+      render json: form_error, status: 400
     else
       if @event.save
         begin
@@ -460,7 +463,7 @@ class EventsController < ApplicationController
 
     def event_request_notes(name, org, oracle_string, contact, email, phone, startdate, enddate, location, includes, details)
       event_includes = ""
-      event_includes += "Media Services, " if includes.include?("media_services")
+      event_includes += "CMU Media Services, " if includes.include?("cmu_media_services")
       event_includes += "cmuTV, " if includes.include?("cmutv")
       event_includes += "Outside Vendors, " if includes.include?("outside_av_vendors")
       event_includes += "Additional Staging, " if includes.include?("additional_staging")

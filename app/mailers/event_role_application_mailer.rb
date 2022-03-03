@@ -4,7 +4,7 @@ class EventRoleApplicationMailer < ActionMailer::Base
     @application = application
     @notes = notes
 
-    mail to: application.superior_email, from: "no-reply@abtech.andrew.cmu.edu", subject: "Application for #{application.event_role.description} #{application.event_role.role}"
+    mail to: application.superior_email, from: "no-reply@abtech.andrew.cmu.edu", subject: "Application for #{application.event_role.description} #{application.event_role.role} from #{application.member.display_name}"
   end
   
   def accept(application)

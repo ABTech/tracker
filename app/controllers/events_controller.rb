@@ -55,7 +55,8 @@ class EventsController < ApplicationController
     startdate = Time.zone.parse(params[:start_date] + " " + params[:start_time]).to_datetime
     enddate = Time.zone.parse(params[:end_date] + " " + params[:end_time]).to_datetime
 
-    minDate = DateTime.now - 2.years
+    requestdate = DateTime.now
+    minDate = requestdate - 2.years
 
     if params.has_key?(:includes)
       includes = params[:includes]
@@ -66,8 +67,8 @@ class EventsController < ApplicationController
     notes = event_request_notes(params[:event_name], params[:organization],
                                 params[:oracle_string], params[:contact_name],
                                 params[:contact_email], params[:contact_phone],
-                                startdate, enddate, params[:location],
-                                includes, params[:details])
+                                startdate, enddate, requestdate,
+                                params[:location], includes, params[:details])
 
     p = ActionController::Parameters.new({
       event: {
@@ -461,7 +462,7 @@ class EventsController < ApplicationController
 
   private
 
-    def event_request_notes(name, org, oracle_string, contact, email, phone, startdate, enddate, location, includes, details)
+    def event_request_notes(name, org, oracle_string, contact, email, phone, startdate, enddate, requestdate, location, includes, details)
       event_includes = ""
       event_includes += "CMU Media Services, " if includes.include?("cmu_media_services")
       event_includes += "cmuTV, " if includes.include?("cmutv")
@@ -486,6 +487,7 @@ class EventsController < ApplicationController
       Event Contact: #{contact}
       Email: #{email}
       Phone: #{phone}
+      Request Date: #{requestdate.strftime("%m/%d/%Y at %l:%M %p")}
       Start Date: #{startdate.strftime("%m/%d/%Y at %l:%M %p")}
       End Date: #{enddate.strftime("%m/%d/%Y at %l:%M %p")}
       Location: #{location}

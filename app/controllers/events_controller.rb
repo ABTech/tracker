@@ -28,6 +28,9 @@ class EventsController < ApplicationController
     @event = @old_event.amoeba_dup
     @event.status = Event::Event_Status_Initial_Request
     
+    # only allowed group may set textable social
+    @event.textable_social = false
+
     @title = "Duplicate Event #" + @event.id.to_s
     authorize! :create, @event
   end
@@ -136,7 +139,7 @@ class EventsController < ApplicationController
     end
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
+      :textable, :textable_social, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         :billable_call, :billable_show, :billable_strike,
@@ -144,7 +147,12 @@ class EventsController < ApplicationController
       :event_roles_attributes => [:role, :member_id, :appliable],
       :attachments_attributes => [:attachment, :name],
       :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
-    
+
+    if cannot? :update_textable_social, Event
+      # only allowed group may toggle social textable
+      p.delete(:textable_social)
+    end
+
     @event = Event.new(p)
     authorize! :create, @event
     
@@ -162,7 +170,7 @@ class EventsController < ApplicationController
     authorize! :update, @event
     
     p = params.require(:event).permit(:title, :org_type, :organization_id, :org_new, :status, :billable, :rental,
-      :textable, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
+      :textable, :textable_social, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
         :billable_call, :billable_show, :billable_strike,
@@ -190,6 +198,7 @@ class EventsController < ApplicationController
       p.delete(:status)
       p.delete(:billable)
       p.delete(:textable)
+      p.delete(:textable_social)
       p.delete(:rental)
       p.delete(:publish)
       p.delete(:contact_name)
@@ -261,6 +270,14 @@ class EventsController < ApplicationController
           end
         end
       end
+    end
+
+    if cannot? :update_textable_social, Event
+      # only allowed group may toggle social textable
+      p.delete(:textable_social)
+
+      # only allowed group may toggle textable and social textable once social textable has been enabled
+      p.delete(:textable) if @event[:textable_social]
     end
     
     if @event.update(p)

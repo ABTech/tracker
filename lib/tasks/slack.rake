@@ -28,6 +28,14 @@ namespace :slack do
       else
         "#events"
       end
+    channel_social =
+      if Rails.env.development?
+        "#bot-testing"
+      elsif Rails.env.staging?
+        "#bot-testing"
+      else
+        "#social"
+      end
 
     startdate = DateTime.now
     enddate = 1.hour.from_now
@@ -35,7 +43,7 @@ namespace :slack do
     calls = Eventdate.where(events: {textable: true, status: Event::Event_Status_Group_Not_Cancelled}).call_between(startdate, enddate).includes(:event).references(:event)
     strikes = Eventdate.where(events: {textable: true, status: Event::Event_Status_Group_Not_Cancelled}).strike_between(startdate, enddate).includes(:event).references(:event)
 
-    def meassge_gen(msg, event_url, eventdate)
+    def message_gen(msg, event_url, eventdate)
       [
         msg,
         {
@@ -58,25 +66,37 @@ namespace :slack do
     end
 
     messages = []
+    messages_social = []
     calls.each do |eventdate|
       event_url = Rails.application.routes.url_helpers.url_for(eventdate.event).to_s
       msg = "Call for <" + event_url + "|" + eventdate.event.title + "> - " + eventdate.description + " is at " + eventdate.effective_call.strftime("%H:%M")
-      messages.push(meassge_gen(msg, event_url, eventdate))
+      messages.push(message_gen(msg, event_url, eventdate))
+      messages_social.push(message_gen(msg, event_url, eventdate)) if eventdate.event.textable_social
     end
     strikes.each do |eventdate|
       event_url = Rails.application.routes.url_helpers.url_for(eventdate.event).to_s
       msg = "Strike for <" + event_url + "|" + eventdate.event.title + "> - " + eventdate.description + " is at " + eventdate.effective_strike.strftime("%H:%M")
-      messages.push(meassge_gen(msg, event_url, eventdate))
+      messages.push(message_gen(msg, event_url, eventdate))
+      messages_social.push(message_gen(msg, event_url, eventdate)) if eventdate.event.textable_social
     end
 
     messages_text = messages.map { |msg| msg[0] }
     messages_blocks = messages.map { |msg| msg[1] }
+    messages_social_text = messages_social.map { |msg| msg[0] }
+    messages_social_blocks = messages_social.map { |msg| msg[1] }
     
     unless messages.empty?
       message_text = messages_text.join("\n")
       
       logger.info("Sending message")
       client.chat_postMessage(channel: channel, text: message_text, as_user: true, blocks: messages_blocks)
+    end
+
+    unless messages_social.empty?
+      message_text = messages_social_text.join("\n")
+
+      logger.info("Sending social message")
+      client.chat_postMessage(channel: channel_social, text: message_text, as_user: true, blocks: messages_blocks)
     end
   end
 end

@@ -54,8 +54,12 @@
         <dd><%= f.check_box :billable %></dd>
       </dl>
       <dl>
-        <dt><%= f.label :billable, "Textable:" %></dt>
-        <dd><%= f.check_box :textable %></dd>
+        <dt><%= f.label :textable, "Textable:" %></dt>
+        <dd><%= f.check_box :textable, disabled: (@event.textable_social and cannot? :update_textable_social, @event) %></dd>
+      </dl>
+      <dl>
+        <dt><%= f.label :textable_social, "Social Textable:" %></dt>
+        <dd><%= f.check_box :textable_social, disabled: (cannot? :update_textable_social, @event) %></dd>
       </dl>
       <dl>
         <dt><%= f.label :rental, "Rental:" %></dt>

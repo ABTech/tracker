@@ -90,6 +90,7 @@ class Ability
       # Event Management
       can :manage, Event
       can :manage, Eventdate
+      cannot :update_textable_social, Event
       can :manage, Email
       can :sender, Email
       can :destroy, Comment
@@ -126,10 +127,12 @@ class Ability
     if member.head_of_tech?
       can :manage, Timecard
       can :manage, Member
+      can :update_textable_social, Event
     end
     
     if member.tracker_dev?
       can :manage, :all
+      can :update_textable_social, Event
     end
   end
 end

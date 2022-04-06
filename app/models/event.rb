@@ -69,6 +69,7 @@ class Event < ActiveRecord::Base
   validates_associated      :organization, :emails, :event_roles, :eventdates
   validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true
   # validate :eventdate_valid?
+  validate :textable_social_valid?
   
   scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
@@ -207,7 +208,13 @@ class Event < ActiveRecord::Base
 
     def eventdate_valid?
       if representative_date < Account.magic_date
-       errors.add(:representative_date, "Requested date out of range") 
+       errors.add(:representative_date, "Requested date out of range")
+      end
+    end
+
+    def textable_social_valid?
+      if textable_social and not textable
+        errors.add(:textable_social, "Textable must be enabled if social textable is enabled")
       end
     end
 end

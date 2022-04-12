@@ -31,9 +31,10 @@ class Timecard < ApplicationRecord
     dates = self.valid_eventdates
     dates_and_parts = []
     dates.each do |date|
-      dates_and_parts.append({ eventdate: date, eventpart: "call"}) if date.billable_call?
-      dates_and_parts.append({ eventdate: date, eventpart: "show"}) if date.billable_show?
+      # In reverse order so appears chronologically with everything else
       dates_and_parts.append({ eventdate: date, eventpart: "strike"}) if date.billable_strike?
+      dates_and_parts.append({ eventdate: date, eventpart: "show"}) if date.billable_show?
+      dates_and_parts.append({ eventdate: date, eventpart: "call"}) if date.billable_call?
     end
     dates_and_parts
   end
@@ -79,9 +80,10 @@ class Timecard < ApplicationRecord
     dates = valid_eventdates
     dates_and_parts = []
     dates.each do |date|
-      dates_and_parts.append({ eventdate: date, eventpart: "call"}) if date.billable_call
-      dates_and_parts.append({ eventdate: date, eventpart: "show"}) if date.billable_show
+      # In reverse order so appears chronologically with everything else
       dates_and_parts.append({ eventdate: date, eventpart: "strike"}) if date.billable_strike
+      dates_and_parts.append({ eventdate: date, eventpart: "show"}) if date.billable_show
+      dates_and_parts.append({ eventdate: date, eventpart: "call"}) if date.billable_call
     end
     dates_and_parts
   end

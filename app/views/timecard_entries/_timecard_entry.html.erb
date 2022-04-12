@@ -1,3 +1,9 @@
 <td><%= link_to timecard_entry.eventdate.event.title, timecard_entry.eventdate.event %> - <%=timecard_entry.eventdate.description %> - <%=timecard_entry.eventpart.text%></td>
+<% if timecard_entry.eventpart == "call" %>
+<td><%=timecard_entry.eventdate.calldate.strftime("%H:%M:%S %a, %b %d, %Y") %></td>
+<% elsif timecard_entry.eventpart == "strike" %>
+<td><%=timecard_entry.eventdate.strikedate.strftime("%H:%M:%S %a, %b %d, %Y") %></td>
+<% else %>
 <td><%=timecard_entry.eventdate.startdate.strftime("%H:%M:%S %a, %b %d, %Y") %></td>
+<% end %>
 <td><%=timecard_entry.hours %></td>

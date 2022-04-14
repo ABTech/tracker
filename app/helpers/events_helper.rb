@@ -141,12 +141,14 @@ module EventsHelper
     end, date.nil? ? nil : date.to_date.cwday), class: "supertic_add_role_select") + button_tag("Add", type: :button, class: "supertic_add_role_button")
   end
   
-  def show_run_position(er)
+  def show_run_position(er, hover)
     if er.appliable and not er.assigned? and er.applications.where(member: current_member).count > 0
       "(applied!)"
-    elsif er.appliable and not er.assigned? and can? :create, er.applications.build(member: current_member)
+    elsif !hover and er.appliable and not er.assigned? and can? :create, er.applications.build(member: current_member)
       link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true)
-    elsif current_member
+    elsif er.appliable and not er.assigned? and can? :create, er.applications.build(member: current_member)
+      "you?"
+    elsif !hover and current_member
       er.assigned_to use_display_name: true
     else
       er.assigned_to

@@ -57,7 +57,7 @@
               )
             )
         %>
-          <%= role.role %>: <%= show_run_position role %><br />
+          <%= role.role %>: <span title="<%= show_run_position role, true %>"><%= show_run_position role, false %></span><br />
         <% end %>
       <% end %>
       </td>

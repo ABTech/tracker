@@ -9,6 +9,18 @@ class EventRoleApplicationsController < ApplicationController
     end
   end
 
+  def withdraw
+    @application = EventRoleApplication.find(params[:application_id])
+    authorize! :withdraw, @application
+
+    EventRoleApplicationMailer.withdraw(@application).deliver_now
+    @application.destroy
+
+    flash[:notice] = "Application withdrawn."
+
+    redirect_to @application.event_role.event
+  end
+
   def create
     @application = EventRoleApplication.new(application_params)
     authorize! :create, @application

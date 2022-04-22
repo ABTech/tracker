@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :applications, controller: 'event_role_applications', only: [:new, :create] do
         get 'confirm'
         get 'deny'
+        get 'withdraw'
       end
     end
     collection do

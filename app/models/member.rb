@@ -1,5 +1,5 @@
 class Member < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :encryptable, :omniauthable, :omniauth_providers => [:shibboleth], :encryptor => :restful_authentication_sha1, :authentication_keys => [:login]
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :encryptable, :omniauthable, :omniauth_providers => [:saml_andrew], :encryptor => :restful_authentication_sha1, :authentication_keys => [:login]
   
   has_many :event_roles
   has_many :comments

@@ -29,7 +29,7 @@
     <% else %>
       <div class="login">
         <br/>(not logged in)
-        <br/><%= link_to "Login with andrew account", member_shibboleth_omniauth_authorize_path(), method: :post %>
+        <br/><%= link_to "Login with andrew account", member_saml_andrew_omniauth_authorize_path(), method: :post %>
         <br/><%= link_to "Login with tracker account", new_member_session_url %>
         <br/>
       </div>

@@ -11,4 +11,9 @@ class Members::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def saml_andrew
+    puts request.env
+    set_flash_message(:error, :failure) if is_navigational_format?
+    redirect_to root_url
+  end
 end

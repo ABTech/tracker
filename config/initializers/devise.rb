@@ -307,5 +307,29 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
 
-  config.omniauth :shibboleth, { :uid_field => 'eppn' }
+  idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
+  saml_andrew_metadata = idp_metadata_parser.parse_remote_to_hash('https://login.cmu.edu/idp/shibboleth')
+  if ENV["RAILS_ENV"] == "production"
+    saml_andrew_metadata = saml_andrew_metadata.merge(
+      certificate: File.read(ENV['SAML_ANDREW_SP_CERTIFICATE_PATH']),
+      private_key: File.read(ENV['SAML_ANDREW_SP_PRIVATE_KEY_PATH'])
+    )
+  end
+  config.omniauth :saml, saml_andrew_metadata.merge(
+    name: :saml_andrew,
+    request_attributes: {},
+    idp_sso_target_url: 'https://login.cmu.edu/idp/profile/SAML2/POST/SSO',
+    issuer: 'https://tracker.abtech.org/saml',
+    name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
+    security: {
+      authn_requests_signed: true,
+      want_assertions_signed: true,
+      want_assertions_encrypted: true,
+      metadata_signed: true,
+      embed_sign: false,
+      digest_method: XMLSecurity::Document::SHA256,
+      signature_method: XMLSecurity::Document::RSA_SHA256
+    }
+  )
+  
 end

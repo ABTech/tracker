@@ -10,8 +10,9 @@ Description=AB Tech Tracker Puma HTTP Server Accept Sockets
 ListenStream=/srv/abtech-tracker/%i/run/puma.sock
 # ListenStream=/srv/abtech-tracker/%i/run/puma-ctl.sock
 
-SocketUser=deploy-abtech-tracker
-SocketGroup=deploy-abtech-tracker
+SocketUser=nginx
+SocketGroup=nginx
+SocketMode=0660
 
 # Socket options matching Puma defaults
 NoDelay=true

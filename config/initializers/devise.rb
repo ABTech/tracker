@@ -309,27 +309,47 @@ Devise.setup do |config|
 
   idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
   saml_andrew_metadata = idp_metadata_parser.parse_remote_to_hash('https://login.cmu.edu/idp/shibboleth')
+  saml_andrew_settings = saml_andrew_metadata.merge(
+    name: 'saml_andrew',
+    # name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',  # Shib IdP does not follow convention
+    request_attributes: {},
+    uid_attribute: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',  # ePPn
+    security: {
+      authn_requests_signed: true,
+      want_assertions_signed: false,  # Shib IdP does not for some reason
+      want_assertions_encrypted: true,
+      metadata_signed: true,
+      check_idp_cert_expiration: true,
+      check_sp_cert_expiration: true,
+      digest_method: XMLSecurity::Document::SHA256,
+      signature_method: XMLSecurity::Document::RSA_SHA256
+    },
+    sp_entity_id: ENV['SAML_ANDREW_SP_ENTITY_ID'],
+    issuer: ENV['SAML_ANDREW_SP_ISSUER'],
+    idp_sso_target_url: 'https://login.cmu.edu/idp/profile/SAML2/Redirect/SSO',  # override idp_metadata_parser
+    idp_sso_service_url: 'https://login.cmu.edu/idp/profile/SAML2/Redirect/SSO',  # overrideidp_metadata_parser
+    assertion_consumer_service_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',  # overrideidp_metadata_parser
+    idp_sso_service_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'  # overrideidp_metadata_parser
+  )
+
+  # Only define keys/certs in prod so that local testing will not error on
+  # Rails start
   if ENV["RAILS_ENV"] == "production"
-    saml_andrew_metadata = saml_andrew_metadata.merge(
+    saml_andrew_settings = saml_andrew_settings.merge(
       certificate: File.read(ENV['SAML_ANDREW_SP_CERTIFICATE_PATH']),
       private_key: File.read(ENV['SAML_ANDREW_SP_PRIVATE_KEY_PATH'])
     )
   end
-  config.omniauth :saml, saml_andrew_metadata.merge(
-    name: :saml_andrew,
-    request_attributes: {},
-    idp_sso_target_url: 'https://login.cmu.edu/idp/profile/SAML2/POST/SSO',
-    issuer: 'https://tracker.abtech.org/saml',
-    name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-    security: {
-      authn_requests_signed: true,
-      want_assertions_signed: true,
-      want_assertions_encrypted: true,
-      metadata_signed: true,
-      embed_sign: false,
-      digest_method: XMLSecurity::Document::SHA256,
-      signature_method: XMLSecurity::Document::RSA_SHA256
-    }
-  )
+
+  # Override default ACS URL id defined. Must match IdP. Note this changes the
+  # SAML request but not where Rails excepts the callback. Use reverse proxy
+  # rewrite to adjust callback location. Defaults to
+  # /:devise_scope/auth/saml_andrew/callback
+  if ENV['SAML_ANDREW_SP_CUSTOM_ACS_URL'].present?
+    saml_andrew_settings = saml_andrew_settings.merge(
+      assertion_consumer_service_url: ENV['SAML_ANDREW_SP_CUSTOM_ACS_URL']
+    )
+  end
+  config.omniauth :saml, saml_andrew_settings
   
 end

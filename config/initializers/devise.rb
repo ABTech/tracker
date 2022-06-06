@@ -308,12 +308,22 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
-  saml_andrew_metadata = idp_metadata_parser.parse_remote_to_hash('https://login.cmu.edu/idp/shibboleth')
+  saml_andrew_metadata = idp_metadata_parser.parse_remote_to_hash(
+    'https://login.cmu.edu/idp/shibboleth',
+    true,  # validate_cert
+    { sso_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect' }
+  )
   saml_andrew_settings = saml_andrew_metadata.merge(
     name: 'saml_andrew',
     # name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',  # Shib IdP does not follow convention
     request_attributes: {},
     uid_attribute: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',  # ePPn
+    attribute_statements: {
+      email: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.6'],  # ePPn
+      name: ['urn:oid:2.16.840.1.113730.3.1.241'],  # display name
+      first_name: ['urn:oid:2.5.4.42'],  # first name
+      last_name: ['urn:oid:2.5.4.4'],  # last name
+    },
     security: {
       authn_requests_signed: true,
       want_assertions_signed: false,  # Shib IdP does not for some reason
@@ -321,15 +331,11 @@ Devise.setup do |config|
       metadata_signed: true,
       check_idp_cert_expiration: true,
       check_sp_cert_expiration: true,
-      digest_method: XMLSecurity::Document::SHA256,
-      signature_method: XMLSecurity::Document::RSA_SHA256
+      digest_method: XMLSecurity::Document::SHA512,
+      signature_method: XMLSecurity::Document::RSA_SHA512
     },
     sp_entity_id: ENV['SAML_ANDREW_SP_ENTITY_ID'],
-    issuer: ENV['SAML_ANDREW_SP_ISSUER'],
-    idp_sso_target_url: 'https://login.cmu.edu/idp/profile/SAML2/Redirect/SSO',  # override idp_metadata_parser
-    idp_sso_service_url: 'https://login.cmu.edu/idp/profile/SAML2/Redirect/SSO',  # overrideidp_metadata_parser
-    assertion_consumer_service_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',  # overrideidp_metadata_parser
-    idp_sso_service_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'  # overrideidp_metadata_parser
+    issuer: ENV['SAML_ANDREW_SP_ISSUER']
   )
 
   # Only define keys/certs in prod so that local testing will not error on

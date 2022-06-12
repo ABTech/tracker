@@ -1,0 +1,12 @@
+<h1>Edit a kiosk</h1>
+
+<%= form_for @kiosk do |f| %>
+  <%= render :partial => "form", :locals => {f: f} %>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Show kiosk', @kiosk %></li>
+    <li><%= link_to 'Back to kiosks list', kiosks_path %></li>
+  </ul>
+<% end %>

@@ -1,0 +1,22 @@
+<% if @kiosk.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@kiosk.errors.count, "error") %> prohibited
+      this kiosk from being saved:</h2>
+    <ul>
+    <% @kiosk.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table class="generic" width="50%">
+  <tr>
+    <td class="subheading"><%= f.label :hostname %>:</th>
+    <td><%= f.text_field :hostname, size: "100%" %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

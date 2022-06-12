@@ -25,7 +25,7 @@ module ApplicationHelper
   end
   
   def show_admin_link
-    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm or can? :read, Blackout
+    can? :read, Equipment or can? :read, Location or can? :read, Timecard or can? :read, InvoiceItem or can? :read, EmailForm or can? :read, Blackout or can? :read, Kiosk
   end
 
   Date.class_eval do

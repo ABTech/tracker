@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_145131) do
+ActiveRecord::Schema.define(version: 2022_06_12_030007) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -249,6 +249,21 @@ ActiveRecord::Schema.define(version: 2022_03_29_145131) do
     t.string "paymeth_category", limit: 255, default: ""
     t.datetime "updated_at"
     t.index ["invoice_id"], name: "journals_link_id_index"
+  end
+
+  create_table "kiosks", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "hostname", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "locked_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hostname"], name: "index_kiosks_on_hostname", unique: true
   end
 
   create_table "locations", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|

@@ -1,5 +1,5 @@
 class JoinController < ApplicationController
-  skip_before_action :authenticate_member!, :only => [:joinrequest]
+  skip_before_action :custom_authenticate!, :only => [:joinrequest]
   skip_before_action :verify_authenticity_token, :only => [:joinrequest]
 
   def joinrequest

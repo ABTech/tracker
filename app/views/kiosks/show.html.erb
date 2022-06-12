@@ -1,0 +1,54 @@
+<h2><%= @kiosk.hostname %></h2>
+
+<table class="generic" width="50%">
+  <tr>
+    <td class="subheading">Hostname:</th>
+    <td><%= @kiosk.hostname %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Locked:</td>
+    <td><%= @kiosk.access_locked? %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Locked at:</td>
+    <td><%= @kiosk.locked_at %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Failed auth attempts (since last unlock):</td>
+    <td><%= @kiosk.failed_attempts %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Total sign in count:</td>
+    <td><%= @kiosk.sign_in_count %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Current sign in at:</td>
+    <td><%= @kiosk.current_sign_in_at %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Current sign in IP:</td>
+    <td><%= @kiosk.current_sign_in_ip %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Last sign in at:</td>
+    <td><%= @kiosk.last_sign_in_at %></td>
+  </tr>
+  <tr>
+    <td class="subheading">Last sign in IP:</td>
+    <td><%= @kiosk.last_sign_in_ip %></td>
+  </tr>
+</table>
+
+<% if can? :update, @kiosk %>
+  <%= link_to 'Edit', edit_kiosk_url(@kiosk) %> |
+  <%= link_to "Reset Password", reset_password_kiosk_url(@kiosk)%> |
+  <% if @kiosk.access_locked? %> |
+    <%= link_to "Unlock", unlock_kiosk_url(@kiosk) %> |
+  <% else %>
+    <%= link_to "Lock", lock_kiosk_url(@kiosk) %> |
+  <% end %>
+<% end %>
+<% if can? :destroy, @kiosk %>
+  <%= conditional_link_to_delete "Delete", @kiosk, :destroy, @kiosk %> |
+<% end %>
+<%= link_to 'Back', kiosks_path %>

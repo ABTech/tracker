@@ -121,6 +121,7 @@ class Ability
       can :manage, EmailForm
       can :manage, Attachment
       can :manage, SuperTic
+      can :read, Kiosk
     end
     
     cannot :destroy, Event

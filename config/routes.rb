@@ -67,6 +67,21 @@ Rails.application.routes.draw do
   devise_for :members, controllers: {
     omniauth_callbacks: 'members/omniauth_callbacks'
   }
+
+  devise_for :kiosks, skip: :all, skip_helpers: true, controllers: {
+    sessions: 'kiosks/sessions'
+  }
+  devise_scope :kiosk do
+    post "/kiosks/sign_in" => "kiosks/sessions#create", as: :kiosk_session
+  end
+
+  resources :kiosks do
+    member do
+      get 'lock'
+      get 'unlock'
+      get 'reset_password'
+    end
+  end
   
   resources :members do
     collection do

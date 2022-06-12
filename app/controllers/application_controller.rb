@@ -5,10 +5,22 @@ class ApplicationController < ActionController::Base
   
   layout "events"
   
-  before_action :authenticate_member!
+  before_action :custom_authenticate!
+
+  def custom_authenticate!
+    if kiosk_signed_in?
+      authenticate_kiosk!
+    else
+      authenticate_member!
+    end
+  end
 
   def current_ability
-    @current_ability ||= Ability.new(current_member)
+    if kiosk_signed_in?
+      @current_ability ||= KioskAbility.new(current_kiosk)
+    else
+      @current_ability ||= Ability.new(current_member)
+    end
   end
 
   def sanitize_params

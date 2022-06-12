@@ -21,7 +21,11 @@
       <%= link_to image_tag("header.png"), root_url %>
     </div>
     
-    <% if member_signed_in? %>
+    <% if kiosk_signed_in? %>
+      <div class="loggedin">
+        <b><%= current_kiosk.hostname %></b>
+      </div>
+    <% elsif member_signed_in? %>
       <div class="loggedin">
         <b><%= current_member.fullname %></b> (<%= current_member.email %>)<br/>
         <%= link_to "Profile", edit_member_url(current_member) %>&nbsp;&nbsp;<%= link_to "Logout", destroy_member_session_url, :method => :delete %>
@@ -46,7 +50,7 @@
       <%= link_to "Weather", 'https://forecast.weather.gov/MapClick.php?lat=40.439&lon=-79.9584&unit=0&lg=english&FcstType=graphical', target: :_blank  if can? :read, Event%>
       <%= link_to "Radio Checkout", 'https://bit.ly/techradios', target: :_blank  if can? :read, Event%>
       
-      <% if member_signed_in? %>
+      <% if member_signed_in? or kiosk_signed_in? %>
         <%= link_to "Miscellaneous", "#", class: "toggle-div", data: {div: "misc-menu"} %>
 
         <% if show_admin_link %> 
@@ -55,7 +59,7 @@
       <% end %>
     </div>
 
-    <% if member_signed_in? %>
+    <% if member_signed_in? or kiosk_signed_in? %>
       <div id="misc-menu" style="display: none" class="main-nav">
         <%= conditional_link_to "Organizations", organizations_url, :read, Organization %>
         <%= conditional_link_to "Attachments", attachments_url, :read, Attachment %>
@@ -69,6 +73,7 @@
           <%= conditional_link_to "Invoice Items", invoice_items_url, :read, InvoiceItem %>
           <%= conditional_link_to "Form Emails", email_forms_url, :read, EmailForm %>
           <%= conditional_link_to "Blackouts", blackouts_url, :read, Blackout %>
+          <%= conditional_link_to "Kiosks", kiosks_url, :read, Kiosk %>
         </div>
       <% end %>
     <% end %>

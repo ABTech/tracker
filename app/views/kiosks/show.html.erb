@@ -42,7 +42,7 @@
 <% if can? :update, @kiosk %>
   <%= link_to 'Edit', edit_kiosk_url(@kiosk) %> |
   <%= link_to "Reset Password", reset_password_kiosk_url(@kiosk)%> |
-  <% if @kiosk.access_locked? %> |
+  <% if @kiosk.access_locked? %>
     <%= link_to "Unlock", unlock_kiosk_url(@kiosk) %> |
   <% else %>
     <%= link_to "Lock", lock_kiosk_url(@kiosk) %> |

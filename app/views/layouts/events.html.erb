@@ -11,7 +11,7 @@
         <% end %>
       <% end %>
 
-      <% if member_signed_in? %>
+      <% if can? :read, Event %><%# excludes public/non-signed-in and some kiosks %>
         <%= form_tag search_events_url, method: :get do %>
           <%= text_field_tag :q, "", placeholder: "Search", id: "search", class: "search_empty" %>
         <% end %>
@@ -31,7 +31,7 @@
   
       Found a bug in tracker?<br/>
       Have a feature request?<br/>
-      Submit a <%= link_to "ticket on GitHub", "https://github.com/ABTech/tracker/issues" %>. <%# this link could be a modal popup %>
+      Submit a <% if kiosk_signed_in? %>ticket on GitHub<% else %><%= link_to "ticket on GitHub", "https://github.com/ABTech/tracker/issues" %><% end %>. <%# this link could be a modal popup %>
       <!-- Tracker revision -->
       <div id="version">
         <!-- Are you reading this?! You should be contributing to the tracker! Contact abtech@andrew.cmu.edu for more info. -->

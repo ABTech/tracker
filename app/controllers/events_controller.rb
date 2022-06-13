@@ -317,7 +317,7 @@ class EventsController < ApplicationController
     @eventdates = @eventdates.order("startdate ASC").includes({event: [:organization]}, {event_roles: [:member]}, :locations, :equipment).references(:event)
     @eventweeks = Eventdate.weekify(@eventdates)
 
-    if not member_signed_in?
+    if cannot? :read, Event  # kiosk, non-signed-in
       render(:action => "index", :layout => "public")
     end
   end
@@ -340,7 +340,7 @@ class EventsController < ApplicationController
     
     @eventruns = Eventdate.runify(@eventdates)
 
-    if not member_signed_in?
+    if cannot? :read, Event  # kiosk, non-signed-in
       render(:action => "month", :layout => "public")
     end
   end
@@ -383,7 +383,7 @@ class EventsController < ApplicationController
       @selected_month[i] = @selected + (i-3).months
     end
 
-    if not member_signed_in?
+    if cannot? :read, Event  # kiosk, non-signed-in
       render(:action => "calendar", :layout => "public")
     end
   end

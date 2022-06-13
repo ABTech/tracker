@@ -6,23 +6,23 @@ class KiosksController < ApplicationController
   end
 
   def show
+    @kiosk = Kiosk.find(params[:id])
     authorize! :read, @kiosk
     @title = "Viewing Kiosk"
-    @kiosk = Kiosk.find(params[:id])
   end
 
   def new
-    authorize! :create, @kiosk
+    authorize! :create, Kiosk
     @title = "New Kiosk"
     @kiosk = Kiosk.new
   end
 
   def create
-    authorize! :create, @kiosk
+    authorize! :create, Kiosk
     @kiosk = Kiosk.new(kiosk_params)
     @kiosk.password = SecureRandom.hex(64)
     if @kiosk.save
-      flash[:notice] = 'Kiosk was successfully created: ' + @kiosk.password
+      flash[:notice] = 'Kiosk created successfully: ' + @kiosk.password
       redirect_to @kiosk
     else
       render(:action => 'new')
@@ -30,15 +30,16 @@ class KiosksController < ApplicationController
   end
 
   def edit
+    @kiosk = Kiosk.find(params[:id])
     authorize! :update, @kiosk
     @title = "Editing Kiosk"
   end
 
   def update
-    authorize! :update, @kiosk
     @kiosk = Kiosk.find(params[:id])
+    authorize! :update, @kiosk
     if @kiosk.update(kiosk_params)
-      flash[:notice] = 'Kiosk was successfully updated.'
+      flash[:notice] = 'Kiosk updated successfully.'
       redirect_to @kiosk
     else
       render(:action => 'edit')
@@ -46,6 +47,7 @@ class KiosksController < ApplicationController
   end
 
   def destroy
+    @kiosk = Kiosk.find(params[:id])
     authorize! :destroy, @kiosk
     @kiosk.destroy
     flash[:notice] = "Kiosk deleted successfully."
@@ -53,6 +55,7 @@ class KiosksController < ApplicationController
   end
 
   def lock
+    @kiosk = Kiosk.find(params[:id])
     authorize! :update, @kiosk
     @kiosk.lock_access!
     flash[:notice] = "Kiosk locked successfully."
@@ -60,6 +63,7 @@ class KiosksController < ApplicationController
   end
 
   def unlock
+    @kiosk = Kiosk.find(params[:id])
     authorize! :update, @kiosk
     @kiosk.unlock_access!
     flash[:notice] = "Kiosk unlocked successfully."
@@ -67,10 +71,11 @@ class KiosksController < ApplicationController
   end
 
   def reset_password
+    @kiosk = Kiosk.find(params[:id])
     authorize! :update, @kiosk
     password = SecureRandom.hex(64)
     @kiosk.update_attribute(:password, password)
-    flash[:notice] = 'Kiosk was successfully updated: ' + password
+    flash[:notice] = 'Kiosk updated successfully: ' + password
     redirect_to @kiosk
   end
 

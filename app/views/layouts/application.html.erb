@@ -3,7 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <% if kiosk_signed_in? %>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+      <meta name="viewport" content="user-scalable=0">
+      <style type="text/css">
+        * {
+          touch-action: pan-x pan-y;
+        }
+      </style>
     <% end %>
     <title>ABTT - <%= @title %></title>
     <%= stylesheet_link_tag "application", media: "all" %>

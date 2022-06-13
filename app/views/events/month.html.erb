@@ -1,6 +1,6 @@
 <div id="event-selector">
   <span id="event-sel-months"><%= month_links @startdate, @eventdates.count %></span>
-  <span id="event-sel-time"><%= link_to "Future", events_url %> | <%= link_to "Past", past_events_url %></span>
+  <span id="event-sel-time"><%= link_to "Future", events_url %><% if not kiosk_signed_in? or can? :read, Event %> | <%= link_to "Past", past_events_url %><% end %></span>
 </div>
 
 <%= render partial: "list_header" %>

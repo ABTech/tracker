@@ -41,11 +41,11 @@
 
 <% if can? :update, @kiosk %>
   <%= link_to 'Edit', edit_kiosk_url(@kiosk) %> |
-  <%= link_to "Reset Password", reset_password_kiosk_url(@kiosk)%> |
+  <%= link_to "Reset Password", reset_password_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
   <% if @kiosk.access_locked? %>
-    <%= link_to "Unlock", unlock_kiosk_url(@kiosk) %> |
+    <%= link_to "Unlock", unlock_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
   <% else %>
-    <%= link_to "Lock", lock_kiosk_url(@kiosk) %> |
+    <%= link_to "Lock", lock_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
   <% end %>
 <% end %>
 <% if can? :destroy, @kiosk %>

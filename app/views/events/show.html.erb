@@ -183,7 +183,7 @@
         <legend>
           <%= comment.member %> said on <%= comment.created_at.strftime("%m/%d/%y at %I:%M%p") %>
           <% if can? :destroy, comment %>
-            (<%= link_to "delete", comment_url(comment), :method => :delete, :confirm => "Are you sure you would like to delete this comment?" %>)
+            (<%= link_to "delete", comment_url(comment), :method => :delete, data: {confirm: "Are you sure you would like to delete this comment?"} %>)
           <% end %>
         </legend>
         <%= auto_link simple_format comment.content %>

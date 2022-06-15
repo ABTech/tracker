@@ -32,7 +32,7 @@
 	  <td><% if !a.attachment.attached? %>???<% else %><%= a.friendly_size %><% end %></td>
 	  <td><%= a.created_at.strftime("%b %d, %Y") %> <%= a.created_at.strftime("%I:%M %p") %></td>
     <% if can? :manage, Attachment %>
-      <td><%= link_to "Destroy", attachment_path(a), :method => "delete", :confirm => "Are you sure? This is irreversible." %></td>
+      <td><%= link_to "Destroy", attachment_path(a), :method => "delete", data: {confirm: "Are you sure? This is irreversible."} %></td>
     <% end %>
   </tr>
   <% end %>

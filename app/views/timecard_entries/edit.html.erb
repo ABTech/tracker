@@ -18,6 +18,6 @@
   <%= submit_tag 'Update' %>
   <p>
     <%= link_to 'Back', timecard_entries_path %>
-    <%= link_to 'Destroy', timecard_entry_path(@timecard_entry), :confirm => 'Are you sure?', :method => :delete %>
+    <%= link_to 'Destroy', timecard_entry_path(@timecard_entry), data: {confirm: "Are you sure?"}, :method => :delete %>
   </p>
 <%- end %>

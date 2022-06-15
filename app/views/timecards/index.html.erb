@@ -25,7 +25,7 @@ allows you to see the entries that everyone has submitted.</p>
 <td>
 	<%= conditional_link_to 'View all details', view_timecard_url(timecard), :view, timecard %>
 	<%= conditional_link_to 'Edit', edit_timecard_url(timecard), :update, timecard %>
-	<%= link_to 'Destroy', timecard_url(timecard), :method => 'delete', :confirm => 'Are you sure?' if can? :destroy, timecard %>
+	<%= link_to 'Destroy', timecard_url(timecard), :method => 'delete', data: { confirm: "Are you sure?" } if can? :destroy, timecard %>
 </td>
 <% end %>
 </tr>

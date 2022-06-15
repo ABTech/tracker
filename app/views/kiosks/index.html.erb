@@ -4,7 +4,7 @@
   <tr>
     <th>Hostname</th>
     <th>Locked</th>
-    <% if can? :update, Kiosk or can? :destroy, Kiosk %>
+    <% if can? :update, Kiosk or can? :read, Kiosk or can? :destroy, Kiosk %>
       <th></th>
     <% end %>
   </tr>
@@ -17,11 +17,13 @@
         <td>
           <%= conditional_link_to "Show", kiosk_url(kiosk), :read, kiosk %>
           <%= conditional_link_to "Edit", edit_kiosk_url(kiosk), :update, kiosk %>
-          <%= conditional_link_to "Reset Password", reset_password_kiosk_url(kiosk), :update, kiosk %>
-          <% if kiosk.access_locked? %>
-            <%= conditional_link_to "Unlock", unlock_kiosk_url(kiosk), :update, kiosk %>
-          <% else %>
-            <%= conditional_link_to "Lock", lock_kiosk_url(kiosk), :update, kiosk %>
+          <% if can? :update, kiosk %>
+            <%= link_to "Reset Password", reset_password_kiosk_url(kiosk), data: {confirm: "Are you sure?"} %>
+            <% if kiosk.access_locked? %>
+              <%= link_to "Unlock", unlock_kiosk_url(kiosk), data: {confirm: "Are you sure?"} %>
+            <% else %>
+              <%= link_to "Lock", lock_kiosk_url(kiosk), data: {confirm: "Are you sure?"} %>
+            <% end %>
           <% end %>
           <%= conditional_link_to_delete "Delete", kiosk, :destroy, kiosk %>
         </td>

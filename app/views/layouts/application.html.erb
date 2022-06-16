@@ -39,9 +39,11 @@
         <br/><span id="kiosk_time">???</span>
         <script type="text/javascript">
         let kiosk_time = document.getElementById("kiosk_time")
-        setInterval(() => {
+        let kioskTimeUpdate = () => {
           kiosk_time.textContent = (new Date()).toString()
-        }, 10)
+        }
+        setInterval(kioskTimeUpdate, 10)
+        kioskTimeUpdate()
         </script>
         <% end %>
 

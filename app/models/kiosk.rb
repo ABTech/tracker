@@ -5,6 +5,8 @@ class Kiosk < ApplicationRecord
   send_email_changed_notification: false, send_password_change_notification: false,
   authentication_keys: [:hostname]  # instead of email
 
+  validates :hostname, presence: true
+
   def ability
     @ability ||= KioskAbility.new(self)
   end

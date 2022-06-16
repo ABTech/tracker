@@ -130,6 +130,7 @@ class Ability
       can :manage, Timecard
       can :manage, Member
       can :update_textable_social, Event
+      can :lock, Kiosk
     end
     
     if member.tracker_dev?

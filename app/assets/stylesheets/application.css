@@ -37,6 +37,12 @@ div.loggedin {
 	margin-right: 7px;
 	text-align: right;
 	color: #666666;
+  background: #F3F3F3;
+}
+
+div.loggedin.loggedin-expanded {
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
 
 div.login {

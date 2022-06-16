@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_12_030007) do
+ActiveRecord::Schema.define(version: 2022_06_13_153147) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -263,6 +263,7 @@ ActiveRecord::Schema.define(version: 2022_06_12_030007) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "show_header_time", default: true, null: false
     t.index ["hostname"], name: "index_kiosks_on_hostname", unique: true
   end
 

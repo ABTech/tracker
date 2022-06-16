@@ -31,8 +31,19 @@
     </div>
     
     <% if kiosk_signed_in? %>
-      <div class="loggedin">
+      <div class="loggedin loggedin-expanded">
+        <b>KIOSK MODE</b><br/>
         <b><%= current_kiosk.hostname %></b>
+
+        <% if current_kiosk.show_header_time %>
+        <br/><span id="kiosk_time">???</span>
+        <script type="text/javascript">
+        kiosk_time = document.getElementById("kiosk_time")
+        setInterval(() => {
+          kiosk_time.textContent = (new Date()).toString()
+        }, 10)
+        </script>
+        <% end %>
       </div>
     <% elsif member_signed_in? %>
       <div class="loggedin">

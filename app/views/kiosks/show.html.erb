@@ -6,6 +6,10 @@
     <td><%= @kiosk.hostname %></td>
   </tr>
   <tr>
+    <td class="subheading">Show Header Time:</th>
+    <td><%= @kiosk.show_header_time %></td>
+  </tr>
+  <tr>
     <td class="subheading">Locked:</td>
     <td><%= @kiosk.access_locked? %></td>
   </tr>
@@ -42,9 +46,13 @@
 <% if can? :update, @kiosk %>
   <%= link_to 'Edit', edit_kiosk_url(@kiosk) %> |
   <%= link_to "Reset Password", reset_password_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
-  <% if @kiosk.access_locked? %>
+<% end %>
+<% if @kiosk.access_locked? %>
+  <% if can? :unlock, @kiosk %>
     <%= link_to "Unlock", unlock_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
-  <% else %>
+  <% end %>
+<% else %>
+  <% if can? :lock, @kiosk %>
     <%= link_to "Lock", lock_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
   <% end %>
 <% end %>

@@ -56,7 +56,7 @@ class KiosksController < ApplicationController
 
   def lock
     @kiosk = Kiosk.find(params[:id])
-    authorize! :update, @kiosk
+    authorize! :lock, @kiosk
     @kiosk.lock_access!
     flash[:notice] = "Kiosk locked successfully."
     redirect_to @kiosk
@@ -64,7 +64,7 @@ class KiosksController < ApplicationController
 
   def unlock
     @kiosk = Kiosk.find(params[:id])
-    authorize! :update, @kiosk
+    authorize! :unlock, @kiosk
     @kiosk.unlock_access!
     flash[:notice] = "Kiosk unlocked successfully."
     redirect_to @kiosk
@@ -81,6 +81,6 @@ class KiosksController < ApplicationController
 
   private
     def kiosk_params
-      params.require(:kiosk).permit(:hostname)
+      params.require(:kiosk).permit(:hostname, :show_header_time)
     end
 end

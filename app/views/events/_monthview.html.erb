@@ -4,7 +4,7 @@
       <td style="text-align: left;">
         <% if show_arrows %>
         <%# hide past arrow for kiosks that cannot read past events %>
-        <% if not kiosk_signed_in? or can? :read, Event or ((selected - 1.month).year >= Date.current.year and (selected - 1.month).mon >= Date.current.mon) %>
+        <% if not kiosk_signed_in? or can? :read, Event or ((selected - 1.month) >= Date.current.beginning_of_month) %>
           <%= link_to("<<", month_events_url((selected - 1.month).year, (selected - 1.month).mon)) %>
         <% else %>
           <span style="visibility: hidden">&lt;&lt;</span>

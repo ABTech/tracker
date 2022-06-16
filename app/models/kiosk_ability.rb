@@ -7,5 +7,9 @@ class KioskAbility
     # Already public options
     can :index, Event
     can :eventrequest, Event
+
+    if kiosk.ability_read_equipment
+      can :read, Equipment
+    end
   end
 end

@@ -38,10 +38,31 @@
         <% if current_kiosk.show_header_time %>
         <br/><span id="kiosk_time">???</span>
         <script type="text/javascript">
-        kiosk_time = document.getElementById("kiosk_time")
+        let kiosk_time = document.getElementById("kiosk_time")
         setInterval(() => {
           kiosk_time.textContent = (new Date()).toString()
         }, 10)
+        </script>
+        <% end %>
+
+        <% if current_kiosk.show_header_network_status %>
+        <br/><span id="kiosk_network_status">???</span>
+        <script type="text/javascript">
+        let kiosk_network_status = document.getElementById("kiosk_network_status")
+        kioskNetworkStatusOnline = () => {
+          kiosk_network_status.style.fontWeight = ""
+          kiosk_network_status.style.color = ""
+          kiosk_network_status.textContent = "Network online"
+        }
+        let kioskNetworkStatusOffline = () => {
+          kiosk_network_status.textContent = "Network OFFLINE"
+          kiosk_network_status.style.color = "red"
+          kiosk_network_status.style.fontWeight = "bold"
+        }
+        window.addEventListener('online', kioskNetworkStatusOnline)
+        window.addEventListener('offline', kioskNetworkStatusOffline)
+        if (window.navigator.onLine) { kioskNetworkStatusOnline() }
+        else { kioskNetworkStatusOffline() }
         </script>
         <% end %>
       </div>

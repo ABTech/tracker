@@ -81,6 +81,6 @@ class KiosksController < ApplicationController
 
   private
     def kiosk_params
-      params.require(:kiosk).permit(:hostname, :show_header_time)
+      params.require(:kiosk).permit(:hostname, :show_header_time, :show_header_network_status)
     end
 end

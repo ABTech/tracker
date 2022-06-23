@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   resources :equipment
 
+  resources :weather
+
   resources :events do
     member do
       get 'delete_conf'

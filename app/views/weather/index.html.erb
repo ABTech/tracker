@@ -1,0 +1,5 @@
+<h2>Weather</h2>
+<p>Provided by NWS. For updates, <%= link_to 'click here', "?no_cache=" + @nws_time_string %>. For more days and details, <%= link_to 'click here', @nws_weather_link, :target=>"_blank" %></p>
+
+<%= image_tag @nws_weather_image_b64 unless @nws_weather_image_error %>
+<%= @nws_weather_image_error if @nws_weather_image_error %>

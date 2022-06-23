@@ -11,5 +11,9 @@ class KioskAbility
     if kiosk.ability_read_equipment
       can :read, Equipment
     end
+
+    if kiosk.ability_index_weather
+      can :index, WeatherController
+    end
   end
 end

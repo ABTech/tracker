@@ -42,6 +42,7 @@ class Ability
       can :read, Attachment
       can :tshirts, Member
       can :roles, Member
+      can :index, WeatherController
     end
     
     if member.is_at_least? :general_member

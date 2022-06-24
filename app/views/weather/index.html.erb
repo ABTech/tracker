@@ -1,6 +1,6 @@
 <h2>Weather</h2>
-<p>Provided by NWS. For updates, <%= link_to 'click here', "?no_cache=" + @nws_time_float_string %>. For more days and details, <%= link_to 'click here', @nws_weather_link, :target=>"_blank" if not kiosk_signed_in? %><% if kiosk_signed_in? %>open this page on another device<% end %></p>
-<p>Last refreshed <%= @nws_time_string %>.</p>
+<p>Provided by NWS. For more days and details, <%= link_to 'click here', @nws_weather_link, :target=>"_blank" if not kiosk_signed_in? %><% if kiosk_signed_in? %>open this page on another device<% end %>.</p>
+<p>Last refreshed <%= @nws_time_string %>. <%= link_to 'Refresh', "?no_cache=" + @nws_time_float_string %></p>
 
 <%= image_tag @nws_weather_image_b64 unless @nws_weather_image_error %>
 <%= @nws_weather_image_error if @nws_weather_image_error %>

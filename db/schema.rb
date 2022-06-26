@@ -169,9 +169,9 @@ ActiveRecord::Schema.define(version: 2022_06_26_183755) do
     t.text "email_description", size: :medium, null: false
     t.boolean "delta", default: true, null: false
     t.text "notes", size: :medium, null: false
-    t.boolean "billable_call", default: false
+    t.boolean "billable_call", default: true
     t.boolean "billable_show", default: true
-    t.boolean "billable_strike", default: false
+    t.boolean "billable_strike", default: true
     t.index ["enddate"], name: "eventdates_enddate_index"
     t.index ["event_id"], name: "eventdates_event_id_index"
     t.index ["startdate"], name: "eventdates_startdate_index"
@@ -234,14 +234,6 @@ ActiveRecord::Schema.define(version: 2022_06_26_183755) do
     t.text "memo", size: :medium, null: false
     t.datetime "updated_at"
     t.index ["event_id"], name: "invoices_event_id_index"
-  end
-
-  create_table "joins", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
-    t.string "andrewid"
-    t.string "preferred_name"
-    t.string "last_name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "journals", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|

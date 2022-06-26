@@ -58,8 +58,8 @@
       <dd><%= f.select :location_ids, grouped_options_for_select(location_groups_for_select, f.object.locations.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
     </dl>
     <dl class="big-field">
-      <dt><%= f.label :equipment_ids, "Equipment:" %></dt>
-      <dd><%= f.select :equipment_ids, grouped_options_for_select(equipment_groups_for_select, f.object.equipment.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
+      <dt><%= f.label :equipment_profile_ids, "Equipment Profile:" %></dt>
+      <dd><%= f.select :equipment_profile_ids, grouped_options_for_select(equipment_profile_groups_for_select, f.object.equipment_profile.collect(&:id)), {}, {class: "eventdate_big_select", multiple: "multiple", size: "15"} %></dd>
     </dl>
   <% end %>
   

@@ -9,7 +9,7 @@ class KioskAbility
     can :eventrequest, Event
 
     if kiosk.ability_read_equipment
-      can :read, Equipment
+      can :read, EquipmentProfile
     end
 
     if kiosk.ability_index_weather

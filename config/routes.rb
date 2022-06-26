@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   resources :email_forms, except: [:show]
 
-  resources :equipment
+  resources :equipment_profiles
 
   resources :weather
 

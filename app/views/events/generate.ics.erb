@@ -23,8 +23,8 @@ end
   date.locations.sorted.each do |loc|
     description << "-- " + loc.to_s() + "\n";
   end
-  if(!date.equipment.empty?)
-    description << "Equipment: " <<  date.equipment.collect{ |equipment| equipment.shortname }.join(", ") << "\n";
+  if(!date.equipment_profile.empty?)
+    description << "Equipment Profile: " <<  date.equipment_profile.collect{ |equipment_profile| equipment_profile.shortname }.join(", ") << "\n";
   end
 
   EventRole::Roles_All.each do |type|

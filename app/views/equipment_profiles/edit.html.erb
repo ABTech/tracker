@@ -1,0 +1,12 @@
+<h1>Editing equipment profile</h1>
+
+<%= form_for @equipment_profile do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Show equipment profile', @equipment_profile %></li>
+    <li><%= link_to 'Back to equipment profile list', equipment_profiles_url %></li>
+  </ul>
+<% end %>

@@ -26,8 +26,8 @@
           <li><%= location %></li>
         <% end %>
         
-        <% if can? :read, Event and not eventdate.equipment.empty? %>
-          <li><%= eventdate.equipment.map(&:shortname).join(", ") %></li>
+        <% if can? :read, Event and not eventdate.equipment_profile.empty? %>
+          <li><%= eventdate.equipment_profile.map(&:shortname).join(", ") %></li>
         <% end %>
       </ul>
     </td>

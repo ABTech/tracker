@@ -3,16 +3,16 @@ class Eventdate < ApplicationRecord
   has_many :event_roles, :as => :roleable, :dependent => :destroy
   has_many :timecard_entries
   has_and_belongs_to_many :locations
-  has_and_belongs_to_many :equipment
+  has_and_belongs_to_many :equipment_profile
 
   amoeba do
-    include_association [:event_roles, :locations, :equipment]
+    include_association [:event_roles, :locations, :equipment_profile]
   end
 
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
 
   validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
-  validates_associated :locations, :equipment
+  validates_associated :locations, :equipment_profile
   validate :dates, :validate_call, :validate_strike
 
   before_validation :prune_roles

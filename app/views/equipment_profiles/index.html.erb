@@ -1,9 +1,9 @@
-<h1>Equipment Categories</h1>
+<h1>Equipment Profile Categories</h1>
 
-<div id="equipment-list">
+<div id="equipment-profile-list">
   <% @categories.each_with_index do |c,i| %>
-    <div class="equipment-category">
-      <div class="equipment-category-inner">
+    <div class="equipment-profile-category">
+      <div class="equipment-profile-category-inner">
         <h2><%= c[:name] %></h2>
     
         <% unless c[:children].empty? %>
@@ -15,7 +15,7 @@
         <% end %>
     
         <% c[:subcategories].each do |sc| %>
-          <div class="equipment-subcategory">
+          <div class="equipment-profile-subcategory">
             <h3><%= sc[:name] %></h3>
         
             <ul>
@@ -30,10 +30,10 @@
   <% end %>
 </div>
 
-<% if can? :create, Equipment %>
+<% if can? :create, EquipmentProfile %>
   <% content_for :more do %>
     <ul>
-      <li><%= link_to "Add new equipment", new_equipment_url %></li>
+      <li><%= link_to "Add new equipment profile", new_equipment_profile_url %></li>
     </ul>
   <% end %>
 <% end %>

@@ -102,7 +102,7 @@ class Ability
       can :supertic, Eventdate
       
       # Manage equipment
-      can :manage, Equipment
+      can :manage, EquipmentProfile
 
       # Read only tracker management
       can :read, Location

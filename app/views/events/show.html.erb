@@ -35,10 +35,10 @@
                       <li><%= loc %></li>
                     <% end %>
                   </ul>
-                  <% if !eventdate.equipment.empty? %>
+                  <% if !eventdate.equipment_profile.empty? %>
                     <br />
-                    <b>Equipment:</b><br />
-                    <%= eventdate.equipment.collect{ |equipment| equipment.shortname }.join(", ") %>
+                    <b>Equipment Profile:</b><br />
+                    <%= eventdate.equipment_profile.collect{ |equipment_profile| equipment_profile.shortname }.join(", ") %>
                   <% end %>
                 </td>
               <% end %>

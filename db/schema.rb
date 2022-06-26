@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_23_235112) do
+ActiveRecord::Schema.define(version: 2022_06_26_183755) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 2022_06_23_235112) do
     t.index ["event_id"], name: "emails_event_id_index"
   end
 
-  create_table "equipment", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+  create_table "equipment_profiles", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "description", limit: 255, null: false
     t.string "shortname", limit: 255, null: false
     t.datetime "created_at"
@@ -113,23 +113,23 @@ ActiveRecord::Schema.define(version: 2022_06_23_235112) do
     t.string "subcategory", limit: 255
   end
 
-  create_table "equipment_eventdates", id: false, charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+  create_table "equipment_profiles_eventdates", id: false, charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "eventdate_id", null: false
-    t.integer "equipment_id", null: false
-    t.index ["equipment_id"], name: "index_equipment_eventdates_on_equipment_id"
-    t.index ["eventdate_id"], name: "index_equipment_eventdates_on_eventdate_id"
+    t.integer "equipment_profile_id", null: false
+    t.index ["equipment_profile_id"], name: "index_equipment_profiles_eventdates_on_equipment_profile_id"
+    t.index ["eventdate_id"], name: "index_equipment_profiles_eventdates_on_eventdate_id"
   end
 
-  create_table "equipment_events", charset: "latin1", force: :cascade do |t|
-    t.integer "equipment_id"
+  create_table "equipment_profiles_events", charset: "latin1", force: :cascade do |t|
+    t.integer "equipment_profile_id"
     t.integer "event_id"
     t.integer "quantity"
     t.integer "eventdate_start_id"
     t.integer "eventdate_end_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["equipment_id"], name: "index_equipment_events_on_equipment_id"
-    t.index ["event_id"], name: "index_equipment_events_on_event_id"
+    t.index ["equipment_profile_id"], name: "index_equipment_profiles_events_on_equipment_profile_id"
+    t.index ["event_id"], name: "index_equipment_profiles_events_on_event_id"
   end
 
   create_table "event_role_applications", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -169,9 +169,9 @@ ActiveRecord::Schema.define(version: 2022_06_23_235112) do
     t.text "email_description", size: :medium, null: false
     t.boolean "delta", default: true, null: false
     t.text "notes", size: :medium, null: false
-    t.boolean "billable_call", default: true
+    t.boolean "billable_call", default: false
     t.boolean "billable_show", default: true
-    t.boolean "billable_strike", default: true
+    t.boolean "billable_strike", default: false
     t.index ["enddate"], name: "eventdates_enddate_index"
     t.index ["event_id"], name: "eventdates_event_id_index"
     t.index ["startdate"], name: "eventdates_startdate_index"
@@ -234,6 +234,14 @@ ActiveRecord::Schema.define(version: 2022_06_23_235112) do
     t.text "memo", size: :medium, null: false
     t.datetime "updated_at"
     t.index ["event_id"], name: "invoices_event_id_index"
+  end
+
+  create_table "joins", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "andrewid"
+    t.string "preferred_name"
+    t.string "last_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "journals", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|

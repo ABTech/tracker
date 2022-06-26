@@ -1,0 +1,15 @@
+<h1><%= @equipment_profile.description %></h1>
+<p><b>[<%= @equipment_profile.shortname %>]</b></p>
+<p><i><%= @equipment_profile.full_category %></i></p>
+
+<div id="equipment-profile-calendar" data-id="<%= @equipment_profile.id %>"></div>
+
+<% content_for :more do %>
+  <ul>
+    <% if can? :update, @equipment_profile %>
+      <li><%= link_to "Edit", edit_equipment_profile_url(@equipment_profile) %></li>
+      <li><%= link_to "Mark as defunct", @equipment_profile, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this equipment profile as defunct?"} %></li>
+    <% end %>
+    <li><%= link_to "Back to equipment profiles index", equipment_profiles_url %></li>
+  </ul>
+<% end %>

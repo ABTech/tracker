@@ -2,7 +2,7 @@ import "../src/attachments";
 import "../src/blackouts";
 import "../src/email_forms";
 import "../src/emails";
-import "../src/equipment";
+import "../src/equipment_profile";
 import "../src/events";
 import "../src/invoice_items";
 import "../src/invoices";

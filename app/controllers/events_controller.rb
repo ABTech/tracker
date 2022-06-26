@@ -143,7 +143,7 @@ class EventsController < ApplicationController
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
         :billable_call, :billable_show, :billable_strike,
-        {:location_ids => []}, {:equipment_ids => []}, {:event_roles_attributes => [:role, :member_id, :appliable]}],
+        {:location_ids => []}, {:equipment_profile_ids => []}, {:event_roles_attributes => [:role, :member_id, :appliable]}],
       :event_roles_attributes => [:role, :member_id, :appliable],
       :attachments_attributes => [:attachment, :name],
       :blackout_attributes => [:startdate, :enddate, :with_new_event, :_destroy])
@@ -174,7 +174,7 @@ class EventsController < ApplicationController
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
         :billable_call, :billable_show, :billable_strike,
-        :email_description, :notes, {:location_ids => []}, {:equipment_ids => []},
+        :email_description, :notes, {:location_ids => []}, {:equipment_profile_ids => []},
         {:event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
       :event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy],
@@ -245,7 +245,7 @@ class EventsController < ApplicationController
               p[:eventdates_attributes][key].delete(:calltype)
               p[:eventdates_attributes][key].delete(:striketype)
               p[:eventdates_attributes][key].delete(:location_ids)
-              p[:eventdates_attributes][key].delete(:equipment_ids)
+              p[:eventdates_attributes][key].delete(:equipment_profile_ids)
               p[:eventdates_attributes][key].delete(:email_description)
               p[:eventdates_attributes][key].delete(:billable_call)
               p[:eventdates_attributes][key].delete(:billable_show)
@@ -314,7 +314,7 @@ class EventsController < ApplicationController
       @eventdates = Eventdate.where("enddate >= ? AND NOT events.status IN (?) AND events.publish = true", Time.now.utc, Event::Event_Status_Group_Completed).order("startdate ASC")
     end
     
-    @eventdates = @eventdates.order("startdate ASC").includes({event: [:organization]}, {event_roles: [:member]}, :locations, :equipment).references(:event)
+    @eventdates = @eventdates.order("startdate ASC").includes({event: [:organization]}, {event_roles: [:member]}, :locations, :equipment_profile).references(:event)
     @eventweeks = Eventdate.weekify(@eventdates)
 
     if cannot? :read, Event  # kiosk, non-signed-in

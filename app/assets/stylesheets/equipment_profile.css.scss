@@ -2,10 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.equipment-category {
+.equipment-profile-category {
   width: 50%;
   
-  .equipment-category-inner {
+  .equipment-profile-category-inner {
     border: 1px solid #e0e0e0;
     background: #f7f7f7;
     margin: 1em;
@@ -26,7 +26,7 @@
       }
     }
     
-    .equipment-subcategory {
+    .equipment-profile-subcategory {
       border: 1px solid #e0e0e0;
       background: #f7f7f7;
       margin: 1em;
@@ -50,7 +50,7 @@
   }
 }
 
-.edit_equipment_category, .edit_equipment_subcategory {
+.edit_equipment_profile_category, .edit_equipment_profile_subcategory {
   vertical-align: middle;
   
   &:hover {

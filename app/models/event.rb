@@ -145,7 +145,11 @@ class Event < ActiveRecord::Base
   end
 
   def current_year?
-    representative_date >= Account.magic_date
+    # Events spanning accross the 7/1 school year marker should be considered
+    # a part of both years (i.e. Precollege). Otherwise Tracker does not allow
+    # certain functions (like invoicing) for the now previous year's event. So,
+    # we considered an event by start and end.
+    (representative_date >= Account.magic_date) or (self.eventdates.last.enddate > Account.magic_date)
   end
     
   private

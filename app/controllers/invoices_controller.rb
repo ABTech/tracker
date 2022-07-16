@@ -102,7 +102,7 @@ class InvoicesController < ApplicationController
     if @invoice.save
       flash[:notice] = "Invoice duplicated successfully!"
     else
-      flash[:error] = "Error duplicating invoice!"
+      flash[:error] = "Error duplicating invoice! " + @invoice.errors.full_messages.to_sentence
     end
     redirect_to @invoice.event
   end

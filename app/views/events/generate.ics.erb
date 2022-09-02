@@ -26,6 +26,9 @@ end
   if(!date.equipment_profile.empty?)
     description << "Equipment Profile: " <<  date.equipment_profile.collect{ |equipment_profile| equipment_profile.shortname }.join(", ") << "\n";
   end
+  if @include_url
+    description << "URL: #{event_url(event)}\n";
+  end
 
   EventRole::Roles_All.each do |type|
     roles = event.event_roles.reject{ |role| role.role() != type };

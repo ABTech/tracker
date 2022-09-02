@@ -470,6 +470,7 @@ class EventsController < ApplicationController
     if not params[:showall]
       @eventdates = @eventdates.where("events.publish = TRUE").references(:events)
     end
+    @include_url = params[:showall]
     
     respond_to do |format|
       format.schedule

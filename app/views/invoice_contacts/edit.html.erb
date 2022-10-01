@@ -1,0 +1,11 @@
+<h1>Editing invoice contact</h1>
+
+<%= form_for @invoice_contact do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>
+
+<% content_for :more do %>
+  <ul>
+    <li><%= link_to 'Back to invoice contacts list', invoice_contacts_url %></li>
+  </ul>
+<% end %>

@@ -87,6 +87,7 @@ class Ability
       can :update, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :read, InvoiceItem
+      can :read, InvoiceContact
       can [:read, :view], Timecard
       
       # Event Management
@@ -117,6 +118,7 @@ class Ability
       can :manage, :finance
       can :manage, Invoice
       can :manage, InvoiceItem
+      can :manage, InvoiceContact
       can :manage, Location
       can :manage, Organization
       can :manage, EmailForm

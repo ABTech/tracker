@@ -1,0 +1,26 @@
+<% if @invoice_contact.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@invoice_contact.errors.count, "error") %> prohibited
+      this invoice contact from being saved:</h2>
+    <ul>
+    <% @invoice_contact.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table class="generic">
+  <tr>
+    <td class="subheading"><%= f.label :email %>:</td>
+    <td><%= f.text_field :email, size: 50 %></td>
+  </tr>
+  <tr>
+    <td class="subheading"><%= f.label :notes %>:</th>
+    <td><%= f.text_area :notes, size: "80x15" %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><%= f.submit %></td>
+  </tr>
+</table>

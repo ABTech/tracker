@@ -64,6 +64,8 @@ Rails.application.routes.draw do
 
   resources :invoice_items, except: [:show]
 
+  resources :invoice_contacts, except: [:show]
+
   resources :locations
 
   devise_for :members, controllers: {

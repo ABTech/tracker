@@ -1,0 +1,36 @@
+<h1>Listing Invoice Contacts</h1>
+<p>These contacts will be added to the CC field of the invoice email template, along with <%= InvoiceContact::PERMANENT_INVOICE_CONTACTS.to_sentence %>.</p>
+<table class="generic">
+  <tr>
+    <th>Email</th>
+    <th>Added</th>
+    <th>Updated</th>
+    <th>Notes</th>
+    <% if can? :update, InvoiceContact or can? :destroy, InvoiceContact %>
+      <th></th>
+    <% end %>
+  </tr>
+
+<% for invoice_contact in @invoice_contacts %>
+  <tr>
+    <td><%= invoice_contact.email %></td>
+    <td><%= invoice_contact.created_at.strftime("%B %d %Y, %I:%M %p")  %></td>
+    <td><%= invoice_contact.updated_at.strftime("%B %d %Y, %I:%M %p") %></td>
+    <td><%= simple_format(invoice_contact.notes, html_options = {class: "invoice-contact-list-notes"}) %></td>
+    <% if can? :update, invoice_contact or can? :destroy, invoice_contact %>
+      <td>
+        <%= conditional_link_to "Edit", edit_invoice_contact_url(invoice_contact), :update, invoice_contact %>
+        <%= conditional_link_to_delete "Delete", invoice_contact, :destroy, invoice_contact %>
+      </td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<% if can? :create, InvoiceContact %>
+  <% content_for :more do %>
+    <ul>
+      <li><%= link_to 'New invoice contact', :action => 'new' %></li>
+    </ul>
+  <% end %>
+<% end %>

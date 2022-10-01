@@ -136,7 +136,8 @@ class InvoicesController < ApplicationController
     @attach_title = "#{@invoice.event.title}-#{@invoice.status}#{@invoice.id}.pdf"
     @email_to =  @invoice.event.contactemail
     if @invoice.status == "Invoice"
-      @email_cc= "SLICEfinance@andrew.cmu.edu,abtech+billing@andrew.cmu.edu"
+      email_cc_list = InvoiceContact.pluck(:email) + InvoiceContact::PERMANENT_INVOICE_CONTACTS
+      @email_cc = email_cc_list.join(",")
     else
       @email_cc = "abtech@andrew.cmu.edu"
       @invoice.event.tic.each do |tic|

@@ -155,6 +155,8 @@ window.updateCalendarExportLink = () ->
     output += "?period="
     output += $("#gencalex_period").val()
     output += $("#gencalex_period_year_year").val()
+  if $("#gencalex_form input[name=gen_hidecompleted]:checked").val()
+    output += "&hidecompleted"
   $("#gencalex_ical_result").html("<a href=\"" + root + "calendar/generate.ics" + output + "\">" + root + "calendar/generate.ics" + output + "</a>")
   $("#gencalex_text_result").html("<a href=\"" + root + "calendar/generate.schedule" + output + "\">" + root + "calendar/generate.schedule" + output + "</a>")
       

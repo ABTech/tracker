@@ -102,6 +102,12 @@
         </table>
       </td>
     </tr>
+    <tr>
+      <td><%= check_box_tag "gen_hidecompleted" %></td>
+      <td>
+        <%= label_tag "gen_hidecompleted", "Hide completed/cancelled/declined events", class: "gen_param_label" %>
+      </td>
+    </tr>
   </table>
   
   <input id="gencalex_root" type="hidden" value="<%= root_url %>" />

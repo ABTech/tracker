@@ -465,13 +465,18 @@ class EventsController < ApplicationController
     end
 
     @eventdates = Eventdate.where("(? < startdate) AND (? > enddate)", @startdate, @enddate).order(startdate: :asc).includes(:event, :locations)
-    
-    # showall=true param includes unpublished events
-    if not params[:showall]
+
+    # showall param includes unpublished events
+    @include_url = params.has_key?(:showall)
+    if not @include_url
       @eventdates = @eventdates.where("events.publish = TRUE").references(:events)
     end
-    @include_url = params[:showall]
-    
+
+    # hidecompleted param hides completed/declined/cancelled events
+    if params.has_key?(:hidecompleted)
+      @eventdates = @eventdates.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).references(:events)
+    end
+
     respond_to do |format|
       format.schedule
       format.ics

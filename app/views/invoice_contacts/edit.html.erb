@@ -1,7 +1,7 @@
 <h1>Editing invoice contact</h1>
 
 <%= form_for @invoice_contact do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= render :partial => 'form', :locals => {:f => f, :edit => true} %>
 <% end %>
 
 <% content_for :more do %>

@@ -12,8 +12,13 @@
 
 <table class="generic">
   <tr>
-    <td class="subheading"><%= f.label :email %>:</td>
-    <td><%= f.text_field :email, size: 50 %></td>
+    <% if edit %>
+      <td class="subheading"><%= f.label :email %>:</td>
+      <td><%= f.object.email %></td>
+    <% else %>
+      <td class="subheading"><%= f.label :email %>:</td>
+      <td><%= f.email_field :email, size: 50 %></td>
+    <% end %>
   </tr>
   <tr>
     <td class="subheading"><%= f.label :notes %>:</th>

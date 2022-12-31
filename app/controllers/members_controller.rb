@@ -4,7 +4,8 @@ class MembersController < ApplicationController
   def index
     @title = "Member List"
     @order = Member.new.has_attribute?(params[:order]) ? params[:order] : Member::Default_sort_key
-    
+    @members_link = "https://www.abtech.org/wiki/bin/view/Main/WebHome?topic=PhoneList"
+
     if params[:desc] == "1"
       @members = @members.order(@order => :desc)
       @order_desc = true

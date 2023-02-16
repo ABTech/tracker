@@ -135,21 +135,34 @@ class EventRole < ApplicationRecord
   end
   
   def assistants
+    return [Role_TiC, Role_aTiC] if self.role == Role_sTiC
     return [Role_aTiC] if self.role == Role_TiC
+    return [Role_FoH, Role_aFoH] if self.role == Role_sFoH
     return [Role_aFoH] if self.role == Role_FoH
+    return [Role_Mon, Role_aMon] if self.role == Role_sMon
     return [Role_aMon] if self.role == Role_Mon
+    return [Role_SD, Role_aSD] if self.role == Role_sSD
     return [Role_aSD] if self.role == Role_SD
+    return [Role_LD, Role_aLD, Role_Lprog] if self.role == Role_sLD
     return [Role_aLD, Role_Lprog] if self.role == Role_LD
+    return [Role_ME, Role_aME] if self.role == Role_sME
     return [Role_aME] if self.role == Role_ME
+    return [Role_MR, Role_aMR] if self.role == Role_sMR
     return [Role_aMR] if self.role == Role_MR
+    return [Role_SM, Role_aSM, Role_bdSM] if self.role == Role_sSM
     return [Role_aSM, Role_bdSM] if self.role == Role_SM
+    return [Role_Media, Role_aMedia] if self.role == Role_sMedia
     return [Role_aMedia] if self.role == Role_Media
+    return [Role_Hole, Role_aHole] if self.role == Role_sHole
     return [Role_aHole] if self.role == Role_Hole
+    return [Role_car] if self.role == Role_sCar
+    return [Role_truck] if self.role == Role_sTruck
+    return [Role_airhorn, Role_aairhorn] if self.role == Role_sairhorn
     return [Role_aairhorn] if self.role == Role_airhorn
     return []
   end
   
-  def supervisors
+  def shoulders
     return [Role_sTiC] if self.role == Role_TiC or self.role == Role_aTiC
     return [Role_sFoH] if self.role == Role_FoH or self.role == Role_aFoH
     return [Role_sMon] if self.role == Role_Mon or self.role == Role_aMon

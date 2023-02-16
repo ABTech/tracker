@@ -102,11 +102,15 @@ class Event < ActiveRecord::Base
   end
 
   def tic
-    event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
+    event_roles.where(role: [EventRole::Role_sTiC, EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
   end
-  
-  def supervise
-    event_roles.where(role: EventRole::Role_supervise).where.not(member: nil).all.map(&:member)
+
+  def tic_only
+    event_roles.where(role: [EventRole::Role_TiC]).where.not(member: nil).all.map(&:member)
+  end
+
+  def stic_only
+    event_roles.where(role: [EventRole::Role_sTiC]).where.not(member: nil).all.map(&:member)
   end
   
   def synchronize_representative_date

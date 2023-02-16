@@ -133,7 +133,7 @@ module EventsHelper
   
   def supertic_add_role(f, date)
     select_tag("", options_for_select(SuperTic.extant_days.collect do |day|
-      new_object = EventRole.new(role: EventRole::Role_supervise, member: day.member)
+      new_object = EventRole.new(role: EventRole::Role_sTiC, member: day.member)
       fields = f.fields_for(:event_roles, new_object, :child_index => "new_event_roles") do |builder|
         render("events/event_role_fields", {:f => builder, :parent => f.object})
       end

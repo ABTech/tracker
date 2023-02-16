@@ -124,8 +124,8 @@ class Eventdate < ApplicationRecord
         roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_HoT }
       end
 
-      if not roles.any? { |r| r.role == EventRole::Role_supervise }
-        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_supervise }
+      if not roles.any? { |r| r.role == EventRole::Role_sTiC }
+        roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_sTiC }
       end
 
       if not roles.any? { |r| r.role == EventRole::Role_TiC }
@@ -137,16 +137,23 @@ class Eventdate < ApplicationRecord
   end
 
   def tic
-    t = event_roles.where(role: [EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
+    t = event_roles.where(role: [EventRole::Role_sTiC, EventRole::Role_TiC, EventRole::Role_aTiC]).where.not(member: nil).all.map(&:member)
     return t unless t.empty?
     return event.tic if event
     []
   end
 
-  def supervise
-    t = event_roles.where(role: EventRole::Role_supervise).where.not(member: nil).all.map(&:member)
+  def tic_only
+    t = event_roles.where(role: [EventRole::Role_TiC]).where.not(member: nil).all.map(&:member)
     return t unless t.empty?
-    return event.supervise if event
+    return event.tic_only if event
+    []
+  end
+
+  def stic_only
+    t = event_roles.where(role: [EventRole::Role_sTiC]).where.not(member: nil).all.map(&:member)
+    return t unless t.empty?
+    return event.stic_only if event
     []
   end
 

@@ -12,12 +12,6 @@ class EventRoleApplication < ApplicationRecord
       return sup.map(&:member) unless sup.empty?
     end
 
-    sup = event_role.roleable.tic
-    return sup unless sup.empty?
-
-    sup = event_role.roleable.supervise
-    return sup unless sup.empty?
-
     []
   end
 

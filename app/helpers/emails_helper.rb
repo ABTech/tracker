@@ -23,10 +23,10 @@ module EmailsHelper
   end
   
   def email_who_text(eventdate)
-    if !eventdate.tic.empty?
-      "TiC - " + eventdate.tic.map(&:display_name).join(", ")
-    elsif !eventdate.supervise.empty?
-      "Supervise - " + eventdate.supervise.map(&:display_name).join(", ")
+    if !eventdate.tic_only.empty?
+      "TiC - " + eventdate.tic_only.map(&:display_name).join(", ")
+    elsif !eventdate.stic_only.empty?
+      "sTiC - " + eventdate.stic_only.map(&:display_name).join(", ")
     else
       "you?"
     end

@@ -12,6 +12,9 @@ class EventRoleApplication < ApplicationRecord
       return sup.map(&:member) unless sup.empty?
     end
 
+    sup = event_role.roleable.tic_and_stic_only
+    return sup unless sup.empty?
+
     []
   end
 

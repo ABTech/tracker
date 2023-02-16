@@ -112,6 +112,10 @@ class Event < ActiveRecord::Base
   def stic_only
     event_roles.where(role: [EventRole::Role_sTiC]).where.not(member: nil).all.map(&:member)
   end
+
+  def tic_and_stic_only
+    event_roles.where(role: [EventRole::Role_sTiC, EventRole::Role_TiC]).where.not(member: nil).all.map(&:member)
+  end
   
   def synchronize_representative_date
     self.representative_date = self.eventdates[0].startdate

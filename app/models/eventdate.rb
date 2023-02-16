@@ -157,6 +157,13 @@ class Eventdate < ApplicationRecord
     []
   end
 
+  def tic_and_stic_only
+    t = event_roles.where(role: [EventRole::Role_sTiC, EventRole::Role_TiC]).where.not(member: nil).all.map(&:member)
+    return t unless t.empty?
+    return event.tic_only if event
+    []
+  end
+
   def has_run_position?(member)
     self.event_roles.where(member: member).count > 0
   end

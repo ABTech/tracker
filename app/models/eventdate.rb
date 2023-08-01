@@ -16,7 +16,7 @@ class Eventdate < ApplicationRecord
   validate :dates, :validate_call, :validate_strike
 
   before_validation :prune_roles
-  after_save :synchronize_representative_date
+  after_save :synchronize_representative_dates
 
   Event_Span_Days       = 2;
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
@@ -110,8 +110,8 @@ class Eventdate < ApplicationRecord
     timecard_entries.map(&:gross_amount).reduce(0.0, &:+)
   end
 
-  def synchronize_representative_date
-    self.event.synchronize_representative_date
+  def synchronize_representative_dates
+    self.event.synchronize_representative_dates
   end
 
   def full_roles

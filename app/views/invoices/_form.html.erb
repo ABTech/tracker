@@ -18,7 +18,7 @@
 
   <tr>
     <td class="subheading"><%= f.label :event_id, "Event" %>:</td>
-    <% if not f.object.event.nil? and f.object.event.representative_date < Account.magic_date %>
+    <% if not f.object.event.nil? and not f.object.event.current_year? %>
       <td><%= f.object.event.title %></td>
     <% else %>
       <td><%= f.select :event_id, options_from_collection_for_select(Event.current_year.order("title ASC"), "id", "title", f.object.event_id) %></td>

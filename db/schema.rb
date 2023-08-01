@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_16_020121) do
+ActiveRecord::Schema.define(version: 2023_08_01_015855) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -198,7 +198,9 @@ ActiveRecord::Schema.define(version: 2023_02_16_020121) do
     t.boolean "billable", default: true, null: false
     t.boolean "textable", default: false, null: false
     t.boolean "textable_social", default: false, null: false
+    t.datetime "last_representative_date"
     t.index ["contactemail"], name: "events_contactemail_index"
+    t.index ["last_representative_date"], name: "index_events_on_last_representative_date"
     t.index ["organization_id"], name: "index_events_on_organization_id"
     t.index ["representative_date"], name: "index_events_on_representative_date"
     t.index ["status"], name: "events_status_index"

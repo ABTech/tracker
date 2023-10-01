@@ -8,7 +8,7 @@ class Invoice < ApplicationRecord
 
   Payment_Types = ["StuAct", "Check", "Oracle"]
   Invoice_Status_Group_All = ["New", "Quote", "Contract","Invoice", "Received","Loan Agreement"]
-  Invoice_Status_Group_Exec = ["New", "Quote"]
+  Invoice_Status_Group_Exec = ["New", "Quote", "Contract", "Invoice"]
   
   accepts_nested_attributes_for :invoice_lines, :allow_destroy => true
 

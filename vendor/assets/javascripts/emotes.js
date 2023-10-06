@@ -1,5 +1,5 @@
 /* Adds selected emotes to all pages.
- * Allows copy-paste to/from ABTech Slack
+ * Allows copy-paste from ABTech Slack
  *
  * Usage:
  * -----

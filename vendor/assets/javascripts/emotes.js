@@ -19,7 +19,7 @@ let emotes = {
     ':blobfearful:': 'https://emojis.slackmojis.com/emojis/images/1643514682/6850/blob_fearful.png?1643514682',
 };
 
-$(function() {
+function renderEmoteTags() {
     for (const [emote_text, url] of Object.entries(emotes)) {
         let text_nodes = $(`:contains("${emote_text}")`).contents();
 
@@ -39,4 +39,21 @@ $(function() {
             );
         });
     }
-})
+}
+
+function removeEmoteTags() {
+    for (const [emote_text, url] of Object.entries(emotes)) {
+        let text_nodes = $(`:contains("${emote_text}")`).contents();
+
+        // Filter to text (type 3) nodes that definitely contain it
+        // (:contains doesn't guarantee this: https://stackoverflow.com/a/29418265)
+        text_nodes = text_nodes.filter(function() {
+            return this.nodeType === 3 && this.textContent.indexOf(emote_text) > -1;
+        });
+
+        // remove emote tags
+        text_nodes.replaceWith(function() {
+            return this.nodeValue.replace(RegExp(emote_text, "g"), "");
+        });
+    }
+}

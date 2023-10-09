@@ -100,7 +100,15 @@
                     <%= link_to invoice.display_title, invoice %>
                 </td>
                 <td>
-                  <%= invoice.status %>
+                  <% if can? :status, invoice %>
+                    <%= form_for @event, html: {:id => "invoice-status-#{invoice.id}"} do |f| %>
+                      <%= f.fields_for :invoices, invoice do |ff| %>
+                        <%= ff.select :status, Invoice::Invoice_Status_Group_All, {}, :onChange => "$('#invoice-status-#{invoice.id}').submit()" %>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+                    <%= invoice.status %>
+                  <% end %>
                 </td>
                 <% if can? :readprice, invoice %>
                   <td>

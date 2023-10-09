@@ -80,13 +80,14 @@ class Ability
     
     if member.is_at_least? :exec
       # Almost read only finance
-      can :read, :finance_event_url
-      can :manage, Invoice
-      can :manage, InvoiceItem
-      can :manage, InvoiceContact
-      cannot :destroy, Invoice
-      cannot :destroy, InvoiceItem
-      cannot :destroy, InvoiceContact
+      can :read, :finance
+      can :read, Invoice
+      can :readprice, Invoice
+      can :create, Invoice
+      can :update, Invoice, :status => Invoice::Invoice_Status_Group_Exec
+      can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
+      can :read, InvoiceItem
+      can :read, InvoiceContact
       can [:read, :view], Timecard
       
       # Event Management

@@ -27,14 +27,10 @@
 
   <tr>
     <td class="subheading"><%= f.label :status, "Status" %>:</td>
-    <% if current_member.is_at_least? :tracker_management %>
+    <% if can? :status, f.object %>
       <td><%= f.select :status, Invoice::Invoice_Status_Group_All %></td>
-    <% elsif current_member.is_at_least? :exec%>
-      <% if f.object.status == "Received" || f.object.status == "Loan Agreement" %>
-        <td><%= f.object.status %></td>
-      <% else %>
-        <td><%= f.select :status, Invoice::Invoice_Status_Group_Exec %></td>
-      <% end %>
+    <% elsif f.object.new_record? %>
+      <td><%= f.select :status, Invoice::Invoice_Status_Group_Exec %></td>
     <% else %>
       <td><%= f.object.status %></td>
     <% end %>

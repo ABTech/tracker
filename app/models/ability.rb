@@ -86,6 +86,7 @@ class Ability
       can :create, Invoice
       can :update, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :email, Invoice, :status => Invoice::Invoice_Status_Group_Exec
+      can :status, Invoice, :status => Invoice::Invoice_Status_Group_Exec
       can :read, InvoiceItem
       can :read, InvoiceContact
       can [:read, :view], Timecard

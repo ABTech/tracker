@@ -27,9 +27,9 @@
 
   <tr>
     <td class="subheading"><%= f.label :status, "Status" %>:</td>
-    <% if can? :status, f.object %>
+    <% if can? :manage, f.object %>
       <td><%= f.select :status, Invoice::Invoice_Status_Group_All %></td>
-    <% elsif f.object.new_record? %>
+    <% elsif can? :status, f.object %>
       <td><%= f.select :status, Invoice::Invoice_Status_Group_Exec %></td>
     <% else %>
       <td><%= f.object.status %></td>

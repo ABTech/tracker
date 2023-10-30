@@ -71,7 +71,9 @@ class Event < ActiveRecord::Base
   # validate :eventdate_valid?
   validate :textable_social_valid?
   
-  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", Account.magic_date, Account.magic_date) }
+# TODO: Fix DB migration for last_representative_date
+#  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", Account.magic_date, Account.magic_date) }
+  scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
 
   ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
 
@@ -119,7 +121,8 @@ class Event < ActiveRecord::Base
   
   def synchronize_representative_dates
     self.representative_date = self.eventdates[0].startdate
-    self.last_representative_date = eventdates.last.enddate
+# TODO: Fix DB migration for last_representative_date
+#    self.last_representative_date = eventdates.last.enddate
   end
   
   def has_run_position?(member)
@@ -158,7 +161,9 @@ class Event < ActiveRecord::Base
     # a part of both years (i.e. Precollege). Otherwise Tracker does not allow
     # certain functions (like invoicing) for the now previous year's event. So,
     # we considered an event by start and end.
-    (representative_date >= Account.magic_date) or (self.last_representative_date > Account.magic_date)
+# TODO: Fix DB migration for last_representative_date
+#    (representative_date >= Account.magic_date) or (self.last_representative_date > Account.magic_date)
+    (representative_date >= Account.magic_date) or (self.eventdates.last.enddate > Account.magic_date)
   end
     
   private

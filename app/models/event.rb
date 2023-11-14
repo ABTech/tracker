@@ -69,7 +69,7 @@ class Event < ActiveRecord::Base
   validates_associated      :organization, :emails, :event_roles, :eventdates
   validates_format_of       :contactemail, :with => Event::EmailRegex, :multiline => true
   # validate :eventdate_valid?
-  validate :textable_social_valid?
+  validate :textable_social_valid?, :check_eventdates_to_be_destroyed
   
   scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", Account.magic_date, Account.magic_date) }
 
@@ -228,6 +228,19 @@ class Event < ActiveRecord::Base
     def textable_social_valid?
       if textable_social and not textable
         errors.add(:textable_social, "Textable must be enabled if social textable is enabled")
+      end
+    end
+
+    def check_eventdates_to_be_destroyed
+      # If we are trying to update an event, someone might try to delete an eventdate.
+      # This is bad if someone has billed for it. There is before_destroy validation,
+      # and a foreign key check, but because the eventdate is removed from the event,
+      # it is not automatically validated on submission. This we must manually check
+      # that we can delete events here.
+      eventdates.each do |eventdate|
+        if eventdate.marked_for_destruction? and !eventdate.can_destroy?
+          errors.add(:eventdates, "Cannot delete an eventdate that has been billed for")
+        end
       end
     end
 end

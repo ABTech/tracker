@@ -221,7 +221,7 @@ class Event < ActiveRecord::Base
 
     def eventdate_valid?
       if representative_date < Account.magic_date
-       errors.add(:representative_date, "Requested date is before the current academic year")
+       errors.add(:representative_date, "Requested date cannot be before the current academic year")
       end
     end
 

@@ -13,7 +13,7 @@
         </tr>
         <% ed.timecard_entries.each do |entry| %>
           <tr>
-            <td><%= entry.member %> - <%= entry.eventpart.text %></td>
+            <td><%= entry.member %> <b> (<%= ed.run_positions_for(entry.member)[0].role %>)</b> - <%= entry.eventpart.text %></td>
             <td><%= entry.hours %></td>
             <td><%= number_to_currency entry.gross_amount %>
           </tr>

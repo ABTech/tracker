@@ -32,6 +32,6 @@ class EventRoleApplication < ApplicationRecord
 
   private
     def event_role_is_appliable
-      errors.add(:event_role, "is not appliable") unless event_role.appliable
+      errors.add(:event_role, "is not open to applications") unless event_role.appliable
     end
 end

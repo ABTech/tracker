@@ -71,7 +71,7 @@ class Event < ActiveRecord::Base
   # validate :eventdate_valid?
   validate :textable_social_valid?
   
-  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", Account.magic_date, Account.magic_date) }
+  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", CurrentAcademicYear.start_date, CurrentAcademicYear.start_date) }
 
   ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
 
@@ -158,7 +158,7 @@ class Event < ActiveRecord::Base
     # a part of both years (i.e. Precollege). Otherwise Tracker does not allow
     # certain functions (like invoicing) for the now previous year's event. So,
     # we considered an event by start and end.
-    (representative_date >= Account.magic_date) or (self.last_representative_date > Account.magic_date)
+    (representative_date >= CurrentAcademicYear.start_date) or (self.last_representative_date > CurrentAcademicYear.start_date)
   end
     
   private
@@ -220,7 +220,7 @@ class Event < ActiveRecord::Base
     end
 
     def eventdate_valid?
-      if representative_date < Account.magic_date
+      if representative_date < CurrentAcademicYear.start_date
        errors.add(:representative_date, "Requested date out of range")
       end
     end

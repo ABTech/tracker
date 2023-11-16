@@ -11,7 +11,7 @@ class ConvertTablesToRealUnicode < ActiveRecord::Migration[5.0]
     
     execute "ALTER DATABASE " + ActiveRecord::Base.connection.current_database + " CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
     
-    models = [Account, Attachment, Blackout, Comment, EmailForm, Email, Equipment, EventRoleApplication, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, SuperTic, TimecardEntry, Timecard]
+    models = [CurrentAcademicYear, Attachment, Blackout, Comment, EmailForm, Email, Equipment, EventRoleApplication, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, SuperTic, TimecardEntry, Timecard]
     models.each do |m|
       tn = m.table_name
       execute "ALTER TABLE " + tn + " CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;"
@@ -49,7 +49,7 @@ class ConvertTablesToRealUnicode < ActiveRecord::Migration[5.0]
   def down
     execute "ALTER DATABASE " + ActiveRecord::Base.connection.current_database + " CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
     
-    models = [Account, Attachment, Blackout, Comment, EmailForm, Email, Equipment, EventRoleApplication, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, SuperTic, TimecardEntry, Timecard]
+    models = [CurrentAcademicYear, Attachment, Blackout, Comment, EmailForm, Email, Equipment, EventRoleApplication, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, SuperTic, TimecardEntry, Timecard]
     models.each do |m|
       tn = m.table_name
       execute "ALTER TABLE " + tn + " CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;"

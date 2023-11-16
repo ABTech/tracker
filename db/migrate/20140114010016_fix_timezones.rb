@@ -1,6 +1,6 @@
 class FixTimezones < ActiveRecord::Migration
   def up
-    Account.all.each do |account|
+    CurrentAcademicYear.all.each do |account|
       account.update_column(:created_at, account.created_at - account.created_at.utc_offset) if account.created_at
       account.update_column(:updated_at, account.updated_at - account.updated_at.utc_offset) if account.updated_at
     end
@@ -121,7 +121,7 @@ class FixTimezones < ActiveRecord::Migration
   end
   
   def down
-    Account.all.each do |account|
+    CurrentAcademicYear.all.each do |account|
       account.update_column(:created_at, account.created_at + account.created_at.utc_offset) if account.created_at
       account.update_column(:updated_at, account.updated_at + account.updated_at.utc_offset) if account.updated_at
     end

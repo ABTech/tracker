@@ -16,9 +16,11 @@ class InvoiceLine < ApplicationRecord
     price * quantity
   end
 
-  def <=> (il)
-    return 1 if Invoice_Categories.find_index(category).nil?
-    return -1 if Invoice_Categories.find_index(il.category).nil?
-    return Invoice_Categories.find_index(category) <=> Invoice_Categories.find_index(il.category)
+  def sort_key
+    Invoice_Categories.find_index(category)
+  end
+
+  def <=> (other)
+    sort_key <=> other.sort_key
   end
 end

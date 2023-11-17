@@ -1,6 +1,6 @@
-class Account
+class CurrentAcademicYear
 
-  def self.magic_date
+  def self.start_date
     if Date.today.month < 7
       (Date.today.year - 1).to_s + '-07-01'
     else
@@ -8,7 +8,7 @@ class Account
     end
   end
   
-  def self.future_magic_date
+  def self.end_date
     if Date.today.month < 7
       Date.today.year.to_s + '-07-01'
     else

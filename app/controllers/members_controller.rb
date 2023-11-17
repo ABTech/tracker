@@ -70,7 +70,7 @@ class MembersController < ApplicationController
     @member.password_confirmation = password
     
     if @member.save
-      if not @member.andrew?
+      if not @member.andrew_email?
         raw_token, hashed_token = Devise.token_generator.generate(Member, :reset_password_token)
         @member.reset_password_token = hashed_token
         @member.reset_password_sent_at = Time.now.utc

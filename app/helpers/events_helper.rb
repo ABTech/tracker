@@ -150,9 +150,9 @@ module EventsHelper
       return link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true) unless hover
       "you?" if hover
     elsif !hover and current_member
-      er.assigned_to use_display_name: true
+      er.assigned_to_name use_display_name: true
     else
-      er.assigned_to
+      er.assigned_to_name
     end
   end
   

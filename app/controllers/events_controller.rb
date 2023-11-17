@@ -315,7 +315,7 @@ class EventsController < ApplicationController
     end
     
     @eventdates = @eventdates.order("startdate ASC").includes({event: [:organization]}, {event_roles: [:member]}, :locations, :equipment_profile).references(:event)
-    @eventweeks = Eventdate.weekify(@eventdates)
+    @eventweeks = Eventdate.group_by_weeks_until(@eventdates)
 
     if cannot? :read, Event  # kiosk, non-signed-in
       render(:action => "index", :layout => "public")
@@ -338,7 +338,7 @@ class EventsController < ApplicationController
       @eventdates = Eventdate.where("enddate >= ? AND startdate <= ? AND events.publish = true", @startdate.utc, enddate.utc).order("startdate ASC").includes(:event).references(:event)
     end
     
-    @eventruns = Eventdate.runify(@eventdates)
+    @eventruns = Eventdate.group_by_runcrew(@eventdates)
 
     if cannot? :read, Event  # kiosk, non-signed-in
       render(:action => "month", :layout => "public")
@@ -350,7 +350,7 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.where("NOT events.status IN (?)", Event::Event_Status_Group_Completed).order("startdate ASC").includes(:event).references(:event)
-    @eventruns = Eventdate.runify(@eventdates)
+    @eventruns = Eventdate.group_by_runcrew(@eventdates)
   end
   
   def past
@@ -358,7 +358,7 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.where("startdate <= ?", Time.now.utc).order("startdate DESC").paginate(:per_page => 50, :page => params[:page])
-    @eventruns = Eventdate.runify(@eventdates)
+    @eventruns = Eventdate.group_by_runcrew(@eventdates)
   end
   
   def search
@@ -366,7 +366,7 @@ class EventsController < ApplicationController
     authorize! :read, Event
     
     @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9 ]/,""), :page => params[:page], :per_page => 50, :order => "startdate DESC"
-    @eventruns = Eventdate.runify(@eventdates)
+    @eventruns = Eventdate.group_by_runcrew(@eventdates)
   end
 
   def calendar

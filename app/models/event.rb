@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
   attr_accessor :org_type, :org_new, :created_email
   
   before_validation :prune_attachments, :prune_roles
-  before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_dates
+  before_save :create_org_if_new, :ensure_tic, :sort_roles, :synchronize_representative_dates
   after_initialize :default_values
   after_save :set_eventdate_delta_flags, :set_created_email
   
@@ -71,7 +71,7 @@ class Event < ActiveRecord::Base
   # validate :eventdate_valid?
   validate :textable_social_valid?
   
-  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", Account.magic_date, Account.magic_date) }
+  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", CurrentAcademicYear.start_date, CurrentAcademicYear.start_date) }
 
   ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
 
@@ -88,9 +88,12 @@ class Event < ActiveRecord::Base
   end
 
   def members
-    @members or @members = event_roles.inject(Array.new) do |uniq_roles, er| 
-      ( uniq_roles << er.member unless er.member.nil? or uniq_roles.any? { |ur| ur.id == er.member_id } ) or uniq_roles 
+    if @members
+      return @members
     end
+
+    non_unique_members = event_roles.map(&:member).select{ |m| not m.nil?}
+    @members = non_unique_members.uniq(&:m.id)
   end
     
   def total_payroll
@@ -118,7 +121,7 @@ class Event < ActiveRecord::Base
   end
   
   def synchronize_representative_dates
-    self.representative_date = self.eventdates[0].startdate
+    self.representative_date = self.eventdates.first.startdate
     self.last_representative_date = eventdates.last.enddate
   end
   
@@ -158,11 +161,11 @@ class Event < ActiveRecord::Base
     # a part of both years (i.e. Precollege). Otherwise Tracker does not allow
     # certain functions (like invoicing) for the now previous year's event. So,
     # we considered an event by start and end.
-    (representative_date >= Account.magic_date) or (self.last_representative_date > Account.magic_date)
+    (representative_date >= CurrentAcademicYear.start_date) or (self.last_representative_date > CurrentAcademicYear.start_date)
   end
     
   private
-    def handle_organization
+    def create_org_if_new
       if self.org_type == "new"
         self.organization = Organization.create(:name => org_new)
       end
@@ -220,7 +223,7 @@ class Event < ActiveRecord::Base
     end
 
     def eventdate_valid?
-      if representative_date < Account.magic_date
+      if representative_date < CurrentAcademicYear.start_date
        errors.add(:representative_date, "Requested date out of range")
       end
     end

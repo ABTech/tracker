@@ -2,7 +2,7 @@ class ConvertTablesToUnicode < ActiveRecord::Migration
   def up
     execute "ALTER DATABASE " + ActiveRecord::Base.connection.current_database + " CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
     
-    models = [Account, Attachment, Blackout, Comment, EmailForm, Email, EquipmentCategory, EquipmentEventdate, Equipment, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, TimecardEntry, Timecard]
+    models = [CurrentAcademicYear, Attachment, Blackout, Comment, EmailForm, Email, EquipmentCategory, EquipmentEventdate, Equipment, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, TimecardEntry, Timecard]
     models.each do |m|
       tn = m.table_name
       execute "ALTER TABLE " + tn + " CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
@@ -28,7 +28,7 @@ class ConvertTablesToUnicode < ActiveRecord::Migration
   def down
     execute "ALTER DATABASE " + ActiveRecord::Base.connection.current_database + " CHARACTER SET latin1 COLLATE latin1_swedish_ci;"
     
-    models = [Account, Attachment, Blackout, Comment, EmailForm, Email, EquipmentCategory, EquipmentEventdate, Equipment, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, TimecardEntry, Timecard]
+    models = [CurrentAcademicYear, Attachment, Blackout, Comment, EmailForm, Email, EquipmentCategory, EquipmentEventdate, Equipment, EventRole, Event, Eventdate, InvoiceItem, InvoiceLine, Invoice, Journal, Location, Member, Organization, TimecardEntry, Timecard]
     models.each do |m|
       tn = m.table_name
       execute "ALTER TABLE " + tn + " CONVERT TO CHARACTER SET latin1 COLLATE latin1_swedish_ci;"

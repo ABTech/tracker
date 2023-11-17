@@ -13,7 +13,7 @@ class Eventdate < ApplicationRecord
 
   validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
   validates_associated :locations, :equipment_profile
-  validate :dates, :validate_call, :validate_strike
+  validate :validate_chronologicity, :validate_call, :validate_strike
 
   before_validation :prune_roles
   after_save :synchronize_representative_dates
@@ -37,7 +37,7 @@ class Eventdate < ApplicationRecord
 
   ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])
 
-  def dates
+  def validate_chronologicity
     if startdate and enddate
       errors.add(:base, "We're not a time machine. (End Date can't be before Start Date)") unless startdate < enddate
     end
@@ -52,22 +52,38 @@ class Eventdate < ApplicationRecord
   end
 
   def valid_call?
-    (calltype != "literal") || (
-          (calldate.to_i <= startdate.to_i) &&
-          ((startdate.to_i - calldate.to_i) < Event_Span_Seconds))
+    if calltype == "literal"
+      call_before_start = calldate.to_i <= startdate.to_i
+      call_not_too_early = (startdate.to_i - calldate.to_i) < Event_Span_Seconds
+
+      return call_before_start && call_not_too_early
+    end
+
+    # Call is blank or start
+    true
   end
 
   def valid_strike?
-    (striketype != "literal") || (
-          (strikedate.to_i >= enddate.to_i) &&
-          ((strikedate.to_i - enddate.to_i) < Event_Span_Seconds))
+    if striketype == "literal"
+      strike_after_end = strikedate.to_i >= enddate.to_i
+      strike_not_too_late = (strikedate.to_i - enddate.to_i) < Event_Span_Seconds
+
+      return strike_after_end && strike_not_too_late
+    end
+
+    # Strike is blank, start, or none
+    true
   end
 
   def has_call?
+    # Yes: literal, startdate
+    # No : blank
     self.calltype == "literal" or self.calltype == "startdate"
   end
 
   def has_strike?
+    # Yes: literal, startdate
+    # No : blank, none
     self.striketype == "literal" or self.striketype == "enddate"
   end
 
@@ -119,6 +135,9 @@ class Eventdate < ApplicationRecord
       self.event.event_roles
     else
       roles = self.event_roles
+
+      # If eventdate doesn't have these roles,
+      # copy them from the event
 
       if not roles.any? { |r| r.role == EventRole::Role_HoT }
         roles += self.event.event_roles.find_all { |r| r.role == EventRole::Role_HoT }
@@ -172,25 +191,27 @@ class Eventdate < ApplicationRecord
     self.event_roles.where(member: member)
   end
 
-  def self.runify(eventdates)
-    eventdates.chunk do |ed|
-      ed.full_roles
-    end.map do |roles, run|
-      run
-    end
+  def self.group_by_runcrew(eventdates)
+    # In the event list, we want to be able
+    # to share one runcrew list with multiple
+    # adjacent eventdate rows if they are identical
+    eventdates.chunk(&:full_roles).map { |roles, eds| eds }
   end
 
-  def self.weekify(eventdates)
+  def self.group_by_weeks_until(eventdates)
+    # This drives the main events list
+    # being grouped by weeks until
+
     eventdates.chunk do |ed|
       if ed.startdate < DateTime.now.beginning_of_week
         0
       else
         DateTime.now.beginning_of_week.upto(ed.startdate.to_datetime).count.fdiv(7).floor  # https://stackoverflow.com/a/35092981
       end
-    end.map do |weeks, eds|
+    end.map do |weeks_away, eds|
       {
-        :weeks_away => weeks,
-        :eventruns => Eventdate.runify(eds)
+        :weeks_away => weeks_away,
+        :eventruns => Eventdate.group_by_runcrew(eds)
       }
     end
   end

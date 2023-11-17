@@ -16,7 +16,7 @@ class Timecard < ApplicationRecord
 
   def self.valid_eventdates
     timecards = self.valid_timecards
-    return Eventdate.where(["startdate >= ? AND events.billable = ?", Account.magic_date, true]).includes(:event).references(:event).sort_by{|ed| ed.event.title} if timecards.size == 0
+    return Eventdate.where(["startdate >= ? AND events.billable = ?", CurrentAcademicYear.start_date, true]).includes(:event).references(:event).sort_by{|ed| ed.event.title} if timecards.size == 0
     start_date, end_date = timecards.inject([nil,nil]) do |pair, timecard|
       [
         ((pair[0].nil? or timecard.start_date < pair[0]) ? timecard.start_date : pair[0]), 

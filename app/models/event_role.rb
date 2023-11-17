@@ -107,10 +107,10 @@ class EventRole < ApplicationRecord
   end
 
   def to_s
-    role + ": " + assigned_to
+    role + ": " + assigned_to_name
   end
   
-  def assigned_to(options = {})
+  def assigned_to_name(options = {})
     if assigned?
       if options[:use_display_name]
         member.display_name
@@ -122,16 +122,13 @@ class EventRole < ApplicationRecord
     end
   end
   
-  def sort_index 
-    Roles_All.each_index { |role_index| return role_index if Roles_All[role_index] == role }
-    return -1 
+  def sort_index
+    Roles_All.index self.role
   end
 
   # define the natural sorting order
-  def <=> (role)
-    return 1 if sort_index < 0
-    return -1 if role.sort_index < 0
-    return sort_index <=> role.sort_index   
+  def <=> (other_role)
+    sort_index <=> other_role.sort_index
   end
   
   def assistants

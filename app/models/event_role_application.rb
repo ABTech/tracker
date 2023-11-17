@@ -5,27 +5,27 @@ class EventRoleApplication < ApplicationRecord
   validates_presence_of :event_role, :member
   validate :event_role_is_appliable
 
-  def superior
+  def superiors
     position = event_role.superior
     unless position.nil?
       sup = event_role.roleable.event_roles.where(role: position).where.not(member: nil)
       return sup.map(&:member) unless sup.empty?
     end
 
-    sup = event_role.roleable.tic_and_stic_only
-    return sup unless sup.empty?
+    # If there are no members with a superior role
+    # TiC is next in line
 
-    []
+    event_role.roleable.tic_and_stic_only
   end
 
-  def superior_name
-    sup = superior
+  def superior_names
+    sup = superiors
     return sup.map(&:display_name) unless sup.empty?
     ["the Head of Tech"]
   end
 
-  def superior_email
-    sup = superior
+  def superior_emails
+    sup = superiors
     return sup.map(&:email) unless sup.empty?
     ["abtech@andrew.cmu.edu"]
   end

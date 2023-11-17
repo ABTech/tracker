@@ -25,7 +25,11 @@ class TimecardEntry < ApplicationRecord
   public
     def gross_amount
       #TODO: I think it's a bug that payrate is not mandatory.
-      (payrate and hours*payrate) or hours*member.payrate
+      if payrate
+        hours*payrate
+      else
+        hours*member.payrate
+      end
     end
 
     def eventdate_id_and_eventpart

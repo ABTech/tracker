@@ -79,7 +79,7 @@ class Member < ApplicationRecord
     @ability ||= Ability.new(self)
   end
   
-  def andrew?
+  def andrew_email?
     email.end_with? "@andrew.cmu.edu"
   end
 end

@@ -14,9 +14,16 @@
         <% ed.timecard_entries.each do |entry| %>
           <tr>
             <td><%= entry.member %>
-                (<b><% @event.run_positions_for(entry.member).each do |pos| %><%= pos.try(:role) %> <% end %></b>, 
-                <i> <% ed.run_positions_for(entry.member).each do |ed_pos| %> <%= ed_pos.try(:role) %> <% end %</i>)
-                - <%= entry.eventpart.text %></td>
+                <% event_roles = @event.run_positions_for(entry.member) %>
+                <% ed_roles = ed.run_positions_for(entry.member) %>
+                <% if not event_roles.empty? and not ed_roles.empty? %>
+                  (<b><% event_roles.each do |pos| %><%= pos.try(:role) %><% end %></b>, 
+                   <i> <% ed_roles.each do |ed_pos| %> <%= ed_pos.try(:role) %><% end %></i>)
+                <% elsif not event_roles.empty? and ed_roles.empty? %>
+                  (<b><% event_roles.each do |pos| %><%= pos.try(:role) %><% end %></b>)
+                <% elsif event_roles.empty? and not ed_roles.empty? %>
+                  (<b><% ed_roles.each do |ed_pos| %><%= ed_pos.try(:role) %><% end %></i>)
+                <% end %>- <%= entry.eventpart.text %></td>
             <td><%= entry.hours %></td>
             <td><%= number_to_currency entry.gross_amount %>
           </tr>

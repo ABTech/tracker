@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
   attr_accessor :org_type, :org_new, :created_email
   
   before_validation :prune_attachments, :prune_roles
-  before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_dates
+  before_save :create_org_if_new, :ensure_tic, :sort_roles, :synchronize_representative_dates
   after_initialize :default_values
   after_save :set_eventdate_delta_flags, :set_created_email
   
@@ -88,9 +88,12 @@ class Event < ActiveRecord::Base
   end
 
   def members
-    @members or @members = event_roles.inject(Array.new) do |uniq_roles, er| 
-      ( uniq_roles << er.member unless er.member.nil? or uniq_roles.any? { |ur| ur.id == er.member_id } ) or uniq_roles 
+    if @members
+      return @members
     end
+
+    non_unique_members = event_roles.map(&:member).select{ |m| not m.nil?}
+    @members = non_unique_members.uniq(&:m.id)
   end
     
   def total_payroll
@@ -118,7 +121,7 @@ class Event < ActiveRecord::Base
   end
   
   def synchronize_representative_dates
-    self.representative_date = self.eventdates[0].startdate
+    self.representative_date = self.eventdates.first.startdate
     self.last_representative_date = eventdates.last.enddate
   end
   
@@ -162,7 +165,7 @@ class Event < ActiveRecord::Base
   end
     
   private
-    def handle_organization
+    def create_org_if_new
       if self.org_type == "new"
         self.organization = Organization.create(:name => org_new)
       end

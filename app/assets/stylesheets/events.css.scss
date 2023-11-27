@@ -81,6 +81,12 @@ table.eventslist td:first-child {
 }
 
 /* row colors */
+/*
+All of these are event statuses,
+except for this_date_cancelled which can
+only come from eventdate.status for a
+cancelled eventdate.
+ */
 table.eventslist tr.event_confirmed { background: #E2F2E2; }
 table.eventslist tr.event_confirmed > td:first-child { background: #00FF00; font-size: 5px; }
 table.eventslist tr.billing_pending { background: #E1EAEF; }
@@ -90,6 +96,9 @@ table.eventslist tr.event_completed > td:first-child { background: #00A4FF; font
 table.eventslist tr.event_cancelled { background: #F9F9F9; color: #AAAAAA; }
 table.eventslist tr.event_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
 table.eventslist tr.event_cancelled a { color: #9999FF; }
+table.eventslist tr.this_date_cancelled { background: #F9F9F9; color: #AAAAAA; }
+table.eventslist tr.this_date_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
+table.eventslist tr.this_date_cancelled a { color: #9999FF; }
 table.eventslist tr.quote_sent,
 table.eventslist tr.details_requested { background: #F7F7D3; }
 table.eventslist tr.quote_sent > td:first-child,
@@ -191,6 +200,10 @@ table.eventslist .ticless {
   border-right: 1px solid #ccc;
 }
 
+#event-schedule table.this_date_cancelled {
+  color: #AAAAAA;
+}
+
 #event-schedule table th {
   font-weight: bold;
   background-color: #f7f7f7;
@@ -214,7 +227,6 @@ table.eventslist .ticless {
 }
 
 #event-schedule td.es-time {
-  color: #222;
   white-space: nowrap;
 }
 

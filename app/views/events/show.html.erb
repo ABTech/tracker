@@ -6,9 +6,9 @@
   
     <div id="event-schedule">
       <% @event.eventdates.each do |eventdate| %>
-        <table>
+        <table<% if eventdate.cancelled %> class="this_date_cancelled"<% end %>>
           <tr>
-            <th colspan=4><%= eventdate.description %></th>
+            <th colspan=4><%= eventdate.description %><% if eventdate.cancelled %> (Cancelled)<% end %></th>
           </tr>
           <% eventdate.times.each do |time| %>
             <tr>

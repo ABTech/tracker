@@ -196,6 +196,10 @@ class Eventdate < ApplicationRecord
     end
   end
 
+  def status
+    cancelled ? "This Date Cancelled" : event.status
+  end
+
   private
     def prune_roles
       self.event_roles = self.event_roles.reject { |er| er.role.blank? }

@@ -12,6 +12,7 @@ class Eventdate < ApplicationRecord
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
 
   validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
+  validates_inclusion_of :cancelled, :in => [true, false]
   validates_associated :locations, :equipment_profile
   validate :dates, :validate_call, :validate_strike
 

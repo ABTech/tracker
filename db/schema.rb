@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_01_123836) do
+ActiveRecord::Schema.define(version: 2023_11_27_150626) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2023_08_01_123836) do
     t.boolean "billable_call", default: true
     t.boolean "billable_show", default: true
     t.boolean "billable_strike", default: true
+    t.boolean "cancelled", default: false
     t.index ["enddate"], name: "eventdates_enddate_index"
     t.index ["event_id"], name: "eventdates_event_id_index"
     t.index ["startdate"], name: "eventdates_startdate_index"
@@ -346,7 +347,7 @@ ActiveRecord::Schema.define(version: 2023_08_01_123836) do
   create_table "timecard_entries", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "member_id"
     t.float "hours"
-    t.integer "eventdate_id"
+    t.bigint "eventdate_id"
     t.integer "timecard_id"
     t.float "payrate"
     t.datetime "created_at"
@@ -369,4 +370,5 @@ ActiveRecord::Schema.define(version: 2023_08_01_123836) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "timecard_entries", "eventdates"
 end

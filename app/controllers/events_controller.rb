@@ -142,7 +142,7 @@ class EventsController < ApplicationController
       :textable, :textable_social, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes, :created_email,
       :eventdates_attributes =>
         [:startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype, :email_description, :notes,
-        :billable_call, :billable_show, :billable_strike,
+        :billable_call, :billable_show, :billable_strike, :status,
         {:location_ids => []}, {:equipment_profile_ids => []}, {:event_roles_attributes => [:role, :member_id, :appliable]}],
       :event_roles_attributes => [:role, :member_id, :appliable],
       :attachments_attributes => [:attachment, :name],
@@ -173,7 +173,7 @@ class EventsController < ApplicationController
       :textable, :textable_social, :publish, :contact_name, :contactemail, :contact_phone, :price_quote, :notes,
       :eventdates_attributes =>
         [:id, :_destroy, :startdate, :description, :enddate, :calldate, :strikedate, :calltype, :striketype,
-        :billable_call, :billable_show, :billable_strike,
+        :billable_call, :billable_show, :billable_strike, :status,
         :email_description, :notes, {:location_ids => []}, {:equipment_profile_ids => []},
         {:event_roles_attributes => [:id, :role, :member_id, :appliable, :_destroy]}],
       :attachments_attributes => [:attachment, :name, :id, :_destroy],
@@ -250,6 +250,7 @@ class EventsController < ApplicationController
               p[:eventdates_attributes][key].delete(:billable_call)
               p[:eventdates_attributes][key].delete(:billable_show)
               p[:eventdates_attributes][key].delete(:billable_strike)
+              p[:eventdates_attributes][key].delete(:status)
             
               assistants = red.run_positions_for(current_member).flat_map(&:assistants)
               p[:eventdates_attributes][key][:event_roles_attributes].select! do |_,er|

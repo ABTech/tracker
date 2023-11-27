@@ -207,6 +207,31 @@ class Eventdate < ApplicationRecord
     end
   end
 
+  def cancelled?
+    status == Eventdate_Status_Cancelled
+  end
+
+  def completed?
+    status == Eventdate_Status_Completed
+  end
+
+  def incomplete?
+    status == Eventdate_Status_Incomplete
+  end
+
+  def status_hint
+    status unless incomplete?
+  end
+
+  def css_class
+    status.delete(' ').underscore unless incomplete?
+  end
+
+  def row_css_class
+    return status.delete(' ').underscore unless incomplete?
+    event.status.delete(' ').underscore
+  end
+
   private
     def prune_roles
       self.event_roles = self.event_roles.reject { |er| er.role.blank? }

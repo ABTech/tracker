@@ -6,9 +6,9 @@
   
     <div id="event-schedule">
       <% @event.eventdates.each do |eventdate| %>
-        <table>
+        <table class="<%= eventdate.css_class %>">
           <tr>
-            <th colspan=4><%= eventdate.description %></th>
+            <th colspan=4><%= eventdate.description %><%= " (" + eventdate.status_hint + ")" if eventdate.status_hint %></th>
           </tr>
           <% eventdate.times.each do |time| %>
             <tr>

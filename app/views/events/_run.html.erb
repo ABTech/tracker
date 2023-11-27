@@ -1,5 +1,5 @@
 <% run.each_with_index do |eventdate, run_i| %>
-  <tr class="<%= eventdate.event.status.delete(' ').underscore %>">
+  <tr class="<%= eventdate.row_css_class %>">
     <td>&nbsp;</td>
     <td>
       <% if eventdate.startdate.year == Date.today.year %>
@@ -8,7 +8,7 @@
         <%= eventdate.startdate.strftime("%A, %B %d, %Y") %>
       <% end %><br />
       <% if can? :read, Event %>
-        <small class="published">(<%= eventdate.event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
+        <small class="published">(<%= eventdate.status_hint.downcase + ", " if eventdate.status_hint %><%= eventdate.event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
       <% end %>
     </td>
     <td>

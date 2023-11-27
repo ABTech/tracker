@@ -81,6 +81,12 @@ table.eventslist td:first-child {
 }
 
 /* row colors */
+table.eventslist tr.date_completed { background: #E1EAEF; }
+table.eventslist tr.date_completed > td:first-child { background: #00A4FF; font-size: 5px; }
+table.eventslist tr.date_cancelled { background: #F9F9F9; color: #AAAAAA; }
+table.eventslist tr.date_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
+table.eventslist tr.date_cancelled a { color: #9999FF; }
+
 table.eventslist tr.event_confirmed { background: #E2F2E2; }
 table.eventslist tr.event_confirmed > td:first-child { background: #00FF00; font-size: 5px; }
 table.eventslist tr.billing_pending { background: #E1EAEF; }
@@ -183,6 +189,23 @@ table.eventslist .ticless {
   }
 }
 
+/* Event schedule */
+
+#event-schedule table.date_completed * { background: #E1EAEF; }
+#event-schedule table.date_completed tr:first-child * { background: #00A4FF; }
+
+#event-schedule table.date_cancelled * { background: #F9F9F9; color: #AAAAAA; }
+#event-schedule table.date_cancelled * { background: #ECECEC; }
+#event-schedule table.date_cancelled tr:first-child a { color: #9999FF; }
+
+//table.eventslist tr.date_completed { background: #E1EAEF; }
+//table.eventslist tr.date_completed > td:first-child { background: #00A4FF; font-size: 5px; }
+//
+//table.eventslist tr.date_cancelled { background: #F9F9F9; color: #AAAAAA; }
+//table.eventslist tr.date_cancelled { background: #F9F9F9; color: #AAAAAA; }
+//table.eventslist tr.date_cancelled > td:first-child { background: #ECECEC; font-size: 5px; }
+//table.eventslist tr.date_cancelled a { color: #9999FF; }
+
 #event-schedule table {
   width: 100%;
   margin-bottom: 1em;
@@ -214,7 +237,6 @@ table.eventslist .ticless {
 }
 
 #event-schedule td.es-time {
-  color: #222;
   white-space: nowrap;
 }
 

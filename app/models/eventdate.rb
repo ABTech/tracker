@@ -9,9 +9,21 @@ class Eventdate < ApplicationRecord
     include_association [:event_roles, :locations, :equipment_profile]
   end
 
+  Eventdate_Status_Incomplete   = "Date Incomplete"
+  Eventdate_Status_Completed    = "Date Completed"
+  Eventdate_Status_Cancelled    = "Date Cancelled"
+
+  Eventdate_Status_Group_All = [
+    Eventdate_Status_Incomplete,
+    Eventdate_Status_Completed,
+    Eventdate_Status_Cancelled,
+  ]
+
+
   accepts_nested_attributes_for :event_roles, :allow_destroy => true
 
-  validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype
+  validates_presence_of :startdate, :enddate, :description, :locations, :calltype, :striketype, :status
+  validates_inclusion_of    :status, :in => Eventdate_Status_Group_All
   validates_associated :locations, :equipment_profile
   validate :dates, :validate_call, :validate_strike
 

@@ -14,9 +14,9 @@
           <th>Cost</th>
         </tr>
         <% ed.timecard_entries.each do |entry| %>
+          <% event_roles = @event.run_positions_for(entry.member).pluck(:role) %>
+          <% ed_roles = ed.run_positions_for(entry.member).pluck(:role) %>
           <tr>
-            <% event_roles = @event.run_positions_for(entry.member).pluck(:role) %>
-            <% ed_roles = ed.run_positions_for(entry.member).pluck(:role) %>
             <td><%= entry.member %> - <%= entry.eventpart.text %></td>
             <td><%= event_roles.to_sentence %></td>
             <td><%= ed_roles.to_sentence %></td>

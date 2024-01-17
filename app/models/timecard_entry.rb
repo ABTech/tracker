@@ -15,7 +15,7 @@ class TimecardEntry < ApplicationRecord
 
   private
     def eventdate_in_range
-      errors.add(:eventdate, 'is invalid') unless timecard.nil? or timecard.valid_eventdates.include? eventdate
+      errors.add(:eventdate, 'is not in this timecard\'s time range') unless timecard.nil? or timecard.valid_eventdates.include? eventdate
     end
 
     def check_submitted

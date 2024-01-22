@@ -18,8 +18,8 @@
           <% ed_roles = ed.run_positions_for(entry.member).pluck(:role) %>
           <tr>
             <td><%= entry.member %> - <%= entry.eventpart.text %></td>
-            <td><%= event_roles.to_sentence %></td>
-            <td><%= ed_roles.to_sentence %></td>
+            <td><%= event_roles.to_sentence(two_words_connector: ', ', last_word_connector: ', ') %></td>
+            <td><%= ed_roles.to_sentence(two_words_connector: ', ', last_word_connector: ', ') %></td>
             <td><%= entry.hours %></td>
             <td><%= number_to_currency entry.gross_amount %>
           </tr>

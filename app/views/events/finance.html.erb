@@ -8,18 +8,26 @@
       <% if not ed.timecard_entries.empty? %>
         <tr>
           <th><%= ed.description%></th>
+          <th>Event Role(s)</th>
+          <th>Event Date Role(s)</th>
           <th>Hours</th>
           <th>Cost</th>
         </tr>
         <% ed.timecard_entries.each do |entry| %>
+          <% event_roles = @event.run_positions_for(entry.member).pluck(:role) %>
+          <% ed_roles = ed.run_positions_for(entry.member).pluck(:role) %>
           <tr>
             <td><%= entry.member %> - <%= entry.eventpart.text %></td>
+            <td><%= event_roles.to_sentence %></td>
+            <td><%= ed_roles.to_sentence %></td>
             <td><%= entry.hours %></td>
             <td><%= number_to_currency entry.gross_amount %>
           </tr>
         <% end %>
         <tr>
           <td><b>Total</b></td>
+          <td></td>
+          <td></td>
           <td><b><%= ed.total_hours %></b></td>
           <td><b><%= number_to_currency ed.total_gross %></b></td>
         </tr>

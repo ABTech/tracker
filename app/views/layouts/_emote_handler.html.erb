@@ -1,0 +1,7 @@
+<script>
+  <% if member_signed_in? %>
+    $(renderEmoteTags);
+  <% else %>
+    $(removeEmoteTags);
+  <% end %>
+</script>

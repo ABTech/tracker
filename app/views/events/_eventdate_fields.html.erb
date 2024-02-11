@@ -8,6 +8,10 @@
       <dt><%= f.label :email_description, "Weekly Email Description:" %></dt>
       <dd><%= f.text_area :email_description %></dd>
     </dl>
+    <dl>
+      <dt><%= f.label :status, "Status:" %></dt>
+      <dd><%= f.select :status, Eventdate::Eventdate_Status_Group_All %></dd>
+    </dl>
     <dl class="big-field">
       <dt><%= f.label :billable_call, "Call Billable:" %></dt>
       <dd><%= f.check_box :billable_call %></dd>

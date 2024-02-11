@@ -18,6 +18,8 @@ class Eventdate < ApplicationRecord
   before_validation :prune_roles
   after_save :synchronize_representative_dates
 
+  before_destroy :check_can_destroy
+
   Event_Span_Days       = 2;
   Event_Span_Seconds    = Event_Span_Days * 24 * 60 * 60;
 
@@ -61,6 +63,17 @@ class Eventdate < ApplicationRecord
     (striketype != "literal") || (
           (strikedate.to_i >= enddate.to_i) &&
           ((strikedate.to_i - enddate.to_i) < Event_Span_Seconds))
+  end
+
+  def can_destroy?
+    not self.timecard_entries.any?
+  end
+
+  def check_can_destroy
+    if not self.can_destroy?
+      errors.add(:base, "Cannot delete an eventdate that has been billed for")
+      throw(:abort)
+    end
   end
 
   def has_call?

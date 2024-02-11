@@ -108,10 +108,14 @@
   <% if can? :tic, @event %>
     <dl>
       <dt>Delete?</dt>
-      <% if @event.new_record? %>
-        <dd><%= link_to_remove_fields image_tag("cross.png"), f, true %></dd>
+      <% if f.object.can_destroy? %>
+        <% if @event.new_record? %>
+          <dd><%= link_to_remove_fields image_tag("cross.png"), f, true %></dd>
+        <% else %>
+          <dd><%= link_to_remove_fields image_tag("cross.png"), f %></dd>
+        <% end %>
       <% else %>
-        <dd><%= link_to_remove_fields image_tag("cross.png"), f %></dd>
+        <dd>You can't delete this date, as someone has already billed for it.</dd>
       <% end %>
     </dl>
   <% end %>

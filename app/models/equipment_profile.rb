@@ -12,15 +12,15 @@ class EquipmentProfile < ApplicationRecord
   before_validation :null_subcategory
   
   def full_category
-    if self.subcategory
-      "#{self.category} - #{self.subcategory}"
+    if subcategory
+      "#{category} - #{subcategory}"
     else
-      self.category
+      category
     end
   end
   
   private
     def null_subcategory
-      self.subcategory = nil if self.subcategory.blank?
+      self.subcategory = nil if subcategory.blank?
     end
 end

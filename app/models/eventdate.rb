@@ -82,7 +82,7 @@ class Eventdate < ApplicationRecord
   end
 
   def has_strike?
-    # Yes: literal, startdate
+    # Yes: literal, enddate
     # No : blank, none
     self.striketype == "literal" or self.striketype == "enddate"
   end

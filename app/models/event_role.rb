@@ -123,7 +123,8 @@ class EventRole < ApplicationRecord
   end
   
   def sort_index
-    Roles_All.index self.role
+    index = Roles_All.index self.role
+    index.nil? ? -1 : index  # Replace nil with -1 if not found
   end
 
   # define the natural sorting order

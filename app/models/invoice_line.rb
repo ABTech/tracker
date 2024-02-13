@@ -17,7 +17,8 @@ class InvoiceLine < ApplicationRecord
   end
 
   def sort_key
-    Invoice_Categories.find_index(category)
+    index = Invoice_Categories.find_index(category)
+    index.nil? ? -1 : index  # Replace nil with -1 if not found
   end
 
   def <=> (other)

@@ -328,7 +328,7 @@ DEPENDENCIES
   jquery-ui-rails
   mail
   mysql2 (~> 0.5.4)
-  net-imap
+  net-imap (~> 0.4.10)
   oauth2
   omniauth
   omniauth-rails_csrf_protection
@@ -350,7 +350,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 2.7.5p203
+   ruby 3.0.6p216
 
 BUNDLED WITH
    2.4.7

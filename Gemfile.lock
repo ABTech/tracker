@@ -78,7 +78,7 @@ GEM
       ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
-    date (3.3.3)
+    date (3.3.4)
     devise (4.8.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -144,7 +144,7 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.0.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -153,7 +153,7 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     middleware (0.1.0)
-    mini_mime (1.1.2)
+    mini_mime (1.1.5)
     mini_portile2 (2.8.1)
     minitest (5.17.0)
     msgpack (1.4.4)
@@ -161,14 +161,14 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     mysql2 (0.5.4)
-    net-imap (0.3.4)
+    net-imap (0.4.10)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.1)
+    net-protocol (0.2.2)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.5.8)
     nokogiri (1.14.0)
@@ -287,7 +287,7 @@ GEM
       riddle (~> 2.3)
     thor (1.2.1)
     tilt (2.0.10)
-    timeout (0.3.1)
+    timeout (0.4.1)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
@@ -328,6 +328,7 @@ DEPENDENCIES
   jquery-ui-rails
   mail
   mysql2 (~> 0.5.4)
+  net-imap (~> 0.4.10)
   oauth2
   omniauth
   omniauth-rails_csrf_protection
@@ -352,4 +353,4 @@ RUBY VERSION
    ruby 2.7.5p203
 
 BUNDLED WITH
-   2.3.4
+   2.4.7

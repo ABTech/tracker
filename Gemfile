@@ -39,6 +39,7 @@ gem 'will_paginate'
 gem 'rails_autolink'
 gem 'icalendar'
 gem 'mail'
+gem "net-imap", "~> 0.4.10"  # explicit since used for email:idle even though dep of 'mail'
 gem 'devise'
 gem 'devise-encryptable'
 gem 'enumerize'
@@ -65,3 +66,4 @@ gem "grover", "~> 1.1"
 gem "rack-cors", "~> 1.1"
 
 gem 'active_storage_validations'
+

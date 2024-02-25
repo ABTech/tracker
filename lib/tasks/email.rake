@@ -14,17 +14,19 @@ namespace :email do
     Rails.application.credentials.email.fetch(:port) { raise 'Could not find `port` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:host) { raise 'Could not find `host` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:ssl) { raise 'Could not find `ssl` in `email` credentials!' }
-    if !Rails.application.credentials.email.key?("oauth") && !Rails.application.credentials.email.key?("password")
+    # Cannot used nested hashes in credentials without [] in Rails 6
+    # https://blog.saeloun.com/2021/06/02/rails-access-nested-secrects-by-method-call/
+    if Rails.application.credentials.email[:oauth].nil? && Rails.application.credentials.email[:password].nil?
       raise 'Could not find `oauth` or `password` in `email` credentials!'
-    elsif Rails.application.credentials.email.key?("oauth") && Rails.application.credentials.email.key?("password")
+    elsif !Rails.application.credentials.email[:oauth].nil? && !Rails.application.credentials.email[:password].nil?
       raise 'Found both `oauth` and `password` in `email` credentials!'
-    elsif Rails.application.credentials.email.key?("oauth")
-      Rails.application.credentials.email.oauth.fetch(:site) { raise 'Could not find `site` in `email.oauth` credentials!' }
-      Rails.application.credentials.email.oauth.fetch(:authorize_url) { raise 'Could not find `authorize_url` in `email.oauth` credentials!' }
-      Rails.application.credentials.email.oauth.fetch(:token_url) { raise 'Could not find `token_url` in `email.oauth` credentials!' }
-      Rails.application.credentials.email.oauth.fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email.oauth` credentials!' }
-      Rails.application.credentials.email.oauth.fetch(:client_id) { raise 'Could not find `client_id` in `email.oauth` credentials!' }
-      Rails.application.credentials.email.oauth.fetch(:client_secret) { raise 'Could not find `client_secret` in `email.oauth` credentials!' }
+    elsif !Rails.application.credentials.email[:oauth].nil?
+      Rails.application.credentials.email[:oauth].fetch(:site) { raise 'Could not find `site` in `email.oauth` credentials!' }
+      Rails.application.credentials.email[:oauth].fetch(:authorize_url) { raise 'Could not find `authorize_url` in `email.oauth` credentials!' }
+      Rails.application.credentials.email[:oauth].fetch(:token_url) { raise 'Could not find `token_url` in `email.oauth` credentials!' }
+      Rails.application.credentials.email[:oauth].fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email.oauth` credentials!' }
+      Rails.application.credentials.email[:oauth].fetch(:client_id) { raise 'Could not find `client_id` in `email.oauth` credentials!' }
+      Rails.application.credentials.email[:oauth].fetch(:client_secret) { raise 'Could not find `client_secret` in `email.oauth` credentials!' }
     end
     config = Rails.application.credentials.email
     
@@ -35,7 +37,7 @@ namespace :email do
       begin
         imap = Net::IMAP.new(config[:host], port: config[:port], ssl: config[:ssl])
         imap.capable?(:IMAP4rev1) or raise "Not an IMAP4rev1 server"
-        if imap.auth_capable?("XOAUTH2") && Rails.application.credentials.email.key?("oauth")
+        if imap.auth_capable?("XOAUTH2") && !Rails.application.credentials.email[:oauth].nil?
           oauth_client = OAuth2::Client.new(config[:oauth][:client_id], config[:oauth][:client_secret], {site: config[:oauth][:site], authorize_url: config[:oauth][:authorize_url], token_url: config[:oauth][:token_url]})
           access_token = OAuth2::AccessToken.from_hash(oauth_client, refresh_token: config[:oauth][:refresh_token]).refresh!
           imap.authenticate('XOAUTH2', config[:email], access_token.token)

@@ -14,9 +14,18 @@ namespace :email do
     Rails.application.credentials.email.fetch(:port) { raise 'Could not find `port` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:host) { raise 'Could not find `host` in `email` credentials!' }
     Rails.application.credentials.email.fetch(:ssl) { raise 'Could not find `ssl` in `email` credentials!' }
-    Rails.application.credentials.email.fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email` credentials!' }
-    Rails.application.credentials.email.fetch(:client_id) { raise 'Could not find `client_id` in `email` credentials!' }
-    Rails.application.credentials.email.fetch(:client_secret) { raise 'Could not find `client_secret` in `email` credentials!' }
+    if !Rails.application.credentials.email.key?("oauth") && !Rails.application.credentials.email.key?("password")
+      raise 'Could not find `oauth` or `password` in `email` credentials!'
+    elsif Rails.application.credentials.email.key?("oauth") && Rails.application.credentials.email.key?("password")
+      raise 'Found both `oauth` and `password` in `email` credentials!'
+    elsif Rails.application.credentials.email.key?("oauth")
+      Rails.application.credentials.email.oauth.fetch(:site) { raise 'Could not find `site` in `email.oauth` credentials!' }
+      Rails.application.credentials.email.oauth.fetch(:authorize_url) { raise 'Could not find `authorize_url` in `email.oauth` credentials!' }
+      Rails.application.credentials.email.oauth.fetch(:token_url) { raise 'Could not find `token_url` in `email.oauth` credentials!' }
+      Rails.application.credentials.email.oauth.fetch(:refresh_token) { raise 'Could not find `refresh_token` in `email.oauth` credentials!' }
+      Rails.application.credentials.email.oauth.fetch(:client_id) { raise 'Could not find `client_id` in `email.oauth` credentials!' }
+      Rails.application.credentials.email.oauth.fetch(:client_secret) { raise 'Could not find `client_secret` in `email.oauth` credentials!' }
+    end
     config = Rails.application.credentials.email
     
     reconnectSleep = 1
@@ -25,11 +34,21 @@ namespace :email do
     while true
       begin
         imap = Net::IMAP.new(config[:host], port: config[:port], ssl: config[:ssl])
-        oauth_client = OAuth2::Client.new(config[:client_id], config[:client_secret], {site: 'https://accounts.google.com', authorize_url: '/o/oauth2/auth', token_url: '/o/oauth2/token'})
-        access_token = OAuth2::AccessToken.from_hash(oauth_client, refresh_token: config[:refresh_token]).refresh!
-        imap.authenticate('XOAUTH2', config[:email], access_token.token)
-      rescue Net::IMAP::NoResponseError, SocketError, Faraday::ConnectionFailed
-        logger.info("Could not authenticate for #{config[:email]}, trying again in #{reconnectSleep} #{"second".pluralize(reconnectSleep)}")
+        imap.capable?(:IMAP4rev1) or raise "Not an IMAP4rev1 server"
+        if imap.auth_capable?("XOAUTH2") && Rails.application.credentials.email.key?("oauth")
+          oauth_client = OAuth2::Client.new(config[:oauth][:client_id], config[:oauth][:client_secret], {site: config[:oauth][:site], authorize_url: config[:oauth][:authorize_url], token_url: config[:oauth][:token_url]})
+          access_token = OAuth2::AccessToken.from_hash(oauth_client, refresh_token: config[:oauth][:refresh_token]).refresh!
+          imap.authenticate('XOAUTH2', config[:email], access_token.token)
+        elsif imap.auth_capable?("PLAIN")
+          imap.authenticate("PLAIN", config[:email], config[:password])
+        # Should not use deprecated LOGIN method
+        # elsif !imap.capability?("LOGINDISABLED")
+          # imap.login(config[:email], config[:password])
+        else
+          raise "No acceptable authentication mechanisms"
+        end
+      rescue Net::IMAP::NoResponseError, SocketError, Faraday::ConnectionFailed => error
+        logger.info("Could not authenticate for #{config[:email]}, trying again in #{reconnectSleep} #{"second".pluralize(reconnectSleep)}, error: #{error.message}")
         sleep reconnectSleep
         reconnectSleep += 1
         

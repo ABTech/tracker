@@ -5,6 +5,7 @@
     <th>Memo</th>
     <th>Category</th>
     <th>Price</th>
+    <th>Corporate</th>
     <% if can? :update, InvoiceItem %>
       <th></th>
     <% end %>
@@ -18,6 +19,7 @@
     <td><%= item.memo %></td>
     <td><%= item.category %></td>
     <td><%= number_to_currency item.price %></td>
+    <td><%= number_to_currency item.corporate %></td>
     <% if can? :update, item %>
       <td><%= link_to 'Edit', edit_invoice_item_url(item) %></td>
     <% end %>

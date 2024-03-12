@@ -8,7 +8,11 @@
       <option></option>
     
       <% InvoiceItem.all.each do |item| %>
-        <option data-memo="<%= item.memo %>" data-category="<%= item.category %>" data-price="<%= item.price %>"><%= item.memo %></option>
+        <% if @invoice.payment_type == "Oracle" %>
+          <option data-memo="<%= item.memo %>" data-category="<%= item.category %>" data-price="<%= item.corporate %>"><%= item.memo %></option>
+        <% else %>
+          <option data-memo="<%= item.memo %>" data-category="<%= item.category %>" data-price="<%= item.price %>"><%= item.memo %></option>
+        <% end %>
       <% end %>
     </select>
   </td>

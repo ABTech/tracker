@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_01_123836) do
+ActiveRecord::Schema.define(version: 2024_03_12_001550) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -217,7 +217,8 @@ ActiveRecord::Schema.define(version: 2023_08_01_123836) do
   create_table "invoice_items", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "memo", limit: 255, null: false
     t.string "category", limit: 255, null: false
-    t.integer "price", null: false
+    t.float "price", null: false
+    t.float "corporate", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

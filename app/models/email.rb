@@ -1,5 +1,5 @@
 class Email < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, optional: true
   has_many :attachments, as: :attachable
   
   scope :received, -> { where(sent: false).order(timestamp: :desc) }
@@ -136,17 +136,9 @@ class Email < ApplicationRecord
       message.subject = "<no subject>"
     end
     
-    if message.save
-      Dir.mktmpdir do |dir|
-        attachments.each do |a|
-          File.open(dir + "/" + a.filename, "w:ASCII-8BIT") do |f|
-            f.write(a.body.decoded)
-            f.flush
-            f.rewind
-          
-            message.attachments.create!(attachment: f.blob)
-          end
-        end
+    if message.save!
+      attachments.each do |a|
+        message.attachments.create!(attachment: ActiveStorage::Blob.create_and_upload!(io: StringIO.new(a.body.decoded.to_s), filename: a.filename, content_type: a.content_type))
       end
       
       return true

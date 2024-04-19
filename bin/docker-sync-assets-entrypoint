@@ -6,4 +6,4 @@ if [[ $? = 0 ]]; then
   rsync -ak --delete public/ /srv/public
 fi
 
-./bin/docker-entrypoint "$@"
+exec ./bin/docker-entrypoint "$@"

@@ -269,6 +269,7 @@ td.three_events, td.three_events span { background: #FFFDA6; }
 td.four_events, td.four_events span { background: #FFD9A6; }
 td.more_events, td.more_events span { background: #FFA6A6; }
 td.blackout_event, td.blackout_event span { background: #999999; color: #DDDDDD }
+td.current_day { outline: 1px solid #444444; outline-offset: -0.5px; font-weight: bold}
 
 #main-left {
   float: left;

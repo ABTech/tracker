@@ -52,9 +52,6 @@
               elsif date[:events].size > 4
                 day_class = "more_events"
               end
-              if date[:date].to_date == Date.current
-                day_class += " current_day"
-              end
             %>
             <td width="14%" class="<%= class_names(day_class, { current_day: date[:date].to_date == Date.current}) %>"
             <% if !(date[:events].empty? and not date[:blackout]) %>

@@ -13,7 +13,7 @@
     <div class="event-box">
       <h4>Submitted timecards</h4>
 
-      <%= select_tag :timecard_selection, options_for_select(timecards_for_select(@past)), id: "timecard-dropdown", :include_blank => 'select' %>
+      <%= select_tag :timecard_selection, options_for_select(timecards_for_select(@past.reverse)), id: "timecard-dropdown", :include_blank => 'select' %>
     </div>
   <% end %>
 <% end %>

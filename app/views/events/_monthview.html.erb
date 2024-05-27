@@ -52,6 +52,9 @@
               elsif date[:events].size > 4
                 day_class = "more_events"
               end
+              if date[:date].to_date == Date.current
+                day_class += " current_day"
+              end
             %>
             <td width="14%" <%= "class='".html_safe + day_class + "'".html_safe if day_class %> <% if !(date[:events].empty? and not date[:blackout]) %>
               <% if(can? :read, Event) %>

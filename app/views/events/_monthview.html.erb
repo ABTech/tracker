@@ -56,11 +56,14 @@
                 day_class += " current_day"
               end
             %>
-            <td width="14%" <%= "class='".html_safe + day_class + "'".html_safe if day_class %> <% if !(date[:events].empty? and not date[:blackout]) %>
+            <td width="14%" class="<%= class_names(day_class, { current_day: date[:date].to_date == Date.current}) %>"
+            <% if !(date[:events].empty? and not date[:blackout]) %>
               <% if(can? :read, Event) %>
-              onmouseover="this.getElementsByTagName('span')[0].className='show'"
-              onmouseout="this.getElementsByTagName('span')[0].className='hide'" <% end %><% end %>>
-              <%= date[:date].mday %>
+                onmouseover="this.getElementsByTagName('span')[0].className='show'"
+                onmouseout="this.getElementsByTagName('span')[0].className='hide'" 
+              <% end %>
+            <% end %>>
+            <%= date[:date].mday %>
 
               <% if not (date[:events].empty? and not date[:blackout]) %>
                 <span class="hide">

@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
+ARG RUBY_VERSION=3.0.6
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
@@ -19,10 +19,14 @@ FROM base as build
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    curl \
+    libmariadb-dev  `# Needed by ActiveRecord` \
+    chromium  # Needed by grover
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=18.18.2
+ARG NODE_VERSION=16.13.1
 ARG YARN_VERSION=1.22.19
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
@@ -31,7 +35,7 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
     rm -rf /tmp/node-build-master
 
 # Install application gems
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock .ruby-version ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
@@ -57,12 +61,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 # container.
 
 RUN /bin/bash -c 'if [[ "$RAILS_ENV" == "production" ]]; then \
-      mv config/credentials.yml.enc config/credentials.yml.enc.backup && \
       mv config/credentials/production.yml.enc config/credentials/production.yml.enc.backup && \
-      mv config/credentials/sample.yml.enc config/credentials.yml.enc && \
-      mv config/credentials/sample.key config/master.key && \
-      SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
-      mv config/credentials.yml.enc.backup config/credentials.yml.enc && \
+      SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=development ./bin/rails assets:precompile && \
       mv config/credentials/production.yml.enc.backup config/credentials/production.yml.enc && \
       rm -f config/master.key; \
     fi'
@@ -73,7 +73,12 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client rsync && \
+    apt-get install --no-install-recommends -y \
+    curl \
+    rsync `# Asset syncing` \
+    libmariadb-dev `# activerecord` \
+    nodejs `# js runtime` \
+    chromium `# grover` && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
@@ -88,12 +93,13 @@ USER rails:rails
 # https://serverfault.com/a/984599
 USER root
 RUN mkdir -p /srv/public \
- && chown -R rails:rails /srv/public
+ && chown -R rails:rails /srv/public \
+ && chmod +x -R /rails/bin
 USER rails:rails
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-sync-assets-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
+EXPOSE 80
 CMD ["./bin/rails", "server"]

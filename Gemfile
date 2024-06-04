@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-ruby File.read(".ruby-version").strip
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.7.1'
 

@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
+ARG RUBY_VERSION=3.0.6
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
@@ -19,10 +19,17 @@ FROM base as build
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
+    apt-get install --no-install-recommends -y \
+    libpq-dev  `# Part of generated dockerfile` \
+    libvips  `# Generated for ActiveRecord` \
+    node-gyp  `# Generated for Node` \
+    pkg-config `# Generated for Node` \
+    build-essential \
+    curl \
+    libmariadb-dev  # Needed by ActiveRecord
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=18.18.2
+ARG NODE_VERSION=16.13.1
 ARG YARN_VERSION=1.22.19
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
@@ -56,13 +63,10 @@ RUN bundle exec bootsnap precompile app/ lib/
 # into the container. We will inject RAILS_MASTER_KEY env var when starting the
 # container.
 
+# TODO: resolve this in a way that does not require running in development mode.
 RUN /bin/bash -c 'if [[ "$RAILS_ENV" == "production" ]]; then \
-      mv config/credentials.yml.enc config/credentials.yml.enc.backup && \
       mv config/credentials/production.yml.enc config/credentials/production.yml.enc.backup && \
-      mv config/credentials/sample.yml.enc config/credentials.yml.enc && \
-      mv config/credentials/sample.key config/master.key && \
-      SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
-      mv config/credentials.yml.enc.backup config/credentials.yml.enc && \
+      SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=development ./bin/rails assets:precompile && \
       mv config/credentials/production.yml.enc.backup config/credentials/production.yml.enc && \
       rm -f config/master.key; \
     fi'
@@ -73,7 +77,12 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client rsync && \
+    apt-get install --no-install-recommends -y \
+    libvips  `# Generated for ActiveRecord` \
+    curl \
+    rsync `# Asset syncing` \
+    libmariadb-dev `# activerecord` \
+    nodejs `# js runtime` && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
@@ -96,4 +105,4 @@ ENTRYPOINT ["/rails/bin/docker-sync-assets-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]

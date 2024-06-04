@@ -16,27 +16,48 @@ You must install and configure a sendmail provider if you wish to send emails fr
 
 ## Development Setup
 
-1. Clone the repo and checkout the intended branch.
-2. Install MySQL.
-3. Install rbenv and initialize it.
-4. `rbenv install`
-5. `gem install bundler` (ensure this runs in your rbenv environment)
-6. `rbenv rehash`
-7. `RAILS_ENV=development bundle install`
-8. `rbenv rehash`
-9. `EDITOR=nano ../rbenv/shims/bundle exec rails credentials:edit`. If you want to test out email or Slack integrations, then copy in the example at [config/credentials/credentials.example.yml](./config/credentials/credentials.example.yml) and update the values for your specific instance.
-10. Install Node and Yarn (included in recent versions via corepack).
-11. `yarn install`
-12. `RAILS_ENV=development rails assets:precompile`
-13. Create MySQL databases `abtt_development_master` and `abtt_test`. Use an existing user or create a new user and give it access to these databases. Update `config/database.yml` to match your local install for both the `development` and `test` environments. **Be sure not to commit this file with your specific environmental changes.**
-14. `RAILS_ENV=development rails db:schema:load`
-15. `RAILS_ENV=development rails db:seed`
-16. Run the rails console to create an initial user: `RAILS_ENV=development rails c`
+### Initial Setup
+
+1. Install Docker
+1. Install MySQL
+1. Create MySQL databases `abtt_development_master` and `abtt_test`
+1. Create a MySQL user `abtt` with a password of your choice, and
+give it access to those databases.
+
+### Making Changes
+
+1. Clone the repo and checkout the intended branch
+1. Make changes
+1. Build the Docker image: `docker build --tag "tracker" --platform linux/amd64 .`
+1. If you are already running tracker, remove it: `docker rm tracker`
+1. Run the image:
+   ```
+   docker run -d \
+   -e RAILS_ENV=development \
+   -e DATABASE_URL='mysql2://abtt:mypassword@host.docker.internal/abtt_development_master' \
+   -p 3000:3000 --platform linux/amd64 --name tracker tracker
+   ```
+1. Now you can open tracker at `http://localhost:3000`
+
+
+If this is your first run, do the following:
+
+1. Load the DB schema: `docker exec tracker ./bin/rails db:schema:load`
+1. Load the DB schema: `docker exec tracker ./bin/rails db:seed`
+1. Enter Rails console: `docker exec -it tracker ./bin/rails c`
+1. Create an initial user:
     ```ruby
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
     exit
     ```
-17. Start the development server: `RAILS_ENV=development puma`
+
+### Configuration
+
+You may use the following environment variables when running the image:
+
+- `RAILS_ENV` - development, staging, production, etc.
+- `DATABASE_URL` - e.g. `mysql2://abtt:password@host.docker.internal/abtt_development_master`
+
 
 ## Deployment
 

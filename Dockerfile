@@ -102,4 +102,4 @@ ENTRYPOINT ["/rails/bin/docker-sync-assets-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 80
-CMD ["./bin/rails", "server"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]

@@ -34,7 +34,7 @@ give it access to those databases.
    docker run -d \
    -e RAILS_ENV=development \
    -e DATABASE_URL='mysql2://abtt:mypassword@host.docker.internal/abtt_development_master' \
-   -p 3000:80 tracker
+   -p 3000:3000 tracker
    ```
 1. Now you can open tracker at `http://localhost:3000`
 

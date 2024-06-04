@@ -60,6 +60,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 # into the container. We will inject RAILS_MASTER_KEY env var when starting the
 # container.
 
+# TODO: resolve this in a way that does not require running in development mode.
 RUN /bin/bash -c 'if [[ "$RAILS_ENV" == "production" ]]; then \
       mv config/credentials/production.yml.enc config/credentials/production.yml.enc.backup && \
       SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=development ./bin/rails assets:precompile && \

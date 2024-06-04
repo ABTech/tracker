@@ -93,8 +93,7 @@ USER rails:rails
 # https://serverfault.com/a/984599
 USER root
 RUN mkdir -p /srv/public \
- && chown -R rails:rails /srv/public \
- && chmod +x -R /rails/bin
+ && chown -R rails:rails /srv/public
 USER rails:rails
 
 # Entrypoint prepares the database.

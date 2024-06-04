@@ -20,6 +20,10 @@ FROM base as build
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
+    libpq-dev  `# Part of generated dockerfile` \
+    libvips  `# Generated for ActiveRecord` \
+    node-gyp  `# Generated for Node` \
+    pkg-config `# Generated for Node` \
     build-essential \
     curl \
     libmariadb-dev  # Needed by ActiveRecord
@@ -74,6 +78,7 @@ FROM base
 # Install packages needed for deployment
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
+    libvips  `# Generated for ActiveRecord` \
     curl \
     rsync `# Asset syncing` \
     libmariadb-dev `# activerecord` \

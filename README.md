@@ -29,23 +29,22 @@ give it access to those databases.
 1. Clone the repo and checkout the intended branch
 1. Make changes
 1. Build the Docker image: `docker build --tag "tracker" --platform linux/amd64 .`
+1. If you are already running tracker, remove it: `docker rm tracker`
 1. Run the image:
    ```
    docker run -d \
    -e RAILS_ENV=development \
    -e DATABASE_URL='mysql2://abtt:mypassword@host.docker.internal/abtt_development_master' \
-   -p 3000:3000 tracker
+   -p 3000:3000 --platform linux/amd64 --name tracker tracker
    ```
 1. Now you can open tracker at `http://localhost:3000`
 
 
 If this is your first run, do the following:
 
-1. Set a variable with the output of the run command:
-   `export CONTAINER=paste_output_here`
-1. Load the DB schema: `docker exec $CONTAINER ./bin/rails db:schema:load`
-1. Load the DB schema: `docker exec $CONTAINER ./bin/rails db:seed`
-1. Enter Rails console: `docker exec -it $CONTAINER ./bin/rails c`
+1. Load the DB schema: `docker exec tracker ./bin/rails db:schema:load`
+1. Load the DB schema: `docker exec tracker ./bin/rails db:seed`
+1. Enter Rails console: `docker exec -it tracker ./bin/rails c`
 1. Create an initial user:
     ```ruby
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)

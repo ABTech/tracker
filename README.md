@@ -28,7 +28,7 @@ give it access to those databases.
 
 1. Clone the repo and checkout the intended branch
 1. Make changes
-1. Build the Docker image: `docker build --tag "tracker" .`
+1. Build the Docker image: `docker build --tag "tracker" --platform linux/amd64 .`
 1. Run the image:
    ```
    docker run -d \

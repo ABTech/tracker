@@ -22,8 +22,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     build-essential \
     curl \
-    libmariadb-dev  `# Needed by ActiveRecord` \
-    chromium  # Needed by grover
+    libmariadb-dev  # Needed by ActiveRecord
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=16.13.1
@@ -78,8 +77,7 @@ RUN apt-get update -qq && \
     curl \
     rsync `# Asset syncing` \
     libmariadb-dev `# activerecord` \
-    nodejs `# js runtime` \
-    chromium `# grover` && \
+    nodejs `# js runtime` && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application

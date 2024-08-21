@@ -49,6 +49,7 @@ class EventRole < ApplicationRecord
   Role_sairhorn   = "sAirhorn"
   Role_airhorn    = "airhorn"
   Role_aairhorn   = "aAirhorn"
+  Role_cannon     = "cannon"
     
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
@@ -97,7 +98,8 @@ class EventRole < ApplicationRecord
     Role_food     ,
     Role_sairhorn ,
     Role_airhorn  ,
-    Role_aairhorn ]
+    Role_aairhorn ,
+    Role_cannon   ]
 
   validates_presence_of :role
   validates_inclusion_of :role, :in => Roles_All

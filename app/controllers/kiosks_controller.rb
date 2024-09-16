@@ -20,7 +20,7 @@ class KiosksController < ApplicationController
   def create
     authorize! :create, Kiosk
     @kiosk = Kiosk.new(kiosk_params)
-    @kiosk.password = SecureRandom.hex(64)
+    @kiosk.password = SecureRandom.base64(16)
     if @kiosk.save
       flash[:notice] = 'Kiosk created successfully: ' + @kiosk.password
       redirect_to @kiosk
@@ -73,7 +73,7 @@ class KiosksController < ApplicationController
   def reset_password
     @kiosk = Kiosk.find(params[:id])
     authorize! :update, @kiosk
-    password = SecureRandom.hex(64)
+    password = SecureRandom.base64(16)
     @kiosk.update_attribute(:password, password)
     flash[:notice] = 'Kiosk updated successfully: ' + password
     redirect_to @kiosk

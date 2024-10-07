@@ -111,6 +111,12 @@
         <th>Interests</td>
         <td><%= @member.interests %></td>
       </tr>
+      <% if @member == current_member %>
+        <tr>
+          <th>Prefers Full Name</td>
+          <td><%= @member.prefers_full_name ? "YES" : "NO" %></td>
+        </tr>
+      <% end %>
       </table>
     </td>
     <% if can? :read, Timecard %>

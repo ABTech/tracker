@@ -115,7 +115,11 @@ class EventRole < ApplicationRecord
   def assigned_to(options = {})
     if assigned?
       if options[:use_display_name]
-        member.display_name
+        if options[:use_both_names]
+          "#{member.display_name} (#{member.fullname})"
+        else
+          member.display_name
+        end
       else
         member.fullname
       end

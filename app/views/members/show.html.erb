@@ -117,7 +117,7 @@
       <td>
         <h2>Billing</h2>
         <table class="generic">
-        <% @member.timecards.each do |timecard| %>
+        <% @member.timecards.sort_by(&:billing_date).each do |timecard| %>
           <tr>
             <th>Timecard for <%= timecard.billing_date.strftime("%D") %></th>
             <td> <%= pluralize timecard.hours(@member), "hour" %>

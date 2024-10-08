@@ -112,16 +112,16 @@ class EventRole < ApplicationRecord
     role + ": " + assigned_to
   end
   
-  def assigned_to(options = {})
+  def assigned_to(mode = :full_name)
+    # Logger
     if assigned?
-      if options[:use_display_name]
-        if options[:use_both_names]
-          "#{member.display_name} (#{member.fullname})"
-        else
-          member.display_name
-        end
-      else
+      case mode
+      when :full_name
         member.fullname
+      when :display_name
+        member.display_name
+      when :both_names
+        "#{member.display_name} (#{member.fullname})"
       end
     else
       "(unassigned)"

@@ -152,7 +152,7 @@ module EventsHelper
     elsif !hover and current_member and current_member.prefers_full_name
       return er.assigned_to :both_names
     elsif !hover and current_member
-      return er.assigned_to
+      return er.assigned_to :display_name
     else
       er.assigned_to
     end

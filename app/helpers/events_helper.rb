@@ -169,7 +169,9 @@ module EventsHelper
   end
   
   def run_position_name_preference(member)
-    if member.prefers_full_name
+    if !member
+      return :full_name
+    elsif member.prefers_full_name
       return :both_names
     else
       return :display_name

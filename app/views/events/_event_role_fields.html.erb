@@ -11,11 +11,11 @@
     <td><%= link_to_remove_fields image_tag("cross.png"), f, f.object.new_record? %></td>
   <% elsif f.object.member == current_member %>
     <td><%= f.object.role %></td>
-    <td><%= f.object.assigned_to use_display_name: true %></td>
+    <td><%= f.object.assigned_to(run_position_name_preference(current_member)) %></td>
     <td></td>
     <td><%= link_to_remove_fields image_tag("cross.png"), f %></td>
   <% else %>
     <td><%= f.object.role %></td>
-    <td><%= f.object.assigned_to use_display_name: true %></td>
+    <td><%= f.object.assigned_to(run_position_name_preference(current_member)) %></td>
   <% end %>
 </tr>

@@ -2,8 +2,6 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "5.4.3",
-    "coffee-loader": "^1.0.1",
-    "coffeescript": "^2.6.1",
     "puppeteer": "^13.0.1",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"

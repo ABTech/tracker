@@ -6,7 +6,8 @@ ruby File.read(".ruby-version").strip
 gem 'rails', '~> 6.1.7.1'
 
 # Use mysql as the database for Active Record
-gem 'mysql2', '~> 0.5.4'
+
+gem 'sqlite3', '~> 1.3', '>= 1.3.11'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.8'
@@ -28,6 +29,9 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+group :production do
+  # Use mysql as the database for Active Record
+end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -35,6 +39,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'mysql2', '~> 0.5.4'
 gem 'will_paginate'
 gem 'rails_autolink'
 gem 'icalendar'
@@ -45,7 +50,6 @@ gem 'devise-encryptable'
 gem 'enumerize'
 gem 'cancancan'
 gem 'sanitize'
-gem 'thinking-sphinx', '~> 5'
 gem 'amoeba'
 gem 'web-console', group: [:development]
 gem 'responders'
@@ -67,3 +71,4 @@ gem "rack-cors", "~> 1.1"
 
 gem 'active_storage_validations'
 
+gem 'thinking-sphinx', '~> 5'

@@ -149,10 +149,8 @@ module EventsHelper
     elsif er.appliable and not er.assigned? and can? :create, er.applications.build(member: current_member)
       return link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true) unless hover
       "you?" if hover
-    elsif !hover and current_member and current_member.prefers_full_name
-      return er.assigned_to :both_names
     elsif !hover and current_member
-      return er.assigned_to :display_name
+      return er.assigned_to run_position_name_preference(current_member)
     else
       er.assigned_to
     end

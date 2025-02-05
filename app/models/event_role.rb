@@ -113,7 +113,6 @@ class EventRole < ApplicationRecord
   end
   
   def assigned_to(mode = :full_name)
-    # Logger
     if assigned?
       case mode
       when :full_name

@@ -98,11 +98,16 @@
       <dd><%= f.text_field :interests, class: "wide-input" %></dd>
     </dl>
 
+    <dl>
+        <dt><%= f.label :prefers_full_name, "Always show full names of members:" %></dt>
+        <dd><%= f.check_box :prefers_full_name %></dd>
+    </dl>
+
   </fieldset>
 
   <fieldset>
     <legend>Notifications</legend>
-  
+
     <dl>
       <dt><%= f.check_box :receives_comment_emails %></dt>
       <dd><%= f.label :receives_comment_emails, "Email me when comments are posted on events I have run positions for" %></dd>

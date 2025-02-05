@@ -150,7 +150,7 @@ module EventsHelper
       return link_to("you?", new_application_url(er.event, event_role_id: er.id, format: :js), :remote => true) unless hover
       "you?" if hover
     elsif !hover and current_member
-      er.assigned_to use_display_name: true
+      return er.assigned_to run_position_name_preference(current_member)
     else
       er.assigned_to
     end
@@ -166,4 +166,13 @@ module EventsHelper
     end
   end
   
+  def run_position_name_preference(member)
+    if !member
+      return :full_name
+    elsif member.prefers_full_name
+      return :both_names
+    else
+      return :display_name
+    end
+  end
 end

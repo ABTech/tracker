@@ -324,7 +324,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.string "grad_year"
     t.string "interests"
     t.string "officer_position"
-    t.boolean "prefers_full_name", default: false
+    t.boolean "prefers_full_name", default: false, null: false
     t.index ["email"], name: "members_kerbid_index"
   end
 

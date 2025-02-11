@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:9.2.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: development
+      MYSQL_USER: tracker
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0"
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+          target: ./build/app
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: mysql2://tracker:password@mysql/development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql

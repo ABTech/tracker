@@ -5,7 +5,7 @@
   </tr>
   <tr>
     <td align="right" class="list"><strong>Hours:</strong></td>
-    <td class="list"><%= text_field :timecard_entry, :hours %></td>
+    <td class="list"><%= number_field :timecard_entry, :hours, step: 0.25 %></td>
   </tr>
   <% if @timecards.size > 0 %>
   <tr>

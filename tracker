@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $1 == rails && $2 == s ]]; then
+  docker compose up
+  docker compose down
+else
+  docker compose exec web $@
+fi

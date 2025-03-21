@@ -74,9 +74,6 @@ GEM
       msgpack (~> 1.2)
     builder (3.2.4)
     cancancan (3.3.0)
-    combine_pdf (1.0.22)
-      matrix
-      ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     date (3.3.4)
@@ -123,9 +120,8 @@ GEM
       activesupport (>= 5.0)
     gmail_xoauth (0.4.3)
       oauth (>= 0.3.6)
-    grover (1.1.0)
-      combine_pdf (~> 1.0)
-      nokogiri (~> 1.0)
+    grover (1.2.3)
+      nokogiri (~> 1)
     hashie (5.0.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -151,7 +147,6 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
-    matrix (0.4.2)
     method_source (1.0.0)
     middleware (0.1.0)
     mini_mime (1.1.5)
@@ -249,7 +244,6 @@ GEM
       railties (>= 5.0)
     rexml (3.3.9)
     riddle (2.4.3)
-    ruby-rc4 (0.1.5)
     ruby-saml (1.17.0)
       nokogiri (>= 1.13.10)
       rexml
@@ -361,7 +355,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 3.0.7p220
+   ruby 3.1.6p260
 
 BUNDLED WITH
    2.5.21

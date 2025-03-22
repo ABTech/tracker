@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.datetime "updated_at"
   end
 
-  create_table "emails", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+  create_table "emails", charset: "utf8mb4", collation: "utf8mb4_bin", options: "ENGINE=MyISAM", force: :cascade do |t|
     t.integer "event_id"
     t.string "sender", limit: 255, default: "", null: false
     t.datetime "timestamp", null: false

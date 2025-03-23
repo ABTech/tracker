@@ -40,6 +40,8 @@ gem 'rails_autolink'
 gem 'icalendar'
 gem 'mail'
 gem "net-imap", "~> 0.4.10"  # explicit since used for email:idle even though dep of 'mail'
+# https://stackoverflow.com/questions/79360526/uninitialized-constant-activesupportloggerthreadsafelevellogger-nameerror
+gem 'concurrent-ruby', '1.3.4'
 gem 'devise'
 gem 'devise-encryptable'
 gem 'enumerize'

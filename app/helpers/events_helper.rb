@@ -65,7 +65,7 @@ module EventsHelper
     if now_mon < 6
       now_year -= 1
     end
-    months = Time::RFC2822_MONTH_NAME
+    months = (Date::ABBR_MONTHNAMES).drop(1)
     month_links = []
     indices = [(6..12).to_a, (1..5).to_a]
     indices.each do |is|

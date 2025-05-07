@@ -157,7 +157,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     mysql2 (0.5.4)
-    net-imap (0.4.19)
+    net-imap (0.4.20)
       date
       net-protocol
     net-pop (0.1.2)
@@ -333,7 +333,7 @@ DEPENDENCIES
   jquery-ui-rails
   mail
   mysql2 (~> 0.5.4)
-  net-imap (~> 0.4.10)
+  net-imap (~> 0.4.20)
   oauth2
   omniauth
   omniauth-rails_csrf_protection

@@ -40,5 +40,11 @@ Type=simple
 
 ExecStart=/srv/abtech-tracker/%i/rbenv/shims/bundle exec --keep-file-descriptors rails email:idle
 
+Restart=always
+#RestartMode=normal
+RestartSec=10s
+#RestartSteps=6
+#RestartMaxDelaySec=30m
+
 [Install]
 WantedBy=multi-user.target

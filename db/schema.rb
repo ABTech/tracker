@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_07_223900) do
+ActiveRecord::Schema.define(version: 2025_09_08_184017) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.datetime "updated_at"
   end
 
-  create_table "emails", charset: "utf8mb4", collation: "utf8mb4_bin", options: "ENGINE=MyISAM", force: :cascade do |t|
+  create_table "emails", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "event_id"
     t.string "sender", limit: 255, default: "", null: false
     t.datetime "timestamp", null: false
@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.datetime "enddate", null: false
     t.datetime "calldate"
     t.datetime "strikedate"
-    t.string "description", limit: 255, null: false
+    t.text "description", null: false, collation: "utf8mb4_general_ci"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "calltype", default: "blank_call", null: false
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.boolean "billable_call", default: true
     t.boolean "billable_show", default: true
     t.boolean "billable_strike", default: true
+    t.index ["description"], name: "index_eventdates_on_description", type: :fulltext
     t.index ["enddate"], name: "eventdates_enddate_index"
     t.index ["event_id"], name: "eventdates_event_id_index"
     t.index ["startdate"], name: "eventdates_startdate_index"
@@ -183,7 +184,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
   end
 
   create_table "events", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
-    t.string "title", limit: 255, default: "", null: false
+    t.text "title", null: false, collation: "utf8mb4_general_ci"
     t.integer "organization_id", default: 0, null: false
     t.string "status", default: "Initial Request", null: false
     t.string "contactemail"
@@ -204,6 +205,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.index ["organization_id"], name: "index_events_on_organization_id"
     t.index ["representative_date"], name: "index_events_on_representative_date"
     t.index ["status"], name: "events_status_index"
+    t.index ["title"], name: "index_events_on_title", type: :fulltext
   end
 
   create_table "invoice_contacts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -324,16 +326,17 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.string "grad_year"
     t.string "interests"
     t.string "officer_position"
-    t.boolean "prefers_full_name", default: false, null: false
+    t.boolean "prefers_full_name", default: true, null: false
     t.index ["email"], name: "members_kerbid_index"
   end
 
   create_table "organizations", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
-    t.string "name", limit: 255, default: "", null: false
+    t.text "name", null: false, collation: "utf8mb4_general_ci"
     t.integer "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "defunct", default: false, null: false
+    t.index ["name"], name: "index_organizations_on_name", type: :fulltext
   end
 
   create_table "super_tics", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|

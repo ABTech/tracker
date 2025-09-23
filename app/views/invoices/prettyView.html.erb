@@ -159,10 +159,10 @@
         <td><%=line.category %></td>
         <td>
           <%=line.memo %>
-          <% if line.get_notes_with_defaults(@invoice.status).to_s.length > 0 then %>
+          <% if line.notes_with_defaults.to_s.length > 0 then %>
             <br>
             <div class="pdf-line-notes">
-              <%= simple_format line.get_notes_with_defaults(@invoice.status) %>
+              <%= simple_format line.notes_with_defaults %>
             </div>
           <% end %>
         </td>

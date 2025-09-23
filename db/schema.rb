@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_07_223900) do
+ActiveRecord::Schema.define(version: 2025_09_08_184017) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -324,7 +324,7 @@ ActiveRecord::Schema.define(version: 2024_10_07_223900) do
     t.string "grad_year"
     t.string "interests"
     t.string "officer_position"
-    t.boolean "prefers_full_name", default: false, null: false
+    t.boolean "prefers_full_name", default: true, null: false
     t.index ["email"], name: "members_kerbid_index"
   end
 

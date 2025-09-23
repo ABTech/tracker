@@ -53,7 +53,7 @@ class Timecard < ApplicationRecord
     if scope.empty?
       0
     else
-      scope.map(&:hours).reduce(&:+).round(1)
+      scope.map(&:hours).reduce(&:+).round(2)
     end
   end
 

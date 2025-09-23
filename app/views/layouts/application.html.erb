@@ -21,15 +21,15 @@
 
   <body>
     <div id="loader"><%= image_tag "loader.gif" %></div>
-  
+
     <div class="header">
       <% if Rails.env.development? %>
         <div style="float: left; font-size: 20pt; background-color: black; color: red;">DEVELOPMENT <br />ENVIRONMENT</div>
       <% end %>
-      
+
       <%= link_to image_tag("header.png"), root_url %>
     </div>
-    
+
     <% if kiosk_signed_in? %>
       <div class="loggedin loggedin-expanded">
         <b>KIOSK MODE</b><br/>
@@ -88,15 +88,15 @@
       <%= conditional_link_to "Reference", reference_events_url, :index, Event %>
       <%= conditional_link_to "Email (#{Email.where(unread: true).count})", emails_url, :read, Email %>
       <%= conditional_link_to "Finance", invoices_url, :read, :finance %>
-      <%= conditional_link_to "Members", members_url, :index, Member %>
+      <%= conditional_link_to "Members", members_url(active_only: 1), :index, Member %>
       <%= conditional_link_to "Timecards", timecard_entries_url, :read, TimecardEntry %>
       <%= conditional_link_to "Weather", weather_index_url, :index, WeatherController %>
       <%= link_to "Radio Checkout", 'https://bit.ly/techradios', target: :_blank  if can? :read, Event %>
-      
+
       <% if member_signed_in? or kiosk_signed_in? %>
         <%= link_to "Miscellaneous", "#", class: "toggle-div", data: {div: "misc-menu"} %>
 
-        <% if show_admin_link %> 
+        <% if show_admin_link %>
           <%= link_to "Tracker Admin", "#", class: "toggle-div", data: {div: "submenu"} %>
         <% end %>
       <% end %>
@@ -107,7 +107,7 @@
         <%= conditional_link_to "Organizations", organizations_url, :read, Organization %>
         <%= conditional_link_to "Attachments", attachments_url, :read, Attachment %>
       </div>
-      
+
       <% if show_admin_link %>
         <div id="submenu" style="display: none;" class="main-nav">
           <%= conditional_link_to "Locations", locations_url, :read, Location %>
@@ -125,7 +125,7 @@
     <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
     <% if flash[:alert] %><div class="alert"><%= flash[:alert] %></div><% end %>
     <% if flash[:error] %> <div class="error"> <%= flash[:error] %> </div><% end %>
-    
+
     <% if content_for?(:body) %>
       <%= yield :body %>
     <% else %>

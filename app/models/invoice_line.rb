@@ -22,12 +22,14 @@ class InvoiceLine < ApplicationRecord
     return Invoice_Categories.find_index(category) <=> Invoice_Categories.find_index(il.category)
   end
 
-  def get_notes_with_defaults
+  def get_notes_with_defaults(status)
     if not self.notes.empty?
       self.notes
     else
-      if category == "Labor"
+      if category == "Labor" and status == "Quote"
         "Labor hours are estimates; Actual hours will be billed."
+      else
+        nil
       end
     end
   end

@@ -17,8 +17,12 @@ $ ->
 window.chooseLinePreset = (id) ->
   if $("#invoice-line-preset-" + id).val() != ""
     selected = $("#invoice-line-preset-" + id + " option:selected").first()
+    if(selected.data('notes'))
+      showNotes(id)
+    $("#invoice_invoice_lines_attributes_" + id + "_notes").val(selected.data('notes'))
     $("#invoice_invoice_lines_attributes_" + id + "_category").val(selected.data('category'))
     $("#invoice_invoice_lines_attributes_" + id + "_memo").val(selected.data('memo'))
+    $("#invoice_invoice_lines_attributes_" + id + "_notes").val(selected.data('notes'))
     $("#invoice_invoice_lines_attributes_" + id + "_quantity").val("1")
     $("#invoice_invoice_lines_attributes_" + id + "_price").val(selected.data('price'))
 
@@ -31,6 +35,13 @@ window.toggleNotes = (id) ->
   else
     note.css("display","none")
     link.html("V")
+
+window.showNotes = (id) ->
+  note = $("#notes" + id)
+  link = $("#notesToggle" + id)
+  if note.css("display") == "none"
+    note.css("display","block")
+    link.html("^")
 
 window.indexList = () ->
   $('input.index').each( (i) ->

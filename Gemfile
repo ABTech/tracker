@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby File.read(".ruby-version").strip
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.7.1'
+gem 'rails', '~> 6.1.7.10'
 
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.4'
@@ -39,7 +39,7 @@ gem 'will_paginate'
 gem 'rails_autolink'
 gem 'icalendar'
 gem 'mail'
-gem "net-imap", "~> 0.4.10"  # explicit since used for email:idle even though dep of 'mail'
+gem "net-imap", "~> 0.4.20"  # explicit since used for email:idle even though dep of 'mail'
 gem 'devise'
 gem 'devise-encryptable'
 gem 'enumerize'

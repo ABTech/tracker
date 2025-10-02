@@ -19,7 +19,6 @@ window.chooseLinePreset = (id) ->
     selected = $("#invoice-line-preset-" + id + " option:selected").first()
     if(selected.data('notes'))
       showNotes(id)
-    $("#invoice_invoice_lines_attributes_" + id + "_notes").val(selected.data('notes'))
     $("#invoice_invoice_lines_attributes_" + id + "_category").val(selected.data('category'))
     $("#invoice_invoice_lines_attributes_" + id + "_memo").val(selected.data('memo'))
     $("#invoice_invoice_lines_attributes_" + id + "_notes").val(selected.data('notes'))

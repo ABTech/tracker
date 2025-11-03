@@ -23,6 +23,12 @@ body, input, textarea, select {
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 }
 
+@media screen and (max-width: 640px) {
+  body, input, textarea, select {
+    font-size: 14px;
+  }
+}
+
 table { border-collapse: collapse; }
 td, th { padding: 0; }
 a { color: #3333FF; }
@@ -44,6 +50,17 @@ div.login {
 	color: #666666;
   font-size: 16px;
   text-align: right;
+}
+
+@media screen and (max-width: 640px) {
+  div.login {
+    position: static;
+  }
+
+  div.header img {
+    width: 100%;
+    max-width: 383px;
+  }
 }
 
 div.header {

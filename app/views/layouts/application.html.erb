@@ -10,6 +10,8 @@
           user-select: none;
         }
       </style>
+    <% else %>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
     <% end %>
     <title>ABTT - <%= @title %></title>
     <%= stylesheet_link_tag "application", media: "all" %>

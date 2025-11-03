@@ -1,7 +1,7 @@
 <% run.each_with_index do |eventdate, run_i| %>
   <tr class="<%= eventdate.event.status.delete(' ').underscore %>">
     <td>&nbsp;</td>
-    <td>
+    <td data-label="Date">
       <% if eventdate.startdate.year == Date.today.year %>
         <%= eventdate.startdate.strftime("%A, %B %d") %>
       <% else %>
@@ -11,7 +11,7 @@
         <small class="published">(<%= eventdate.event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
       <% end %>
     </td>
-    <td>
+    <td data-label="Name">
       <% if can? :read, Event %>
         <%= link_to "#{eventdate.event.title} - #{eventdate.description}", eventdate.event %>
       <% else %>
@@ -20,7 +20,7 @@
       <br />
       <small class="organization"><%= eventdate.event.organization.name %></small>
     </td>
-    <td style="white-space: normal;">
+    <td data-label="Location, Equipment Profile" style="white-space: normal;">
       <ul class="eventslist-data-list">
         <% eventdate.locations.sorted.each do |location| %>
           <li><%= location %></li>
@@ -31,7 +31,7 @@
         <% end %>
       </ul>
     </td>
-    <td>
+    <td data-label="Timing">
       <small>
         C: <%= render_eventdate_call eventdate %><br/>
         E: <%= render_eventdate_event eventdate %><br/>
@@ -42,9 +42,9 @@
     <%# This ensures that roles are only printed once per run of events %>
     <% if run_i == 0 %>
       <% if can? :read, Event and eventdate.tic.blank? %>
-        <td class="ticless" rowspan="<%= run.length %>">
+        <td data-label="Roles" class="ticless" rowspan="<%= run.length %>">
       <% else %>
-        <td rowspan="<%= run.length %>">
+        <td data-label="Roles" rowspan="<%= run.length %>">
       <% end %>
       
       <% eventdate.full_roles.sort.each do |role| %>

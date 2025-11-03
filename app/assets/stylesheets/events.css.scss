@@ -80,6 +80,54 @@ table.eventslist td:first-child {
 	padding: 0;
 }
 
+@media screen and (max-width: 985px) {
+  #eventsbody, #sidebar {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  table.eventslist {
+    display: block;
+    padding: 20px;
+
+    tbody,
+    tr,
+    th,
+    td {
+      display: block;
+    }
+
+    tbody > tr > td {
+      white-space: wrap;
+
+      .published br {
+        display: none;
+      }
+    }
+
+    tr.eventslist-header,
+    tr.eventslist-week-marker td:first-child {
+      display: none;
+    }
+
+    tr:not(.eventslist-week-marker) td:first-child {
+      width: 100%;
+    }
+
+    tr {
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+    }
+  
+    td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: block;
+    }
+  }
+}
+
 /* row colors */
 table.eventslist tr.event_confirmed { background: #E2F2E2; }
 table.eventslist tr.event_confirmed > td:first-child { background: #00FF00; font-size: 5px; }
@@ -104,7 +152,7 @@ table.eventslist tr.event_blackout a { color: #9999FF; }
 
 /* cell styles */
 table.eventslist small.published {
-	color: #AAAAAA;
+	color: #565656;
 }
 table.eventslist small.organization {
 }

@@ -83,10 +83,19 @@ table.eventslist td:first-child {
 @media screen and (max-width: 985px) {
   #eventsbody, #sidebar {
     display: block;
+    padding-right: 0; // prevents horizontal scrollbar on smaller screens
   }
 }
 
+.mobile-only {
+  display: none;
+}
+
 @media screen and (max-width: 640px) {
+  .mobile-only {
+    display: block;
+  }
+
   table.eventslist {
     display: block;
     padding: 20px;
@@ -107,8 +116,19 @@ table.eventslist td:first-child {
     }
 
     tr.eventslist-header,
-    tr.eventslist-week-marker td:first-child {
+    tr.eventslist-week-marker td:first-child,
+    td[data-label="Timing"] {
       display: none;
+    }
+
+    td[data-label="Date"] small[data-label="Timing"] {
+      float: right;
+      margin-top: -15px;
+      padding-left: 5px;
+    }
+
+    td[data-label="Roles"] {
+      column-count: 2;
     }
 
     tr:not(.eventslist-week-marker) td:first-child {
@@ -493,6 +513,20 @@ legend + .event-date-form {
 #event-sel-title {
   margin-right: 2em;
   font-weight: bold;
+}
+
+// put time (past/future) selector below months on mobile
+@media screen and (max-width: 640px) {
+  #event-selector {
+    display: grid;
+    gap: 10px;
+    padding-top: 15px;
+    font-size: 16px;
+  }
+
+  #event-sel-time {
+    margin-left: 0;
+  }
 }
 
 .edp-roles {

@@ -2,6 +2,11 @@
   <tr class="<%= eventdate.event.status.delete(' ').underscore %>">
     <td>&nbsp;</td>
     <td data-label="Date">
+      <small data-label="Timing" class="mobile-only">
+        C: <%= render_eventdate_call eventdate %><br/>
+        E: <%= render_eventdate_event eventdate %><br/>
+        S: <%= render_eventdate_strike eventdate %>
+      </small>
       <% if eventdate.startdate.year == Date.today.year %>
         <%= eventdate.startdate.strftime("%A, %B %d") %>
       <% else %>

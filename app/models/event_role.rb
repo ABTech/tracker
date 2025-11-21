@@ -34,6 +34,9 @@ class EventRole < ApplicationRecord
   Role_Media      = "Media"
   Role_aMedia     = "aMedia"
   Role_SpotOp     = "SpotOp"
+  Role_sCamOp     = "sCamOp"
+  Role_CamOp      = "CamOp"
+  Role_aCamOp     = "aCamOp"
   Role_Runner     = "Runner"
   Role_sHole      = "sHole"
   Role_Hole       = "Hole"
@@ -50,7 +53,7 @@ class EventRole < ApplicationRecord
   Role_airhorn    = "airhorn"
   Role_aairhorn   = "aAirhorn"
   Role_cannon     = "cannon"
-    
+
   #Roles_all is also used for ordering roles (sorting)
   Roles_All = [
     Role_HoT      ,
@@ -84,6 +87,9 @@ class EventRole < ApplicationRecord
     Role_Media    ,
     Role_aMedia   ,
     Role_SpotOp   ,
+    Role_sCamOp   ,
+    Role_CamOp    ,
+    Role_aCamOp   ,
     Role_Runner   ,
     Role_sHole    ,
     Role_Hole     ,
@@ -111,7 +117,7 @@ class EventRole < ApplicationRecord
   def to_s
     role + ": " + assigned_to
   end
-  
+
   def assigned_to(mode = :full_name)
     if assigned?
       case mode
@@ -126,19 +132,19 @@ class EventRole < ApplicationRecord
       "(unassigned)"
     end
   end
-  
-  def sort_index 
+
+  def sort_index
     Roles_All.each_index { |role_index| return role_index if Roles_All[role_index] == role }
-    return -1 
+    return -1
   end
 
   # define the natural sorting order
   def <=> (role)
     return 1 if sort_index < 0
     return -1 if role.sort_index < 0
-    return sort_index <=> role.sort_index   
+    return sort_index <=> role.sort_index
   end
-  
+
   def assistants
     return [Role_TiC, Role_aTiC] if self.role == Role_sTiC
     return [Role_aTiC] if self.role == Role_TiC
@@ -158,6 +164,9 @@ class EventRole < ApplicationRecord
     return [Role_aSM, Role_bdSM] if self.role == Role_SM
     return [Role_Media, Role_aMedia] if self.role == Role_sMedia
     return [Role_aMedia] if self.role == Role_Media
+    return [Role_CamOp, Role_aCamOp] if self.role == Role_sCamOp
+    return [Role_aCamOp] if self.role == Role_CamOp
+    return [Role_aHole] if self.role == Role_Hole
     return [Role_Hole, Role_aHole] if self.role == Role_sHole
     return [Role_aHole] if self.role == Role_Hole
     return [Role_car] if self.role == Role_sCar
@@ -166,7 +175,7 @@ class EventRole < ApplicationRecord
     return [Role_aairhorn] if self.role == Role_airhorn
     return []
   end
-  
+
   def shoulders
     return [Role_sTiC] if self.role == Role_TiC or self.role == Role_aTiC
     return [Role_sFoH] if self.role == Role_FoH or self.role == Role_aFoH
@@ -177,6 +186,7 @@ class EventRole < ApplicationRecord
     return [Role_sMR] if self.role == Role_MR or self.role == Role_aMR
     return [Role_sSM] if self.role == Role_SM or self.role == Role_aSM or self.role == Role_bdSM
     return [Role_sMedia] if self.role == Role_Media or self.role == Role_aMedia
+    return [Role_sCamOp] if self.role == Role_CamOp or self.role == Role_aCamOp
     return [Role_sHole] if self.role == Role_Hole or self.role == Role_aHole
     return [Role_sCar] if self.role == Role_car
     return [Role_sTruck] if self.role == Role_truck
@@ -191,7 +201,7 @@ class EventRole < ApplicationRecord
       self.roleable.event
     end
   end
-  
+
   def date
     if self.roleable_type == "Event"
       self.roleable.representative_date
@@ -199,7 +209,7 @@ class EventRole < ApplicationRecord
       self.roleable.startdate
     end
   end
-  
+
   def description
     if self.roleable_type == "Event"
       self.roleable.title
@@ -207,7 +217,7 @@ class EventRole < ApplicationRecord
       self.roleable.event.title + " - " + self.roleable.description
     end
   end
-  
+
   def superior
     return nil if self.role == Role_sTiC
     return [Role_sTiC] if self.role == Role_TiC
@@ -228,6 +238,8 @@ class EventRole < ApplicationRecord
     return [Role_sSM, Role_SM] if self.role == Role_aSM or self.role == Role_bdSM
     return [Role_sMedia] if self.role == Role_Media
     return [Role_sMedia, Role_Media] if self.role == Role_aMedia
+    return [Role_sCamOp] if self.role == Role_CamOp
+    return [Role_sCamOp, Role_CamOp] if self.role == Role_aCamOp
     return [Role_sHole] if self.role == Role_Hole
     return [Role_sHole, Role_Hole] if self.role == Role_aHole
     return [Role_sCar] if self.role == Role_car

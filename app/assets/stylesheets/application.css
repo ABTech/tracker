@@ -23,7 +23,7 @@ body, input, textarea, select {
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 750px) {
   body, input, textarea, select {
     font-size: 14px;
   }
@@ -52,7 +52,7 @@ div.login {
   text-align: right;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 750px) {
   div.login {
     position: static;
   }

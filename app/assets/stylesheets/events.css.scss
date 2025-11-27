@@ -117,17 +117,17 @@ table.eventslist td:first-child {
 
     tr.eventslist-header,
     tr.eventslist-week-marker td:first-child,
-    td[data-label="Timing"] {
+    .mobile-hide {
       display: none;
     }
 
-    td[data-label="Date"] small[data-label="Timing"] {
+    td .float-right {
       float: right;
       margin-top: -15px;
       padding-left: 5px;
     }
 
-    td[data-label="Roles"] {
+    .mobile-cols-2 {
       column-count: 2;
     }
 

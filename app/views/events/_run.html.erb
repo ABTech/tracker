@@ -2,7 +2,7 @@
   <tr class="<%= eventdate.event.status.delete(' ').underscore %>">
     <td>&nbsp;</td>
     <td data-label="Date">
-      <small data-label="Timing" class="mobile-only">
+      <small data-label="Timing" class="mobile-only float-right">
         C: <%= render_eventdate_call eventdate %><br/>
         E: <%= render_eventdate_event eventdate %><br/>
         S: <%= render_eventdate_strike eventdate %>
@@ -36,7 +36,7 @@
         <% end %>
       </ul>
     </td>
-    <td data-label="Timing">
+    <td data-label="Timing" class="mobile-hide">
       <small>
         C: <%= render_eventdate_call eventdate %><br/>
         E: <%= render_eventdate_event eventdate %><br/>
@@ -47,9 +47,9 @@
     <%# This ensures that roles are only printed once per run of events %>
     <% if run_i == 0 %>
       <% if can? :read, Event and eventdate.tic.blank? %>
-        <td data-label="Roles" class="ticless" rowspan="<%= run.length %>">
+        <td data-label="Roles" class="ticless mobile-cols-2" rowspan="<%= run.length %>">
       <% else %>
-        <td data-label="Roles" rowspan="<%= run.length %>">
+        <td data-label="Roles" class="mobile-cols-2" rowspan="<%= run.length %>">
       <% end %>
       
       <% eventdate.full_roles.sort.each do |role| %>

@@ -8,7 +8,7 @@
       <option></option>
     
       <% InvoiceItem.all.each do |item| %>
-        <option data-memo="<%= item.memo %>" data-category="<%= item.category %>" data-price="<%= item.price %>"><%= item.memo %></option>
+        <option data-memo="<%= item.memo %>" data-notes="<%= item.notes %>" data-category="<%= item.category %>" data-price="<%= item.price %>"><%= item.memo %></option>
       <% end %>
     </select>
   </td>

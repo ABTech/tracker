@@ -343,12 +343,14 @@ table.eventslist .ticless {
 #event-comments form textarea {
   max-width: 100%;
   width: 100%;
-  height: 4em;
+  height: 3.5em;
   box-sizing: border-box;
   resize: vertical;
 }
 
 #event-comments fieldset {
+  border: 2px solid crimson;
+
   p {
     margin: 5px 0;
   }

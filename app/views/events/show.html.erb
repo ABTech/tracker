@@ -72,6 +72,30 @@
         <% end %>
       </ul>
     </div>
+
+    <div id="event-comments" class="event-box">
+      <h4>Comments</h4>
+    
+      <% @event.comments.each do |comment| %>
+        <fieldset>
+          <legend>
+            <%= comment.created_at.strftime("%m/%d/%y, %I:%M%p") %> - 
+            <span class="comment-member"><%= comment.member %></span>
+            <% if can? :destroy, comment %>
+              (<%= link_to "delete", comment_url(comment), :method => :delete, data: {confirm: "Are you sure you would like to delete this comment?"} %>)
+            <% end %>
+          </legend>
+          <%= auto_link simple_format comment.content %>
+        </fieldset>
+      <% end %>
+    
+      <%= form_for @event.comments.build do |f| %>
+        <%= f.hidden_field :event_id %>
+        <%= f.text_area :content %>
+        <br />
+        <%= f.submit "New Comment" %>
+      <% end %>
+    </div>
   
     <% if can? :create, Invoice.new(event: @event) or not @event.invoices.accessible_by(current_ability).empty? %>
       <div id="event-invoices">
@@ -164,29 +188,6 @@
           <% end %>
         </ul>
       </div>
-    <% end %>
-  </div>
-  
-  <div id="event-comments" class="event-box">
-    <h4>Comments</h4>
-  
-    <% @event.comments.each do |comment| %>
-      <fieldset>
-        <legend>
-          <%= comment.member %> said on <%= comment.created_at.strftime("%m/%d/%y at %I:%M%p") %>
-          <% if can? :destroy, comment %>
-            (<%= link_to "delete", comment_url(comment), :method => :delete, data: {confirm: "Are you sure you would like to delete this comment?"} %>)
-          <% end %>
-        </legend>
-        <%= auto_link simple_format comment.content %>
-      </fieldset>
-    <% end %>
-  
-    <%= form_for @event.comments.build do |f| %>
-      <%= f.hidden_field :event_id %>
-      <%= f.text_area :content %>
-      <br />
-      <%= f.submit "New Comment" %>
     <% end %>
   </div>
 </div>

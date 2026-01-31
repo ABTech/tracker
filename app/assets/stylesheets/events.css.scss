@@ -341,8 +341,21 @@ table.eventslist .ticless {
 }
 
 #event-comments form textarea {
+  max-width: 100%;
   width: 100%;
-  height: 5em;
+  height: 4em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+#event-comments fieldset {
+  p {
+    margin: 5px 0;
+  }
+
+  .comment-member {
+    font-weight: bold;
+  }
 }
 
 #event-comments form input[type=submit] {

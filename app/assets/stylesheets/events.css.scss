@@ -80,6 +80,11 @@ table.eventslist td:first-child {
 	padding: 0;
 }
 
+.event-name > a,
+.event-name > p {
+  text-wrap: wrap;
+}
+
 @media screen and (max-width: 985px) {
   #eventsbody, #sidebar {
     display: block;

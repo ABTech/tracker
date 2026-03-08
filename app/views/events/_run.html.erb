@@ -16,11 +16,11 @@
         <small class="published">(<%= eventdate.event.status.downcase %><%= eventdate.event.rental ? ", rental" : "" %><%= !eventdate.event.publish ? ",<br/><b>not published</b>".html_safe : "" %>)</small>
       <% end %>
     </td>
-    <td data-label="Name">
+    <td data-label="Name" class="event-name">
       <% if can? :read, Event %>
         <%= link_to "#{eventdate.event.title} - #{eventdate.description}", eventdate.event %>
       <% else %>
-        <%= eventdate.event.title %> - <%= eventdate.description %>
+        <p><%= eventdate.event.title %> - <%= eventdate.description %></p>
       <% end %>
       <br />
       <small class="organization"><%= eventdate.event.organization.name %></small>

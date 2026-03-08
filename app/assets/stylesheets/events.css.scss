@@ -134,6 +134,10 @@ table.eventslist td:first-child {
 
     .mobile-cols-2 {
       column-count: 2;
+
+      .role-holder {
+        display: inline-block;
+      }
     }
 
     tr:not(.eventslist-week-marker) td:first-child {

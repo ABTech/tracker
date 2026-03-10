@@ -1,21 +1,24 @@
 <table class="generic">
   <tr>
     <td align="right" class="list"><strong>Event:</strong></td>
-    <td class="list"><%= select :timecard_entry, :eventdate_id_and_eventpart, @eventdates_and_parts.collect{|e| [e[:eventdate].event.title + ' - ' + e[:eventdate].description + ' - ' + TimecardEntry.eventpart.options.rassoc(e[:eventpart]).first, e[:eventdate].id.to_s + "-" + e[:eventpart]]} %></td>
+    <td class="list"><%= select :timecard_entry, :eventdate_id_and_eventpart, options_for_select(eventdate_select_options(@eventdates_and_parts)) %></td>
   </tr>
   <tr>
     <td align="right" class="list"><strong>Hours:</strong></td>
     <td class="list"><%= number_field :timecard_entry, :hours, step: 0.25 %></td>
   </tr>
-  <% if @timecards.size > 0 %>
   <tr>
     <td align="right" class="list"><strong>Timecard:</strong></td>
     <td class="list"><% if @timecards.size > 1 -%>
-        <%= select :timecard_entry, :timecard_id, @timecards.map{|t| [t.billing_date.strftime("%Y/%m/%d"), t.id]} -%>
-        <%- else -%>
+        <%= select :timecard_entry, :timecard_id, options_for_select(timecard_select_options(@timecards)) -%>
+        <span id="timecard-single-display" style="display:none;"></span>
+        <%= hidden_field_tag 'timecard_entry[timecard_id]', '', id: 'timecard_id_single', disabled: true %>
+        <span id="timecard-no-match-message" style="display:none;">No open timecard covers this event</span>
+        <%- elsif @timecards.size == 1 -%>
         <%= @timecards[0].billing_date.strftime("%Y/%m/%d") -%>
         <%= hidden_field :timecard_entry, :timecard_id, :value => @timecards[0].id -%>
+        <%- else -%>
+        No open timecard covers this event
         <%- end %></td>
   </tr>
-  <% end %>
 </table>

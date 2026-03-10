@@ -13,12 +13,12 @@
         <%= select :timecard_entry, :timecard_id, options_for_select(timecard_select_options(@timecards)) -%>
         <span id="timecard-single-display" style="display:none;"></span>
         <%= hidden_field_tag 'timecard_entry[timecard_id]', '', id: 'timecard_id_single', disabled: true %>
-        <span id="timecard-no-match-message" style="display:none;">No open timecard covers this event</span>
+        <span id="timecard-no-match-message" style="display:none;">No open timecard covers this event (this is not supposed to happen - you should probably share this in #tracker-dev)</span>
         <%- elsif @timecards.size == 1 -%>
         <%= @timecards[0].billing_date.strftime("%Y/%m/%d") -%>
         <%= hidden_field :timecard_entry, :timecard_id, :value => @timecards[0].id -%>
         <%- else -%>
-        No open timecard covers this event
+        No timecards are currently open
         <%- end %></td>
   </tr>
 </table>

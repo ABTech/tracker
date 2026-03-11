@@ -45,6 +45,7 @@ class EventRole < ApplicationRecord
   Role_car        = "car"
   Role_sTruck     = "sTruck"
   Role_truck      = "truck"
+  Role_aTruck     = "aTruck"
   Role_setup      = "setup"
   Role_strike     = "strike"
   Role_attend     = "attend"
@@ -98,6 +99,7 @@ class EventRole < ApplicationRecord
     Role_car      ,
     Role_sTruck   ,
     Role_truck    ,
+    Role_aTruck   ,
     Role_setup    ,
     Role_strike   ,
     Role_attend   ,
@@ -170,7 +172,8 @@ class EventRole < ApplicationRecord
     return [Role_Hole, Role_aHole] if self.role == Role_sHole
     return [Role_aHole] if self.role == Role_Hole
     return [Role_car] if self.role == Role_sCar
-    return [Role_truck] if self.role == Role_sTruck
+    return [Role_truck, Role_aTruck] if self.role == Role_sTruck
+    return [Role_aTruck] if self.role == Role_truck
     return [Role_airhorn, Role_aairhorn] if self.role == Role_sairhorn
     return [Role_aairhorn] if self.role == Role_airhorn
     return []
@@ -189,7 +192,7 @@ class EventRole < ApplicationRecord
     return [Role_sCamOp] if self.role == Role_CamOp or self.role == Role_aCamOp
     return [Role_sHole] if self.role == Role_Hole or self.role == Role_aHole
     return [Role_sCar] if self.role == Role_car
-    return [Role_sTruck] if self.role == Role_truck
+    return [Role_sTruck] if self.role == Role_truck or self.role == Role_aTruck
     return [Role_sairhorn] if self.role == Role_airhorn or self.role == Role_aairhorn
     return []
   end
@@ -244,6 +247,7 @@ class EventRole < ApplicationRecord
     return [Role_sHole, Role_Hole] if self.role == Role_aHole
     return [Role_sCar] if self.role == Role_car
     return [Role_sTruck] if self.role == Role_truck
+    return [Role_sTruck, Role_truck] if self.role == Role_aTruck
     return [Role_sairhorn] if self.role == Role_airhorn
     return [Role_sairhorn, Role_airhorn] if self.role == Role_aairhorn
     return [Role_sTiC, Role_TiC]

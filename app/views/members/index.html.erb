@@ -5,6 +5,7 @@
     <th><%=   table_order_link "kerbid",              "email",                  @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Name",                "namelast",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Nickname",            "namenick",               @order, @order_desc, @query %></th>
+    <th><%=   table_order_link "Birthday",            "birthday",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Pronouns",            "pronouns",               @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Major",               "major",                  @order, @order_desc, @query %></th>
     <th><%=   table_order_link "Grad Year",           "grad_year",              @order, @order_desc, @query %></th>
@@ -27,6 +28,7 @@
     <td><%= member.email %></td>
     <td><%= link_to_if (can? :show, member), member.fullname, member %></td>
     <td><%= member.namenick %></td>
+    <td><%= member.birthday&.strftime("%m/%d") %></td>
     <td><%= member.pronouns %></td>
     <td><%= member.major %></td>
     <td><%= member.grad_year %></td>

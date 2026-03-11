@@ -27,6 +27,10 @@
         <td><%= @member.namenick %></td>
       </tr>
       <tr>
+        <th>Birthday</td>
+        <td><%= @member.birthday&.strftime("%m/%d/%Y") %></td>
+      </tr>
+      <tr>
         <th>Pronouns</td>
         <td><%= @member.pronouns %></td>
       </tr>

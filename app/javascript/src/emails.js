@@ -21,11 +21,11 @@ $(function () {
   $(".hidden-header-toggle").click(function () {
     if ($(this).data("clicked") === "no") {
       $(this).data("clicked", "yes");
-      $(this).text("Hide Extra Headers");
+      $(this).text("Hide Headers");
       $(this).parent().parent().find(".hidden-header").css("display", "block");
     } else {
       $(this).data("clicked", "no");
-      $(this).text("Show Hidden Headers");
+      $(this).text("Show Headers");
       $(this).parent().parent().find(".hidden-header").css("display", "none");
     }
     return window.hideOptionsMenu($(this).parent());

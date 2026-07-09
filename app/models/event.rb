@@ -71,9 +71,9 @@ class Event < ActiveRecord::Base
   # validate :eventdate_valid?
   validate :textable_social_valid?
   
-# TODO: Fix DB migration for last_representative_date
-#  scope :current_year, -> { where("representative_date >= ? or last_representative_date > ?", Account.magic_date, Account.magic_date) }
-  scope :current_year, -> { where("representative_date >= ?", Account.magic_date) }
+  scope :current_year, -> {
+    where("EXISTS (SELECT 1 FROM eventdates ed WHERE ed.event_id = events.id AND ed.startdate >= ?)", Account.magic_date)
+  }
 
   ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
 

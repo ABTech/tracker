@@ -4,7 +4,7 @@ class InvoiceContact < ApplicationRecord
   attr_readonly :email
 
   PERMANENT_INVOICE_CONTACTS = [
-    'SLICEfinance@andrew.cmu.edu',
+    'StudentOrgFinance@andrew.cmu.edu',
     'abtech+billing@andrew.cmu.edu'
   ].freeze
 end

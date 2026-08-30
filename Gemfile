@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby File.read(".ruby-version").strip
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.7.10'
+gem 'rails', '~> 7.2.2.1'
 
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.4'

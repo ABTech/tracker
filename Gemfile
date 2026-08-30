@@ -67,3 +67,4 @@ gem "rack-cors", "~> 1.1"
 
 gem 'active_storage_validations'
 
+gem 'openssl', '~> 3.3', '>= 3.3.2' # workaround for github.com/rails/rails/issues/55886

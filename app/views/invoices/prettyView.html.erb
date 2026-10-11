@@ -128,7 +128,9 @@
         <td>
           <ul class="pdf-venue-list">
             <% @invoice.event.locations.each do |location| %>
-              <li><%= location %></li>
+              <% unless location.include?("N/A") %>
+                <li><%= location %></li>
+              <% end %>
             <% end %>
           </ul>
         </td>

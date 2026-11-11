@@ -21,7 +21,7 @@ class EventRoleApplication < ApplicationRecord
   def superior_name
     sup = superior
     return sup.map(&:display_name) unless sup.empty?
-    ["the Head of Tech"]
+    ["the Heads of Tech"]
   end
 
   def superior_email

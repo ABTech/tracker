@@ -1,5 +1,6 @@
 import "../src/attachments";
 import "../src/blackouts";
+import "../src/confirm";
 import "../src/email_forms";
 import "../src/emails";
 import "../src/equipment_profile";

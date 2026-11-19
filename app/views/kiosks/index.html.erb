@@ -29,7 +29,7 @@
               <%= link_to "Lock", lock_kiosk_url(kiosk), data: {confirm: "Are you sure?"} %>
             <% end %>
           <% end %>
-          <%= conditional_link_to_delete "Delete", kiosk, :destroy, kiosk %>
+          <%= conditional_button_to_delete "Delete", kiosk, :destroy, kiosk, class: "link-button", form_class: "inline-form" %>
         </td>
       <% end %>
     </tr>

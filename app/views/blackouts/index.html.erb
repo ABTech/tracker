@@ -26,7 +26,7 @@
       <% if can? :update, Blackout or can? :destroy, Blackout %>
         <td>
           <%= conditional_link_to "edit", edit_blackout_url(blackout), :update, blackout %>
-          <%= conditional_link_to_delete "delete", blackout, :destroy, blackout %>
+          <%= conditional_button_to_delete "delete", blackout, :destroy, blackout, class: "link-button", form_class: "inline-form" %>
         </td>
       <% end %>
     </tr>

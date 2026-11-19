@@ -32,6 +32,19 @@ body, input, textarea, select {
 table { border-collapse: collapse; }
 td, th { padding: 0; }
 a { color: #3333FF; }
+
+/* Buttons for non-GET actions (button_to), styled to look like links */
+form.inline-form { display: inline; margin: 0; }
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: #3333FF;
+  text-decoration: underline;
+  cursor: pointer;
+}
 h1 a { text-decoration: none; color: inherit; }
 h1 a:hover { text-decoration: underline; color: #3333FF }
 

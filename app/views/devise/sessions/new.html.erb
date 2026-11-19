@@ -40,10 +40,12 @@
                 <tr>
                   <td></td>
                   <td>
-                    <%= link_to "Login with andrew.cmu.edu account", member_saml_andrew_omniauth_authorize_path(), method: :post %>
+                    <button type="submit" form="saml_andrew_login" class="link-button">Login with andrew.cmu.edu account</button>
                   </td>
                 </tr>
             </table>
         <% end %>
+        <%# TODO: When enabling Turbo Drive, add data-turbo="false" to this form so the OmniAuth redirect to the external login page is not handled by Turbo. %>
+        <%= form_tag member_saml_andrew_omniauth_authorize_path(), :method => :post, :id => "saml_andrew_login" do %><% end %>
     </td></tr>
 </table>

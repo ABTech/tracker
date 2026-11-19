@@ -18,7 +18,7 @@
       <th><%= table_order_link "Is on payroll?",  "on_payroll", @order, @order_desc, @query %></th>
     <% end %>
     <% if can? :show, Member %>
-      <th><%= conditional_link_to_remote "Role", choose_filter_members_url(:format => :js), :show, Member %></th>
+      <th><%= table_order_link "Role",                "role",                   @order, @order_desc, @query %></th>
       <th><%= table_order_link "Joined",              "created_at",             @order, @order_desc, @query %></th>
     <% end %>
   </tr>
@@ -59,7 +59,6 @@
 
 <% content_for :more do %>
   <ul>
-    <li><%= conditional_link_to_remote "Filter members by role", choose_filter_members_url(:format => :js), :show, Member %></li>
     <% if can? :create, Member %>
       <li><%= link_to "New member", new_member_path %></li>
     <% end %>
@@ -80,4 +79,12 @@
     <% end %>
   </ul>
 <% end %>
-<div id="dialog"></div>
+<% if can? :show, Member %>
+  <% content_for :extra do %>
+    <div class="event-box">
+      <h4>Filter by role</h4>
+
+      <%= render "filter_role" %>
+    </div>
+  <% end %>
+<% end %>

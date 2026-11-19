@@ -1,4 +1,3 @@
-<div id="dialog"></div>
 
 <div id="event-container">
   <div id="event-container-left">
@@ -134,7 +133,7 @@
                         <li><%= conditional_link_to_blank "Preview", prettyView_invoice_url(invoice), :read, invoice %></li>
                         <li><%= conditional_link_to_blank "Print", prettyView_invoice_url(invoice, :format => :pdf), :read, invoice %></li>
                         <li><%= conditional_link_to_blank "Download", prettyView_invoice_url(invoice, :download => 1, :format => :pdf), :read, invoice %></li>
-                        <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(invoice, :format => :js), :email, invoice %></li>
+                        <li><%= conditional_link_to "Email", email_confirm_invoice_url(invoice), :email, invoice %></li>
                         <li><%= conditional_link_to "Duplicate", duplicate_invoice_url(invoice), :create, invoice %></li>
                       </ul>
                     <% else %>

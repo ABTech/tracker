@@ -91,7 +91,6 @@ Rails.application.routes.draw do
     collection do
       get 'tshirts'
       get 'roles'
-      get 'choose_filter'
       get 'super_tics'
       post 'super_tics', action: :update_super_tics
       get 'bulk_edit'

@@ -14,7 +14,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1" />
     <% end %>
     <title>ABTT - <%= @title %></title>
-    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= stylesheet_link_tag "application", "vendor", media: "all" %>
     <%= render 'layouts/url_helpers' %>
     <%= javascript_include_tag "application" %>
     <%= javascript_pack_tag "application" %>

@@ -36,7 +36,7 @@ You must install and configure a sendmail provider if you wish to send emails fr
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
     exit
     ```
-17. Start the development server: `RAILS_ENV=development puma`
+17. Start the development server: `RAILS_ENV=development puma`. Stylesheets are compiled by Dart Sass, not on each request, so after changing a `.scss` file run `bin/rails dartsass:build`, or keep `bin/rails dartsass:watch` running in another terminal.
 
 ## Deployment
 

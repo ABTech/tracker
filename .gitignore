@@ -3,9 +3,6 @@ mkmf.log
 *.swo
 *.sassc
 .sass-cache
-/config/*.sphinx.conf
-db/sphinx/*
-log/development.sphinx.pid
 /config/master.key
 /config/credentials/staging.key
 /config/credentials/production.key

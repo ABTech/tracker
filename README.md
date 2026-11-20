@@ -2,15 +2,13 @@
 
 The tech tracker is a specialized web application used internally by Carnegie Mellon University's Activities Board Technical Committee. Its major features are event planning/organization, incoming email management, financial tracking, and membership management (including payroll and timecard generation). It was originally written in Summer 2006 by Saagar Patel and Peter Nelson in perl-style Rails 1.x, and through the years has been taken over and upgraded by various techies.
 
-The current version of Tracker uses Ruby 2.7.5 and Rails 6.1.7. The OS sendmail is used for sending emails, and Sphinx is used for searching events.
+The current version of Tracker uses Ruby 2.7.5 and Rails 6.1.7. The OS sendmail is used for sending emails.
 
 ## Development Notes
 
 Work on large new features should be done in branches and/or forks; smaller changes can be done in `master`. The `production` branch should always be deployable.
 
 A Devise configuration file is required for the membership model. One can be generated with the command `rails g devise Member`. The generated configuration (and therefore, the membership data in the database) may not be compatible with production Tracker. If using a copy of the production database, this may mean you will either have to edit some records with `rails c` to allow you to log in, or request a copy of the production Devise configuration file. See setup instructions below.
-
-You must install Sphinx if you wish to use the event search feature. You can then generate an index by running the command `rails ts:index` on the server.
 
 You must install and configure a sendmail provider if you wish to send emails from Tracker.
 
@@ -79,19 +77,18 @@ The intended directory structure is as follows. `/srv/abtech-tracker` may be mov
 17. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails db:seed`
 18. As deploy-abtech-tracker: `yarn install`
 19. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails assets:precompile`
-20. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails ts:index`
-21. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails c`
+20. As deploy-abtech-tracker: `../rbenv/shims/bundle exec rails c`
     ```ruby
     Member.create(namefirst: "Sam", namelast: "Abtek", email: "abtech@andrew.cmu.edu", phone: "5555555555", password: "password", password_confirmation: "password", payrate: 0.0, tracker_dev: true)
     exit
     ```
-22. Now as `root`:
+21. Now as `root`:
     ```
-    systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-ts@production-01.service abtech-tracker-email-idle@production-01.service abtech-tracker-ts-index@production-01.timer abtech-tracker-slack-notify@production-01.timer
+    systemctl enable abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-email-idle@production-01.service abtech-tracker-slack-notify@production-01.timer
     ```
-23. As `root`:
+22. As `root`:
     ```
-    systemctl start abtech-tracker-ts@production-01.service abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-email-idle@production-01.service
+    systemctl start abtech-tracker@production-01.socket abtech-tracker@production-01.service abtech-tracker-email-idle@production-01.service
     ```
 
 ### Email pulling

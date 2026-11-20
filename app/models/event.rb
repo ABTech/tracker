@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
   before_validation :prune_attachments, :prune_roles
   before_save :handle_organization, :ensure_tic, :sort_roles, :synchronize_representative_dates
   after_initialize :default_values
-  after_save :set_eventdate_delta_flags, :set_created_email
+  after_save :set_created_email
   
   EmailRegex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/
   PhoneRegex = /\A[0-9]{3}-[0-9]{3}-[0-9]{4}\z/
@@ -75,7 +75,6 @@ class Event < ActiveRecord::Base
     where("EXISTS (SELECT 1 FROM eventdates ed WHERE ed.event_id = events.id AND ed.startdate >= ?)", Account.magic_date)
   }
 
-  ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])  # associated via eventdate
 
   def locations
     eventdates.flat_map(&:locations).uniq.sort_by(&:id)
@@ -206,13 +205,6 @@ class Event < ActiveRecord::Base
           rl.role = EventRole::Role_TiC
           self.event_roles << rl
         end
-      end
-    end
-    
-    def set_eventdate_delta_flags
-      eventdates.each do |eventdate|
-        eventdate.delta = true
-        eventdate.save
       end
     end
     

@@ -35,7 +35,38 @@ class Eventdate < ApplicationRecord
     .or(where(enddate: starttime..endtime, striketype: "enddate"))
   end
 
-  ThinkingSphinx::Callbacks.append(self, :behaviours => [:sql, :deltas])
+  # Columns searched by search_text. If search moves to something else later
+  # (MariaDB FULLTEXT, a search service), only search_text needs to change.
+  SEARCH_COLUMNS = %w[
+    eventdates.description events.title organizations.name
+    locations.building locations.room
+  ].freeze
+
+  # Event dates where every word in the query appears in at least one of
+  # SEARCH_COLUMNS. Case-insensitive (the tables use a binary collation) and
+  # matches inside words. Punctuation is ignored on both sides, so "r&m"
+  # matches "R&M" and "uplighting" matches "Up-lighting". A word made only of
+  # punctuation is matched literally instead.
+  scope :search_text, ->(query) do
+    words = query.to_s.split
+    next none if words.empty?
+
+    matches = unscoped.left_joins(:locations, event: :organization)
+    words.each do |word|
+      term = word.downcase.gsub(/[^[:alnum:]]/, "")
+      if term.empty?
+        term = word.downcase
+        columns = SEARCH_COLUMNS.map { |column| "LOWER(#{column})" }
+      else
+        columns = SEARCH_COLUMNS.map { |column| "REGEXP_REPLACE(LOWER(#{column}), :punctuation, '')" }
+      end
+
+      clause = columns.map { |column| "#{column} LIKE :pattern" }.join(" OR ")
+      matches = matches.where("(#{clause})", pattern: "%#{sanitize_sql_like(term)}%", punctuation: "[^[:alnum:][:space:]]")
+    end
+
+    where(id: matches.select(:id))
+  end
 
   def dates
     if startdate and enddate

@@ -1,0 +1,11 @@
+/*
+ * This is a Sprockets manifest for vendor stylesheets, which need Sprockets
+ * to process their ERB asset paths. It is linked after application.css, which
+ * dartsass-rails builds from application.scss.
+ *
+ *= require jquery-ui
+ *= require icon-font
+ *= require chosen.min
+ *= require fullcalendar.min
+ *= require multi-select
+ */

@@ -164,3 +164,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # END Windows gitignore
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

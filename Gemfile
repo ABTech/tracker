@@ -8,8 +8,8 @@ gem 'rails', '~> 6.1.7.10'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.4'
 
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.8'
+# Use Dart Sass for stylesheets
+gem 'dartsass-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 3.0.0'

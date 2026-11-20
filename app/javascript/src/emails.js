@@ -12,6 +12,13 @@ window.setupAjaxLoader = function () {
   });
 };
 
+// Rails requires the CSRF token on non-GET requests. jquery_ujs used to add
+// this header to every jQuery request automatically.
+window.csrfHeaders = function () {
+  var meta = document.querySelector('meta[name="csrf-token"]');
+  return meta ? { "X-CSRF-Token": meta.content } : {};
+};
+
 window.hideOptionsMenu = function (menu) {
   menu.removeClass("visible");
   return menu.parent().children(".email-options-link").removeClass("invisible");
@@ -60,6 +67,7 @@ $(function () {
       $.ajax({
         url: $(this).data("url"),
         type: "put",
+        headers: window.csrfHeaders(),
         data: "email[unread]=1",
       });
     } else {
@@ -68,6 +76,7 @@ $(function () {
       $.ajax({
         url: $(this).data("url"),
         type: "put",
+        headers: window.csrfHeaders(),
         data: "email[unread]=0",
         success: function () {
           link.text("Mark Unread");
@@ -109,6 +118,7 @@ $(function () {
     return $.ajax({
       url: $(this).data("url"),
       type: "put",
+      headers: window.csrfHeaders(),
       data: "email[event_id]=nil",
       success: function () {
         return window.location.reload(true);

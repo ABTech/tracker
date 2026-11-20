@@ -24,7 +24,7 @@
       <td><%= link_to 'Edit', edit_invoice_item_url(item) %></td>
     <% end %>
     <% if can? :destroy, item %>
-      <td><%= link_to 'Destroy', item, data: {confirm: "Are you sure?"}, :method => :delete %></td>
+      <td><%= button_to_delete 'Destroy', item, confirm: "Are you sure?", class: "link-button", form_class: "inline-form" %></td>
     <% end %>
   </tr>
 <% end %>

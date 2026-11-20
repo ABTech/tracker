@@ -1,16 +1,35 @@
 class EventRoleApplicationsController < ApplicationController
 
   def new
-    @event_role = EventRole.find(params[:event_role_id])
-    @application = @event_role.applications.build(member: current_member)
+    @event_role = EventRole.find_by(id: params[:event_role_id])
 
-    respond_to do |format|
-      format.js
+    unless @event_role
+      flash[:error] = "That run position could not be found."
+      redirect_back fallback_location: event_or_index_url
+      return
     end
+
+    @application = @event_role.applications.build(member: current_member)
+    authorize! :create, @application
+
+    if @event_role.assigned?
+      flash[:error] = "That run position is already filled."
+      redirect_back fallback_location: @event_role.event
+      return
+    end
+
+    @title = "Apply for Run Position"
   end
 
   def withdraw
-    @application = EventRoleApplication.find(params[:application_id])
+    @application = EventRoleApplication.find_by(id: params[:application_id])
+
+    unless @application
+      flash[:error] = "Role application could not be found."
+      redirect_to event_or_index_url
+      return
+    end
+
     authorize! :withdraw, @application
 
     EventRoleApplicationMailer.withdraw(@application).deliver_now
@@ -24,6 +43,12 @@ class EventRoleApplicationsController < ApplicationController
   def create
     @application = EventRoleApplication.new(application_params)
     authorize! :create, @application
+
+    if @application.event_role.nil?
+      flash[:error] = "That run position could not be found."
+      redirect_to event_or_index_url
+      return
+    end
 
     if @application.event_role.assigned?
       flash[:error] = "That run position is already filled."
@@ -70,7 +95,14 @@ class EventRoleApplicationsController < ApplicationController
   end
 
   def deny
-    @application = EventRoleApplication.find(params[:application_id])
+    @application = EventRoleApplication.find_by(id: params[:application_id])
+
+    unless @application
+      flash[:error] = "Role application could not be found."
+      redirect_to event_or_index_url
+      return
+    end
+
     authorize! :update, @application
 
     @application.destroy
@@ -81,6 +113,11 @@ class EventRoleApplicationsController < ApplicationController
   end
 
   private
+    def event_or_index_url
+      event = Event.find_by(id: params[:id])
+      event ? event_url(event) : events_url
+    end
+
     def application_params
       params.require(:event_role_application).permit(:event_role_id, :member_id)
     end

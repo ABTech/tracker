@@ -19,7 +19,7 @@
       <% unless !details or timecard.submitted %>
         <td>
           <%= link_to 'Edit', edit_timecard_entry_path(t) %>
-          <%= link_to 'Destroy', timecard_entry_path(t), :method => 'delete', data: {confirm: "Are you sure?"} %>
+          <%= button_to_delete 'Destroy', timecard_entry_path(t), confirm: "Are you sure?", class: "link-button", form_class: "inline-form" %>
         </td>
       <% end %>
     </tr>

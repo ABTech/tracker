@@ -8,7 +8,7 @@
   <ul>
     <% if can? :update, @equipment_profile %>
       <li><%= link_to "Edit", edit_equipment_profile_url(@equipment_profile) %></li>
-      <li><%= link_to "Mark as defunct", @equipment_profile, :method => :delete, :data => {:confirm => "Are you sure you would like to mark this equipment profile as defunct?"} %></li>
+      <li><%= button_to_delete "Mark as defunct", @equipment_profile, confirm: "Are you sure you would like to mark this equipment profile as defunct?", class: "link-button", form_class: "inline-form" %></li>
     <% end %>
     <li><%= link_to "Back to equipment profiles index", equipment_profiles_url %></li>
   </ul>

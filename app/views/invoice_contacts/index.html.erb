@@ -32,7 +32,7 @@
     <% if can? :update, InvoiceContact or can? :destroy, InvoiceContact %>
       <td>
         <%= conditional_link_to "Edit", edit_invoice_contact_url(invoice_contact), :update, invoice_contact %>
-        <%= conditional_link_to_delete "Delete", invoice_contact, :destroy, invoice_contact %>
+        <%= conditional_button_to_delete "Delete", invoice_contact, :destroy, invoice_contact, class: "link-button", form_class: "inline-form" %>
       </td>
     <% end %>
   </tr>

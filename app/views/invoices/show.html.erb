@@ -1,4 +1,3 @@
-<div id="dialog"></div>
 
 <table width="50%" border="0" class="generic">
   <tr>
@@ -87,8 +86,8 @@
       <% if @invoice.payment_type == "Oracle" %>
       <li><%= conditional_link_to_blank "Download without Oracle string", prettyView_invoice_url(@invoice, :download => 1, :no_show_oracle => 1, :format => "pdf"), :show, @invoice %></li>
       <% end %>
-      <li><%= conditional_link_to_remote "Email", email_confirm_invoice_url(@invoice, :format => :js), :email, @invoice %></li>
-      <li><%= conditional_link_to_delete "Delete", @invoice, :destroy, @invoice %></li>
+      <li><%= conditional_link_to "Email", email_confirm_invoice_url(@invoice), :email, @invoice %></li>
+      <li><%= conditional_button_to_delete "Delete", @invoice, :destroy, @invoice, class: "link-button", form_class: "inline-form" %></li>
     </ul>
   <% end %>
 <% end %>

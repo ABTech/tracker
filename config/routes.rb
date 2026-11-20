@@ -81,9 +81,9 @@ Rails.application.routes.draw do
 
   resources :kiosks do
     member do
-      get 'lock'
-      get 'unlock'
-      get 'reset_password'
+      post 'lock'
+      post 'unlock'
+      post 'reset_password'
     end
   end
   
@@ -91,7 +91,6 @@ Rails.application.routes.draw do
     collection do
       get 'tshirts'
       get 'roles'
-      get 'choose_filter'
       get 'super_tics'
       post 'super_tics', action: :update_super_tics
       get 'bulk_edit'

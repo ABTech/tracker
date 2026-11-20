@@ -8,12 +8,14 @@ module ApplicationHelper
     link_to title, url, target: '_blank' if can? action, model
   end
   
-  def conditional_link_to_remote(title, url, action, model)
-    link_to title, url, :remote => true if can? action, model
+  def button_to_delete(title, url, confirm: "Are you sure you want to delete this? This action is irreversible.", **options)
+    options = options.merge(:method => :delete)
+    options[:form] = (options[:form] || {}).deep_merge(:data => { :tracker_confirm => confirm })
+    button_to title, url, options
   end
-  
-  def conditional_link_to_delete(title, url, action, model)
-    link_to title, url, :method => :delete, :data => { :confirm => "Are you sure you want to delete this? This action is irreversible." } if can? action, model
+
+  def conditional_button_to_delete(title, url, action, model, **options)
+    button_to_delete title, url, **options if can? action, model
   end
   
   def text_with_conditional_link_to(title, url, action, model)

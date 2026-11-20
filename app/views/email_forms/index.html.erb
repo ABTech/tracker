@@ -14,7 +14,7 @@
       <% if can? :update, emailform or can? :destroy, emailform %>
         <td class="list">
           <%= conditional_link_to "edit", edit_email_form_path(emailform), :update, emailform %><br />
-          <%= conditional_link_to_delete "delete", emailform, :destroy, emailform %>
+          <%= conditional_button_to_delete "delete", emailform, :destroy, emailform, class: "link-button", form_class: "inline-form" %>
         </td>
       <% end %>
     </tr>

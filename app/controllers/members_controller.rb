@@ -141,12 +141,6 @@ class MembersController < ApplicationController
     end
   end
 
-  def choose_filter
-    respond_to do |format|
-      format.js
-    end
-  end
-  
   def super_tics
     authorize! :manage, SuperTic
     

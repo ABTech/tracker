@@ -1,0 +1,20 @@
+<div id="event-container">
+  <h2>Email <%= @invoice.status %> for "<%= link_to @invoice.event.title, @invoice.event %>"</h2>
+
+  <%= form_tag({:action=>"email",:id=>@invoice.id},:id=>"email_form")  do%>
+    <%= label_tag "to", "To:" %><br />
+    <%= text_field_tag "to", @email_to %><br />
+    <%= label_tag "cc", "CC:" %><br />
+    <%= text_field_tag "cc", @email_cc %><br />
+    <%= label_tag "subject", "Subject:" %><br />
+    <%= text_field_tag "subject", @email_subject %><br />
+    Attachment: <%=link_to @attach_title, prettyView_invoice_url(@invoice, :format => "pdf"), :target=>"_blank"%><br />
+    <%= text_area_tag "content", @email_content, :rows => 15 %><br />
+    <% if @invoice.status == "Invoice" %>
+      Mark as Billing Pending?: <%= check_box_tag "mark_billing", "true", true %><br />
+    <% elsif @invoice.status == "Received" %>
+      Mark as Complete?: <%= check_box_tag "mark_complete", "true", true %><br />
+    <% end %>
+    <%= submit_tag "Send Email" %> or <%= link_to "cancel", @invoice %>
+  <% end %>
+</div>

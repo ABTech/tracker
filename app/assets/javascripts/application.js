@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
 //= require jquery-ui
 //= require chosen.jquery.min
 //= require masonry.pkgd.min

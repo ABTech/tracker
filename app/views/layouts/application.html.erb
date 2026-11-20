@@ -73,12 +73,13 @@
     <% elsif member_signed_in? %>
       <div class="login">
         <b><%= current_member.fullname %></b> (<%= current_member.email %>)<br/>
-        <%= link_to "Profile", edit_member_url(current_member) %>&nbsp;&nbsp;<%= link_to "Logout", destroy_member_session_url, :method => :delete %>
+        <%= link_to "Profile", edit_member_url(current_member) %>&nbsp;&nbsp;<%= button_to "Logout", destroy_member_session_url, :method => :delete, :class => "link-button", :form_class => "inline-form" %>
       </div>
     <% else %>
       <div class="login">
         (not logged in)
-        <br/><%= link_to "Login with andrew account", member_saml_andrew_omniauth_authorize_path(), method: :post %>
+        <%# TODO: When enabling Turbo Drive, add data-turbo="false" to this form so the OmniAuth redirect to the external login page is not handled by Turbo. %>
+        <br/><%= button_to "Login with andrew account", member_saml_andrew_omniauth_authorize_path(), method: :post, :class => "link-button", :form_class => "inline-form" %>
         <br/><%= link_to "Login with tracker account", new_member_session_url %>
         <br/>
       </div>

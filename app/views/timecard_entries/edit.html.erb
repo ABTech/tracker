@@ -18,6 +18,7 @@
   <%= submit_tag 'Update' %>
   <p>
     <%= link_to 'Back', timecard_entries_path %>
-    <%= link_to 'Destroy', timecard_entry_path(@timecard_entry), data: {confirm: "Are you sure?"}, :method => :delete %>
+    <button type="submit" form="destroy_timecard_entry" class="link-button">Destroy</button>
   </p>
 <%- end %>
+<%= form_tag timecard_entry_path(@timecard_entry), :method => :delete, :id => "destroy_timecard_entry", :data => { :tracker_confirm => "Are you sure?" } do %><% end %>

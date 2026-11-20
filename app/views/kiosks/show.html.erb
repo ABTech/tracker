@@ -57,18 +57,18 @@
 
 <% if can? :update, @kiosk %>
   <%= link_to 'Edit', edit_kiosk_url(@kiosk) %> |
-  <%= link_to "Reset Password", reset_password_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
+  <%= button_to "Reset Password", reset_password_kiosk_url(@kiosk), method: :post, class: "link-button", form_class: "inline-form", form: { data: { tracker_confirm: "Are you sure?" } } %> |
 <% end %>
 <% if @kiosk.access_locked? %>
   <% if can? :unlock, @kiosk %>
-    <%= link_to "Unlock", unlock_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
+    <%= button_to "Unlock", unlock_kiosk_url(@kiosk), method: :post, class: "link-button", form_class: "inline-form", form: { data: { tracker_confirm: "Are you sure?" } } %> |
   <% end %>
 <% else %>
   <% if can? :lock, @kiosk %>
-    <%= link_to "Lock", lock_kiosk_url(@kiosk), data: {confirm: "Are you sure?"} %> |
+    <%= button_to "Lock", lock_kiosk_url(@kiosk), method: :post, class: "link-button", form_class: "inline-form", form: { data: { tracker_confirm: "Are you sure?" } } %> |
   <% end %>
 <% end %>
 <% if can? :destroy, @kiosk %>
-  <%= conditional_link_to_delete "Delete", @kiosk, :destroy, @kiosk %> |
+  <%= conditional_button_to_delete "Delete", @kiosk, :destroy, @kiosk, class: "link-button", form_class: "inline-form" %> |
 <% end %>
 <%= link_to 'Back', kiosks_path %>

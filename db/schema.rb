@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_09_23_064313) do
+ActiveRecord::Schema.define(version: 2026_11_20_030510) do
 
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -167,7 +167,6 @@ ActiveRecord::Schema.define(version: 2025_09_23_064313) do
     t.string "calltype", default: "blank_call", null: false
     t.string "striketype", limit: 255, default: "enddate", null: false
     t.text "email_description", size: :medium, null: false
-    t.boolean "delta", default: true, null: false
     t.text "notes", size: :medium, null: false
     t.boolean "billable_call", default: true
     t.boolean "billable_show", default: true
@@ -326,6 +325,7 @@ ActiveRecord::Schema.define(version: 2025_09_23_064313) do
     t.string "interests"
     t.string "officer_position"
     t.boolean "prefers_full_name", default: true, null: false
+    t.date "birthday"
     t.index ["email"], name: "members_kerbid_index"
   end
 

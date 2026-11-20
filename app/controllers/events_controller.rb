@@ -365,7 +365,7 @@ class EventsController < ApplicationController
     @title = "Event List - Search for " + params[:q]
     authorize! :read, Event
     
-    @eventdates = Eventdate.search params[:q].gsub(/[^A-Za-z0-9 ]/,""), :page => params[:page], :per_page => 50, :order => "startdate DESC"
+    @eventdates = Eventdate.search_text(params[:q]).order(startdate: :desc).paginate(:page => params[:page], :per_page => 50)
     @eventruns = Eventdate.runify(@eventdates)
   end
 
